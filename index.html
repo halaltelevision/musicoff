@@ -146,21 +146,25 @@ const T = {
   f3:"بنقرة واحدة", f3p:"افتح فيديو، وسيقترح عليك MusicOff فورًا تشغيله بدون موسيقى.",
   help:"تحتاج مساعدة؟", sh:"قبل التثبيت: سيعرض Windows هذه الشاشة، وهذا أمر طبيعي", s1:"انقر على «مزيد من المعلومات»", s2:"ثم على «التشغيل على أي حال»", wt:"لقد قام Windows بحماية جهاز الكمبيوتر", wd:"منع Microsoft Defender SmartScreen تشغيل تطبيق غير معروف.", wd2:"التطبيق: MusicOff-Studio-Setup.exe<br>الناشر: ناشر غير معروف", mi:"مزيد من المعلومات", ra:"التشغيل على أي حال", dnr:"عدم التشغيل", safe:"يعرض Windows هذه الرسالة لكل تطبيق جديد. MusicOff Studio آمن تمامًا، ويستغرق التثبيت أقل من دقيقة."}
 };
-const ARAB_TZ = ["Africa/Algiers","Africa/Casablanca","Africa/El_Aaiun","Africa/Tunis","Africa/Tripoli","Africa/Cairo","Africa/Khartoum",
- "Africa/Nouakchott","Africa/Mogadishu","Africa/Djibouti","Indian/Comoro","Asia/Riyadh","Asia/Dubai","Asia/Qatar","Asia/Kuwait",
+// langue « technique » du pays, d'après le fuseau horaire de l'appareil :
+// Moyen-Orient, Égypte, Libye, Soudan -> arabe ; Afrique (Maghreb compris) -> français,
+// sauf l'Afrique anglophone -> anglais
+const ARAB_TZ = ["Africa/Tripoli","Africa/Cairo","Africa/Khartoum","Asia/Riyadh","Asia/Dubai","Asia/Qatar","Asia/Kuwait",
  "Asia/Bahrain","Asia/Muscat","Asia/Aden","Asia/Baghdad","Asia/Amman","Asia/Beirut","Asia/Damascus","Asia/Gaza","Asia/Hebron"];
-const FR_TZ = ["Europe/Paris","Europe/Brussels","Europe/Luxembourg","Europe/Monaco","Europe/Zurich","Africa/Dakar","Africa/Abidjan",
- "Africa/Bamako","Africa/Ouagadougou","Africa/Niamey","Africa/Lome","Africa/Porto-Novo","Africa/Conakry","Africa/Douala",
- "Africa/Libreville","Africa/Brazzaville","Africa/Kinshasa","Africa/Lubumbashi","Africa/Bangui","Africa/Ndjamena","Africa/Kigali",
- "Africa/Bujumbura","Indian/Antananarivo","Indian/Reunion","Indian/Mayotte","America/Port-au-Prince","America/Guadeloupe",
+const EN_AFRICA_TZ = ["Africa/Lagos","Africa/Accra","Africa/Nairobi","Africa/Johannesburg","Africa/Kampala","Africa/Dar_es_Salaam",
+ "Africa/Lusaka","Africa/Harare","Africa/Gaborone","Africa/Windhoek","Africa/Maseru","Africa/Mbabane","Africa/Blantyre",
+ "Africa/Monrovia","Africa/Freetown","Africa/Banjul","Africa/Juba","Africa/Mogadishu","Africa/Addis_Ababa","Africa/Asmara"];
+const FR_TZ = ["Europe/Paris","Europe/Brussels","Europe/Luxembourg","Europe/Monaco","Europe/Zurich","Indian/Antananarivo",
+ "Indian/Reunion","Indian/Mayotte","Indian/Comoro","Indian/Mauritius","Indian/Mahe","America/Port-au-Prince","America/Guadeloupe",
  "America/Martinique","America/Cayenne","Pacific/Noumea","Pacific/Tahiti"];
+const isFrTz = (tz) => FR_TZ.includes(tz) || (tz.startsWith("Africa/") && !ARAB_TZ.includes(tz) && !EN_AFRICA_TZ.includes(tz));
 function pick(){
   const q = new URLSearchParams(location.search).get("lang");
   if (T[q]) return q;
   const nav = (navigator.languages && navigator.languages[0] || navigator.language || "en").slice(0,2).toLowerCase();
   let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch(e) {}
   if (nav === "ar" || ARAB_TZ.includes(tz)) return "ar";
-  if (FR_TZ.includes(tz) || nav === "fr") return "fr";
+  if (isFrTz(tz) || nav === "fr") return "fr";
   return "en";
 }
 let L = pick();
