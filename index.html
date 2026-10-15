@@ -58,6 +58,20 @@
   footer{margin-top:40px;border-top:1px solid rgba(255,255,255,.07);padding:22px 0;font-size:13px;color:var(--sub);text-align:center;line-height:1.9}
   footer a{color:var(--gold);text-decoration:none}
   @media (max-width:720px){.feats{grid-template-columns:1fr}.cta{width:100%;justify-content:center;padding:17px 20px}main{padding-top:18px}}
+  .steps{margin-top:24px;width:100%;max-width:660px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:start}
+  .steps h2{font-size:15px;font-weight:600;color:var(--gold2);margin-bottom:12px;line-height:1.4}
+  .srow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .cap{font-size:13px;color:var(--txt);margin-bottom:8px;display:flex;align-items:center}
+  .num{flex:none;display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1A1408;font-weight:700;font-size:12px;align-items:center;justify-content:center;margin-inline-end:8px}
+  .ss{background:#E5432F;border-radius:10px;padding:12px 12px 46px;color:#fff;font-family:"Segoe UI",system-ui,sans-serif;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+  .ss b{display:block;font-size:14px;font-weight:600;line-height:1.25}
+  .ss small{display:block;font-size:11px;opacity:.92;margin-top:6px;line-height:1.4}
+  .ss .lnk{display:inline-block;margin-top:8px;font-size:11.5px;text-decoration:underline;outline:3px solid #FFD54A;outline-offset:3px;border-radius:3px}
+  .ss .btns{position:absolute;inset-inline-end:10px;bottom:10px;display:flex;gap:6px}
+  .ss .b{background:#fff;color:#222;font-size:11px;padding:5px 9px;border:1px solid #ccc}
+  .ss .b.hl{outline:3px solid #FFD54A;outline-offset:2px}
+  .safe{font-size:12.5px;color:var(--sub);margin-top:12px;line-height:1.5}
+  @media (max-width:720px){.srow{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -77,6 +91,16 @@
     <span data-t="cta"></span>
   </a>
   <div class="meta" data-t="meta"></div>
+  <section class="steps">
+    <h2 data-t="sh"></h2>
+    <div class="srow">
+      <div><div class="cap"><span class="num">1</span><span data-t="s1"></span></div>
+        <div class="ss"><b data-t="wt"></b><small data-t="wd"></small><span class="lnk" data-t="mi"></span><div class="btns"><span class="b" data-t="dnr"></span></div></div></div>
+      <div><div class="cap"><span class="num">2</span><span data-t="s2"></span></div>
+        <div class="ss"><b data-t="wt"></b><small data-t="wd2"></small><div class="btns"><span class="b hl" data-t="ra"></span><span class="b" data-t="dnr"></span></div></div></div>
+    </div>
+    <p class="safe" data-t="safe"></p>
+  </section>
   <div class="note" id="after"><span data-t="after"></span></div>
   <div class="note" id="mobile"><span data-t="mobile"></span><br><button id="copy" data-t="copy"></button></div>
   <section class="feats">
@@ -100,7 +124,7 @@ const T = {
   f1:"Toutes vos vidéos", f1p:"YouTube, Facebook, Instagram, TikTok et les fichiers de votre ordinateur.",
   f2:"Les voix intactes", f2p:"Seule la musique disparaît : les dialogues et les bruitages restent.",
   f3:"En 1 clic", f3p:"Ouvrez une vidéo, MusicOff vous propose aussitôt de la lire sans musique.",
-  help:"Un problème ?"},
+  help:"Un problème ?", sh:"Avant d'installer : Windows va afficher cet écran, c'est normal", s1:"Cliquez sur « Informations complémentaires »", s2:"Puis sur « Exécuter quand même »", wt:"Windows a protégé votre ordinateur", wd:"Microsoft Defender SmartScreen a empêché le démarrage d'une application non reconnue.", wd2:"Application : MusicOff-Studio-Setup.exe<br>Éditeur : Éditeur inconnu", mi:"Informations complémentaires", ra:"Exécuter quand même", dnr:"Ne pas exécuter", safe:"Windows affiche ce message pour toutes les nouvelles applications. MusicOff Studio est sans danger, et l'installation prend moins d'une minute."},
  en: {title:"MusicOff Studio – Your videos, without the music",
   badge:"Free · Windows 10 and 11", h1:"Your videos,<br><span>without the music.</span>",
   lead:"MusicOff Studio removes the music from your videos and keeps the voices and sound effects. On YouTube, Facebook, Instagram, TikTok and the videos on your PC.",
@@ -110,7 +134,7 @@ const T = {
   f1:"All your videos", f1p:"YouTube, Facebook, Instagram, TikTok and the files on your computer.",
   f2:"Voices kept intact", f2p:"Only the music disappears: dialogue and sound effects stay.",
   f3:"In 1 click", f3p:"Open a video and MusicOff instantly offers to play it without music.",
-  help:"Need help?"},
+  help:"Need help?", sh:"Before installing: Windows will show this screen, this is normal", s1:"Click “More info”", s2:"Then click “Run anyway”", wt:"Windows protected your PC", wd:"Microsoft Defender SmartScreen prevented an unrecognized app from starting.", wd2:"App: MusicOff-Studio-Setup.exe<br>Publisher: Unknown publisher", mi:"More info", ra:"Run anyway", dnr:"Don't run", safe:"Windows shows this message for every new app. MusicOff Studio is safe, and installation takes less than a minute."},
  ar: {title:"MusicOff Studio – فيديوهاتك بدون موسيقى",
   badge:"مجاني · Windows 10 و11", h1:"فيديوهاتك،<br><span>بدون موسيقى.</span>",
   lead:"يحذف MusicOff Studio الموسيقى من فيديوهاتك ويحافظ على الأصوات والمؤثرات الصوتية. على يوتيوب وفيسبوك وإنستغرام وتيك توك وفيديوهات حاسوبك.",
@@ -120,7 +144,7 @@ const T = {
   f1:"كل فيديوهاتك", f1p:"يوتيوب وفيسبوك وإنستغرام وتيك توك وملفات حاسوبك.",
   f2:"الأصوات كما هي", f2p:"تختفي الموسيقى فقط: يبقى الحوار والمؤثرات الصوتية.",
   f3:"بنقرة واحدة", f3p:"افتح فيديو، وسيقترح عليك MusicOff فورًا تشغيله بدون موسيقى.",
-  help:"تحتاج مساعدة؟"}
+  help:"تحتاج مساعدة؟", sh:"قبل التثبيت: سيعرض Windows هذه الشاشة، وهذا أمر طبيعي", s1:"انقر على «مزيد من المعلومات»", s2:"ثم على «التشغيل على أي حال»", wt:"لقد قام Windows بحماية جهاز الكمبيوتر", wd:"منع Microsoft Defender SmartScreen تشغيل تطبيق غير معروف.", wd2:"التطبيق: MusicOff-Studio-Setup.exe<br>الناشر: ناشر غير معروف", mi:"مزيد من المعلومات", ra:"التشغيل على أي حال", dnr:"عدم التشغيل", safe:"يعرض Windows هذه الرسالة لكل تطبيق جديد. MusicOff Studio آمن تمامًا، ويستغرق التثبيت أقل من دقيقة."}
 };
 const ARAB_TZ = ["Africa/Algiers","Africa/Casablanca","Africa/El_Aaiun","Africa/Tunis","Africa/Tripoli","Africa/Cairo","Africa/Khartoum",
  "Africa/Nouakchott","Africa/Mogadishu","Africa/Djibouti","Indian/Comoro","Asia/Riyadh","Asia/Dubai","Asia/Qatar","Asia/Kuwait",
