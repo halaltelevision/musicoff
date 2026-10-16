@@ -58,6 +58,10 @@
   footer{margin-top:40px;border-top:1px solid rgba(255,255,255,.07);padding:22px 0;font-size:13px;color:var(--sub);text-align:center;line-height:1.9}
   footer a{color:var(--gold);text-decoration:none}
   @media (max-width:720px){.feats{grid-template-columns:1fr}.cta{width:100%;justify-content:center;padding:17px 20px}main{padding-top:18px}}
+  .req{margin-top:22px;width:100%;max-width:660px;border:1px solid var(--line);border-radius:16px;padding:16px 18px;text-align:start;background:rgba(255,255,255,.03)}
+  .req h2{font-size:15px;font-weight:600;color:var(--gold2);margin-bottom:10px}
+  .req li{list-style:none;margin:6px 0;font-size:14px;line-height:1.5;color:var(--sub)}
+  .req li b{color:var(--txt,#fff);font-weight:600}
   .steps{margin-top:24px;width:100%;max-width:660px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:start}
   .steps h2{font-size:15px;font-weight:600;color:var(--gold2);margin-bottom:12px;line-height:1.4}
   .srow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -108,6 +112,10 @@
     <div class="feat"><i>♪</i><h3 data-t="f2"></h3><p data-t="f2p"></p></div>
     <div class="feat"><i>⚡</i><h3 data-t="f3"></h3><p data-t="f3p"></p></div>
   </section>
+  <section class="req">
+    <h2 data-t="rq"></h2>
+    <ul><li data-t="rq1"></li><li data-t="rq2"></li><li data-t="rq3"></li></ul>
+  </section>
 </main>
 <footer class="wrap">
   <span data-t="help"></span> WhatsApp <a href="https://wa.me/213552338690" dir="ltr">+213 552 33 86 90</a> · <a href="mailto:sacoche123456@gmail.com">sacoche123456@gmail.com</a><br>
@@ -123,6 +131,7 @@ const T = {
   mobile:"MusicOff Studio s'installe sur un ordinateur Windows. Copiez ce lien et ouvrez-le sur votre PC.", copy:"Copier le lien", copied:"Lien copié ✓",
   f1:"Toutes vos vidéos", f1p:"YouTube, Facebook, Instagram, TikTok et les fichiers de votre ordinateur.",
   f2:"Les voix intactes", f2p:"Seule la musique disparaît : les dialogues et les bruitages restent.",
+  rq:"Configuration conseillée", rq1:"<b>Enregistrer sans musique</b> : fonctionne sur tout ordinateur Windows 10 ou 11 (64 bits). Plus l'ordinateur est puissant, plus c'est rapide.", rq2:"<b>Regarder en direct sans musique</b> : demande un ordinateur récent et puissant, de préférence avec une carte graphique, et 8 Go de mémoire. Sur un ordinateur plus modeste, enregistrez d'abord la vidéo, puis regardez-la.", rq3:"L'essai gratuit vous permet de vérifier sur votre ordinateur avant d'acheter.",
   f3:"En 1 clic", f3p:"Ouvrez une vidéo, MusicOff vous propose aussitôt de la lire sans musique.",
   help:"Un problème ?", sh:"Avant d'installer : Windows va afficher cet écran, c'est normal", s1:"Cliquez sur « Informations complémentaires »", s2:"Puis sur « Exécuter quand même »", wt:"Windows a protégé votre ordinateur", wd:"Microsoft Defender SmartScreen a empêché le démarrage d'une application non reconnue.", wd2:"Application : MusicOff-Studio-Setup.exe<br>Éditeur : Éditeur inconnu", mi:"Informations complémentaires", ra:"Exécuter quand même", dnr:"Ne pas exécuter", safe:"Windows affiche ce message pour toutes les nouvelles applications. MusicOff Studio est sans danger, et l'installation prend moins d'une minute."},
  en: {title:"MusicOff Studio – Your videos, without the music",
@@ -133,6 +142,7 @@ const T = {
   mobile:"MusicOff Studio installs on a Windows computer. Copy this link and open it on your PC.", copy:"Copy the link", copied:"Link copied ✓",
   f1:"All your videos", f1p:"YouTube, Facebook, Instagram, TikTok and the files on your computer.",
   f2:"Voices kept intact", f2p:"Only the music disappears: dialogue and sound effects stay.",
+  rq:"Recommended setup", rq1:"<b>Save without music</b>: works on any Windows 10 or 11 (64-bit) computer. The more powerful the computer, the faster it is.", rq2:"<b>Watch live without music</b>: needs a recent, powerful computer, ideally with a graphics card, and 8 GB of memory. On a more modest computer, save the video first, then watch it.", rq3:"The free trial lets you check on your own computer before buying.",
   f3:"In 1 click", f3p:"Open a video and MusicOff instantly offers to play it without music.",
   help:"Need help?", sh:"Before installing: Windows will show this screen, this is normal", s1:"Click “More info”", s2:"Then click “Run anyway”", wt:"Windows protected your PC", wd:"Microsoft Defender SmartScreen prevented an unrecognized app from starting.", wd2:"App: MusicOff-Studio-Setup.exe<br>Publisher: Unknown publisher", mi:"More info", ra:"Run anyway", dnr:"Don't run", safe:"Windows shows this message for every new app. MusicOff Studio is safe, and installation takes less than a minute."},
  ar: {title:"MusicOff Studio – فيديوهاتك بدون موسيقى",
@@ -143,6 +153,7 @@ const T = {
   mobile:"يُثبَّت MusicOff Studio على حاسوب Windows. انسخ هذا الرابط وافتحه على حاسوبك.", copy:"نسخ الرابط", copied:"تم نسخ الرابط ✓",
   f1:"كل فيديوهاتك", f1p:"يوتيوب وفيسبوك وإنستغرام وتيك توك وملفات حاسوبك.",
   f2:"الأصوات كما هي", f2p:"تختفي الموسيقى فقط: يبقى الحوار والمؤثرات الصوتية.",
+  rq:"الإعدادات الموصى بها", rq1:"<b>الحفظ بدون موسيقى</b>: يعمل على أي حاسوب بنظام Windows 10 أو 11 (64 بت). كلما كان الحاسوب أقوى كان أسرع.", rq2:"<b>المشاهدة المباشرة بدون موسيقى</b>: تتطلب حاسوبًا حديثًا وقويًا، ويفضل أن يحتوي على بطاقة رسومات، وذاكرة 8 جيجابايت. على حاسوب أبسط، احفظ الفيديو أولًا ثم شاهده.", rq3:"تتيح لك التجربة المجانية التحقق على حاسوبك قبل الشراء.",
   f3:"بنقرة واحدة", f3p:"افتح فيديو، وسيقترح عليك MusicOff فورًا تشغيله بدون موسيقى.",
   help:"تحتاج مساعدة؟", sh:"قبل التثبيت: سيعرض Windows هذه الشاشة، وهذا أمر طبيعي", s1:"انقر على «مزيد من المعلومات»", s2:"ثم على «التشغيل على أي حال»", wt:"لقد قام Windows بحماية جهاز الكمبيوتر", wd:"منع Microsoft Defender SmartScreen تشغيل تطبيق غير معروف.", wd2:"التطبيق: MusicOff-Studio-Setup.exe<br>الناشر: ناشر غير معروف", mi:"مزيد من المعلومات", ra:"التشغيل على أي حال", dnr:"عدم التشغيل", safe:"يعرض Windows هذه الرسالة لكل تطبيق جديد. MusicOff Studio آمن تمامًا، ويستغرق التثبيت أقل من دقيقة."}
 };
