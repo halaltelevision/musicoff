@@ -17,7 +17,6 @@ Alain Roche/DEF/France/80
 Presnel Kimpembe/DEF/France/81
 Maxwell/DEF/Brésil/81
 Jean-Marc Pilorget/DEF/France/78
-Sylvain Armand/DEF/France/76
 Marco Verratti/MIL/Italie/91
 Raí/MIL/Brésil/90
 Safet Sušić/MIL/Bosnie-Herzégovine/90
@@ -49,7 +48,6 @@ Fabien Barthez/G/France/87
 Pascal Olmeta/G/France/78
 Vedran Runje/G/Croatie/78
 Gerónimo Rulli/G/Argentine/78
-Pau López/G/Espagne/75
 Basile Boli/DEF/France/88
 Marius Trésor/DEF/France/88
 Marcel Desailly/DEF/France/87
