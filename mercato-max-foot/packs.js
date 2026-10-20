@@ -2,7 +2,7 @@
    Format d'une ligne : Nom / Poste (G, DEF, MIL, ATT) / Club / Pays / Note
    Jeu de fan non officiel : aucune photo ni logo, maillots dessinés. */
 window.FOOT_PACKS=[
-{id:"legendes",name:"Légendes",sub:"Les plus grands de l'histoire",free:true,raw:`
+{id:"legendes",name:"Légendes",cat:"themes",sub:"Les plus grands de l'histoire",free:true,raw:`
 Lev Yachine/G/Dynamo Moscou/URSS/92
 Gianluigi Buffon/G/Juventus/Italie/93
 Iker Casillas/G/Real Madrid/Espagne/91
@@ -43,7 +43,7 @@ Thierry Henry/ATT/Arsenal/France/93
 Marco van Basten/ATT/Milan/Pays-Bas/93
 Didier Drogba/ATT/Chelsea/Côte d'Ivoire/89
 George Weah/ATT/Milan/Liberia/89`},
-{id:"ligue1",name:"Ligue 1",sub:"Saison 2025-26",free:true,raw:`
+{id:"ligue1",name:"Ligue 1",cat:"themes",sub:"Saison 2025-26",free:true,raw:`
 Lucas Chevalier/G/PSG/France/84
 Gerónimo Rulli/G/Marseille/Argentine/81
 Brice Samba/G/Rennes/France/81
@@ -80,7 +80,7 @@ Takumi Minamino/ATT/Monaco/Japon/79
 Ansu Fati/ATT/Monaco/Espagne/78
 Esteban Lepaul/ATT/Rennes/France/78
 Olivier Giroud/ATT/Lille/France/77`},
-{id:"algerie",name:"Algérie",sub:"Fennecs d'hier et d'aujourd'hui",free:true,raw:`
+{id:"algerie",name:"Algérie",cat:"nations",sub:"Afrique",desc:"Fennecs d'hier et d'aujourd'hui",free:true,raw:`
 Raïs M'Bolhi/G/Ettifaq/Algérie/80
 Luca Zidane/G/Grenade/Algérie/76
 Fawzi Chaouchi/G/MC Alger/Algérie/74
