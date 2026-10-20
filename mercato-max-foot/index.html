@@ -379,6 +379,23 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .pkr{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 .pkr small{font-size:11px;color:var(--mute)}
 .pkr .badge{margin:0}
+
+/* Vedette + vignettes */
+.pkhero{flex:none;display:flex;align-items:center;gap:12px;text-align:left;border-radius:16px;padding:12px 14px;min-height:92px;background:linear-gradient(120deg,#3D195B,#FF4563);color:#fff;position:relative;overflow:hidden;border:1.5px solid transparent}
+.pkhero::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12);pointer-events:none}
+.pkhero>span{display:flex;flex-direction:column;min-width:0;position:relative;z-index:1}
+.pkhero .lbl{color:#FFD84A}
+.pkhero b{font-family:var(--display);font-size:24px;line-height:1;text-transform:uppercase}
+.pkhero small{font-size:12px;opacity:.9}
+.pkhero[aria-pressed=true]{border-color:#FFD84A}
+.pkhero .jer{flex:none;position:relative;z-index:1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.pktiles{flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pktile{position:relative;background:var(--soft);border:1.5px solid transparent;border-radius:12px;padding:10px 5px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;min-width:0}
+.pktile[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
+.pktile .jer{filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+.pktile b{font-family:var(--display);font-size:13px;line-height:1.05;text-transform:uppercase;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;max-width:100%;overflow-wrap:anywhere}
+.pktile small{font-size:10px;color:var(--mute)}
+.pktile .badge{position:absolute;top:4px;right:4px;margin:0;font-size:10px}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:80}
 @media (max-height:600px){.fcard{gap:3px;padding-top:40px}.cname{font-size:26px}.price{font-size:30px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -839,9 +856,12 @@ function packList(){
   if(!list.length)return q?`<p class="mute">Aucun pack ne correspond à « ${esc(PK_Q)} ».</p>`:`${persoBtn}<p class="mute">Tu n'as pas encore de pack perso. Crée ton propre pack avec les joueurs de ton choix : ${CONFIG.freeCustomPacks} gratuit.</p>`;
   const groups={};list.forEach(p=>(groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]=groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]||[]).push(p));
   const single=(PK_TAB==="themes"||PK_TAB==="perso"||PK_TAB==="ligues")&&!q;
-  const row=p=>`<button class="pkitem" data-act="pickpack" data-v="${p.id}" aria-pressed="${SETUP.pack===p.id}">${packJersey(p,40)}<span class="pkx"><b>${esc(p.name)}</b><small>${esc(p.desc||(single||q?p.sub:"")||p.sub)}</small></span><span class="pkr">${packBadge(p.id)}<small>${p.cards.length} joueurs</small></span></button>`;
-  if(single)return persoBtn+`<div class="pkrows">${list.map(row).join("")}</div>`;
-  return persoBtn+Object.entries(groups).map(([g,ps])=>`<span class="lbl pkgl">${esc(g)}</span><div class="pkrows">${ps.map(row).join("")}</div>`).join("");
+  /* Vedette : le pack premium offert cette semaine, en grand */
+  const wf=weekFree(),hp=!q&&PK_TAB!=="perso"&&wf&&PACKS[wf];
+  const hero=hp?`<button class="pkhero" data-act="pickpack" data-v="${hp.id}" aria-pressed="${SETUP.pack===hp.id}">${packJersey(hp,64)}<span><span class="lbl">Offert cette semaine</span><b>${esc(hp.name)}</b><small>${hp.cards.length} joueurs · pack premium gratuit jusqu'à dimanche</small></span></button>`:"";
+  const tile=p=>`<button class="pktile" data-act="pickpack" data-v="${p.id}" aria-pressed="${SETUP.pack===p.id}">${packBadge(p.id)}${packJersey(p,46)}<b>${esc(p.name)}</b><small>${p.cards.length} joueurs</small></button>`;
+  if(single)return hero+persoBtn+`<div class="pktiles">${list.map(tile).join("")}</div>`;
+  return hero+persoBtn+Object.entries(groups).map(([g,ps])=>`<span class="lbl pkgl">${esc(g)}</span><div class="pktiles">${ps.map(tile).join("")}</div>`).join("");
 }
 function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><button class="mini" data-act="close">Fermer</button></div>
   <p><b>Jeu de fan non officiel.</b> Mercato Max Foot est un jeu de fan indépendant. Il n'est lié à aucun club, ligue, fédération ni joueur, et n'est ni soutenu ni approuvé par eux.</p>
