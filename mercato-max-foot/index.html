@@ -417,10 +417,10 @@ const PALS=[
 PALS.forEach(p=>{if(p[4]!==2)p[2]=Object.assign({},LIGHT,p[2])});
 /* ===================== Préférences ===================== */
 function newDevice(){const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";for(let i=0;i<8;i++)s+=a[Math.floor(Math.random()*a.length)];return"MX-"+s.slice(0,4)+"-"+s.slice(4)}
-let P={pal:"nuit",look:2,tempo:"lent",nai:2,diff:"normal",chaos:true,pack:"s_leg",names:["Joueur 1","Joueur 2"],
+let P={pal:"nuit",look:3,tempo:"lent",nai:2,diff:"normal",chaos:true,pack:"s_leg",names:["Joueur 1","Joueur 2"],
   device:newDevice(),xp:0,games:0,wins:0,streakW:0,bestStreakW:0,best:null,packsPlayed:[],ach:{},owned:{},custom:[],daily:{},dstreak:{last:null,n:0},sound:true,album:{},st:{gold:0,star:0,amis:0},week:null};
 try{Object.assign(P,JSON.parse(localStorage.getItem("mmfoot_p"))||{})}catch(e){}
-if(P.look!==2){P.look=2;P.pal="nuit"}
+if(P.look!==3){P.look=3;P.pal="nuit"}
 P.st=Object.assign({gold:0,star:0,amis:0},P.st);P.owned=P.owned||{};P.album=P.album||{};P.custom=P.custom||[];
 function saveP(){try{localStorage.setItem("mmfoot_p",JSON.stringify(P))}catch(e){}}
 function applyPal(){const r=document.documentElement,keys=new Set();PALS.forEach(p=>Object.keys(p[2]).forEach(k=>keys.add(k)));keys.forEach(k=>r.style.removeProperty(k));
