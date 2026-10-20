@@ -244,6 +244,71 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .pkitem small{font-size:11px;color:var(--mute);line-height:1.2}
 .pkitem[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
 .pkitem .jer{flex:none}
+
+/* ===== Accueil, boutique, profil, album, packs perso ===== */
+.home{gap:10px}
+.home .logo{padding-top:0}.home .logo svg{width:62px;height:70px}.home .mark{font-size:44px}
+.lvlpill{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px 9px 3px 3px;min-width:0}
+.lvlpill b{flex:none;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:15px}
+.lvlpill>span:not(.bar){font-family:var(--display);font-weight:700;font-size:13px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.lvlpill .bar{width:38px;flex:none}
+.bar{display:block;height:6px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--green);border-radius:3px}
+.dailyc{display:flex;align-items:center;gap:10px;text-align:left;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--yellow);border-radius:12px;padding:8px 10px}
+.dt{flex:1;min-width:0;display:flex;flex-direction:column}
+.dt .lbl{color:var(--yellow);font-size:12px}
+.dt b{font-family:var(--display);font-size:19px;line-height:1.05;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dt small{font-size:12px;color:var(--mute)}
+.nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.nav button{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0}
+.nav b{font-family:var(--display);font-size:17px;text-transform:uppercase;letter-spacing:.03em}
+.nav small{font-size:11px;color:var(--mute);white-space:nowrap}
+.page{height:calc(100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:520px;display:flex;flex-direction:column;gap:10px}
+.scroll{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-bottom:6px}
+.freebox{background:color-mix(in srgb,var(--green) 14%,var(--card));border:1px solid color-mix(in srgb,var(--green) 40%,transparent);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;font-size:13px}
+.freebox b{font-family:var(--display);font-size:16px;text-transform:uppercase;color:var(--green)}
+.prod{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;flex:none}
+.prod .l{flex:1;min-width:0;display:flex;flex-direction:column}
+.prod .l b{font-family:var(--display);font-size:17px;line-height:1.1;text-transform:uppercase}
+.prod .l span{font-size:12px;color:var(--mute);line-height:1.25}
+.prod.feat{border-color:var(--yellow);box-shadow:0 0 0 1px var(--yellow)}
+.prod.own .p{color:var(--green);font-family:var(--display);font-weight:700;text-transform:uppercase}
+.pico{flex:none;width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:12px}
+.buy{flex:none;background:var(--accent);color:#fff;border-radius:9px;padding:6px 10px;font-family:var(--display);font-weight:700;font-size:16px}
+.dev{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:12px;padding:8px 12px;flex-wrap:wrap}
+.dev .num{font-family:var(--led,var(--display));font-size:18px;letter-spacing:.04em;user-select:all;flex:1}
+.err{color:var(--red);font-size:13px;font-weight:600;min-height:1em;margin:0}
+.badge{display:inline-block;align-self:flex-start;margin-top:2px;border-radius:4px;padding:0 5px;font-family:var(--display);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.badge.lock{background:var(--yellow);color:#141433}.badge.gift{background:var(--green);color:#fff}
+.pkitem>span{align-items:flex-start}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.stats .num{font-size:24px;font-family:var(--led,var(--display))}
+.stats small{font-size:11px;color:var(--mute);line-height:1.2}
+.lvt{font-family:var(--display);font-size:18px;text-transform:uppercase}
+.mis{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.mis .mt{flex:1;min-width:0}.mis .mt b{font-size:13px;font-weight:600}
+.mis .mr{flex:none;text-align:right;font-family:var(--display);font-weight:700;display:flex;flex-direction:column;font-size:15px}
+.mis .mr small{font-family:var(--body);font-size:10px;color:var(--mute);font-weight:600}
+.mis.ok .mr{color:var(--green)}
+.ach{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ach>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:1px;opacity:.6}
+.ach>div.on{opacity:1}
+.ach .tier{font-family:var(--display);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;align-self:flex-start;border-radius:4px;padding:0 6px;color:#141433}
+.ach .t1 .tier,.ach>.t1 .tier{background:#E0A06A}.ach>.t2 .tier{background:#C9D1E0}.ach>.t3 .tier{background:var(--yellow)}
+.ach>div.on.t3{box-shadow:0 0 0 1.5px var(--yellow)}
+.ach b{font-size:13px;line-height:1.2}.ach small{font-size:11px;color:var(--mute);line-height:1.25}.ach .gp{font-weight:700}
+.tog{flex:none;width:48px;height:28px;border-radius:99px;background:var(--soft);position:relative}
+.tog::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+.tog[aria-pressed=true]{background:var(--green)}.tog[aria-pressed=true]::after{left:23px}
+.albrow{display:flex;align-items:center;gap:10px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 10px;flex:none}
+.albrow .at{flex:1;min-width:0}.albrow .at b{font-family:var(--display);font-size:16px;text-transform:uppercase}
+.albrow .ap{flex:none;font-family:var(--display);font-weight:700;font-size:16px}
+.agrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.acard{background:var(--soft);border-radius:10px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;text-align:center;opacity:.55;border-top:3px solid var(--pc)}
+.acard.on{opacity:1}.acard b{font-size:11px;line-height:1.15;overflow-wrap:anywhere}.acard small{font-size:10px;color:var(--mute)}
+textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card);color:var(--ink);resize:none}
+.toast.top{bottom:auto;top:calc(12px + env(safe-area-inset-top,0px))}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:80}
 @media (max-height:600px){.fcard{gap:3px;padding-top:40px}.cname{font-size:26px}.price{font-size:30px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -252,6 +317,7 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 <div id="layer"></div>
 <div class="toast" id="toast" hidden></div>
 <canvas id="fx"></canvas>
+<script src="config.js"></script>
 <script src="packs.js"></script>
 <script>
 "use strict";
@@ -275,12 +341,13 @@ const LINES={
   prudent:{bid:["Un prix raisonnable.","Je tente.","Juste un peu."],out:["Trop cher pour moi.","Je garde mon argent."],win:["Bonne affaire.","Parfait."]}
 };
 const PACKS={};
-(window.FOOT_PACKS||[]).forEach(p=>{
+function addPack(p){
   const cards=p.raw.trim().split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const a=l.split("/").map(x=>x.trim());return p.club?{n:a[0],pos:a[1],club:p.club,pays:a[2],p:+a[3]}:{n:a[0],pos:a[1],club:a[2],pays:a[3],p:+a[4]}});
   const ps=cards.map(c=>c.p),stats={lo:Math.min(...ps),hi:Math.max(...ps)};
   stats.avg={};["G","DEF","MIL","ATT"].forEach(k=>{const v=cards.filter(c=>c.pos===k).map(c=>c.p);stats.avg[k]=v.reduce((a,b)=>a+b,0)/v.length});
   PACKS[p.id]=Object.assign({cat:"themes"},p,{cards,stats,onecountry:new Set(cards.map(c=>c.pays)).size===1,oneclub:new Set(cards.map(c=>c.club)).size===1});
-});
+}
+(window.FOOT_PACKS||[]).forEach(addPack);
 const CC=window.CLUB_COLORS||{};
 const LIGHT={"--bg":"#F2F3F8","--card":"#FFFFFF","--soft":"#E9EBF3","--line":"#DCDFEB","--ink":"#141433","--mute":"#62657F","--red":"#FF3B5C","--blue":"#2D7BFF","--yellow":"#FFB400","--green":"#00B874","--violet":"#7C5CFF","--accent-soft":"#FFE3E8","--grass":"#1F9D57","--grass2":"#22AB5F","--board":"#141433","--boardtxt":"#FFD24D","--press":"0 3px 0 rgba(20,20,51,.22)","--bgimg":"linear-gradient(transparent,transparent)"};
 /* [clé, nom, jetons, pastilles, 0 clair | 1 clair sur fond coloré | 2 sombre] */
@@ -297,9 +364,12 @@ const PALS=[
 ];
 PALS.forEach(p=>{if(p[4]!==2)p[2]=Object.assign({},LIGHT,p[2])});
 /* ===================== Préférences ===================== */
-let P={pal:"nuit",look:2,tempo:"lent",nai:2,pack:"legendes",names:["Joueur 1","Joueur 2"]};
+function newDevice(){const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";for(let i=0;i<8;i++)s+=a[Math.floor(Math.random()*a.length)];return"MX-"+s.slice(0,4)+"-"+s.slice(4)}
+let P={pal:"nuit",look:2,tempo:"lent",nai:2,pack:"legendes",names:["Joueur 1","Joueur 2"],
+  device:newDevice(),xp:0,games:0,wins:0,streakW:0,bestStreakW:0,best:null,packsPlayed:[],ach:{},owned:{},custom:[],daily:{},dstreak:{last:null,n:0},sound:true,album:{},st:{gold:0,star:0,amis:0},week:null};
 try{Object.assign(P,JSON.parse(localStorage.getItem("mmfoot_p"))||{})}catch(e){}
 if(P.look!==2){P.look=2;P.pal="nuit"}
+P.st=Object.assign({gold:0,star:0,amis:0},P.st);P.owned=P.owned||{};P.album=P.album||{};P.custom=P.custom||[];
 function saveP(){try{localStorage.setItem("mmfoot_p",JSON.stringify(P))}catch(e){}}
 function applyPal(){const r=document.documentElement,keys=new Set();PALS.forEach(p=>Object.keys(p[2]).forEach(k=>keys.add(k)));keys.forEach(k=>r.style.removeProperty(k));
   const p=PALS.find(x=>x[0]===P.pal)||PALS[0];Object.entries(p[2]).forEach(([k,v])=>r.style.setProperty(k,v));
@@ -309,11 +379,11 @@ function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a
 function shuffle(a,r){for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 let rnd=Math.random,SIM=false;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
-function toast(m){if(SIM)return;const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600)}
+function toast(m,top){if(SIM)return;const t=$("#toast");t.textContent=m;t.hidden=false;t.classList.toggle("top",!!top);clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600)}
 function sheet(h){$("#layer").innerHTML=`<div class="wrap" data-close="1"><div class="sheet" role="dialog" aria-modal="true">${h}</div></div>`}
 function closeSheet(){$("#layer").innerHTML=""}
 function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
-let AC=null;function beep(f=600,d=.08,type="sine",v=.05){if(SIM)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
+let AC=null;function beep(f=600,d=.08,type="sine",v=.05){if(SIM||P.sound===false)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
 const SFX={bid:()=>beep(720,.06,"triangle"),sold:()=>{beep(520,.09);setTimeout(()=>beep(780,.12),90)},nope:()=>beep(200,.12,"square",.03),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,"triangle"),i*110))};
 function confetti(n=120){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cv=$("#fx"),cx=cv.getContext("2d"),W=cv.width=innerWidth,H=cv.height=innerHeight;
   const cols=["#FF3B5C","#2D7BFF","#FFB400","#00B874","#8B5CF6"],ps=Array.from({length:n},()=>({x:W/2+(Math.random()-.5)*80,y:H*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*12-4,r:Math.random()*6,vr:(Math.random()-.5)*.4,s:6+Math.random()*6,c:pick(cols)}));
@@ -340,13 +410,13 @@ function canPlace(ti){return !!slotFor(G.teams[ti],cardOf(G.cur.i))}
 function canRaise(ti,inc=10){const t=G.teams[ti];return canPlace(ti)&&!G.cur.out[ti]&&G.cur.price+inc<=maxBid(t)}
 function isOver(){return G.teams.every(full)||G.pos>=G.order.length}
 function startGame(s){
-  const fm=FORMATS[s.format||"five"],seed=Math.floor(Math.random()*2147483647);rnd=mulberry(seed);
+  const fm=FORMATS[s.format||"five"],seed=s.seed||Math.floor(Math.random()*2147483647);rnd=mulberry(seed);
   const pack=PACKS[s.pack];
   let teams;
   if(s.mode==="amis")teams=s.names.map((n,i)=>({name:(n||"").trim()||("Joueur "+(i+1)),ai:false}));
   else if(s.allai)teams=shuffle(BOTS.slice(),rnd).slice(0,s.nai).map(b=>({name:b.n,ai:true,pers:b.pers}));
   else teams=[{name:"Toi",ai:false}].concat(shuffle(BOTS.slice(),rnd).slice(0,s.nai).map(b=>({name:b.n,ai:true,pers:b.pers})));
-  G={mode:s.mode,setup:s,pack:s.pack,format:s.format||"five",slots:fm.slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
+  G={mode:s.mode,setup:s,daily:s.daily||null,pack:s.pack,format:s.format||"five",slots:fm.slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
     order:shuffle(pack.cards.map((_,i)=>i),rnd),pos:0,next:0,nPrime:0,
     teams:teams.map((t,i)=>Object.assign(t,{money:fm.budget,sl:{},col:TCOL[i]})),cur:null,phase:"draw"};
   SAY={};if(!SIM)go("game");
@@ -456,6 +526,7 @@ function finish(){
   const w=best[0],tie=best[1]&&best[1].score.total===w.score.total&&best[1].money===w.money;
   G.winner=tie?-1:G.teams.indexOf(w);G.tieMoney=!tie&&best[1]&&best[1].score.total===w.score.total;
   if(SIM)return;
+  rewards();
   const key=G.teams.map(t=>t.name).join("|");if(!SERIES||SERIES.key!==key)SERIES={key,w:{}};if(G.winner>=0){const n=G.teams[G.winner].name;SERIES.w[n]=(SERIES.w[n]||0)+1}
   go("results");
 }
@@ -465,22 +536,23 @@ function go(s){SCREEN=s;timers.forEach(clearTimeout);timers=[];closeSheet();rend
 function render(){
   if(SIM)return;
   document.body.classList.toggle("ingame",SCREEN==="game");
-  const v={home:vHome,setup:vSetup,game:vGame,results:vResults}[SCREEN]();
+  const v={home:vHome,setup:vSetup,game:vGame,results:vResults,shop:vShop,profile:vProfile,album:vAlbum,perso:vPerso,edit:vEdit}[SCREEN]();
   $("#app").innerHTML=v;
   if(SCREEN==="game"&&G&&G.phase==="auction")startLoop();else stopLoop();
   if(SCREEN==="results")playReveal();
 }
 const crest=`<svg viewBox="0 0 92 104" aria-hidden="true"><defs><linearGradient id="cr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF5A74"/><stop offset="1" stop-color="#E41E3F"/></linearGradient></defs><path d="M46 3l40 12v34c0 26-18 42-40 52C24 91 6 75 6 49V15z" fill="url(#cr)"/><path d="M46 3l40 12v34c0 26-18 42-40 52z" fill="#2D7BFF"/><path d="M46 11l32 9.6V49c0 21-14 34-32 43C28 83 14 70 14 49V20.6z" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/><text x="46" y="62" text-anchor="middle" font-family="Saira Condensed,Arial Narrow,sans-serif" font-weight="800" font-size="36" fill="#fff">MM</text><circle cx="46" cy="80" r="6" fill="#fff"/><path d="M46 74l2 3.5h-4zM41 80.5l3-.8 1.2 2.6M51 80.5l-3-.8-1.2 2.6" fill="#1A1446"/></svg>`;
 function vHome(){
-  return`<div class="screen">
-  <div class="between"><button class="mini" data-act="pals">🎨 Couleurs</button><button class="mini" data-act="rules">Règles</button></div>
+  const L=lvl(P.xp),D=dailyInfo(),dp=PACKS[D.pack],best=(P.daily[D.date]||{}).best;
+  return`<div class="screen home">
+  <div class="between"><button class="lvlpill" data-act="go" data-v="profile"><b>${L.n}</b><span>${esc(L.title)}</span><span class="bar"><i style="width:${Math.round(L.into/L.need*100)}%"></i></span></button><span class="row"><button class="mini" data-act="pals">Couleurs</button><button class="mini" data-act="rules">Règles</button></span></div>
   <div class="logo">${crest}<div class="mark">Mercato <span>Max</span> <em>Foot</em></div><div class="tagline">Mise. Bluffe. Recrute.</div><p class="mute">Construis l'équipe de tes rêves.</p></div>
   <div class="modes">
     <button class="mode" style="background:var(--red)" data-act="setup" data-v="solo"><span class="ico">1 joueur</span><b>Solo</b><small>Contre 1 ou 2 ordis</small></button>
     <button class="mode" style="background:var(--blue)" data-act="setup" data-v="amis"><span class="ico">2 à 4 joueurs</span><b>Entre amis</b><small>2 à 4 sur un seul téléphone</small></button>
   </div>
-  <div class="links"><button class="mini" data-act="legal">Mentions et crédits</button></div>
-  <p class="mute proto">Prototype : format Five seulement. Boutique, profil et album viendront ensuite.</p>
+  <button class="dailyc" data-act="daily">${packJersey(dp,40)}<span class="dt"><span class="lbl">Défi du jour${P.dstreak.n>1&&P.dstreak.last===D.date?` · ${P.dstreak.n} jours de suite`:""}</span><b>${esc(dp.name)}</b><small>${best!=null?`Ton meilleur score aujourd'hui : ${best}`:"Même tirage pour tout le monde, contre 2 ordis"}</small></span><span class="pkch">Jouer</span></button>
+  <nav class="nav"><button data-act="go" data-v="shop"><b>Boutique</b><small>${PREMIUM.length} packs premium</small></button><button data-act="go" data-v="album"><b>Album</b><small>${albumTotal()} cartes</small></button><button data-act="go" data-v="profile"><b>Profil</b><small>${Object.keys(P.ach).length}/${ACH.length} trophées</small></button></nav>
   </div>`;
 }
 function seg(key,opts){return`<div class="seg">${opts.map(([v,l,d])=>`<button data-act="seg" data-k="${key}" data-v="${v}" aria-pressed="${String(SETUP[key])===String(v)}">${l}${d?`<small>${d}</small>`:""}</button>`).join("")}</div>`}
@@ -591,7 +663,7 @@ function playReveal(){
     if(G.winner<0)w.textContent="Égalité parfaite !";
     else{const t=G.teams[G.winner];w.textContent=(G.mode==="solo"&&G.winner===0?"Tu gagnes !":t.name+" gagne !")+(G.tieMoney?" (plus d'argent)":"");$("#rt"+G.winner).classList.add("win");
       if(G.mode!=="solo"||G.winner===0){SFX.win();confetti()}else beep(300,.2)}
-    w.classList.add("on");$("#after").classList.add("on");
+    w.classList.add("on");$("#after").classList.add("on");showRewards();
   };
   timers.push(setTimeout(next,500));
 }
@@ -609,10 +681,10 @@ function rulesSheet(){sheet(`<h2>Les règles</h2><ul class="rules">
  </ul><button class="btn go" data-act="close">Compris</button>`)}
 function palSheet(){sheet(`<h2>Couleurs</h2><p class="mute">Choisis l'ambiance du jeu.</p><div class="pals">${PALS.map(([k,l,,c,d])=>`<button class="palbtn" style="background:${c[0]};color:${d?"#fff":"#1A1446"}" aria-pressed="${P.pal===k}" data-act="pal" data-v="${k}"><span class="sw">${c.slice(1).map(x=>`<i style="background:${x}"></i>`).join("")}</span>${l}</button>`).join("")}</div><button class="btn go" data-act="close">C'est bon</button>`)}
 /* ===================== Catalogue des packs ===================== */
-const PCATS=[["clubs","Clubs"],["nations","Sélections"],["themes","Thèmes"]];
+const PCATS=[["clubs","Clubs"],["nations","Sélections"],["themes","Thèmes"],["perso","Mes packs"]];
 const NATC={fra:["#1F3A93","#fff","FRA"],bra:["#FFDC02","#0A8F3C","BRA"],arg:["#75AADB","#fff","ARG"],ger:["#fff","#111","GER"],ita:["#1E5FC6","#fff","ITA"],esp:["#C8102E","#FFC400","ESP"],eng:["#fff","#1B2D6B","ENG"],ned:["#F36C21","#fff","NED"],por:["#B5121B","#0B6B3A","POR"],bel:["#C8102E","#FFD100","BEL"],uru:["#7FB5E6","#fff","URU"],cro:["#fff","#D2122E","CRO"],mex:["#0B6B3A","#fff","MEX"],mar:["#C1272D","#0B6B3A","MAR"],sen:["#fff","#0B8A3E","SEN"],civ:["#F77F00","#fff","CIV"],cmr:["#0B7A3E","#D2122E","CMR"],nga:["#0B8A3E","#fff","NGA"],egy:["#C8102E","#fff","EGY"],tun:["#D2122E","#fff","TUN"],gha:["#fff","#111","GHA"],mli:["#FFD100","#0B8A3E","MLI"],algerie:["#fff","#0B7A3E","ALG"]};
 const norm=t=>String(t).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-function packKit(p){if(p.club)return{club:p.club};const n=NATC[p.id];if(n){CC["__"+p.id]=[n[0],n[1]];return{club:"__"+p.id,ini:n[2]}}CC["__t"]=["#FFD84A","#141433"];return{club:"__t",ini:"★"}}
+function packKit(p){if(p.cat==="perso"){CC["__p"]=["#8B6BFF","#fff"];return{club:"__p",ini:"MOI"}}if(p.club)return{club:p.club};const n=NATC[p.id];if(n){CC["__"+p.id]=[n[0],n[1]];return{club:"__"+p.id,ini:n[2]}}CC["__t"]=["#FFD84A","#141433"];return{club:"__t",ini:"★"}}
 function packJersey(p,size){const k=packKit(p);return jersey({club:k.club,iniOverride:k.ini},size)}
 function packBtn(p){return`<button class="pkbtn" data-act="packs">${packJersey(p,40)}<span class="pkt"><b>${esc(p.name)}</b><small>${esc(p.desc||p.sub)} · ${p.cards.length} joueurs</small></span><span class="pkch">Changer</span></button>`}
 let PK_TAB=null,PK_Q="";
@@ -627,12 +699,18 @@ function packsSheet(){
 function packList(){
   const q=norm(PK_Q.trim());
   const list=Object.values(PACKS).filter(p=>q?norm(p.name+" "+p.sub+" "+(p.desc||"")+" "+(p.club||"")).includes(q):p.cat===PK_TAB);
-  if(!list.length)return`<p class="mute">Aucun pack ne correspond à « ${esc(PK_Q)} ».</p>`;
+  const persoBtn=!q&&PK_TAB==="perso"?`<button class="btn" data-act="go" data-v="perso">Créer et gérer mes packs perso</button>`:"";
+  if(!list.length)return q?`<p class="mute">Aucun pack ne correspond à « ${esc(PK_Q)} ».</p>`:`${persoBtn}<p class="mute">Tu n'as pas encore de pack perso. Crée ton propre pack avec les joueurs de ton choix : ${CONFIG.freeCustomPacks} gratuit.</p>`;
   const groups={};list.forEach(p=>(groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]=groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]||[]).push(p));
-  const single=PK_TAB==="themes"&&!q;
-  return Object.entries(groups).map(([g,ps])=>`${single?"":`<span class="lbl">${esc(g)}</span>`}<div class="pkgrid">${ps.map(p=>`<button class="pkitem" data-act="pickpack" data-v="${p.id}" aria-pressed="${SETUP.pack===p.id}">${packJersey(p,34)}<span><b>${esc(p.name)}</b>${single||q?`<small>${esc(p.desc||p.sub)}</small>`:""}</span></button>`).join("")}</div>`).join("");
+  const single=(PK_TAB==="themes"||PK_TAB==="perso")&&!q;
+  return persoBtn+Object.entries(groups).map(([g,ps])=>`${single?"":`<span class="lbl">${esc(g)}</span>`}<div class="pkgrid">${ps.map(p=>`<button class="pkitem" data-act="pickpack" data-v="${p.id}" aria-pressed="${SETUP.pack===p.id}">${packJersey(p,34)}<span><b>${esc(p.name)}</b>${single||q?`<small>${esc(p.desc||p.sub)}</small>`:""}${packBadge(p.id)}</span></button>`).join("")}</div>`).join("");
 }
-function legalSheet(){sheet(`<h2>Mentions et crédits</h2><p><b>Jeu de fan non officiel.</b> Mercato Max Foot n'est lié à aucun club, ligue, fédération ni joueur.</p><p class="mute">Les noms des joueurs servent seulement de référence. Aucune photo ni logo officiel : les maillots sont dessinés aux couleurs des clubs, avec des initiales. Les notes sont une estimation de fan, pour le jeu.</p><button class="btn go" data-act="close">Fermer</button>`)}
+function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><button class="mini" data-act="close">Fermer</button></div>
+  <p><b>Jeu de fan non officiel.</b> Mercato Max Foot est un jeu de fan indépendant. Il n'est lié à aucun club, ligue, fédération ni joueur, et n'est ni soutenu ni approuvé par eux.</p>
+  <p class="mute">Les noms des joueurs servent seulement de référence. Aucune photo ni logo officiel : les maillots sont dessinés aux couleurs des clubs, avec des initiales. Les notes sont une estimation de fan, pour le jeu.</p>
+  <p class="mute"><b>Tes données :</b> pas de compte, pas de publicité, pas de pistage. Ton profil, ton album et tes achats restent sur ce téléphone. Les paiements sont gérés par Stripe : Mercato Max ne voit jamais ta carte bancaire.</p>
+  <a class="btn" href="politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
+  <p class="mute">Contact : [TON E-MAIL DE CONTACT]</p>`)}
 function voirSheet(ti){const t=G.teams[ti];sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div><p class="mute">Ses recrues et le prix payé.</p>${pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
 function pauseSheet(){PAUSED=true;const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-Date.now():0;PAUSED_REM=rem;
   sheet(`<h2>Pause</h2><button class="btn go" data-act="resume">Reprendre</button><button class="btn" data-act="rules">Règles</button><button class="btn" data-act="pals">🎨 Couleurs</button><button class="btn" data-act="quit">Quitter la partie</button>`)}
@@ -665,15 +743,222 @@ async function share(){
     const u=URL.createObjectURL(blob);sheet(`<h2>Ton résultat</h2><img src="${u}" alt="Image du résultat" style="width:100%;border-radius:20px"><p class="mute">Appuie longuement sur l'image pour l'enregistrer, puis envoie-la sur WhatsApp.</p><button class="btn go" data-act="close">Fermer</button>`)}
   catch(e){if(e&&e.name!=="AbortError")toast("Partage impossible sur cet appareil")}
 }
+/* ===================== Boutique et paiement ===================== */
+const CONFIG=MMF.CONFIG;
+P.custom.forEach(regCustom);
+const PREMIUM=CONFIG.premium.filter(id=>PACKS[id]);
+const PRODUCTS=MMF.buildProducts(Object.values(PACKS).filter(p=>p.cat!=="perso").map(p=>({id:p.id,name:p.name,cat:p.cat,size:p.cards.length})));
+const euro=c=>(c/100).toFixed(2).replace(".",",")+" €";
+function owns(prod){return !!(P.owned.all||P.owned[prod])}
+const weekNo=()=>Math.floor((Date.now()/864e5+3)/7);
+function weekFree(){return PREMIUM.length?PREMIUM[MMF.cyrb53("semaine|"+weekNo())%PREMIUM.length]:null}
+const isPremium=id=>PREMIUM.includes(id);
+function packOpen(id){const p=PACKS[id];if(!p)return false;if(p.cat==="perso"||!isPremium(id)||id===weekFree())return true;return owns("pk_"+id)||owns("pass_"+p.cat)}
+function packBadge(id){if(!isPremium(id))return"";const p=PACKS[id],bought=owns("pk_"+id)||owns("pass_"+p.cat);
+  if(bought)return"";if(id===weekFree())return`<span class="badge gift">Offert cette semaine</span>`;return`<span class="badge lock">Premium · ${euro(CONFIG.prices.pack)}</span>`}
+const PAY={
+  base(){return (CONFIG.stripe.api||"").replace(/\/$/,"")},
+  async buy(prod){const pr=PRODUCTS[prod],st=CONFIG.stripe;if(!pr)return;
+    if(st.api){try{toast("Ouverture du paiement sécurisé…");
+        const r=await fetch(this.base()+"/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product:prod,device:P.device,returnUrl:location.href.split(/[?#]/)[0]})});
+        const j=await r.json();if(j.url){location.href=j.url;return}}catch(e){}
+      toast("Le paiement n'a pas pu s'ouvrir. Réessaie dans un instant.");return}
+    if(st.links&&st.links[prod]){const u=st.links[prod];window.open(u+(u.includes("?")?"&":"?")+"client_reference_id="+encodeURIComponent(P.device+"__"+prod),"_blank");return}
+    sheet(`<span class="lbl">Bientôt disponible</span><h2>Paiement en préparation</h2><p class="mute">L'achat de <b>${esc(pr.label)}</b> (${euro(pr.cents)}) sera bientôt possible par carte bancaire, directement ici.</p><button class="btn go" data-act="close">OK</button>`)},
+  /* Au retour de Stripe : le serveur confirme le paiement et le jeu débloque l'achat */
+  async back(){const q=new URLSearchParams(location.search),sid=q.get("session_id");if(!sid||!CONFIG.stripe.api)return;
+    try{const r=await fetch(this.base()+"/verify?session_id="+encodeURIComponent(sid));const j=await r.json();
+      if(j.ok&&j.device===P.device&&Array.isArray(j.products)){j.products.forEach(p=>{if(PRODUCTS[p])P.owned[p]=true});saveP();go("shop");
+        const pr=PRODUCTS[j.products[0]];toast((pr?pr.label:"Ton achat")+" : débloqué !");SFX.win();confetti(160)}}catch(e){toast("Paiement reçu ? Ouvre la boutique et touche « Restaurer mes achats ».")}
+    try{history.replaceState(null,"",location.pathname)}catch(e){}},
+  /* Nouveau téléphone ou données effacées : retrouve les achats avec l'e-mail donné à Stripe */
+  async restore(email){const err=$("#rerr");
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent="Écris l'adresse e-mail utilisée pour payer.";return}
+    try{const r=await fetch(this.base()+"/restore",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,device:P.device})});const j=await r.json();
+      const got=(j.products||[]).filter(p=>PRODUCTS[p]);if(!got.length){err.textContent="Aucun achat trouvé avec cette adresse.";return}
+      got.forEach(p=>P.owned[p]=true);saveP();closeSheet();render();toast(got.length>1?got.length+" achats restaurés !":PRODUCTS[got[0]].label+" : restauré !");SFX.win();confetti(120)}
+    catch(e){err.textContent="Le serveur ne répond pas. Réessaie dans un instant."}}
+};
+function restoreSheet(){sheet(`<h2>Restaurer mes achats</h2><p class="mute">Tu as changé de téléphone ou effacé le jeu ? Écris l'adresse e-mail que tu as donnée au moment du paiement.</p>
+  <input id="remail" type="email" placeholder="ton.email@exemple.com" autocomplete="email" aria-label="Adresse e-mail du paiement">
+  <p class="err" id="rerr"></p><button class="btn go" data-act="dorestore">Restaurer</button><button class="btn" data-act="close">Annuler</button>`)}
+function buySheet(prod){const pr=PRODUCTS[prod];if(!pr)return;
+  const inc=pr.kind==="pass"?PREMIUM.filter(id=>PACKS[id].cat===pr.cat).map(id=>PACKS[id].name):[];
+  const pass=pr.kind==="pack"?PRODUCTS["pass_"+pr.cat]:null;
+  sheet(`<span class="lbl">${pr.kind==="pack"?"Pack premium":pr.kind==="pass"?"Pass":"Offre"}</span><h2>${esc(pr.label)}</h2><p class="mute">${esc(pr.desc)}</p>
+  ${inc.length?`<p class="mute" style="font-size:13px">${inc.map(esc).join(" · ")}</p>`:""}
+  <button class="btn go" data-act="pay" data-v="${prod}">Payer ${euro(pr.cents)}</button>
+  ${pass?`<button class="btn" data-act="buy" data-v="pass_${pr.cat}">Ou ${esc(pass.label)} : tous les packs premium de la catégorie pour ${euro(pass.cents)}</button>`:""}
+  <p class="mute" style="font-size:12px;text-align:center">Paiement sécurisé par carte. Achat unique, à vie, valable sur ce téléphone pour tous ceux qui jouent dessus.</p>
+  <button class="btn" data-act="close">Plus tard</button>`)}
+let SHOP_TAB="offres";
+function prodRow(k){const p=PRODUCTS[k],own=owns(k),inPass=p.kind==="pack"&&owns("pass_"+p.cat),gift=p.kind==="pack"&&p.pack===weekFree();
+  const ico=p.kind==="pack"?packJersey(PACKS[p.pack],34):`<span class="pico">${p.kind==="all"?"★":p.kind==="pass"?"PASS":"+"}</span>`;
+  return`<div class="prod ${own||inPass?"own":""} ${p.kind==="all"?"feat":""}">${ico}<div class="l"><b>${esc(p.label)}</b><span>${gift&&!own&&!inPass?"Offert cette semaine · ":""}${esc(p.desc)}</span></div>${own||inPass?`<span class="p">${inPass&&!P.owned[k]?"Inclus":"À toi"}</span>`:`<button class="buy" data-act="buy" data-v="${k}">${euro(p.cents)}</button>`}</div>`}
+function vShop(){
+  const nFree=Object.values(PACKS).filter(p=>p.cat!=="perso"&&!isPremium(p.id)).length;
+  let body="";
+  if(SHOP_TAB==="offres")body=`${prodRow("all")}<span class="lbl">Pass par catégorie</span>${MMF.PASSES.map(x=>prodRow("pass_"+x.k)).join("")}<span class="lbl">Packs perso</span>${prodRow("perso3")}${prodRow("perso10")}${prodRow("createur")}${CONFIG.stripe.api?`<button class="mini" data-act="restore">Restaurer mes achats</button>`:""}`;
+  else if(SHOP_TAB==="packs")body=PCATS.filter(c=>c[0]!=="perso").map(([k,l])=>{const ks=PREMIUM.filter(id=>PACKS[id].cat===k);return ks.length?`<span class="lbl">${l} · ${euro(CONFIG.prices.pack)} chacun</span>${ks.map(id=>prodRow("pk_"+id)).join("")}`:""}).join("");
+
+  return`<div class="page">
+  <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Boutique</h2></div>
+  <div class="freebox"><b>Gratuit pour toujours</b><span>${nFree} packs sur ${nFree+PREMIUM.length}, 1 pack premium offert chaque semaine, le défi du jour, le mode Entre amis et ${CONFIG.freeCustomPacks} pack perso.</span></div>
+  <div class="seg">${[["offres","Offres"],["packs","Packs premium"]].map(([k,l])=>`<button data-act="shoptab" data-v="${k}" aria-pressed="${SHOP_TAB===k}">${l}</button>`).join("")}</div>
+  <div class="scroll">${body}</div></div>`;
+}
+/* ===================== Niveaux, missions, trophées ===================== */
+const LEVELS=["Recruteur amateur","Scout de quartier","Agent débutant","Agent confirmé","Directeur sportif","Président de club","Magnat du mercato","Légende du mercato"];
+function lvl(xp){let n=1,need=150,acc=0;while(xp>=acc+need){acc+=need;n++;need=150+(n-1)*100}return{n,into:xp-acc,need,title:LEVELS[Math.min(LEVELS.length-1,Math.floor((n-1)/3))]}}
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+const MISSIONS=[
+ {id:"win2",t:"Gagne 2 parties contre l'ordi",n:2,f:c=>c.win?1:0},
+ {id:"star3",t:"Recrute 3 joueurs notés 90 ou plus",n:3,f:c=>c.mine.filter(x=>x.c.p>=90).length},
+ {id:"cheapstar",t:"Recrute un joueur noté 90 ou plus pour 60 ou moins",n:1,f:c=>c.mine.some(x=>x.c.p>=90&&x.pk.price<=60)?1:0},
+ {id:"amis3",t:"Joue 3 parties entre amis",n:3,f:c=>c.G.mode==="amis"?1:0},
+ {id:"packs3",t:"Joue avec 3 packs différents",n:3,f:()=>0},
+ {id:"gold1",t:"Remporte une carte en or",n:1,f:c=>c.mine.some(x=>x.pk.golden)?1:0},
+ {id:"daily2",t:"Joue le défi du jour 2 fois",n:2,f:c=>c.G.daily?1:0},
+ {id:"rich",t:"Gagne en gardant 100 billets ou plus",n:1,f:c=>c.win&&c.me.money>=100?1:0},
+ {id:"duel",t:"Gagne un duel contre 1 ordi",n:1,f:c=>c.win&&c.G.teams.length===2?1:0},
+ {id:"games5",t:"Joue 5 parties",n:5,f:()=>1},
+ {id:"bonus",t:"Décroche un bonus de club ou de pays",n:1,f:c=>c.humans.some(t=>t.score.bonus.length)?1:0},
+ {id:"score",t:"Fais une équipe de 450 points ou plus",n:1,f:c=>c.humans.some(t=>t.score.total>=450)?1:0}
+];
+const MXP=60;
+function weekState(){const w=weekNo();if(!P.week||P.week.w!==w){const ids=[],pool=MISSIONS.map(m=>m.id);let h=MMF.cyrb53("missions|"+w);
+    while(ids.length<3){const id=pool[h%pool.length];if(!ids.includes(id))ids.push(id);h=Math.floor(h/7)+13}
+    P.week={w,ids,prog:{},done:{},packs:[]}}return P.week}
+function missionsAfter(c){const W=weekState(),out=[];if(!W.packs.includes(c.G.pack))W.packs.push(c.G.pack);
+  W.ids.forEach(id=>{if(W.done[id])return;const m=MISSIONS.find(x=>x.id===id);if(!m)return;
+    W.prog[id]=id==="packs3"?W.packs.length:Math.min(m.n,(W.prog[id]||0)+m.f(c));
+    if(W.prog[id]>=m.n){W.done[id]=1;P.xp+=MXP;out.push(m)}});return out}
+function albumAdd(pack,names){const a=new Set(P.album[pack]||[]),b=a.size;names.forEach(n=>a.add(n));P.album[pack]=[...a];return a.size-b}
+const albumTotal=()=>Object.values(P.album).reduce((a,x)=>a+x.length,0);
+const albMax=()=>{let m=0;for(const id in P.album){const pk=PACKS[id];if(pk)m=Math.max(m,P.album[id].length/pk.cards.length)}return m};
+/* Trophées difficiles : bronze, argent, or */
+const ACH=[
+ {id:"first",tier:1,t:"Premier titre",d:"Gagne une partie contre l'ordi",ok:c=>c.win},
+ {id:"w10",tier:1,t:"Recruteur confirmé",d:"Gagne 10 parties contre l'ordi",goal:()=>[P.wins,10],ok:()=>P.wins>=10},
+ {id:"w50",tier:2,t:"Directeur sportif",d:"Gagne 50 parties contre l'ordi",goal:()=>[P.wins,50],ok:()=>P.wins>=50},
+ {id:"w200",tier:3,t:"Légende du mercato",d:"Gagne 200 parties contre l'ordi",goal:()=>[P.wins,200],ok:()=>P.wins>=200},
+ {id:"s3",tier:1,t:"Série en cours",d:"Gagne 3 parties d'affilée contre l'ordi",goal:()=>[P.bestStreakW,3],ok:()=>P.streakW>=3},
+ {id:"s7",tier:3,t:"Invaincu",d:"Gagne 7 parties d'affilée contre l'ordi",goal:()=>[P.bestStreakW,7],ok:()=>P.streakW>=7},
+ {id:"perfect",tier:3,t:"Five parfait",d:"Termine avec 5 joueurs tous notés 90 ou plus",ok:c=>c.humans.some(t=>G.slots.every(k=>t.sl[k]&&cardOf(t.sl[k].i).p>=90))},
+ {id:"galaxy",tier:2,t:"Galactiques",d:"Recrute 4 joueurs notés 92 ou plus dans une même partie",ok:c=>c.humans.some(t=>G.slots.filter(k=>t.sl[k]&&cardOf(t.sl[k].i).p>=92).length>=4)},
+ {id:"steal",tier:2,t:"Le casse du siècle",d:"Recrute un joueur noté 92 ou plus pour 20 ou moins",ok:c=>c.mine.some(x=>x.c.p>=92&&x.pk.price<=20)},
+ {id:"miser",tier:2,t:"Le Radin",d:"Gagne contre l'ordi en gardant 200 ou plus",ok:c=>c.win&&c.me.money>=200},
+ {id:"clubbonus",tier:2,t:"Esprit de club",d:"Aligne 3 joueurs du même club dans une partie",ok:c=>c.humans.some(t=>t.score.bonus.some(b=>b.v>=8&&/ de /.test(b.l)))},
+ {id:"gold10",tier:2,t:"Ruée vers l'or",d:"Remporte 10 cartes en or",goal:()=>[P.st.gold,10],ok:()=>P.st.gold>=10},
+ {id:"star50",tier:3,t:"Chasseur de stars",d:"Recrute 50 joueurs notés 92 ou plus au total",goal:()=>[P.st.star,50],ok:()=>P.st.star>=50},
+ {id:"amis10",tier:1,t:"Soirées mercato",d:"Joue 10 parties entre amis",goal:()=>[P.st.amis,10],ok:()=>P.st.amis>=10},
+ {id:"g100",tier:2,t:"Accro au mercato",d:"Joue 100 parties",goal:()=>[P.games,100],ok:()=>P.games>=100},
+ {id:"packs20",tier:2,t:"Tour du monde",d:"Joue avec 20 packs différents",goal:()=>[P.packsPlayed.length,20],ok:()=>P.packsPlayed.length>=20},
+ {id:"daily7",tier:2,t:"Fidèle au poste",d:"Joue le défi du jour 7 jours de suite",goal:()=>[P.dstreak.n,7],ok:()=>P.dstreak.n>=7},
+ {id:"alb50",tier:2,t:"Collectionneur",d:"Remplis la moitié d'un pack dans ton album",goal:()=>[Math.round(albMax()*100),50],ok:()=>albMax()>=.5},
+ {id:"alb100",tier:3,t:"Pack complet",d:"Complète un pack entier dans ton album",goal:()=>[Math.round(albMax()*100),100],ok:()=>albMax()>=1}
+];
+/* Fin de partie : XP, album, missions, trophées */
+function rewards(){
+  const humans=G.teams.filter(t=>!t.ai),me=G.mode==="solo"?G.teams[0]:null,win=G.mode==="solo"&&G.winner===0;
+  const mine=[];humans.forEach(t=>G.slots.forEach(k=>{const pk=t.sl[k];if(pk)mine.push({pk,c:cardOf(pk.i)})}));
+  const top=me?me.score.total:Math.max(...humans.map(t=>t.score.total));
+  const xp=Math.round(top/12)+(win?40:0)+(G.daily?20:0)+(G.mode==="amis"?25:0);
+  const before=lvl(P.xp).n;P.xp+=xp;P.games++;
+  if(G.mode==="solo"){if(win){P.wins++;P.streakW++;P.bestStreakW=Math.max(P.bestStreakW,P.streakW)}else P.streakW=0;
+    if(!P.best||me.score.total>P.best.score)P.best={score:me.score.total,pack:packOf().name}}
+  if(!P.packsPlayed.includes(G.pack))P.packsPlayed.push(G.pack);
+  if(G.daily&&me){const d=P.daily[G.daily]||{best:0};d.best=Math.max(d.best,me.score.total);P.daily[G.daily]=d;
+    const y=new Date();y.setDate(y.getDate()-1);const ys=y.getFullYear()+"-"+String(y.getMonth()+1).padStart(2,"0")+"-"+String(y.getDate()).padStart(2,"0");
+    if(P.dstreak.last!==G.daily){P.dstreak.n=P.dstreak.last===ys?P.dstreak.n+1:1;P.dstreak.last=G.daily}}
+  P.st.gold+=mine.filter(x=>x.pk.golden).length;P.st.star+=mine.filter(x=>x.c.p>=92).length;if(G.mode==="amis")P.st.amis++;
+  const ctx={G,win,me,humans,mine};
+  const newAlbum=albumAdd(G.pack,mine.map(x=>x.c.n));
+  const doneM=missionsAfter(ctx);
+  const newAch=ACH.filter(a=>!P.ach[a.id]&&a.ok(ctx));newAch.forEach(a=>P.ach[a.id]=today());
+  saveP();
+  const L=lvl(P.xp);G.rew={xp:xp+doneM.length*MXP,newAlbum,doneM,newAch,lvlUp:L.n>before?L:null};
+}
+function showRewards(){const r=G&&G.rew;if(!r)return;const msgs=[`+${r.xp} XP${r.newAlbum?` · ${r.newAlbum} nouvelle${r.newAlbum>1?"s":""} carte${r.newAlbum>1?"s":""} dans l'album`:""}`];
+  r.doneM.forEach(m=>msgs.push("Mission réussie : "+m.t));r.newAch.forEach(a=>msgs.push(`Trophée ${["","bronze","argent","or"][a.tier]} : ${a.t}`));
+  if(r.lvlUp)msgs.push(`Niveau ${r.lvlUp.n} : ${r.lvlUp.title}`);
+  msgs.forEach((m,i)=>timers.push(setTimeout(()=>toast(m,true),i*2700)));if(r.newAch.length)timers.push(setTimeout(()=>confetti(90),2700))}
+/* ===================== Défi du jour ===================== */
+function dailyInfo(){const d=today(),ids=Object.keys(PACKS).filter(id=>PACKS[id].cat!=="perso"&&!isPremium(id));const h=MMF.cyrb53("daily|"+d);return{date:d,pack:ids[h%ids.length],seed:h%2147483647||7}}
+function startDaily(){const D=dailyInfo();SERIES=null;startGame({mode:"solo",format:"five",pack:D.pack,nai:2,tempo:P.tempo,names:[],seed:D.seed,daily:D.date})}
+/* ===================== Profil ===================== */
+function bar(v,max){return`<span class="bar"><i style="width:${Math.min(100,Math.round(v/max*100))}%"></i></span>`}
+function vProfile(){
+  const L=lvl(P.xp),n=ACH.filter(a=>P.ach[a.id]).length,W=weekState();saveP();const days=7-((Math.floor(Date.now()/864e5)+3)%7);
+  return`<div class="page">
+  <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Mon profil</h2></div>
+  <div class="scroll">
+  <div class="panel"><div class="between"><b class="lvt">Niveau ${L.n} · ${esc(L.title)}</b><span class="mute">${L.into}/${L.need} XP</span></div>${bar(L.into,L.need)}</div>
+  <div class="stats"><div><span class="num">${P.games}</span><small>Parties jouées</small></div><div><span class="num">${P.wins}</span><small>Victoires contre l'ordi</small></div><div><span class="num">${P.best?P.best.score:0}</span><small>Meilleur score</small></div></div>
+  <div class="panel"><div class="between"><span class="lbl">Missions de la semaine</span><small class="mute">encore ${days} jour${days>1?"s":""}</small></div>
+   ${W.ids.map(id=>{const m=MISSIONS.find(x=>x.id===id);if(!m)return"";const pr=Math.min(m.n,W.prog[id]||0),ok=!!W.done[id];
+     return`<div class="mis ${ok?"ok":""}"><span class="mt"><b>${esc(m.t)}</b>${bar(pr,m.n)}</span><span class="mr">${ok?"Fait":pr+"/"+m.n}<small>+${MXP} XP</small></span></div>`}).join("")}</div>
+  <span class="lbl">Trophées · ${n}/${ACH.length}</span>
+  <div class="ach">${ACH.map(a=>{const on=!!P.ach[a.id],g=a.goal&&!on?a.goal():null;return`<div class="${on?"on":""} t${a.tier}"><span class="tier">${["","Bronze","Argent","Or"][a.tier]}</span><b>${esc(a.t)}</b><small>${esc(a.d)}</small>${g?bar(g[0],g[1])+`<small class="gp">${Math.min(g[0],g[1])}/${g[1]}${a.id.startsWith("alb")?" %":""}</small>`:""}</div>`}).join("")}</div>
+  <div class="panel between"><span><b>Son</b><br><small class="mute">Bruitages pendant la partie</small></span><button class="tog" aria-pressed="${P.sound!==false}" data-act="sound" aria-label="Son"></button></div>
+  <button class="mini" data-act="legal">Mentions et crédits</button>
+  </div></div>`;
+}
+/* ===================== Album ===================== */
+function vAlbum(){
+  const rows=Object.keys(P.album).map(id=>({p:PACKS[id],n:(P.album[id]||[]).length})).filter(x=>x.p&&x.n).sort((a,b)=>b.n/b.p.cards.length-a.n/a.p.cards.length);
+  return`<div class="page">
+  <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Mon album</h2></div>
+  <div class="panel between"><b>${albumTotal()} carte${albumTotal()>1?"s":""} collectionnée${albumTotal()>1?"s":""}</b><small class="mute">${rows.length} pack${rows.length>1?"s":""} commencé${rows.length>1?"s":""}</small></div>
+  <p class="mute" style="font-size:14px">Chaque joueur que tu recrutes en partie rejoint ton album. Complète tes packs !</p>
+  <div class="scroll">${rows.length?rows.map(x=>`<button class="albrow" data-act="albpack" data-v="${x.p.id}">${packJersey(x.p,36)}<span class="at"><b>${esc(x.p.name)}</b>${bar(x.n,x.p.cards.length)}</span><span class="ap">${x.n}/${x.p.cards.length}</span></button>`).join("")
+   :`<div class="panel" style="text-align:center"><b>Ton album est vide</b><p class="mute">Joue une partie : tes recrues arriveront ici.</p></div>`}</div></div>`;
+}
+function albumSheet(id){const p=PACKS[id],have=new Set(P.album[id]||[]);
+  sheet(`<div class="between"><h2>${esc(p.name)}</h2><button class="mini" data-act="close">Fermer</button></div><p class="mute">${have.size}/${p.cards.length} joueurs collectionnés</p>
+  <div class="agrid">${[...p.cards].sort((a,b)=>["G","DEF","MIL","ATT"].indexOf(a.pos)-["G","DEF","MIL","ATT"].indexOf(b.pos)||a.n.localeCompare(b.n)).map(c=>{const ok=have.has(c.n);return`<div class="acard ${ok?"on":""}" style="--pc:${POS[c.pos].c}">${jersey(c,34,!ok)}<b>${ok?esc(c.n):"???"}</b><small>${POS[c.pos].l}</small></div>`}).join("")}</div>`)}
+/* ===================== Packs perso ===================== */
+const POSMAP={g:"G",gb:"G",gardien:"G",goal:"G",def:"DEF",d:"DEF",defenseur:"DEF",mil:"MIL",m:"MIL",milieu:"MIL",att:"ATT",a:"ATT",attaquant:"ATT",bu:"ATT",buteur:"ATT"};
+function parsePerso(txt){const out=[],bad=[];
+  txt.split("\n").map(l=>l.trim()).filter(Boolean).forEach((l,i)=>{const a=l.split(/[;|]/).map(x=>x.trim());
+    const pos=POSMAP[norm(a[1]||"").replace(/[^a-z]/g,"")],note=Math.round(+a[a.length-1]),club=a.length>=4?a[2]:"Mon équipe";
+    if(!a[0]||!pos||!(note>=1&&note<=99))bad.push(i+1);else out.push(`${a[0].replace(/\//g,"-")}/${pos}/${club.replace(/\//g,"-")||"Mon équipe"}/Perso/${note}`)});
+  return{lines:out,bad}}
+function regCustom(c){addPack({id:c.id,name:c.name,cat:"perso",sub:"Mes packs",raw:c.raw})}
+function persoMax(){return owns("createur")?Infinity:CONFIG.freeCustomPacks+(owns("perso3")?3:0)+(owns("perso10")?10:0)}
+let EDIT=null,DEL=null;
+function vPerso(){const n=P.custom.length,mx=persoMax();
+  return`<div class="page">
+  <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Mes packs perso</h2></div>
+  <p class="mute" style="font-size:14px">Crée un pack avec tes joueurs, ton équipe de quartier ou tes potes. ${mx===Infinity?"Packs illimités.":`${n}/${mx} pack${mx>1?"s":""} utilisé${n>1?"s":""}.`}</p>
+  <button class="btn go" data-act="${n<mx?"newperso":"buy"}" ${n<mx?"":`data-v="perso3"`}>${n<mx?"Créer un pack":"Débloquer plus de packs perso"}</button>
+  <div class="scroll">${P.custom.map(c=>`<div class="prod">${packJersey(PACKS[c.id],34)}<div class="l"><b>${esc(c.name)}</b><span>${PACKS[c.id].cards.length} joueurs</span></div><span class="row"><button class="mini" data-act="editperso" data-v="${c.id}">Modifier</button><button class="mini" data-act="delperso" data-v="${c.id}">${DEL===c.id?"Confirmer ?":"Supprimer"}</button></span></div>`).join("")||`<p class="mute">Aucun pack perso pour l'instant.</p>`}</div></div>`}
+function vEdit(){const c=EDIT;
+  return`<div class="page">
+  <div class="topbar"><button class="mini" data-act="go" data-v="perso">Retour</button><h2>${c.id?"Modifier le pack":"Nouveau pack"}</h2></div>
+  <input id="pname" maxlength="28" placeholder="Nom du pack, ex. Les légendes du quartier" value="${esc(c.name||"")}" aria-label="Nom du pack">
+  <p class="mute" style="font-size:13px">Un joueur par ligne : <b>Nom ; Poste ; Note</b>, ou <b>Nom ; Poste ; Club ; Note</b>. Poste : G, DEF, MIL ou ATT. Note de 1 à 99. Il faut au moins 15 joueurs, dont 3 gardiens, 3 défenseurs, 3 milieux et 3 attaquants.</p>
+  <textarea id="ptxt" placeholder="Karim ; ATT ; FC Quartier ; 88&#10;Yanis ; G ; 75&#10;Sofiane ; MIL ; 82" aria-label="Joueurs du pack">${esc(c.txt||"")}</textarea>
+  <p class="err" id="perr"></p>
+  <button class="btn go" data-act="saveperso">Enregistrer le pack</button></div>`}
+function saveperso(){const name=$("#pname").value.trim(),txt=$("#ptxt").value,{lines,bad}=parsePerso(txt),err=$("#perr");
+  if(!name){err.textContent="Donne un nom à ton pack.";return}
+  if(bad.length){err.textContent=`Ligne${bad.length>1?"s":""} ${bad.slice(0,6).join(", ")} : écris Nom ; Poste ; Note (poste G, DEF, MIL ou ATT).`;return}
+  const cnt={G:0,DEF:0,MIL:0,ATT:0};lines.forEach(l=>cnt[l.split("/")[1]]++);
+  if(lines.length<15||lines.length>80){err.textContent=`Il faut entre 15 et 80 joueurs (tu en as ${lines.length}).`;return}
+  const miss=Object.entries(cnt).filter(([k,v])=>v<3).map(([k])=>POS[k].l.toLowerCase()+"s");
+  if(miss.length){err.textContent="Il manque des "+miss.join(", ")+" (3 minimum par poste).";return}
+  const id=EDIT.id||"perso_"+Date.now().toString(36),c={id,name,raw:lines.join("\n"),txt};
+  const i=P.custom.findIndex(x=>x.id===id);if(i>=0)P.custom[i]=c;else P.custom.push(c);regCustom(c);saveP();toast("Pack enregistré");go("perso")}
 /* ===================== Actions ===================== */
 document.addEventListener("click",e=>{
   const w=e.target.closest(".wrap");if(w&&e.target===w&&w.dataset.close){if(PAUSED)resume();else closeSheet();return}
   const b=e.target.closest("[data-act]");if(!b||b.disabled)return;const a=b.dataset.act,v=b.dataset.v;
   if(a==="go")go(v);
-  else if(a==="setup"){SETUP={mode:v,format:"five",pack:PACKS[P.pack]?P.pack:"legendes",nai:P.nai,tempo:P.tempo,names:P.names.slice()};go("setup")}
+  else if(a==="setup"){SETUP={mode:v,format:"five",pack:PACKS[P.pack]&&packOpen(P.pack)?P.pack:"legendes",nai:P.nai,tempo:P.tempo,names:P.names.slice()};go("setup")}
   else if(a==="packs"){PK_TAB=null;PK_Q="";packsSheet()}
   else if(a==="pktab"){PK_TAB=v;PK_Q="";packsSheet()}
-  else if(a==="pickpack"){SETUP.pack=v;closeSheet();render()}
+  else if(a==="pickpack"){if(!packOpen(v)){buySheet("pk_"+v);return}SETUP.pack=v;closeSheet();render()}
   else if(a==="seg"){SETUP[b.dataset.k]=b.dataset.k==="nai"?+v:v;render()}
   else if(a==="fmt"){SETUP.format=v;render()}
   else if(a==="addname"){if(SETUP.names.length<4)SETUP.names.push("Joueur "+(SETUP.names.length+1));render()}
@@ -693,6 +978,18 @@ document.addEventListener("click",e=>{
   else if(a==="quit"){PAUSED=false;stopLoop();G=null;go("home")}
   else if(a==="revanche"){startGame(G.setup)}
   else if(a==="share")share();
+  else if(a==="daily")startDaily();
+  else if(a==="buy")buySheet(v);
+  else if(a==="pay")PAY.buy(v);
+  else if(a==="shoptab"){SHOP_TAB=v;render()}
+  else if(a==="restore")restoreSheet();
+  else if(a==="dorestore")PAY.restore($("#remail").value.trim());
+  else if(a==="sound"){P.sound=P.sound===false;saveP();render()}
+  else if(a==="albpack")albumSheet(v);
+  else if(a==="newperso"){EDIT={};go("edit")}
+  else if(a==="editperso"){const c=P.custom.find(x=>x.id===v);EDIT={id:c.id,name:c.name,txt:c.txt||c.raw.split("\n").map(l=>{const x=l.split("/");return`${x[0]} ; ${x[1]} ; ${x[2]} ; ${x[4]}`}).join("\n")};go("edit")}
+  else if(a==="delperso"){if(DEL!==v){DEL=v;render();return}P.custom=P.custom.filter(x=>x.id!==v);delete PACKS[v];DEL=null;if(P.pack===v)P.pack="legendes";saveP();render()}
+  else if(a==="saveperso")saveperso();
 });
 document.addEventListener("input",e=>{const i=e.target.closest("[data-name]");if(i&&SETUP)SETUP.names[+i.dataset.name]=i.value});
 /* Simulation pour régler les ordis (console : simulate(500)) */
@@ -704,5 +1001,5 @@ window.simulate=function(n=300,pack="legendes",nai=3){
   SIM=false;rnd=Math.random;G=null;
   return{games:st.games,avgLeft:+(st.left/(n*nai)).toFixed(1),emptyPerTeam:+(st.empty/(n*nai)).toFixed(3),wins:st.wins};
 };
-applyPal();render();
+applyPal();render();PAY.back();
 </script>
