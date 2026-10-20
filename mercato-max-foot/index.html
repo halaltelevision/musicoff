@@ -360,6 +360,25 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .acts4 .btn{padding:8px 2px;font-size:14px;flex-direction:column;gap:0;line-height:1.05}
 .acts4 .btn small{font-family:var(--body);font-size:10px;text-transform:none;font-weight:600;opacity:.9}
 .skip{align-self:center;font-size:13px;font-weight:600;color:var(--mute);text-decoration:underline;padding:4px}
+
+/* Catalogue des packs : plein écran, pastilles, une ligne par pack */
+.sheet:has(#pklist){height:calc(100dvh - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));max-height:none;padding:14px 12px 10px;gap:10px}
+.wrap:has(#pklist){padding:10px;align-items:center}
+.pktabs{display:flex;gap:6px;overflow-x:auto;flex:none;scrollbar-width:none;margin:0 -12px;padding:0 12px 2px}
+.pktabs::-webkit-scrollbar{display:none}
+.pktabs button{flex:none;display:flex;align-items:center;gap:6px;border-radius:99px;padding:6px 12px;background:var(--soft);color:var(--mute);font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.02em}
+.pktabs button small{font-family:var(--body);font-size:11px;background:rgba(255,255,255,.12);border-radius:99px;padding:0 6px;text-transform:none}
+.pktabs button[aria-pressed=true]{background:var(--accent);color:#fff}
+.pkrows{display:flex;flex-direction:column;gap:6px}
+.pkgl{position:sticky;top:0;background:var(--card);padding:4px 0;z-index:1}
+.pkrows .pkitem{width:100%;padding:7px 10px;gap:10px;border-radius:12px}
+.pkx{flex:1;min-width:0;display:flex;flex-direction:column}
+.pkx>*{display:block;max-width:100%}
+.pkx b{font-size:17px!important;line-height:1.05;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pkx small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px!important}
+.pkr{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.pkr small{font-size:11px;color:var(--mute)}
+.pkr .badge{margin:0}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:80}
 @media (max-height:600px){.fcard{gap:3px;padding-top:40px}.cname{font-size:26px}.price{font-size:30px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -789,7 +808,19 @@ function palSheet(){sheet(`<h2>Couleurs</h2><p class="mute">Choisis l'ambiance d
 const PCATS=[["clubs","Clubs"],["ligues","Championnats"],["nations","Sélections"],["themes","Thèmes"],["perso","Mes packs"]];
 const NATC={fra:["#1F3A93","#fff","FRA"],bra:["#FFDC02","#0A8F3C","BRA"],arg:["#75AADB","#fff","ARG"],ger:["#fff","#111","GER"],ita:["#1E5FC6","#fff","ITA"],esp:["#C8102E","#FFC400","ESP"],eng:["#fff","#1B2D6B","ENG"],ned:["#F36C21","#fff","NED"],por:["#B5121B","#0B6B3A","POR"],bel:["#C8102E","#FFD100","BEL"],uru:["#7FB5E6","#fff","URU"],cro:["#fff","#D2122E","CRO"],mex:["#0B6B3A","#fff","MEX"],mar:["#C1272D","#0B6B3A","MAR"],sen:["#fff","#0B8A3E","SEN"],civ:["#F77F00","#fff","CIV"],cmr:["#0B7A3E","#D2122E","CMR"],nga:["#0B8A3E","#fff","NGA"],egy:["#C8102E","#fff","EGY"],tun:["#D2122E","#fff","TUN"],gha:["#fff","#111","GHA"],mli:["#FFD100","#0B8A3E","MLI"],algerie:["#fff","#0B7A3E","ALG"]};
 const norm=t=>String(t).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-function packKit(p){if(p.cat==="perso"){CC["__p"]=["#8B6BFF","#fff"];return{club:"__p",ini:"MOI"}}if(p.club)return{club:p.club};const n=NATC[p.id];if(n){CC["__"+p.id]=[n[0],n[1]];return{club:"__"+p.id,ini:n[2]}}CC["__t"]=["#FFD84A","#141433"];return{club:"__t",ini:"★"}}
+const NATALIAS={alg:"algerie",allemagne:"ger",italie:"ita",paysbas:"ned",belgique:"bel",tunisie:"tun",nigeria:"nga",cameroun:"cmr"};
+const LIGC={liga:["#EE2737","#fff","LL"],l1:["#091C3E","#DAE025","L1"],pl:["#3D195B","#00FF85","PL"],seriea:["#008FD7","#fff","SA"],bundes:["#D20515","#fff","BL"],saudi:["#0B6B3A","#fff","SPL"],botola:["#C1272D","#0B6B3A","BP"],dz_ligue1:["#0B7A3E","#fff","DZ"],ligaportugal:["#0B2A5B","#E2B007","LP"]};
+const THEMEC=["#FFD84A","#FF4563","#3D8BFF","#18D17E","#8B6BFF","#FF8A3D","#2EC4D9","#F2F2F2"];
+function packKit(p){
+  if(p.cat==="perso"){CC["__p"]=["#8B6BFF","#fff"];return{club:"__p",ini:"MOI"}}
+  if(p.club)return{club:p.club};
+  const id=p.id.replace(/^s_(b_)?/,""),nk=NATALIAS[id]||id,n=p.cat==="nations"&&NATC[nk];
+  if(n){CC["__n"+nk]=[n[0],n[1]];return{club:"__n"+nk,ini:n[2]}}
+  const l=p.cat==="ligues"&&LIGC[id];
+  if(l){CC["__l"+id]=[l[0],l[1]];return{club:"__l"+id,ini:l[2]}}
+  const words=p.name.replace(/[«»'’]/g," ").split(/[\s-]+/).filter(w=>w.length>2&&!/^(des|les|du|de|la|le|et)$/i.test(w));
+  const ini=(words.length>1?words.slice(0,2).map(w=>w[0]).join(""):(words[0]||p.name).slice(0,2)).toUpperCase()+(/\d$/.test(p.name)?p.name.slice(-1):"");
+  const c=THEMEC[MMF.cyrb53(p.id)%THEMEC.length];CC["__t"+p.id]=[c,c==="#F2F2F2"||c==="#FFD84A"?"#141433":"#fff"];return{club:"__t"+p.id,ini}}
 function packJersey(p,size){const k=packKit(p);return jersey({club:k.club,iniOverride:k.ini},size)}
 function packBtn(p){return`<button class="pkbtn" data-act="packs">${packJersey(p,40)}<span class="pkt"><b>${esc(p.name)}</b><small>${esc(p.desc||p.sub)} · ${p.cards.length} joueurs</small></span><span class="pkch">Changer</span></button>`}
 let PK_TAB=null,PK_Q="";
@@ -797,7 +828,7 @@ function packsSheet(){
   if(!PK_TAB)PK_TAB=(PACKS[SETUP.pack]||{}).cat||"clubs";
   sheet(`<div class="between"><h2>Choisis un pack</h2><button class="mini" data-act="close">Fermer</button></div>
    <input id="pksearch" type="search" placeholder="Chercher un club, un pays, un thème" value="${esc(PK_Q)}" aria-label="Chercher un pack" autocomplete="off">
-   <div class="seg" id="pktabs">${PCATS.map(([k,l])=>`<button data-act="pktab" data-v="${k}" aria-pressed="${!PK_Q&&PK_TAB===k}">${l}<small>${Object.values(PACKS).filter(p=>p.cat===k).length} packs</small></button>`).join("")}</div>
+   <div class="pktabs" id="pktabs">${PCATS.map(([k,l])=>`<button data-act="pktab" data-v="${k}" aria-pressed="${!PK_Q&&PK_TAB===k}">${l}<small>${Object.values(PACKS).filter(p=>p.cat===k).length}</small></button>`).join("")}</div>
    <div class="pklist" id="pklist">${packList()}</div>`);
   const i=$("#pksearch");i.addEventListener("input",()=>{PK_Q=i.value;$("#pklist").innerHTML=packList();$$("#pktabs button").forEach(b=>b.setAttribute("aria-pressed",String(!PK_Q&&PK_TAB===b.dataset.v)))});
 }
@@ -807,8 +838,10 @@ function packList(){
   const persoBtn=!q&&PK_TAB==="perso"?`<button class="btn" data-act="go" data-v="perso">Créer et gérer mes packs perso</button>`:"";
   if(!list.length)return q?`<p class="mute">Aucun pack ne correspond à « ${esc(PK_Q)} ».</p>`:`${persoBtn}<p class="mute">Tu n'as pas encore de pack perso. Crée ton propre pack avec les joueurs de ton choix : ${CONFIG.freeCustomPacks} gratuit.</p>`;
   const groups={};list.forEach(p=>(groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]=groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]||[]).push(p));
-  const single=(PK_TAB==="themes"||PK_TAB==="perso")&&!q;
-  return persoBtn+Object.entries(groups).map(([g,ps])=>`${single?"":`<span class="lbl">${esc(g)}</span>`}<div class="pkgrid">${ps.map(p=>`<button class="pkitem" data-act="pickpack" data-v="${p.id}" aria-pressed="${SETUP.pack===p.id}">${packJersey(p,34)}<span><b>${esc(p.name)}</b>${single||q?`<small>${esc(p.desc||p.sub)}</small>`:""}${packBadge(p.id)}</span></button>`).join("")}</div>`).join("");
+  const single=(PK_TAB==="themes"||PK_TAB==="perso"||PK_TAB==="ligues")&&!q;
+  const row=p=>`<button class="pkitem" data-act="pickpack" data-v="${p.id}" aria-pressed="${SETUP.pack===p.id}">${packJersey(p,40)}<span class="pkx"><b>${esc(p.name)}</b><small>${esc(p.desc||(single||q?p.sub:"")||p.sub)}</small></span><span class="pkr">${packBadge(p.id)}<small>${p.cards.length} joueurs</small></span></button>`;
+  if(single)return persoBtn+`<div class="pkrows">${list.map(row).join("")}</div>`;
+  return persoBtn+Object.entries(groups).map(([g,ps])=>`<span class="lbl pkgl">${esc(g)}</span><div class="pkrows">${ps.map(row).join("")}</div>`).join("");
 }
 function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><button class="mini" data-act="close">Fermer</button></div>
   <p><b>Jeu de fan non officiel.</b> Mercato Max Foot est un jeu de fan indépendant. Il n'est lié à aucun club, ligue, fédération ni joueur, et n'est ni soutenu ni approuvé par eux.</p>
@@ -861,7 +894,7 @@ function weekFree(){return PREMIUM.length?PREMIUM[MMF.cyrb53("semaine|"+weekNo()
 const isPremium=id=>PREMIUM.includes(id);
 function packOpen(id){const p=PACKS[id];if(!p)return false;if(p.cat==="perso"||!isPremium(id)||id===weekFree())return true;return owns("pk_"+id)||owns("pass_"+p.cat)}
 function packBadge(id){if(!isPremium(id))return"";const p=PACKS[id],bought=owns("pk_"+id)||owns("pass_"+p.cat);
-  if(bought)return"";if(id===weekFree())return`<span class="badge gift">Offert cette semaine</span>`;return`<span class="badge lock">Premium · ${euro(CONFIG.prices.pack)}</span>`}
+  if(bought)return"";if(id===weekFree())return`<span class="badge gift">Offert cette semaine</span>`;return`<span class="badge lock">${euro(CONFIG.prices.pack)}</span>`}
 const PAY={
   base(){return (CONFIG.stripe.api||"").replace(/\/$/,"")},
   async buy(prod){const pr=PRODUCTS[prod],st=CONFIG.stripe;if(!pr)return;
