@@ -12,7 +12,7 @@ Les choses propres au foot (postes, terrain, maillots, format Five) sont à la f
 ## Points tranchés (le plus récent l'emporte)
 
 - **Codes d'activation : supprimés.** La liste d'origine parlait de codes liés au téléphone et d'un générateur ; depuis, le créateur a dit : « pas d'activation de code vu qu'il y aura un paiement en ligne ». On garde uniquement le paiement Stripe + « Restaurer mes achats » par e-mail. Le générateur de codes n'est plus utilisé.
-- **Style :** la liste d'origine dit « garder la pâte à modeler + ambiance Vif ». Pour l'édition foot, il a ensuite dit qu'on n'était pas obligé de garder la pâte à modeler et a choisi « Stade de nuit ». **Pour la version tous thèmes : à lui demander** (pâte à modeler + Vif, ou Stade de nuit).
+- **Style : « Stade de nuit » partout, y compris la version tous thèmes.** La liste d'origine disait « garder la pâte à modeler + ambiance Vif », mais il a ensuite dit qu'on n'était pas obligé de garder la pâte à modeler et a choisi « Stade de nuit ». Règle donnée par le créateur : **en cas de contradiction, ce qui a été dit pendant l'édition foot passe avant la liste d'origine.** Vif et les autres ambiances restent dans le bouton Couleurs.
 - **Gratuit :** la liste d'origine dit « quelques packs gratuits » ; il a ensuite demandé **environ 90 % gratuit pour le moment**.
 
 ---
@@ -166,7 +166,7 @@ Fichiers de l'édition foot : dossier `mercato-max-foot/` de la branche `claude/
 - Les ordis doivent vérifier qu'il leur reste une place au bon poste avant de miser
 
 ### Design
-- Garder le style « pâte à modeler » (boutons arrondis, ombres internes douces) *(à confirmer pour la version tous thèmes : voir « Points tranchés »)*
+- Garder le style « pâte à modeler » (boutons arrondis, ombres internes douces) *(remplacé par « Stade de nuit » : voir « Points tranchés »)*
 - Tout sur UN seul écran, sans défiler : tester en 360 × 643 (Oppo A40)
 - Ambiance « Vif » par défaut : fond clair avec taches pastel, rouge #FF3B5C, bleu #2D7BFF, jaune #FFB400, vert #00B874, encre #1A1446, carte centrale blanche avec gros contour coloré
 - Toujours garder le bouton « Couleurs » avec des ambiances vives : Bonbon, Lagon, Citron, Coucher de soleil, Stade, Néon, Noir & or
