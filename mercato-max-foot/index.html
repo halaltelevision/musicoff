@@ -964,28 +964,51 @@ function pauseSheet(){PAUSED=true;const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-D
 let PAUSED_REM=0;
 function resume(){if(PAUSED&&G&&G.cur&&G.phase==="auction"){if(G.cur.turnEnd)G.cur.turnEnd=Date.now()+Math.max(3000,PAUSED_REM);if(G.cur.aiAt)G.cur.aiAt=Date.now()+600}PAUSED=false;closeSheet()}
 /* ===================== Image du résultat ===================== */
-function resultCanvas(){
-  const W=720,H=300+G.teams.length*230,cv=document.createElement("canvas");cv.width=W;cv.height=H;const x=cv.getContext("2d");
-  const css=getComputedStyle(document.documentElement),col=v=>css.getPropertyValue(v).trim()||"#FF3B5C";
-  x.fillStyle="#0A1430";x.fillRect(0,0,W,H);const gl=x.createRadialGradient(W/2,-60,10,W/2,-60,W*.8);gl.addColorStop(0,"rgba(160,200,255,.35)");gl.addColorStop(1,"rgba(160,200,255,0)");x.fillStyle=gl;x.fillRect(0,0,W,H);
-  const rr=(a,b,w,h,r,f)=>{x.beginPath();x.roundRect(a,b,w,h,r);x.fillStyle=f;x.fill()};
-  x.textAlign="center";x.fillStyle="#EEF3FF";x.font="800 54px 'Saira Condensed','Arial Narrow',sans-serif";x.fillText("Mercato Max Foot",W/2,82);
-  x.font="700 28px 'Saira Condensed','Arial Narrow',sans-serif";x.fillStyle="#93A3D1";x.fillText(packOf().name+" · Five",W/2,124);
-  const wt=G.winner<0?"Égalité parfaite !":G.mode==="solo"&&G.winner===0?"Tu gagnes !":G.teams[G.winner].name+" gagne !";x.font="800 46px 'Saira Condensed','Arial Narrow',sans-serif";x.fillStyle="#FF4563";x.fillText(wt,W/2,190);
-  G.teams.forEach((t,ti)=>{const y=230+ti*230;rr(30,y,W-60,205,26,ti===G.winner?"#3A3418":"#111F48");
-    x.textAlign="left";x.fillStyle="#EEF3FF";x.font="800 34px 'Saira Condensed','Arial Narrow',sans-serif";x.fillText(t.name,60,y+50);
-    x.textAlign="right";x.fillStyle="#FFD84A";x.shadowColor="rgba(255,216,74,.8)";x.shadowBlur=14;x.font="700 44px 'Chakra Petch',monospace";x.fillText(t.score.total,W-60,y+54);x.shadowBlur=0;
-    rr(50,y+72,W-100,116,18,"#0F7A45");
-    G.slots.forEach((k,si)=>{const pk=t.sl[k],cx=50+(W-100)/5*(si+.5);x.textAlign="center";
-      if(!pk){x.fillStyle="rgba(255,255,255,.8)";x.font="800 22px 'Saira Condensed','Arial Narrow',sans-serif";x.fillText(POS[k].s,cx,y+135);return}
-      const c=cardOf(pk.i),[a]=CC[c.club]||["#888"];x.beginPath();x.arc(cx,y+108,22,0,7);x.fillStyle=a;x.fill();x.strokeStyle="#fff";x.lineWidth=3;x.stroke();
-      x.fillStyle="#fff";x.font="800 20px 'Saira Condensed','Arial Narrow',sans-serif";let nm=lastName(c.n);if(nm.length>11)nm=nm.slice(0,10)+"…";x.fillText(nm,cx,y+152);
-      x.font="800 22px 'Saira Condensed','Arial Narrow',sans-serif";x.fillStyle=pk.golden?"#FFE27A":"#fff";x.fillText(force(pk),cx,y+177)})});
-  x.textAlign="center";x.fillStyle="#93A3D1";x.font="700 24px 'Saira Condensed','Arial Narrow',sans-serif";x.fillText("Mise. Bluffe. Recrute.",W/2,H-30);
+/* Image à partager : même mise en page que l'écran (une carte par équipe), avec les vrais maillots */
+function svgImg(svg){return new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg.replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" '))})}
+async function resultCanvas(){
+  const n=G.teams.length,W=1080,CH=n>2?300:360,top=330,H=top+n*(CH+24)+110,cv=document.createElement("canvas");cv.width=W;cv.height=H;const x=cv.getContext("2d");
+  const F=(w,s,f)=>`${w} ${s}px ${f==="led"?"'Chakra Petch',monospace":f==="b"?"Saira,sans-serif":"'Saira Condensed','Arial Narrow',sans-serif"}`;
+  const rr=(a,b,w,h,r,f,st)=>{x.beginPath();x.roundRect(a,b,w,h,r);if(f){x.fillStyle=f;x.fill()}if(st){x.strokeStyle=st[0];x.lineWidth=st[1];x.stroke()}};
+  const fit=(t,max)=>{let s=t;while(x.measureText(s).width>max&&s.length>2)s=s.slice(0,-2)+"…";return s};
+  const imgs={};await Promise.all(G.teams.flatMap(t=>G.slots.map(async k=>{const pk=t.sl[k];if(pk&&!imgs[pk.i])imgs[pk.i]=await svgImg(jersey(cardOf(pk.i),64))})));
+  x.fillStyle="#0A1430";x.fillRect(0,0,W,H);
+  const gl=x.createRadialGradient(W/2,-80,10,W/2,-80,W*.85);gl.addColorStop(0,"rgba(160,200,255,.32)");gl.addColorStop(1,"rgba(160,200,255,0)");x.fillStyle=gl;x.fillRect(0,0,W,H);
+  /* En-tête */
+  x.textAlign="center";x.font=F(800,70);const t1="MERCATO MAX ",w1=x.measureText(t1).width,w2=x.measureText("FOOT").width;
+  x.textAlign="left";x.fillStyle="#EEF3FF";x.fillText(t1,(W-w1-w2)/2,96);x.fillStyle="#FF4563";x.fillText("FOOT",(W-w1-w2)/2+w1,96);
+  x.textAlign="center";x.font=F(700,30);x.fillStyle="#93A3D1";x.fillText((packOf().name+" · Five").toUpperCase(),W/2,146);
+  const solo=G.mode==="solo",wT=G.teams[G.winner];
+  const wt=G.winner<0?"Égalité parfaite !":solo&&G.winner===0?"Tu gagnes !":wT.name+" gagne !";
+  x.font=F(800,78);x.fillStyle="#FFC93C";x.shadowColor="rgba(255,201,60,.55)";x.shadowBlur=28;x.fillText(wt.toUpperCase(),W/2,240);x.shadowBlur=0;
+  if(G.winner>=0){const gap=wT.score.total-Math.max(...G.teams.filter(t=>t!==wT).map(t=>t.score.total));x.font=F(600,28,"b");x.fillStyle="#C9D4F5";x.fillText(G.tieMoney?"À égalité de points, avec plus d'argent gardé":`+${gap} point${gap>1?"s":""} d'écart`,W/2,288)}
+  /* Une carte par équipe, gagnant en premier */
+  const order=[...G.teams].sort((a,b)=>b.score.total-a.score.total||b.money-a.money);
+  order.forEach((t,ri)=>{const y=top+ri*(CH+24),win=G.teams.indexOf(t)===G.winner,L=48,R=W-48;
+    rr(L,y,R-L,CH,28,win?"#1F2A3E":"#111F48",win?["#FFC93C",5]:["#253A75",2]);
+    rr(L,y+20,10,CH-40,5,t.col);
+    /* nom, argent gardé, total */
+    x.textAlign="left";x.fillStyle="#EEF3FF";x.font=F(800,46);const nm=solo&&G.teams.indexOf(t)===0?"TOI":t.name.toUpperCase();x.fillText(fit(nm,430),L+34,y+64);
+    x.font=F(600,26,"b");x.fillStyle="#93A3D1";const bs=t.score.bonus.reduce((a,b)=>a+b.v,0);x.fillText(`${t.money} billets gardés`+(bs?`  ·  bonus +${bs}`:""),L+34,y+100);
+    x.textAlign="right";x.font=F(700,74,"led");x.fillStyle=win?"#FFD84A":"#C9D4F5";if(win){x.shadowColor="rgba(255,216,74,.8)";x.shadowBlur=20}x.fillText(t.score.total,R-30,y+92);x.shadowBlur=0;
+    /* terrain */
+    const py=y+122,ph=CH-142;const g=x.createLinearGradient(0,py,0,py+ph);g.addColorStop(0,"#17A05C");g.addColorStop(1,"#0F7A45");rr(L+24,py,R-L-48,ph,20,g,["rgba(255,255,255,.3)",3]);
+    x.strokeStyle="rgba(255,255,255,.35)";x.lineWidth=3;x.beginPath();x.moveTo(W/2,py);x.lineTo(W/2,py+ph);x.stroke();x.beginPath();x.arc(W/2,py+ph/2,ph*.28,0,7);x.stroke();
+    const cw=(R-L-48)/5,js=n>2?62:76;
+    G.slots.forEach((k,si)=>{const pk=t.sl[k],cx=L+24+cw*(si+.5);x.textAlign="center";
+      if(!pk){x.fillStyle="rgba(255,255,255,.85)";x.font=F(800,26);x.fillText(POS[k].s,cx,py+ph/2+9);return}
+      const c=cardOf(pk.i),f=force(pk),im=imgs[pk.i],jy=py+(n>2?6:12);if(im)x.drawImage(im,cx-js/2,jy,js,js);
+      x.fillStyle="#fff";x.font=F(800,n>2?24:28);x.shadowColor="rgba(0,0,0,.4)";x.shadowBlur=4;x.fillText(fit(lastName(c.n).toUpperCase(),cw-10),cx,jy+js+(n>2?22:28));x.shadowBlur=0;
+      const vy=jy+js+(n>2?32:40),vw=x.measureText("000").width;x.font=F(700,n>2?24:28,"led");const vt=(pk.golden?"★":"")+f,tw=x.measureText(vt).width+20;
+      rr(cx-tw/2,vy,tw,n>2?32:38,8,pk.golden?"#FFC93C":"#fff");x.fillStyle="#141433";x.fillText(vt,cx,vy+(n>2?25:29));
+      x.font=F(700,n>2?18:20,"b");x.fillStyle="rgba(255,255,255,.9)";x.fillText(`payé ${pk.price}`,cx,vy+(n>2?54:64))})});
+  /* Pied */
+  x.textAlign="left";x.font=F(700,30);x.fillStyle="#93A3D1";x.fillText("MISE. BLUFFE. RECRUTE.",48,H-46);
+  x.textAlign="right";x.font=F(600,24,"b");x.fillText("Jeu de fan non officiel",W-48,H-46);
   return cv;
 }
 async function share(){
-  try{const blob=await new Promise(r=>resultCanvas().toBlob(r,"image/png"));const f=new File([blob],"mercato-max-foot.png",{type:"image/png"});
+  try{const cv=await resultCanvas(),blob=await new Promise(r=>cv.toBlob(r,"image/png"));const f=new File([blob],"mercato-max-foot.png",{type:"image/png"});
     if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:"Ma partie de Mercato Max Foot ⚽"});return}
     const u=URL.createObjectURL(blob);sheet(`<h2>Ton résultat</h2><img src="${u}" alt="Image du résultat" style="width:100%;border-radius:20px"><p class="mute">Appuie longuement sur l'image pour l'enregistrer, puis envoie-la sur WhatsApp.</p><button class="btn go" data-act="close">Fermer</button>`)}
   catch(e){if(e&&e.name!=="AbortError")toast("Partage impossible sur cet appareil")}
