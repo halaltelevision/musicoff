@@ -1,0 +1,340 @@
+### id=pl | nom="Premier League" | type=Championnats
+Erling Haaland/Manchester City/98
+Mohamed Salah/Liverpool/97
+Bukayo Saka/Arsenal/96
+Declan Rice/Arsenal/94
+Virgil van Dijk/Liverpool/93
+William Saliba/Arsenal/92
+Rodri/Manchester City/91
+Cole Palmer/Chelsea/90
+Moisés Caicedo/Chelsea/89
+Florian Wirtz/Liverpool/88
+Alisson/Liverpool/87
+Gabriel Magalhães/Arsenal/86
+Alexis Mac Allister/Liverpool/85
+Martin Ødegaard/Arsenal/84
+Ryan Gravenberch/Liverpool/83
+Alexander Isak/Liverpool/82
+Gianluigi Donnarumma/Manchester City/81
+Bruno Fernandes/Manchester United/80
+Phil Foden/Manchester City/80
+Viktor Gyökeres/Arsenal/79
+Enzo Fernández/Chelsea/78
+Martín Zubimendi/Arsenal/77
+Bruno Guimarães/Newcastle/76
+Dominik Szoboszlai/Liverpool/75
+Hugo Ekitike/Liverpool/74
+David Raya/Arsenal/73
+Tijjani Reijnders/Manchester City/72
+Jérémy Doku/Manchester City/71
+Rayan Cherki/Manchester City/70
+Eberechi Eze/Arsenal/69
+Bryan Mbeumo/Manchester United/68
+Matheus Cunha/Manchester United/67
+João Pedro/Chelsea/66
+Antoine Semenyo/Manchester City/65
+Joško Gvardiol/Manchester City/64
+Cristian Romero/Tottenham/63
+Anthony Gordon/Newcastle/62
+Morgan Rogers/Aston Villa/61
+
+### id=saudi | nom="Saudi Pro League" | type=Championnats
+Cristiano Ronaldo/Al-Nassr/98
+Karim Benzema/Al-Hilal/97
+Théo Hernandez/Al-Hilal/96
+Yassine Bounou/Al-Hilal/94
+Rúben Neves/Al-Hilal/93
+Sergej Milinković-Savić/Al-Hilal/92
+João Félix/Al-Nassr/91
+Riyad Mahrez/Al-Ahli/90
+Kingsley Coman/Al-Nassr/89
+Édouard Mendy/Al-Ahli/88
+Darwin Núñez/Al-Hilal/87
+Sadio Mané/Al-Nassr/86
+Ivan Toney/Al-Ahli/85
+Kalidou Koulibaly/Al-Hilal/84
+Malcom/Al-Hilal/83
+Iñigo Martínez/Al-Nassr/82
+Franck Kessié/Al-Ahli/81
+Fabinho/Al-Ittihad/80
+Mateo Retegui/Al-Qadsiah/80
+Marcelo Brozović/Al-Nassr/79
+Merih Demiral/Al-Ahli/78
+Moussa Diaby/Al-Ittihad/77
+Houssem Aouar/Al-Ittihad/76
+Youssef En-Nesyri/Al-Ittihad/75
+Steven Bergwijn/Al-Ittihad/74
+Galeno/Al-Ahli/73
+Salem Al-Dawsari/Al-Hilal/72
+Enzo Millot/Al-Ahli/71
+Alexandre Lacazette/Neom/70
+Yannick Carrasco/Al-Shabab/69
+Julián Quiñones/Al-Qadsiah/68
+Georginio Wijnaldum/Al-Ettifaq/67
+Bento/Al-Nassr/66
+
+### id=alg | nom="Algérie" | type=Sélections
+Riyad Mahrez/Attaque/98
+Rayan Aït-Nouri/Défense/97
+Mohamed Amoura/Attaque/96
+Amine Gouiri/Attaque/94
+Ismaël Bennacer/Milieu/93
+Ibrahim Maza/Milieu/92
+Fares Chaïbi/Milieu/91
+Ramy Bensebaini/Défense/90
+Houssem Aouar/Milieu/89
+Hicham Boudaoui/Milieu/88
+Saïd Benrahma/Attaque/87
+Anis Hadj Moussa/Attaque/86
+Rafik Belghali/Défense/85
+Youcef Belaïli/Attaque/84
+Ramiz Zerrouki/Milieu/83
+Aïssa Mandi/Défense/82
+Jaouen Hadjam/Défense/81
+Mohamed Amine Tougaï/Défense/80
+Luca Zidane/Gardien/80
+Baghdad Bounedjah/Attaque/79
+Adil Boulbina/Attaque/78
+Youcef Atal/Défense/77
+Anthony Mandrea/Gardien/76
+Farès Ghedjemis/Attaque/75
+Ilan Kebbal/Milieu/74
+Nabil Bentaleb/Milieu/73
+Himad Abdelli/Milieu/72
+Badredine Bouanani/Attaque/71
+Zineddine Belaïd/Défense/70
+Islam Slimani/Attaque/69
+Oussama Benbot/Gardien/68
+
+### id=por | nom="Portugal" | type=Sélections
+Vitinha/Milieu/98
+Nuno Mendes/Défense/97
+João Neves/Milieu/96
+Bruno Fernandes/Milieu/94
+Rúben Dias/Défense/93
+Cristiano Ronaldo/Attaque/92
+Bernardo Silva/Milieu/91
+Rafael Leão/Attaque/90
+Diogo Costa/Gardien/89
+Pedro Neto/Attaque/88
+Gonçalo Inácio/Défense/87
+João Cancelo/Défense/86
+Francisco Conceição/Attaque/85
+Gonçalo Ramos/Attaque/84
+Rúben Neves/Milieu/83
+Francisco Trincão/Attaque/82
+João Félix/Attaque/81
+Diogo Dalot/Défense/80
+Matheus Nunes/Milieu/80
+João Palhinha/Milieu/79
+Pedro Gonçalves/Attaque/78
+Renato Veiga/Défense/77
+Nélson Semedo/Défense/76
+Rodrigo Mora/Milieu/75
+Geovany Quenda/Attaque/74
+Tomás Araújo/Défense/73
+António Silva/Défense/72
+Samu Costa/Milieu/71
+Rui Silva/Gardien/70
+José Sá/Gardien/69
+Fábio Vieira/Milieu/68
+Otávio/Milieu/67
+Nuno Tavares/Défense/66
+Jota Silva/Attaque/65
+Gonçalo Guedes/Attaque/64
+
+### id=sen | nom="Sénégal" | type=Sélections
+Sadio Mané/Attaque/98
+Nicolas Jackson/Attaque/97
+Ismaïla Sarr/Attaque/96
+Pape Matar Sarr/Milieu/94
+Iliman Ndiaye/Attaque/93
+Édouard Mendy/Gardien/92
+Kalidou Koulibaly/Défense/91
+Lamine Camara/Milieu/90
+Idrissa Gueye/Milieu/89
+Moussa Niakhaté/Défense/88
+El Hadji Malick Diouf/Défense/87
+Habib Diarra/Milieu/86
+Pape Gueye/Milieu/85
+Boulaye Dia/Attaque/84
+Krépin Diatta/Attaque/83
+Ibrahim Mbaye/Attaque/82
+Habib Diallo/Attaque/81
+Abdou Diallo/Défense/80
+Ismail Jakobs/Défense/80
+Assane Diao/Attaque/79
+Mamadou Sarr/Défense/78
+Formose Mendy/Défense/77
+Chérif Ndiaye/Attaque/76
+Abdoulaye Seck/Défense/75
+Youssouf Sabaly/Défense/74
+Bamba Dieng/Attaque/73
+Nampalys Mendy/Milieu/72
+Cheikhou Kouyaté/Milieu/71
+Mory Diaw/Gardien/70
+Seny Dieng/Gardien/69
+Pathé Ciss/Milieu/68
+
+### id=legalg | nom="Légendes d'Algérie" | type=Légendes
+Rabah Madjer/Années 80/98
+Riyad Mahrez (2016)/CAN 2019/97
+Lakhdar Belloumi/Années 80/96
+Rachid Mekhloufi/FLN/94
+Mustapha Dahleb/Années 70/93
+Salah Assad/Années 80/92
+Madjid Bougherra/Années 2010/91
+Yacine Brahimi/Brésil 2014/90
+Ismaël Bennacer (2019)/CAN 2019/89
+Sofiane Feghouli/Brésil 2014/88
+Karim Ziani/Années 2010/87
+Raïs M'Bolhi/Brésil 2014/86
+Islam Slimani/Brésil 2014/85
+Ali Fergani/Années 80/84
+Baghdad Bounedjah (2019)/CAN 2019/83
+Youcef Belaïli (2019)/CAN 2019/82
+Antar Yahia/Années 2010/81
+Mahmoud Guendouz/Années 80/80
+Djamel Menad/Années 90/80
+Abdelhafid Tasfaout/Années 90/79
+Nadir Belhadj/Années 2010/78
+Faouzi Ghoulam/Brésil 2014/77
+Hassen Lalmas/Années 60/76
+Chérif Oudjani/Années 80/75
+Rafik Saïfi/Années 2000/74
+Hilal Soudani/Brésil 2014/73
+Djamel Belmadi (joueur)/Années 2000/72
+Moussa Saïb/Années 90/71
+Tedj Bensaoula/Années 80/70
+Djamel Benlamri/CAN 2019/69
+Abdelaziz Ben Tifour/FLN/68
+
+### id=b_italie | nom="Italie" | type=Sélections
+Gianluigi Donnarumma/Manchester City/95
+Nicolò Barella/Inter/93
+Alessandro Bastoni/Inter/93
+Sandro Tonali/Newcastle/93
+Federico Dimarco/Inter/88
+Riccardo Calafiori/Arsenal/87
+Moise Kean/Fiorentina/87
+Mateo Retegui/Al-Qadsiah/86
+Giovanni Di Lorenzo/Naples/86
+Davide Frattesi/Inter/85
+Marco Carnesecchi/Atalanta/85
+Guglielmo Vicario/Tottenham/83
+Manuel Locatelli/Juventus/82
+Destiny Udogie/Tottenham/81
+Federico Chiesa/Liverpool/80
+Giacomo Raspadori/Atlético Madrid/80
+Lorenzo Pellegrini/Roma/79
+Samuele Ricci/AC Milan/78
+Matteo Politano/Naples/77
+Ciro Immobile/Bologne/77
+Daniel Maldini/Atalanta/76
+Andrea Cambiaso/Juventus/74
+Riccardo Orsolini/Bologne/74
+Mattia Zaccagni/Lazio/73
+Raoul Bellanova/Atalanta/73
+Francesco Pio Esposito/Inter/72
+Gianluca Mancini/Roma/72
+Alex Meret/Naples/71
+Bryan Cristante/Roma/70
+Wilfried Gnonto/Leeds/70
+Nicolò Fagioli/Fiorentina/69
+Michael Folorunsho/Cagliari/68
+
+### id=b_tunisie | nom="Tunisie" | type=Sélections
+Ellyes Skhiri/Eintracht Francfort/95
+Hannibal Mejbri/Burnley/94
+Montassar Talbi/Lorient/93
+Aïssa Laïdouni/Al-Wakrah/90
+Ali Abdi/Nice/89
+Youssef Msakni/Al-Arabi/88
+Mohamed Ali Ben Romdhane/Al Ahly/88
+Elias Achouri/Copenhague/87
+Yan Valery/Young Boys/86
+Naïm Sliti/Al-Shamal/82
+Dylan Bronn/Servette/81
+Aymen Dahmen/CS Sfaxien/80
+Ferjani Sassi/Al-Gharafa/80
+Ismaël Gharbi/Augsbourg/80
+Seifeddine Jaziri/Zamalek/79
+Hamza Rafia/Lecce/78
+Anis Ben Slimane/Norwich/77
+Sayfallah Ltaief/Winterthur/76
+Yassine Meriah/Espérance de Tunis/73
+Firas Ben Larbi/Al-Jazira/73
+Bechir Ben Saïd/Espérance de Tunis/72
+Elias Saad/Augsbourg/72
+Omar Rekik/Maribor/72
+Hazem Mastouri/Dynamo Makhachkala/71
+Mortadha Ben Ouanes/Kasimpasa/70
+Mohamed Dräger/Lucerne/70
+Ali Maâloul/CS Sfaxien/69
+Firas Chaouat/Club Africain/68
+
+### id=b_cameroun | nom="Cameroun" | type=Sélections
+Bryan Mbeumo/Manchester United/95
+Carlos Baleba/Brighton/94
+André Onana/Trabzonspor/93
+Frank Anguissa/Naples/93
+Christian Kofane/Leverkusen/88
+Vincent Aboubakar/Neftchi Bakou/87
+Christopher Wooh/Rennes/86
+Eric Maxim Choupo-Moting/New York Red Bulls/86
+Jean-Charles Castelletto/Nantes/85
+Nouhou Tolo/Seattle Sounders/85
+Karl Toko Ekambi/Al-Ettifaq/82
+Georges-Kévin Nkoudou/Besiktas/81
+Devis Epassy/Abha/80
+Danny Namaso/Auxerre/80
+Olivier Ntcham/Samsunspor/79
+Arthur Avom/Lorient/78
+Martin Hongla/Granada/77
+Jackson Tchatchoua/Wolverhampton/77
+Enzo Ebosse/Udinese/76
+Jean Onana/Genoa/73
+Moumi Ngamaleu/Dynamo Moscou/72
+Faris Moumbagna/Marseille/72
+Ignatius Ganago/Nantes/71
+Jean-Pierre Nsame/Legia Varsovie/71
+Clinton Njie/Sivasspor/70
+Junior Tchamadeu/Stoke City/70
+Collins Fai/Al-Tai/69
+Léandre Tawamba/Al-Okhdood/68
+Didier Lamkel Zé/Dukla Prague/66
+
+### id=b_ligaportugal | nom="Liga Portugal" | type=Championnats
+Diogo Costa/Porto/94
+Francisco Trincão/Sporting/93
+Morten Hjulmand/Sporting/93
+Vangelis Pavlidis/Benfica/93
+Samu Aghehowa/Porto/90
+Pedro Gonçalves/Sporting/89
+Gonçalo Inácio/Sporting/88
+Rodrigo Mora/Porto/88
+Nicolás Otamendi/Benfica/87
+Alan Varela/Porto/87
+Anatoliy Trubin/Benfica/86
+Andreas Schjelderup/Benfica/85
+Luis Suárez/Sporting/84
+Ricardo Horta/Braga/83
+Richard Ríos/Benfica/83
+Georgiy Sudakov/Benfica/82
+Fredrik Aursnes/Benfica/82
+Gabri Veiga/Porto/81
+António Silva/Benfica/80
+Maximiliano Araújo/Sporting/79
+Nehuén Pérez/Porto/78
+Geny Catamo/Sporting/77
+Bruma/Braga/76
+Rodrigo Zalazar/Braga/74
+William Gomes/Porto/73
+Rui Silva/Sporting/73
+Jan Bednarek/Porto/72
+Francisco Moura/Porto/72
+Zeno Debast/Sporting/71
+Leandro Barreiro/Benfica/70
+Iván Fresneda/Sporting/70
+Pau Víctor/Braga/69
+Samuel Soares/Benfica/68

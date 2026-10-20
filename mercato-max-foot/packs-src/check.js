@@ -2,10 +2,10 @@
 const fs=require('fs'),vm=require('vm');
 const f=process.argv[2];const ctx={window:{FOOT_PACKS:[],CLUB_COLORS:{}}};
 try{vm.runInNewContext(fs.readFileSync(f,'utf8'),ctx)}catch(e){console.log('ERREUR JS',e.message);process.exit(1)}
-const W=ctx.window,errs=[],CATS=["clubs","nations","themes"];const ids=new Set();
+const W=ctx.window,errs=[],CATS=["clubs","nations","themes","ligues"];const ids=new Set();
 for(const p of W.FOOT_PACKS){const E=m=>errs.push(`[${p.id}] ${m}`);
   if(!/^[a-z0-9_]+$/.test(p.id||""))E("id invalide");if(ids.has(p.id))E("id en double");ids.add(p.id);
-  if(!p.name)E("name manquant");if(!CATS.includes(p.cat))E("cat doit être clubs/nations/themes");if(!p.sub)E("sub manquant");
+  if(!p.name)E("name manquant");if(!CATS.includes(p.cat))E("cat doit être clubs/nations/themes/ligues");if(!p.sub)E("sub manquant");
   const lines=(p.raw||"").trim().split("\n").map(l=>l.trim()).filter(Boolean);
   if(lines.length<30||lines.length>40)E(`${lines.length} joueurs (il faut 30 à 40)`);
   const cnt={G:0,DEF:0,MIL:0,ATT:0},names=new Set();

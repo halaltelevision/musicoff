@@ -6,13 +6,13 @@ const CONFIG={
   premium:["ballons_or","heros_ldc","heros_cdm","clasico","classique","derby_manchester","derby_milan","leg_afrique","realmadrid","barca"],
   freeCustomPacks:1,
   /* Prix en centimes d'euro */
-  prices:{pack:99,perso3:199,perso10:499,createur:999,all:1999,pass:{clubs:399,nations:299,themes:399}},
+  prices:{pack:99,perso3:199,perso10:499,createur:999,all:1999,pass:{clubs:399,ligues:299,nations:299,themes:399}},
   /* Paiement Stripe : laisse vide tant que ton compte n'est pas relié.
      api   = l'adresse de ton serveur (dossier server/), ex. "https://paiement.mercatomax.com"
      links = sinon, des liens de paiement Stripe par produit, ex. {"pass_clubs":"https://buy.stripe.com/..."} */
   stripe:{api:"",links:{}}
 };
-const PASSES=[{k:"clubs",l:"Pass Clubs",code:"PC"},{k:"nations",l:"Pass Sélections",code:"PN"},{k:"themes",l:"Pass Thèmes",code:"PT"}];
+const PASSES=[{k:"clubs",l:"Pass Clubs",code:"PC"},{k:"ligues",l:"Pass Championnats",code:"PL"},{k:"nations",l:"Pass Sélections",code:"PN"},{k:"themes",l:"Pass Thèmes",code:"PT"}];
 /* packs : tableau [{id,name,cat,size}] ; renvoie le catalogue des produits */
 function buildProducts(packs){
   const P={},prem=packs.filter(p=>CONFIG.premium.includes(p.id));
