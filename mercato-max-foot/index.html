@@ -447,6 +447,25 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .pktile b{font-family:var(--display);font-size:13px;line-height:1.05;text-transform:uppercase;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;max-width:100%;overflow-wrap:anywhere}
 .pktile small{font-size:10px;color:var(--mute)}
 .pktile .badge{position:absolute;top:4px;right:4px;margin:0;font-size:10px}
+
+/* Annonce du gagnant : explose au début de l'écran de fin, les compos restent visibles derrière */
+.blast{position:fixed;inset:0;z-index:70;display:grid;place-items:center;overflow:hidden;background:rgba(5,10,24,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);animation:blIn .25s ease-out both;cursor:pointer}
+.blast.out{animation:blOut .45s ease-in forwards}
+.blast::before{content:"";position:absolute;left:50%;top:50%;width:170vmax;height:170vmax;margin:-85vmax;background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--tc) 38%,transparent) 0 9deg,transparent 9deg 22deg);-webkit-mask:radial-gradient(circle,#000 0,transparent 62%);mask:radial-gradient(circle,#000 0,transparent 62%);animation:blSpin 6s linear infinite,blRays .5s ease-out both}
+.blast::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:20px;margin:-10px;border-radius:50%;background:radial-gradient(circle,#fff,var(--tc) 45%,transparent 70%);animation:blBoom .7s cubic-bezier(.1,.8,.3,1) both}
+.blast .bx{position:relative;z-index:1;text-align:center;padding:0 18px;animation:blPop .6s cubic-bezier(.2,1.6,.4,1) .08s both}
+.blast .bx small{display:block;font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:.3em;text-transform:uppercase;color:var(--tc);text-shadow:0 0 14px var(--tc)}
+.blast .bx b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(44px,15vw,72px);line-height:.88;text-transform:uppercase;color:#fff;text-shadow:0 0 30px var(--tc),0 4px 0 rgba(0,0,0,.35);margin:6px 0 10px;text-wrap:balance}
+.blast .bx .sc{display:inline-flex;gap:10px;align-items:center;background:var(--board);border:2px solid var(--boardtxt);border-radius:10px;padding:4px 16px;font-family:var(--led);font-weight:700;font-size:34px;color:var(--boardtxt);text-shadow:0 0 12px rgba(255,216,74,.7);box-shadow:0 0 26px -4px rgba(255,216,74,.6)}
+.blast .bx .sc em{font-style:normal;color:#3C4C80;font-size:24px}.blast .bx .sc .lo{color:#7C88AE;text-shadow:none}
+.blast .bx .gap{display:block;margin-top:8px;font-size:13px;font-weight:700;color:#C9D4F5}
+.res.shake{animation:blShake .45s ease-out}
+@keyframes blIn{from{opacity:0}}@keyframes blOut{to{opacity:0;transform:scale(1.06)}}
+@keyframes blSpin{to{transform:rotate(360deg)}}@keyframes blRays{from{opacity:0;transform:scale(.3)}}
+@keyframes blBoom{0%{transform:scale(0);opacity:1}70%{opacity:.9}100%{transform:scale(60);opacity:0}}
+@keyframes blPop{0%{transform:scale(2.6);opacity:0}60%{opacity:1}100%{transform:none}}
+@keyframes blShake{20%{transform:translate(-6px,3px)}40%{transform:translate(5px,-4px)}60%{transform:translate(-3px,2px)}80%{transform:translate(2px,-1px)}}
+@media (prefers-reduced-motion:reduce){.blast,.blast::before,.blast::after,.blast .bx,.res.shake{animation:none!important}}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:80}
 @media (max-height:600px){.fcard{gap:3px;padding-top:40px}.cname{font-size:26px}.price{font-size:30px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -675,7 +694,7 @@ function saveGame(){if(SIM)return;try{if(G&&G.phase!=="end")localStorage.setItem
 function loadGame(){try{const g=JSON.parse(localStorage.getItem("mmfoot_game"));if(g&&g.teams&&["draw","auction","sold","skip"].includes(g.phase)&&PACKS[g.pack])return g}catch(e){}return null}
 /* ===================== Écrans ===================== */
 let SCREEN="home",SETUP=null,PAUSED=false;
-function go(s){SCREEN=s;timers.forEach(clearTimeout);timers=[];closeSheet();render();scrollTo(0,0)}
+function go(s){SCREEN=s;timers.forEach(clearTimeout);timers=[];closeSheet();document.querySelectorAll(".blast").forEach(e=>e.remove());render();scrollTo(0,0)}
 function render(){
   if(SIM)return;
   document.body.classList.toggle("ingame",SCREEN==="game");
@@ -833,7 +852,6 @@ function vResults(){
      <div id="pt${ti}">${pitchHTML(t,{reveal:0,small:true})}</div></div>`).join("")}
    <div class="winner" id="winner"></div>
    <div class="after" id="after">${awardsHTML()}${endButtons()}</div>
-   <button class="skip" id="skip" data-act="skip">Passer l'animation</button>
   </div>`;
 }
 /* À 2 : « Match TV ». L'adversaire en haut, toi (ou le joueur 1) en bas ; les notes se révèlent poste par poste */
@@ -857,7 +875,7 @@ function vResultsTV(){
     <span class="tvtag t l" style="--tc:${T[1].col}">${esc(T[1].name)}</span><span class="tvtag t r">${kept(T[1])}</span>
     <span class="tvtag b l" style="--tc:${T[0].col}">${me?"Toi":esc(T[0].name)}</span><span class="tvtag b r">${kept(T[0])}</span>
     <div class="tvwin" id="winner"></div>
-    <button class="skip" id="skip" data-act="skip">Passer l'animation</button></div>
+</div>
    <div class="tvbon"><span id="bn0"></span><span id="bn1"></span></div>
    <div class="after" id="after">${awardsHTML()}${endButtons()}</div>
   </div>`;
@@ -892,10 +910,26 @@ function playReveal(){
       const txt=G.mode==="solo"&&G.winner===0?"Tu gagnes !":t.name+" gagne !";
       if(tv){w.innerHTML=`${esc(txt)}<small>${G.tieMoney?"à égalité, mais avec plus d'argent gardé":"+"+gap+" point"+(gap>1?"s":"")+" d'écart"}</small>`;if(G.mode==="solo"&&G.winner!==0){w.classList.add("lose");w.style.setProperty("--tc",t.col)}}
       else{w.textContent=txt+(G.tieMoney?" (plus d'argent)":"");$("#rt"+G.winner).classList.add("win")}
-      if(G.mode!=="solo"||G.winner===0){SFX.win();confetti()}else beep(300,.2)}
-    w.classList.add("on");$("#after").classList.add("on");const sk=$("#skip");if(sk)sk.hidden=true;showRewards();
+    }
+    w.classList.add("on");$("#after").classList.add("on");const sk=$("#skip");if(sk)sk.hidden=true;
+    winBlast();
   };
-  timers.push(setTimeout(next,500));
+  /* Tout est déjà rempli derrière ; l'annonce du gagnant passe par-dessus */
+  fast=true;next();
+}
+/* Grosse annonce du gagnant pendant ~2,6 s (on peut toucher pour la fermer) */
+function winBlast(){
+  const t=G.teams[G.winner],me=G.mode==="solo",iWin=G.winner>=0&&(!me||G.winner===0);
+  const txt=G.winner<0?"Égalité parfaite !":me&&G.winner===0?"Tu gagnes !":t.name+" gagne !";
+  const sorted=[...G.teams].sort((a,b)=>b.score.total-a.score.total),gap=sorted[0].score.total-(sorted[1]?sorted[1].score.total:0);
+  const col=G.winner<0?"var(--yellow)":me&&G.winner!==0?t.col:G.mode==="solo"?"var(--yellow)":t.col;
+  const sc=G.teams.length===2?`<span class="sc"><span class="${G.winner===1?"lo":""}">${G.teams[0].score.total}</span><em>–</em><span class="${G.winner===0?"lo":""}">${G.teams[1].score.total}</span></span>`:`<span class="sc">${sorted[0].score.total}</span>`;
+  const el=document.createElement("div");el.className="blast";el.style.setProperty("--tc",col);
+  el.innerHTML=`<div class="bx"><small>${G.winner<0?"Fin du match":iWin?"Victoire":"Défaite"}</small><b>${esc(txt)}</b>${sc}<span class="gap">${G.winner<0?"Même score, même argent gardé":G.tieMoney?"À égalité de points, avec plus d'argent gardé":"+"+gap+" point"+(gap>1?"s":"")+" d'écart"}</span></div>`;
+  document.body.appendChild(el);const scr=$(".res");if(scr){scr.classList.remove("shake");void scr.offsetWidth;scr.classList.add("shake")}
+  if(iWin){SFX.win();confetti(160);if(me)buzz([40,60,40])}else beep(300,.25);
+  let done=false;const close=()=>{if(done)return;done=true;el.classList.add("out");setTimeout(()=>el.remove(),450);showRewards()};
+  el.addEventListener("click",close);timers.push(setTimeout(close,2600));
 }
 function primeFx(ti){const t=G.teams[ti],me=G.mode==="solo"&&ti===0;
   const el=document.createElement("div");el.className="prime";el.innerHTML=`<div class="pbox"><span class="lbl">Prime surprise</span><b>+${PP(G.primeAmt)}</b><span class="pw">${me?"pour toi !":"pour "+esc(t.name)}</span><small class="mute">Un cadeau rare : ça n'arrive pas à chaque partie</small></div>`;
