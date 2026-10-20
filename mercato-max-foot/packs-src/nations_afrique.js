@@ -242,7 +242,7 @@ Trezeguet/ATT/Aston Villa/Égypte/78
 Omar Marmoush/ATT/Eintracht Francfort/Égypte/85
 Mostafa Mohamed/ATT/Nantes/Égypte/77`},
 {id:"tun",name:"Légendes de la Tunisie",cat:"nations",sub:"Afrique",raw:`
-Sadok Attouga/G/Club Africain/Tunisie/86
+Attouga/G/Club Africain/Tunisie/86
 Mokhtar Naili/G/Club Africain/Tunisie/78
 Chokri El Ouaer/G/Espérance/Tunisie/84
 Ali Boumnijel/G/Club Africain/Tunisie/81
