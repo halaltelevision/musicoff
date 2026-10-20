@@ -849,7 +849,7 @@ function vResults(){
   if(G.teams.length===2)return vResultsTV();
   return`<div class="screen res many">
    <div class="between"><h2>Les équipes</h2><span class="lbl">${esc(packOf().name)} · Five</span></div>
-   ${G.teams.map((t,ti)=>`<div class="rteam" id="rt${ti}" style="--tc:${t.col}"><div class="between"><span class="row"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><b>${esc(t.name)}</b><small class="mute">${PP(t.money)}</small></span><span class="row"><span class="bonus" id="bn${ti}"></span><span class="tot" id="tot${ti}">0</span></span></div>
+   ${G.teams.map((t,ti)=>`<div class="rteam" id="rt${ti}" style="--tc:${t.col}"><div class="between"><span class="row"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><b>${esc(t.name)}</b><small class="mute">${PP(t.money)}</small></span><span class="row"><span class="tot" id="tot${ti}">0</span></span></div>
      <div id="pt${ti}">${pitchHTML(t,{reveal:0,small:true})}</div></div>`).join("")}
    <div class="winner" id="winner"></div>
    <div class="after" id="after">${awardsHTML()}${endButtons()}</div>
@@ -876,7 +876,6 @@ function vResultsTV(){
     <span class="tvtag t l" style="--tc:${T[1].col}">${esc(T[1].name)}</span><span class="tvtag t r">${kept(T[1])}</span>
     <span class="tvtag b l" style="--tc:${T[0].col}">${me?"Toi":esc(T[0].name)}</span><span class="tvtag b r">${kept(T[0])}</span>
 </div>
-   <div class="tvbon"><span id="bn0"></span><span id="bn1"></span></div>
    <div class="tvres" id="winner"></div>
    <div class="after" id="after">${awardsHTML()}${endButtons()}</div>
   </div>`;
@@ -902,7 +901,7 @@ function playReveal(){
       G.teams.forEach((t,ti)=>{if(t.sl[k])tot[ti]+=force(t.sl[k]);if(!tv)$("#pt"+ti).innerHTML=pitchHTML(t,{reveal:step,small:many});$("#tot"+ti).textContent=tot[ti]});
       if(!fast)beep(400+step*80,.08,"triangle");later(next,750);return}
     if(step===G.slots.length){step++;let any=false;
-      G.teams.forEach((t,ti)=>{const b=t.score.bonus;if(b.length){any=true;{const e=$("#bn"+ti);if(tv)e.innerHTML=`${esc(tvShort(t))} : `+b.map(x=>`${esc(x.l)} <b>+${x.v}</b>`).join(", ");else e.textContent="+"+b.reduce((a,x)=>a+x.v,0)+" bonus";e.title=b.map(x=>`${x.l} +${x.v}`).join(" · ")}}$("#tot"+ti).textContent=t.score.total});
+      G.teams.forEach((t,ti)=>{if(t.score.bonus.length)any=true;$("#tot"+ti).textContent=t.score.total});
       if(any&&!fast)beep(900,.1,"triangle");later(next,any?900:200);return}
     const w=$("#winner");
     if(tv){const lo=$("#tot"+(G.winner===0?1:0));if(G.winner>=0&&lo)lo.classList.add("lo")}
@@ -1037,7 +1036,7 @@ async function resultCanvas(){
     x.beginPath();x.arc(L+P+8,y+P+24,10,0,7);x.fillStyle=col(t.col);x.fill();
     x.textAlign="left";x.font=F(800,44);x.fillStyle="#EEF3FF";const nm=solo&&G.teams.indexOf(t)===0?"TOI":t.name.toUpperCase();x.fillText(fit(nm,440),L+P+32,y+P+38);
     const bs=t.score.bonus.reduce((a,b)=>a+b.v,0);x.font=F(600,24,"b");x.fillStyle="#93A3D1";
-    const sub=`${t.money}`;x.fillText(sub,L+P+32,y+P+80);const sw=x.measureText(sub).width;bill(L+P+40+sw,y+P+62,20);x.fillText("gardés"+(bs?`   ·   bonus +${bs}`:""),L+P+84+sw,y+P+80);
+    const sub=`${t.money}`;x.fillText(sub,L+P+32,y+P+80);const sw=x.measureText(sub).width;bill(L+P+40+sw,y+P+62,20);x.fillText("gardés",L+P+84+sw,y+P+80);
     /* total */
     x.textAlign="right";x.font=F(700,n>2?72:84,"led");x.fillStyle=win?"#FFD84A":"#7C88AE";if(win){x.shadowColor="rgba(255,216,74,.6)";x.shadowBlur=24}x.fillText(t.score.total,R-P,y+P+70);x.shadowBlur=0;
     /* terrain */
