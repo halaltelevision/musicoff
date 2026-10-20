@@ -106,6 +106,34 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .xstrip .xv{align-self:center;font-family:var(--display);font-weight:700;font-size:12px;text-transform:uppercase;color:var(--blue);padding:0 3px}
 .half .xstrip{padding:4px}.half .xstrip .xl b{font-size:12px}
 .pitch.xi.big{padding:8px 6px;min-height:250px}.pitch.xi.big .slot .sn{font-size:11px}.pitch.xi.big .slot .sp{display:block;font-size:10px}
+.gx{gap:6px}
+.gxbar{flex:none;display:flex;gap:6px;align-items:center}.gxbar .mini{flex:none}.gxbar .lbl{flex:1;text-align:center}
+.gxturn{flex:1;display:flex;justify-content:space-between;align-items:center;border-radius:10px;padding:5px 10px;background:var(--tc);color:#fff;font-family:var(--display);font-weight:800;font-size:16px;text-transform:uppercase;box-shadow:0 0 14px -4px var(--tc)}
+.gxturn small{font-family:var(--led);font-size:15px}
+.gxb{flex:none;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,#14265A,#0B163A);border:1px solid #2B4386;border-radius:14px;padding:6px 10px}
+.gxb.gold{border-color:var(--yellow);box-shadow:0 0 18px -6px var(--yellow)}
+.gxb .tx{flex:1;min-width:0}.gxb .tags{display:flex;gap:4px;flex-wrap:wrap}.gxb .pos{font-size:11px;padding:0 6px}.gxb .tag{font-size:10px}
+.gxb h3{margin:2px 0 0;font-size:21px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gxb small{font-size:11px;color:var(--mute)}
+.gxb .board{margin:0;padding:3px 8px}.gxb .board .price{font-size:28px;min-width:46px}
+.gxw{flex:none;display:flex;justify-content:space-between;align-items:center;gap:6px;font-family:var(--display);font-weight:700;font-size:14px;text-transform:uppercase}
+.gxw .turnline{font-size:13px;padding:1px 9px}.gxw .voir{font-family:var(--display);font-weight:700;font-size:13px;color:var(--blue);text-transform:uppercase}
+.gxt{max-width:none;flex:none}
+.gxs{flex:none;display:flex;justify-content:center}.gxs .stamp{font-size:15px;padding:3px 10px;transform:none;border-width:2px}
+.gx>.nb,.gx>.waitdraw{flex:none;margin:0 auto;max-width:none;width:100%;padding:9px}
+.gxp{flex:1;min-height:0;position:relative;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-around;padding:6px 0;
+ background:radial-gradient(ellipse 80% 50% at 50% 0,rgba(255,255,255,.14),transparent 60%),repeating-linear-gradient(180deg,var(--grass) 0 12.5%,var(--grass2) 12.5% 25%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.3),0 0 24px -8px rgba(24,209,126,.6)}
+.gxp::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px solid rgba(255,255,255,.4)}
+.gxp::after{content:"";position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px;border:2px solid rgba(255,255,255,.4);border-radius:50%}
+.gxp .box{position:absolute;left:28%;right:28%;bottom:-2px;height:30px;border:2px solid rgba(255,255,255,.4);border-bottom:0}
+.gxp .row{position:relative;z-index:1;display:flex;justify-content:space-evenly}
+.gp{display:flex;flex-direction:column;align-items:center;width:72px;min-width:0}
+.gp .sn{font-family:var(--display);font-weight:700;font-size:12px;color:#fff;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-shadow:0 1px 2px rgba(0,0,0,.5);line-height:1.1}
+.gp .pr{font-size:10px;font-weight:700;color:rgba(255,255,255,.9)}
+.gp .ph{width:30px;height:30px;border-radius:50%;border:2px dashed rgba(255,255,255,.7);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:700;font-size:10px}
+.gp.ghost .jer{filter:drop-shadow(0 0 10px #fff);animation:pulse 1.1s ease-in-out infinite}.gp.ghost .sn{color:var(--yellow)}
+.gp.ghost .tag{font-size:9px;font-weight:800;font-family:var(--display);background:var(--yellow);color:#0A1430;border-radius:3px;padding:0 4px;text-transform:uppercase;line-height:1.4}
+.gx .acts{flex:none}
+.gxsheet{height:min(400px,58vh);display:flex}
 .fmls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .fml{border-radius:10px;padding:9px 2px;background:var(--card);border:1px solid var(--line);font-family:var(--led);font-weight:700;font-size:16px}
 .fml[aria-pressed=true]{background:var(--accent);border-color:transparent;color:#fff}.fml:disabled{opacity:.35}
@@ -878,7 +906,34 @@ function duoHalf(side){
 function zoneHTML(ti){const t=G.teams[ti],c=G.cur,auc=G.phase==="auction",my=auc&&c.turn===ti;
   let st="";if(auc){if(c.leader===ti)st="en tête";else if(my)st="à toi";else if(c.out[ti]&&canPlace(ti))st="passe";else if(!canPlace(ti))st="pas de place"}
   return`<div class="zone ${my?"turn":""}" style="--tc:${t.col}">${st?`<span class="st">${st}</span>`:""}<div class="top"><span class="dot">${esc(t.name[0])}</span><span class="nm">${esc(t.name)}</span><span class="mn">${PP(t.money)}</span></div><div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">Voir</button></div>${actsHTML(ti,true)}</div>`}
+/* XI de légende : le terrain en grand. En solo, c'est le tien ; entre amis, celui du joueur dont c'est le tour.
+   Le joueur en vente apparaît déjà à sa future place. */
+function xiPitch(t,ghostCard){const can=ghostCard&&slotFor(t,ghostCard),myst=G.cur&&G.cur.mystery&&G.phase==="auction";
+  const pl=k=>{const pk=t.sl[k];
+    if(can===k)return`<span class="gp ghost">${jersey(ghostCard,32,myst)}<span class="sn">${myst?"Mystère":esc(lastName(ghostCard.n))}</span><span class="tag">en vente</span></span>`;
+    if(!pk)return`<span class="gp"><span class="ph">${PO(k).s}</span></span>`;
+    const cd=cardOf(pk.i);return`<span class="gp">${jersey(cd,26)}<span class="sn">${esc(lastName(cd.n))}</span><span class="pr">${pk.price}<i class="bill"></i></span></span>`};
+  return`<div class="gxp"><span class="box"></span>${[...linesOf()].reverse().map(r=>`<div class="row">${r.map(pl).join("")}</div>`).join("")}</div>`}
+function vGameXI(){
+  const solo=G.mode==="solo",c=G.cur,ph=G.phase,auc=ph==="auction",ti=solo?0:focusTeam(),t=G.teams[ti],o=G.teams[1-ti];
+  const card=c&&ph!=="draw"?cardOf(c.i):null,myst=c&&c.mystery&&auc;
+  const left=`${G.order.length-G.pos} carte${G.order.length-G.pos>1?"s":""}`;
+  const top=solo?`<div class="tiles n1" id="tiles" style="--n:1">${tilesInner()}</div>`
+    :`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="gxturn" style="--tc:${t.col}">${auc?"Au tour de "+esc(t.name):esc(t.name)}<small>${PP(t.money)}</small></span><button class="mini" data-act="rules">Règles</button></div>`;
+  let banner;
+  if(!card)banner=`<div class="gxb"><span class="tx"><h3>Le mercato ouvre !</h3><small>Un joueur sort à chaque carte. Tu ne mises que s'il te reste une place à son poste.</small></span></div>${drawCtl(solo?undefined:ti,true)}`;
+  else{const pc=POS[card.pos].c,head=`<span class="tx"><span class="tags"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}</span><h3>${myst?"Joueur mystère":esc(card.n)}</h3><small>${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</small></span>`;
+    if(auc){const tt=G.teams[c.turn],me=solo&&c.turn===0;
+      banner=`<div class="gxb ${c.golden?"gold":""}">${jersey(card,44,myst)}${head}<span class="board"><span class="price">${c.price||"—"}</span></span></div>
+       <div class="gxw"><span style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(solo&&c.leader===0?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</span><span class="turnline" style="--tc:${tt.col}">${me?"À toi de miser":tt.ai?esc(tt.name)+" réfléchit…":"Au tour de "+esc(tt.name)}</span></div>${G.ms?`<div class="timer gxt"><i class="tbar"></i></div>`:""}`}
+    else{const st=ph==="sold"?(c.leader>=0?`<span class="stamp" style="--tc:${G.teams[c.leader].col}">${solo&&c.leader===0?"Recruté par toi":"Recruté par "+esc(G.teams[c.leader].name)} · ${PP(c.price)}</span>`:`<span class="note">Personne n'a misé.</span>`):`<span class="note">Plus de place à ce poste : carte écartée.</span>`;
+      banner=`<div class="gxb">${jersey(card,44)}${head}</div><div class="gxs">${st}</div>${drawCtl(solo?undefined:ti)}`}}
+  const foot=solo?`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="lbl">${left} · ${PP(t.money)}</span><button class="mini" data-act="rules">Règles</button></div>`
+    :`<div class="gxw"><span class="mute">${left}</span><button class="voir" data-act="voir" data-v="${1-ti}">XI de ${esc(o.name)} · ${PP(o.money)}</button></div>`;
+  return`<div class="gscreen gx">${top}${banner}${xiPitch(t,auc?card:null)}${actsHTML(ti)}${foot}</div>`;
+}
 function vGame(){
+  if(G.format==="xi")return vGameXI();
   if(G.mode==="amis"&&G.teams.length===2)return`<div class="gscreen duo">${duoHalf(1)}${duoHalf(0)}</div>`;
   if(G.mode==="amis")return`<div class="gscreen"><div class="cardz">${cardHTML()}</div><div class="zones n${G.teams.length}">${G.teams.map((_,ti)=>zoneHTML(ti)).join("")}</div></div>`;
   const solo=G.mode==="solo",fi=focusTeam(),ft=G.teams[fi]||G.teams[0],n=solo?G.teams.length-1:G.teams.length;
@@ -1053,7 +1108,7 @@ function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><
   <p class="mute"><b>Tes données :</b> pas de compte, pas de publicité, pas de pistage. Ton profil, ton album et tes achats restent sur ce téléphone. Les paiements sont gérés par Stripe : Mercato Max ne voit jamais ta carte bancaire.</p>
   <a class="btn" href="politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
   <p class="mute">Contact : [TON E-MAIL DE CONTACT]</p>`)}
-function voirSheet(ti){const t=G.teams[ti];sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div><p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${pitchHTML(t,{big:G.format==="xi"})}<button class="btn go" data-act="close">Fermer</button>`)}
+function voirSheet(ti){const t=G.teams[ti];sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div><p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${G.format==="xi"?`<div class="gxsheet">${xiPitch(t,null)}</div>`:pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
 function pauseSheet(){PAUSED=true;const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-Date.now():0;PAUSED_REM=rem;
   sheet(`<h2>Pause</h2><p class="mute">La partie est sauvegardée : tu pourras la reprendre depuis l'accueil.</p><button class="btn go" data-act="resumePause">Reprendre</button><button class="btn" data-act="rules">Règles</button><button class="btn" data-act="pals">🎨 Couleurs</button><button class="btn" data-act="quit">Retour à l'accueil</button>`)}
 let PAUSED_REM=0;
