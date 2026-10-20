@@ -3,7 +3,17 @@
 Récapitulatif écrit à partir de la conversation sur l'édition foot (octobre 2026), pour appliquer les mêmes choix à la version avec tous les thèmes (manga, foot, films, sport, jeux vidéo, animaux, découverte…).
 Les choses propres au foot (postes, terrain, maillots, format Five) sont à la fin, à part.
 
-À lire avant de toucher à l'appli. Ces choix s'ajoutent aux règles déjà validées du skill « mercato-max-foot » (budget avec le billet vert, chacun son tour, aucun indice de force pendant la partie, etc.).
+À lire avant de toucher à l'appli. Deux sources sont réunies ici :
+- la **liste complète du créateur** (copiée depuis son autre conversation), en fin de fichier ;
+- les **choix plus récents** faits pendant l'édition foot, juste en dessous.
+
+**Quand les deux se contredisent, le plus récent gagne** (voir « Points tranchés » ci-dessous).
+
+## Points tranchés (le plus récent l'emporte)
+
+- **Codes d'activation : supprimés.** La liste d'origine parlait de codes liés au téléphone et d'un générateur ; depuis, le créateur a dit : « pas d'activation de code vu qu'il y aura un paiement en ligne ». On garde uniquement le paiement Stripe + « Restaurer mes achats » par e-mail. Le générateur de codes n'est plus utilisé.
+- **Style :** la liste d'origine dit « garder la pâte à modeler + ambiance Vif ». Pour l'édition foot, il a ensuite dit qu'on n'était pas obligé de garder la pâte à modeler et a choisi « Stade de nuit ». **Pour la version tous thèmes : à lui demander** (pâte à modeler + Vif, ou Stade de nuit).
+- **Gratuit :** la liste d'origine dit « quelques packs gratuits » ; il a ensuite demandé **environ 90 % gratuit pour le moment**.
 
 ---
 
@@ -88,3 +98,95 @@ Relevés en relisant `mercato-max/index.html` :
 - 92 packs foot (clubs, sélections, thèmes), dont 10 premium.
 
 Fichiers de l'édition foot : dossier `mercato-max-foot/` de la branche `claude/mercato-max-foot-prototype-7f2dmn` du dépôt `halaltelevision/musicoff`. Jeu en ligne : https://claude.ai/artifact/U7d3oRHtxCwonVyv7WrSjp
+
+---
+
+## Liste complète du créateur (copiée depuis son autre conversation)
+
+### Base
+- Partir de la version « Pâte à modeler » : https://claude.ai/artifact/K58Y6Zke4bPaqwMqfm6agj (ne pas la modifier : l'édition foot est une NOUVELLE appli)
+- Générateur de codes (privé) : https://claude.ai/artifact/NvXuP8zQQ8nLVEnPs2YjHZ *(plus utilisé : voir « Points tranchés »)*
+- Planche des styles : https://claude.ai/artifact/DpGB65ZTWKRpkbbpLeWMCa
+- Garder le nom « Mercato Max » pour l'instant
+- Jeu pour téléphone uniquement, à sortir sur le Play Store
+
+### Règles du jeu
+- Budget 500 avec un petit billet vert à côté (jamais « M », jamais « pépites », jamais de vraie devise). 300 pour 3 joueurs, 700 pour 7
+- Mises +10 / +50 / +100
+- Chacun son tour. Première mise obligatoire (le bouton Passer devient « Mise d'abord »)
+- Chrono par tour : Aucun / 30 s / 15 s (30 s par défaut)
+- Toujours garder de quoi compléter son équipe (10 par place restante)
+- AUCUN indice de force pendant la partie : pas d'étoiles, pas de « Rare/Légendaire », pas d'effet spécial sur les grosses cartes. Tout se révèle à la fin, carte par carte, avec le total qui monte
+- Égalité de force → gagne celui à qui il reste le plus d'argent
+- Carte en or (force ×1,5) et carte mystère : annoncées
+- Primes rares (environ 3 % par carte, 2 max par partie, +10 à +100), affichées en grand
+
+### Solo
+- 1 ordi (duel) ou 2 ordis, tirés au hasard parmi le Requin, le Flambeur et Mme Prudence
+- Bouton « Voir » sur chaque ordi pour voir ses recrues
+- Les ordis doivent dépenser leur budget
+- Vibration de tour seulement en solo
+
+### Entre amis
+- 2 à 4 joueurs sur UN seul téléphone, pas de mode en ligne
+- À deux : écran coupé en deux, chaque moitié tournée vers son joueur
+- Seul celui qui commence la prochaine enchère tire la carte
+- Pause/Règles seulement du côté du propriétaire (en bas)
+
+### Fin de partie
+- Révélation, Revanche (avec la série)
+- Partage d'une IMAGE du résultat pour WhatsApp
+- Meilleure recrue / Bonne affaire / Le flop
+
+### Profil
+- 3 chiffres seulement
+- Trophées difficiles Bronze/Argent/Or avec barres de progression, niveaux lents
+- Album de collection, missions de la semaine
+- PAS d'événements du week-end
+
+### Accroche
+- « Mise. Bluffe. Recrute. » + « Construis l'équipe de tes rêves. » (jamais de chiffres)
+
+### Édition 100 % foot (nouvelle version)
+- Tout est foot : terrain, maillots, ambiance stade
+- Au départ, choix du format : Five (1 gardien + 4), XI de légende (formation au choix : 4-3-3, 4-4-2, 3-5-2…), Duel rapide (3 joueurs)
+- Puis choix du pack (Légendes, Ligue 1, Algérie, Premier League, Ballons d'Or…)
+- Chaque carte a un poste (G, DEF, MIL, ATT) + club/pays
+- Pendant les enchères, chacun voit son terrain se remplir ; on ne peut miser que s'il reste une place à ce poste
+- Fin : équipes affichées sur le terrain, révélation poste par poste, petit bonus si plusieurs joueurs du même club ou pays, puis le vainqueur
+- Garder les VRAIS noms des joueurs et les noms des packs tels quels (ne pas renommer)
+- Aucune vraie photo ni logo de club : maillots dessinés aux couleurs du club avec initiales, illustrations originales
+- Mention « Jeu de fan non officiel » dans Mentions et crédits
+- Packs : 30 à 40 joueurs connus, saisons à jour, notes cohérentes dans chaque pack
+- Commencer par un prototype au format Five
+
+### À corriger dans les packs actuels (repéré dans la base)
+- Les packs foot n'ont pas de poste séparé : il faut un format « Nom/Poste/Club ou Pays/Force »
+- Le pack « Légendes du foot » n'a presque pas de gardiens (Yachine, Buffon) : en ajouter pour le Five
+- Les ordis doivent vérifier qu'il leur reste une place au bon poste avant de miser
+
+### Design
+- Garder le style « pâte à modeler » (boutons arrondis, ombres internes douces) *(à confirmer pour la version tous thèmes : voir « Points tranchés »)*
+- Tout sur UN seul écran, sans défiler : tester en 360 × 643 (Oppo A40)
+- Ambiance « Vif » par défaut : fond clair avec taches pastel, rouge #FF3B5C, bleu #2D7BFF, jaune #FFB400, vert #00B874, encre #1A1446, carte centrale blanche avec gros contour coloré
+- Toujours garder le bouton « Couleurs » avec des ambiances vives : Bonbon, Lagon, Citron, Coucher de soleil, Stade, Néon, Noir & or
+- N'aime pas : beige/terne, triste, surchargé
+- Icône : idée des deux M (écusson de club « MM », MM en pâte écrasée rouge/bleu, MM en cartes). Le marteau seul = trop classique
+- Pour les designs : beaucoup d'idées vraiment différentes, en images à comparer (planche JPG/PNG pour WhatsApp), avec l'avis de Claude
+
+### Boutique
+- Gratuit : quelques packs, 1 pack offert par semaine, défi du jour, mode Entre amis, 1 pack perso *(depuis : environ 90 % gratuit)*
+- Tout s'achète séparément : pack 0,99 €, pass par univers 2,99–3,99 €, packs perso +3 (1,99 €), +10 (4,99 €), illimité (9,99 €), collection complète chère (19,99 €)
+- Paiement en ligne avec Stripe : préparé mais pas encore relié (« Paiement en préparation »)
+- ~~Codes d'activation liés au téléphone~~ *(supprimés : paiement en ligne uniquement)*
+
+### Méthode
+- Une page HTML + un fichier de packs, publiée en appli Claude, toujours au MÊME lien
+- Tester chaque changement : partie solo + à deux, aucune erreur, hauteur ≤ 643, équilibre des ordis
+- Envoyer des captures pour qu'il choisisse
+- NE PAS faire l'APK tant qu'il n'a pas validé le design (pour ne pas gaspiller ses crédits)
+
+### Plus tard (APK / Play Store)
+- Appli installable et jouable hors ligne, puis Capacitor ou TWA
+- Icône 512×512, bannière 1024×500, captures, description, politique de confidentialité, classement par âge
+- À vérifier : Google exige souvent sa propre facturation dans les applis, et Stripe n'ouvre pas forcément de compte aux entreprises algériennes
