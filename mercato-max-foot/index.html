@@ -94,6 +94,18 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .pitch.xi .slot .sn{font-size:10px;line-height:1.05}
 .pitch.xi .slot .sv{font-size:11px;padding:0 4px;line-height:1.25}
 .pitch.xi.sm .slot .sn{display:none}.pitch.xi.sm .slot .ph{width:16px;height:16px;font-size:7px;border-width:1.5px}
+.xstrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:4px;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:5px;text-align:left}
+.xstrip .xc{display:flex;flex-direction:column;gap:3px;background:var(--soft);border-radius:9px;padding:4px 5px 5px;border-top:3px solid var(--pc);min-width:0}
+.xstrip .xc.can{background:color-mix(in srgb,var(--pc) 22%,var(--soft));box-shadow:0 0 0 2px var(--pc),0 0 14px -3px var(--pc)}
+.xstrip .xc.full{opacity:.45}
+.xstrip .xl{display:flex;justify-content:space-between;align-items:baseline;gap:2px}
+.xstrip .xl b{font-family:var(--display);font-weight:800;font-size:13px}.xstrip .xl i{font-style:normal;font-family:var(--led);font-size:12px;color:var(--mute)}
+.xstrip .xc.can .xl i{color:var(--ink)}
+.xstrip .xp{display:flex;flex-wrap:wrap;gap:1px;min-height:15px}
+.xstrip .xp em{width:13px;height:13px;margin:1px;border-radius:50%;border:1.5px dashed color-mix(in srgb,var(--pc) 70%,transparent)}
+.xstrip .xv{align-self:center;font-family:var(--display);font-weight:700;font-size:12px;text-transform:uppercase;color:var(--blue);padding:0 3px}
+.half .xstrip{padding:4px}.half .xstrip .xl b{font-size:12px}
+.pitch.xi.big{padding:8px 6px;min-height:250px}.pitch.xi.big .slot .sn{font-size:11px}.pitch.xi.big .slot .sp{display:block;font-size:10px}
 .fmls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .fml{border-radius:10px;padding:9px 2px;background:var(--card);border:1px solid var(--line);font-family:var(--led);font-weight:700;font-size:16px}
 .fml[aria-pressed=true]{background:var(--accent);border-color:transparent;color:#fff}.fml:disabled{opacity:.35}
@@ -778,6 +790,12 @@ function vSetup(){
 }
 /* Les lignes du terrain (gardien, défense, milieu, attaque, place libre) */
 function linesOf(){return["G","DEF","MIL","ATT","LIB"].map(p=>G.slots.filter(k=>slotPos(k)===p)).filter(a=>a.length)}
+/* XI pendant la partie : barre compacte par ligne (on touche pour voir l'équipe en grand) */
+function xiStrip(t,card){const ti=G.teams.indexOf(t),can=card&&slotFor(t,card),cp=card&&card.pos;
+  return`<button class="xstrip" data-act="voir" data-v="${ti}" aria-label="Voir l'équipe">${["G","DEF","MIL","ATT"].map(p=>{const ks=G.slots.filter(k=>slotPos(k)===p),n=ks.filter(k=>t.sl[k]).length;
+    const st=cp===p?(can?"can":"full"):"";
+    return`<span class="xc ${st}" style="--pc:${POS[p].c}"><span class="xl"><b>${POS[p].s}</b><i>${n}/${ks.length}</i></span><span class="xp">${ks.map(k=>t.sl[k]?jersey(cardOf(t.sl[k].i),15):`<em></em>`).join("")}</span></span>`}).join("")}<span class="xv">Voir</span></button>`}
+function teamView(t,opt={}){return G.format==="xi"&&opt.reveal==null?xiStrip(t,opt.card):pitchHTML(t,opt)}
 function pitchHTML(t,opt={}){
   const c=opt.card;const can=c&&slotFor(t,c);
   const one=(k,si,js)=>{const pk=t.sl[k];
@@ -785,7 +803,7 @@ function pitchHTML(t,opt={}){
     const cd=cardOf(pk.i),show=opt.reveal==null||si<opt.reveal;
     return`<div class="slot">${jersey(cd,js)}<span class="sn">${esc(lastName(cd.n))}</span>${opt.reveal!=null?`<span class="sv ${pk.golden?"gold":""} ${show?"":"hide"}">${force(pk)}</span>`:`<span class="sp">${pk.price}</span>`}</div>`};
   if(G.format==="xi"){const L=linesOf();
-    return`<div class="pitch xi ${opt.small?"sm":""}" style="--cols:${L.length}">${L.map(line=>`<div class="line">${line.map(k=>one(k,G.slots.indexOf(k),opt.small?16:22)).join("")}</div>`).join("")}</div>`}
+    return`<div class="pitch xi ${opt.small?"sm":""} ${opt.big?"big":""}" style="--cols:${L.length}">${L.map(line=>`<div class="line">${line.map(k=>one(k,G.slots.indexOf(k),opt.small?16:22)).join("")}</div>`).join("")}</div>`}
   return`<div class="pitch ${opt.small?"sm":""}" style="--cols:${G.slots.length}">${G.slots.map((k,si)=>one(k,si,opt.small?26:opt.reveal!=null?34:40)).join("")}</div>`;
 }
 function pipsHTML(t){return`<span class="pips">${G.slots.map(k=>`<i class="${t.sl[k]?"f":""}" style="--pc:${PO(k).c}" title="${PO(k).l}"></i>`).join("")}</span>`}
@@ -854,7 +872,7 @@ function duoHalf(side){
     body=`<div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}</div>
     <div class="dmain">${jersey(card,44,myst)}<span class="dnm"><span class="cname">${myst?"Joueur mystère":esc(card.n)}</span><span class="club">${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</span></span></div>${foot}`}
   return`<div class="half ${side===1?"top":""}"><div class="fcard duoc ${c&&c.golden?"gold":""}" style="--pc:${pc}">${bar}${body}</div>
-   <div class="mine"><div class="between"><span class="row"><span class="dot" style="--tc:${t.col}">${esc(t.name[0])}</span><b>${esc(t.name)}</b></span><span class="num">${PP(t.money)}</span></div>${pitchHTML(t,{card:c&&ph==="auction"?cardOf(c.i):null,small:true})}${actsHTML(side)}</div></div>`;
+   <div class="mine"><div class="between"><span class="row"><span class="dot" style="--tc:${t.col}">${esc(t.name[0])}</span><b>${esc(t.name)}</b></span><span class="num">${PP(t.money)}</span></div>${teamView(t,{card:c&&ph==="auction"?cardOf(c.i):null,small:true})}${actsHTML(side)}</div></div>`;
 }
 /* À 3 ou 4 : chacun sa zone, avec ses propres boutons */
 function zoneHTML(ti){const t=G.teams[ti],c=G.cur,auc=G.phase==="auction",my=auc&&c.turn===ti;
@@ -870,7 +888,7 @@ function vGame(){
    <div class="cardz">${cardHTML()}</div>
    <div class="mine">
      <div class="between"><span class="row"><span class="dot" style="--tc:${ft.col}">${esc(ft.name[0])}</span><b>${solo?"Ton équipe":esc(ft.name)}</b></span><span class="num">${PP(ft.money)}</span></div>
-     ${pitchHTML(ft,{card})}
+     ${teamView(ft,{card})}
      ${actsHTML(G.teams.indexOf(ft))}
    </div></div>`;
 }
@@ -1035,7 +1053,7 @@ function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><
   <p class="mute"><b>Tes données :</b> pas de compte, pas de publicité, pas de pistage. Ton profil, ton album et tes achats restent sur ce téléphone. Les paiements sont gérés par Stripe : Mercato Max ne voit jamais ta carte bancaire.</p>
   <a class="btn" href="politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
   <p class="mute">Contact : [TON E-MAIL DE CONTACT]</p>`)}
-function voirSheet(ti){const t=G.teams[ti];sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div><p class="mute">Ses recrues et le prix payé.</p>${pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
+function voirSheet(ti){const t=G.teams[ti];sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div><p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${pitchHTML(t,{big:G.format==="xi"})}<button class="btn go" data-act="close">Fermer</button>`)}
 function pauseSheet(){PAUSED=true;const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-Date.now():0;PAUSED_REM=rem;
   sheet(`<h2>Pause</h2><p class="mute">La partie est sauvegardée : tu pourras la reprendre depuis l'accueil.</p><button class="btn go" data-act="resumePause">Reprendre</button><button class="btn" data-act="rules">Règles</button><button class="btn" data-act="pals">🎨 Couleurs</button><button class="btn" data-act="quit">Retour à l'accueil</button>`)}
 let PAUSED_REM=0;
