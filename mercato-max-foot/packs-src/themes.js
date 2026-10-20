@@ -318,44 +318,6 @@ Karim Benzema/ATT/Lyon/France/86
 Sonny Anderson/ATT/Lyon/Brésil/86
 Pauleta/ATT/PSG/Portugal/85
 Hervé Revelli/ATT/Saint-Étienne/France/85`},
-{id:"leg_afrique",name:"Légendes africaines",cat:"themes",sub:"Les plus grands joueurs du continent",raw:`
-Thomas N'Kono/G/Espanyol/Cameroun/86
-Joseph-Antoine Bell/G/Marseille/Cameroun/84
-Badou Zaki/G/Majorque/Maroc/84
-Vincent Enyeama/G/Lille/Nigeria/82
-Yassine Bounou/G/Séville/Maroc/85
-Essam El-Hadary/G/Al Ahly/Égypte/83
-Édouard Mendy/G/Chelsea/Sénégal/83
-Rigobert Song/DEF/Galatasaray/Cameroun/83
-Kalidou Koulibaly/DEF/Napoli/Sénégal/87
-Achraf Hakimi/DEF/PSG/Maroc/88
-Kolo Touré/DEF/Arsenal/Côte d'Ivoire/84
-Samuel Kuffour/DEF/Bayern/Ghana/84
-Noureddine Naybet/DEF/La Corogne/Maroc/84
-Taribo West/DEF/Inter/Nigeria/82
-Lauren/DEF/Arsenal/Cameroun/82
-Yaya Touré/MIL/Manchester City/Côte d'Ivoire/89
-Michael Essien/MIL/Chelsea/Ghana/87
-Jay-Jay Okocha/MIL/PSG/Nigeria/87
-Abedi Pelé/MIL/Marseille/Ghana/88
-Mohamed Aboutrika/MIL/Al Ahly/Égypte/85
-Seydou Keita/MIL/Barcelone/Mali/83
-Marc-Vivien Foé/MIL/Lyon/Cameroun/82
-John Obi Mikel/MIL/Chelsea/Nigeria/81
-George Weah/ATT/Milan/Liberia/95
-Samuel Eto'o/ATT/Barcelone/Cameroun/94
-Didier Drogba/ATT/Chelsea/Côte d'Ivoire/93
-Roger Milla/ATT/Montpellier/Cameroun/90
-Mohamed Salah/ATT/Liverpool/Égypte/94
-Sadio Mané/ATT/Liverpool/Sénégal/90
-Nwankwo Kanu/ATT/Arsenal/Nigeria/85
-Rashidi Yekini/ATT/Vitória Setúbal/Nigeria/83
-Rabah Madjer/ATT/Porto/Algérie/86
-Riyad Mahrez/ATT/Manchester City/Algérie/87
-Pierre-Emerick Aubameyang/ATT/Dortmund/Gabon/87
-Victor Osimhen/ATT/Napoli/Nigeria/87
-Salif Keïta/ATT/Saint-Étienne/Mali/85
-Laurent Pokou/ATT/Rennes/Côte d'Ivoire/84`},
 {id:"clasico",name:"Le Clasico",cat:"themes",sub:"Real Madrid contre Barcelone",raw:`
 Iker Casillas/G/Real Madrid/Espagne/91
 Thibaut Courtois/G/Real Madrid/Belgique/89

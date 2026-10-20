@@ -507,7 +507,7 @@ function computeAI(){
     const need=emptySlots(t),avg=G.budget/G.slots.length,est=estimate(c);
     const r=Math.max(0,Math.min(1,(est-st.lo)/(st.hi-st.lo)));
     let v=avg*(.45+1.7*Math.pow(r,1.4));
-    v*={requin:r>.7?1.3:.85,flambeur:1.2,prudent:.88}[t.pers]||1;
+    v*={requin:r>.7?1.12:.92,flambeur:r>.7?1.15:1.02,prudent:r>.7?1.08:.9}[t.pers]||1;
     const rich=(t.money/need)/avg;v*=Math.max(.85,Math.min(2.6,Math.pow(rich,1.35)));
     if(need===1)v=Math.max(v,t.money*(r>.6?1:r>.3?.85:.7));
     /* poste rare : il reste peu de cartes qui rentrent dans cette place */
@@ -1105,7 +1105,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("input",e=>{const i=e.target.closest("[data-name]");if(i&&SETUP)SETUP.names[+i.dataset.name]=i.value});
 /* Simulation pour régler les ordis (console : simulate(500)) */
-window.simulate=function(n=300,pack="legendes",nai=3){
+window.simulate=function(n=300,pack=DEFPK,nai=3){
   SIM=true;const st={games:0,left:0,empty:0,wins:{},spentMin:1e9};
   for(let g=0;g<n;g++){startGame({mode:"solo",allai:true,nai,pack,format:"five",tempo:"aucun"});
     let guard=0;while(G.phase!=="end"&&guard++<5000){if(G.phase==="auction")aiTurn(G.cur.turn);else draw()}
