@@ -134,6 +134,7 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .gp.ghost .tag{font-size:9px;font-weight:800;font-family:var(--display);background:var(--yellow);color:#0A1430;border-radius:3px;padding:0 4px;text-transform:uppercase;line-height:1.4}
 .gx .acts{flex:none}
 .gxsheet{height:min(400px,58vh);display:flex}
+.botd{margin:0;font-size:13px;font-weight:600;color:var(--ink);background:var(--soft);border-left:3px solid var(--blue);border-radius:6px;padding:6px 9px}
 .fmls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .fml{border-radius:10px;padding:9px 2px;background:var(--card);border:1px solid var(--line);font-family:var(--led);font-weight:700;font-size:16px}
 .fml[aria-pressed=true]{background:var(--accent);border-color:transparent;color:#fff}.fml:disabled{opacity:.35}
@@ -583,11 +584,12 @@ function fmtLabel(g){return g.format==="xi"?"XI "+(g.formation||"4-3-3"):g.forma
 const DIFF={facile:{noise:9,l:"Facile"},normal:{noise:4,l:"Normal"},expert:{noise:1.5,l:"Expert"}};
 const TEMPO={aucun:{ms:0,l:"Aucun",d:"à ton rythme"},lent:{ms:30000,l:"30 s",d:"tranquille"},vite:{ms:15000,l:"15 s",d:"nerveux"}};
 const TCOL=["var(--red)","var(--blue)","var(--green)","var(--violet)"];
-const BOTS=[{n:"Le Requin",pers:"requin"},{n:"Le Flambeur",pers:"flambeur"},{n:"Mme Prudence",pers:"prudent"}];
+/* Chaque ordi a son style : le Requin fait monter les prix, le Flambeur dépense fort dès le début, Mme Prudence attend les bonnes affaires */
+const BOTS=[{n:"Le Requin",pers:"requin",d:"Fait monter les prix pour te faire payer cher. Attention, il bluffe."},{n:"Le Flambeur",pers:"flambeur",d:"Dépense sans compter dès les premières cartes, puis se retrouve souvent à sec."},{n:"Mme Prudence",pers:"prudent",d:"Mise petit à petit et attend la fin du mercato pour rafler les bonnes affaires."}];
 const LINES={
-  requin:{bid:["Celui-là est pour moi.","Je mords !","Pas touche."],out:["Pas assez saignant.","Je passe."],win:["Miam.","Merci pour le cadeau."]},
-  flambeur:{bid:["Allez, on s'amuse !","Je mets le paquet !","L'argent, c'est fait pour ça !"],out:["Même moi je trouve ça cher.","Bof, pas pour moi."],win:["Ça, c'est un transfert !","Trop facile."]},
-  prudent:{bid:["Un prix raisonnable.","Je tente.","Juste un peu."],out:["Trop cher pour moi.","Je garde mon argent."],win:["Bonne affaire.","Parfait."]}
+  requin:{bluff:["Tu le veux vraiment ?","Allez, encore un peu…","Je monte, pour voir."],bid:["Celui-là est pour moi.","Je mords !","Pas touche."],out:["Pas assez saignant.","Je passe."],win:["Miam.","Merci pour le cadeau."]},
+  flambeur:{bluff:["Je mets le paquet !"],bid:["Allez, on s'amuse !","Je mets le paquet !","L'argent, c'est fait pour ça !"],out:["Même moi je trouve ça cher.","Bof, pas pour moi."],win:["Ça, c'est un transfert !","Trop facile."]},
+  prudent:{bluff:["Juste un peu."],bid:["Un prix raisonnable.","Je tente.","Juste un peu."],out:["Trop cher pour moi.","Je garde mon argent."],win:["Bonne affaire.","Parfait."]}
 };
 const PACKS={};
 function addPack(p){
@@ -714,7 +716,8 @@ function computeAI(){
     const need=emptySlots(t),avg=G.budget/G.slots.length,est=estimate(c);
     const r=Math.max(0,Math.min(1,(est-st.lo)/(st.hi-st.lo)));
     let v=avg*(.45+1.7*Math.pow(r,1.4));
-    v*={requin:r>.7?1.12:.92,flambeur:r>.7?1.15:1.02,prudent:r>.7?1.08:.9}[t.pers]||1;
+    const g=G.pos/Math.max(1,G.order.length);
+    v*={requin:r>.7?1.12:.92,flambeur:(r>.7?1.15:1.02)*(1.14-.3*g),prudent:(r>.7?1.02:.9)*(.9+.5*g)}[t.pers]||1;
     const rich=(t.money/need)/avg;v*=Math.max(.85,Math.min(2.6,Math.pow(rich,1.35)));
     if(need===1)v=Math.max(v,t.money*(r>.6?1:r>.3?.85:.7));
     /* poste rare : il reste peu de cartes qui rentrent dans cette place */
@@ -743,10 +746,14 @@ function pass(ti){
   setTurn(ti,false);if(!SIM&&G.phase==="auction")render();
 }
 function aiTurn(ti){
-  const mx=G.cur.max[ti],p=G.cur.price;
+  const mx=G.cur.max[ti],p=G.cur.price,t=G.teams[ti],R=SIM?rnd:Math.random,ld=G.teams[G.cur.leader];
   if(G.cur.leader<0&&mx<p+10){raise(ti,10);return}
-  if(mx>=p+10&&canRaise(ti)){const gap=mx-p,R=SIM?rnd:Math.random;let inc;
-    if(p===0)inc=Math.max(10,Math.round(mx*(emptySlots(G.teams[ti])===1?.75+R()*.25:.35+R()*.3)/10)*10);
+  /* Le Requin bluffe : il relance un humain juste pour lui faire payer plus cher */
+  if(t.pers==="requin"&&mx<p+10&&ld&&!ld.ai&&p>=30&&p+10<=mx*1.25+10&&canRaise(ti)&&R()<.35){if(!SIM)say(ti,"bluff");raise(ti,10);return}
+  if(mx>=p+10&&canRaise(ti)){const gap=mx-p;let inc;
+    if(p===0)inc=Math.max(10,Math.round(mx*(emptySlots(t)===1?.75+R()*.25:t.pers==="flambeur"?.55+R()*.3:t.pers==="prudent"?.12+R()*.15:.35+R()*.3)/10)*10);
+    else if(t.pers==="prudent")inc=gap>=150&&R()<.3?50:10;
+    else if(t.pers==="flambeur")inc=gap>=120&&R()<.75?100:gap>=50&&R()<.8?50:10;
     else inc=gap>=180&&R()<.6?100:gap>=70&&R()<.7?50:10;
     while(inc>10&&!canRaise(ti,inc))inc=inc>50?50:10;
     raise(ti,inc)}else pass(ti);
@@ -1133,7 +1140,7 @@ function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><
   <p class="mute"><b>Tes données :</b> pas de compte, pas de publicité, pas de pistage. Ton profil, ton album et tes achats restent sur ce téléphone. Les paiements sont gérés par Stripe : Mercato Max ne voit jamais ta carte bancaire.</p>
   <a class="btn" href="politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
   <p class="mute">Contact : [TON E-MAIL DE CONTACT]</p>`)}
-function voirSheet(ti){const t=G.teams[ti];sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div><p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${G.format==="xi"?`<div class="gxsheet">${xiPitch(t,null)}</div>`:pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
+function voirSheet(ti){const t=G.teams[ti],bot=t.ai&&BOTS.find(b=>b.pers===t.pers);sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div>${bot?`<p class="botd">${esc(bot.d)}</p>`:""}<p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${G.format==="xi"?`<div class="gxsheet">${xiPitch(t,null)}</div>`:pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
 function pauseSheet(){PAUSED=true;const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-Date.now():0;PAUSED_REM=rem;
   sheet(`<h2>Pause</h2><p class="mute">La partie est sauvegardée : tu pourras la reprendre depuis l'accueil.</p><button class="btn go" data-act="resumePause">Reprendre</button><button class="btn" data-act="rules">Règles</button><button class="btn" data-act="pals">🎨 Couleurs</button><button class="btn" data-act="quit">Retour à l'accueil</button>`)}
 let PAUSED_REM=0;
