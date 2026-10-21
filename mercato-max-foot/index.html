@@ -172,7 +172,7 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .bubble::after{content:"";position:absolute;top:-5px;left:50%;margin-left:-5px;border:5px solid transparent;border-top:0;border-bottom-color:var(--board)}
 
 .cardz{flex:1;min-height:0;display:flex}
-.fcard{flex:1;position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;padding:46px 14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}
+.fcard{flex:1;min-height:0;position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;padding:46px 14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}
 .fcard::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--pc,var(--soft))}
 .fcard.gold{background:linear-gradient(170deg,#FFF6D6,#FFE38A);border-color:#F2C744;color:#141433}
 .fcard.gold .club,.fcard.gold .note,.fcard.gold .lbl{color:#6B5A1E}
@@ -306,7 +306,7 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .home .logo{padding-top:0}.home .logo svg{width:62px;height:70px}.home .mark{font-size:44px}
 .lvlpill{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px 9px 3px 3px;min-width:0}
 .lvlpill b{flex:none;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:15px}
-.lvlpill>span:not(.bar){font-family:var(--display);font-weight:700;font-size:13px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.lvlpill>span:not(.bar){font-family:var(--display);font-weight:700;font-size:12px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
 .lvlpill .bar{width:38px;flex:none}
 .bar{display:block;height:6px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:4px}
 .bar i{display:block;height:100%;background:var(--green);border-radius:3px}
@@ -377,7 +377,8 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .optsd summary small{font-size:12px;color:var(--mute);text-align:right}
 .optin{display:flex;flex-direction:column;gap:10px;margin-top:10px}
 .bid small{display:block;font-family:var(--body);font-size:10px;font-weight:600;opacity:.85;margin-top:1px;text-shadow:none}
-.coach{font-size:12px;font-weight:600;background:var(--board);color:#fff;border-radius:10px;padding:5px 10px;max-width:300px}
+.coach{font-size:11px;line-height:1.3;font-weight:600;background:var(--board);color:#fff;border-radius:10px;padding:4px 9px;max-width:300px}
+.fcard{justify-content:safe center}
 .waitdraw{font-family:var(--display);font-size:15px;font-weight:700;text-transform:uppercase;color:var(--mute);background:var(--soft);border-radius:10px;padding:8px 14px;width:100%;max-width:300px;text-align:center}
 .duo{gap:6px}
 .duo .half{flex:1;min-height:0;display:flex;flex-direction:column;gap:5px}
@@ -805,7 +806,7 @@ function vHome(){
   SAVED=loadGame();
   const L=lvl(P.xp),D=dailyInfo(),dp=PACKS[D.pack],best=(P.daily[D.date]||{}).best;
   return`<div class="screen home">
-  <div class="between"><button class="lvlpill" data-act="go" data-v="profile"><b>${L.n}</b><span>${esc(L.title)}</span><span class="bar"><i style="width:${Math.round(L.into/L.need*100)}%"></i></span></button><span class="row"><button class="mini" data-act="pals">Couleurs</button><button class="mini" data-act="rules">Règles</button></span></div>
+  <div class="between"><button class="lvlpill" data-act="go" data-v="profile"><b>${L.n}</b><span>${esc(L.title)}</span></button><span class="row"><button class="mini" data-act="pals">Couleurs</button><button class="mini" data-act="rules">Règles</button></span></div>
   <div class="logo">${crest}<div class="mark">Mercato <span>Max</span> <em>Foot</em></div><div class="tagline">Mise. Bluffe. Recrute.</div>${SAVED?"":`<p class="mute">Construis l'équipe de tes rêves.</p>`}</div>
   ${SAVED?`<button class="resume" data-act="resume"><b>Reprendre la partie</b><small>${esc(PACKS[SAVED.pack].name)} · ${SAVED.mode==="solo"?"solo":"entre amis"}</small></button>`:""}
   <div class="modes">
@@ -865,7 +866,7 @@ function tilesInner(){
     let st="";if(auc){if(c.leader===ti)st="en tête";else if(c.out[ti]&&canPlace(ti))st="passe";else if(!canPlace(ti))st="pas de place"}
     const sy=SAY[ti]&&SAY[ti].until>Date.now()?`<span class="bubble">${esc(SAY[ti].text)}</span>`:"";
     return`<div class="tile ${auc&&c.turn===ti?"turn":""}" style="--tc:${t.col}">${st?`<span class="st">${st}</span>`:""}${sy}
-      <div class="top"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><span class="nm">${esc(t.name)}</span><span class="mn">${PP(t.money)}</span></div>
+      <div class="top"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><span class="nm">${esc(G.teams.length>2?t.name.replace(/^(Le |Mme )/,""):t.name)}</span><span class="mn">${PP(t.money)}</span></div>
       <div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">Voir</button></div></div>`}).join("");
 }
 function leftLbl(){const r=cardsLeft();return r===0?"Dernière carte":r<=5?`Encore ${r} carte${r>1?"s":""}`:`${r} cartes restantes`}
@@ -896,7 +897,7 @@ function cardHTML(){
 function clampJ(){return innerHeight<620?56:innerHeight<700?66:80}
 function actsHTML(ti,g2){
   const auc=G.phase==="auction",my=auc&&G.cur.turn===ti,t=G.teams[ti],first=auc&&G.cur.leader<0,p=auc?G.cur.price:0;
-  return`<div class="acts ${g2?"g2":""}" style="--tc:${t.col}">${[10,50,100].map(v=>{const ok=my&&canRaise(ti,v);return`<button class="bid" data-act="bid" data-i="${ti}" data-v="${v}" ${ok?"":"disabled"}>+${v}<small>${my?(ok?"→ "+(p+v):"trop cher"):"&nbsp;"}</small></button>`}).join("")}<button class="bid pass" data-act="pass" data-i="${ti}" ${my&&!first?"":"disabled"}>${first&&my?"Mise d'abord":"Passer"}</button></div>`;
+  return`<div class="acts ${g2?"g2":""}" style="--tc:${t.col}">${[10,50,100].map(v=>{const ok=my&&canRaise(ti,v);return`<button class="bid" data-act="bid" data-i="${ti}" data-v="${v}" ${ok?"":"disabled"}>+${v}<small>${my?(ok?"→ "+(p+v):"trop cher"):"&nbsp;"}</small></button>`}).join("")}<button class="bid pass" data-act="pass" data-i="${ti}" ${my&&!first?"":"disabled"}>Passer</button></div>`;
 }
 /* Conseils pendant la toute première partie */
 function coachHTML(){
@@ -1102,7 +1103,7 @@ function packKit(p){
   const ini=(words.length>1?words.slice(0,2).map(w=>w[0]).join(""):(words[0]||p.name).slice(0,2)).toUpperCase()+(/\d$/.test(p.name)?p.name.slice(-1):"");
   const c=THEMEC[MMF.cyrb53(p.id)%THEMEC.length];CC["__t"+p.id]=[c,c==="#F2F2F2"||c==="#FFD84A"?"#141433":"#fff"];return{club:"__t"+p.id,ini}}
 function packJersey(p,size){const k=packKit(p);return jersey({club:k.club,iniOverride:k.ini},size)}
-function packBtn(p){return`<button class="pkbtn" data-act="packs">${packJersey(p,40)}<span class="pkt"><b>${esc(p.name)}</b><small>${esc(p.desc||p.sub)} · ${p.cards.length} joueurs</small></span><span class="pkch">Changer</span></button>`}
+function packBtn(p){return`<button class="pkbtn" data-act="packs">${packJersey(p,40)}<span class="pkt"><b>${esc(p.name)}</b><small>${p.cards.length} joueurs · ${esc(p.desc||p.sub)}</small></span><span class="pkch">Changer</span></button>`}
 let PK_TAB=null,PK_Q="";
 function packsSheet(){
   if(!PK_TAB)PK_TAB=(PACKS[SETUP.pack]||{}).cat||"clubs";
@@ -1263,7 +1264,7 @@ function prodRow(k){const p=PRODUCTS[k],own=owns(k),inPass=p.kind==="pack"&&owns
 function vShop(){
   const nFree=Object.values(PACKS).filter(p=>p.cat!=="perso"&&!isPremium(p.id)).length;
   let body="";
-  if(SHOP_TAB==="offres")body=`${prodRow("all")}<span class="lbl">Pass par catégorie</span>${MMF.PASSES.map(x=>prodRow("pass_"+x.k)).join("")}<span class="lbl">Packs perso</span>${prodRow("perso3")}${prodRow("perso10")}${prodRow("createur")}${CONFIG.stripe.api?`<button class="mini" data-act="restore">Restaurer mes achats</button>`:""}`;
+  if(SHOP_TAB==="offres")body=`${prodRow("all")}<span class="lbl">Pass par catégorie</span>${MMF.PASSES.filter(x=>PREMIUM.some(id=>PACKS[id].cat===x.k)).map(x=>prodRow("pass_"+x.k)).join("")}<span class="lbl">Packs perso</span>${prodRow("perso3")}${prodRow("perso10")}${prodRow("createur")}${CONFIG.stripe.api?`<button class="mini" data-act="restore">Restaurer mes achats</button>`:""}`;
   else if(SHOP_TAB==="packs")body=PCATS.filter(c=>c[0]!=="perso").map(([k,l])=>{const ks=PREMIUM.filter(id=>PACKS[id].cat===k);return ks.length?`<span class="lbl">${l} · ${euro(CONFIG.prices.pack)} chacun</span>${ks.map(id=>prodRow("pk_"+id)).join("")}`:""}).join("");
 
   return`<div class="page">
@@ -1285,7 +1286,7 @@ const MISSIONS=[
  {id:"myst1",t:"Remporte une carte mystère",n:1,f:c=>c.mine.some(x=>x.pk.mystery)?1:0},
  {id:"daily2",t:"Joue le défi du jour 2 fois",n:2,f:c=>c.G.daily?1:0},
  {id:"rich",t:"Gagne en gardant 100 billets ou plus",n:1,f:c=>c.win&&c.me.money>=100?1:0},
- {id:"duel",t:"Gagne un duel contre 1 ordi",n:1,f:c=>c.win&&c.G.teams.length===2?1:0},
+ {id:"duel",t:"Gagne une partie en face à face contre 1 ordi",n:1,f:c=>c.win&&c.G.teams.length===2?1:0},
  {id:"games5",t:"Joue 5 parties",n:5,f:()=>1},
  {id:"formats",t:"Joue en XI de légende ou en Duel rapide",n:1,f:c=>c.G.format!=="five"?1:0},
  {id:"score",t:"Fais une équipe à 90 de moyenne ou plus",n:1,f:c=>c.humans.some(t=>t.score.total/c.G.slots.length>=90)?1:0}
