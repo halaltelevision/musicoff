@@ -564,8 +564,8 @@ function xiRoles(f){const R=FROLES[f]||FROLES["4-3-3"],m={G:"G"};xiSlots(f).forE
 function relineup(t,pos){const ks=G.slots.filter(k=>slotPos(k)===pos),pl=ks.map(k=>t.sl[k]).filter(Boolean);if(pl.length<2)return;
   const dist=(pk,k)=>roleDist(roleOf(cardOf(pk.i)),G.roles[k]);
   let best=null,bc=1e9;const cur=new Map(ks.filter(k=>t.sl[k]).map(k=>[t.sl[k],k]));
-  const go=(i,used,asg,c)=>{if(c>=bc)return;if(i===pl.length){bc=c;best=asg.slice();return}
-    for(const k of ks){if(used.has(k))continue;used.add(k);asg.push(k);go(i+1,used,asg,c+dist(pl[i],k)+(cur.get(pl[i])===k?0:.01));asg.pop();used.delete(k)}};
+  const go=(i,used,asg,c)=>{if(i===pl.length){if(c<bc){bc=c;best=asg.slice()}return}
+    for(const k of ks){if(used.has(k))continue;used.add(k);asg.push(k);const dd=dist(pl[i],k);go(i+1,used,asg,c+dd-(dd===0?cardOf(pl[i].i).p*.002:0)+(cur.get(pl[i])===k?0:.001));asg.pop();used.delete(k)}};
   go(0,new Set(),[],0);ks.forEach(k=>delete t.sl[k]);pl.forEach((pk,i)=>t.sl[best[i]]=pk)}
 const slotRole=k=>(G.roles&&G.roles[k])||PO(k).s;
 function fmtSlots(s){return s.format==="xi"?xiSlots(s.formation):FORMATS[s.format||"five"].slots}
