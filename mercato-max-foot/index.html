@@ -643,6 +643,24 @@ function sheet(h){$("#layer").innerHTML=`<div class="wrap" data-close="1"><div c
 function closeSheet(){$("#layer").innerHTML=""}
 function buzz(ms){if(typeof G!=="undefined"&&G&&G.mode==="amis")return;try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
 let AC=null;function beep(f=600,d=.08,type="sine",v=.05){if(SIM||P.sound===false)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
+/* ===== Sons de stade (synthétisés, pas de fichier) : foule en fond, marteau à chaque vente, sifflet, ovation ===== */
+const STADE={crowd:null};
+function acx(){if(SIM||P.sound===false)return null;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();return AC}catch(e){return null}}
+function noiseBuf(a,sec){const b=a.createBuffer(1,a.sampleRate*sec,a.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;l=(l+.02*w)/1.02;d[i]=l*3.5}return b}
+function crowdOn(){const a=acx();if(!a||STADE.crowd||P.crowd===false)return;
+  const src=a.createBufferSource();src.buffer=noiseBuf(a,4);src.loop=true;const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=520;bp.Q.value=.6;
+  const g=a.createGain();g.gain.value=0;g.gain.linearRampToValueAtTime(.05,a.currentTime+1.5);
+  const lfo=a.createOscillator(),lg=a.createGain();lfo.frequency.value=.13;lg.gain.value=.018;lfo.connect(lg);lg.connect(g.gain);
+  src.connect(bp);bp.connect(g);g.connect(a.destination);src.start();lfo.start();STADE.crowd={src,g,lfo}}
+function crowdOff(){const c=STADE.crowd;if(!c)return;STADE.crowd=null;try{c.g.gain.cancelScheduledValues(AC.currentTime);c.g.gain.setTargetAtTime(0,AC.currentTime,.3);setTimeout(()=>{c.src.stop();c.lfo.stop()},1200)}catch(e){}}
+function hammer(){const a=acx();if(!a)return;const t=a.currentTime;
+  const o=a.createOscillator(),g=a.createGain();o.type="sine";o.frequency.setValueAtTime(190,t);o.frequency.exponentialRampToValueAtTime(70,t+.12);g.gain.setValueAtTime(.35,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.2);
+  const n=a.createBufferSource();n.buffer=noiseBuf(a,.08);const hp=a.createBiquadFilter();hp.type="highpass";hp.frequency.value=1800;const ng=a.createGain();ng.gain.setValueAtTime(.25,t);ng.gain.exponentialRampToValueAtTime(.001,t+.06);n.connect(hp);hp.connect(ng);ng.connect(a.destination);n.start(t)}
+function whistle(){const a=acx();if(!a)return;[0,.42,.84].forEach((d,i)=>{const t=a.currentTime+d,o=a.createOscillator(),v=a.createOscillator(),vg=a.createGain(),g=a.createGain();
+  o.type="sine";o.frequency.value=2850;v.frequency.value=28;vg.gain.value=90;v.connect(vg);vg.connect(o.frequency);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+.02);g.gain.setValueAtTime(.09,t+(i===2?.55:.3));g.gain.linearRampToValueAtTime(0,t+(i===2?.6:.34));
+  o.connect(g);g.connect(a.destination);o.start(t);v.start(t);o.stop(t+.7);v.stop(t+.7)})}
+function roar(big){const a=acx();if(!a||P.crowd===false)return;const t=a.currentTime,n=a.createBufferSource();n.buffer=noiseBuf(a,2.6);const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=big?700:420;bp.Q.value=.5;
+  const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(big?.32:.12,t+.35);g.gain.exponentialRampToValueAtTime(.001,t+2.5);n.connect(bp);bp.connect(g);g.connect(a.destination);n.start(t)}
 const SFX={bid:()=>beep(720,.06,"triangle"),sold:()=>{beep(520,.09);setTimeout(()=>beep(780,.12),90)},nope:()=>beep(200,.12,"square",.03),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,"triangle"),i*110))};
 function confetti(n=120){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cv=$("#fx"),cx=cv.getContext("2d"),W=cv.width=innerWidth,H=cv.height=innerHeight;
   const cols=["#FF3B5C","#2D7BFF","#FFB400","#00B874","#8B5CF6"],ps=Array.from({length:n},()=>({x:W/2+(Math.random()-.5)*80,y:H*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*12-4,r:Math.random()*6,vr:(Math.random()-.5)*.4,s:6+Math.random()*6,c:pick(cols)}));
@@ -788,7 +806,7 @@ function aiTurn(ti){
 function sell(){
   stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;
   if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
-    if(!SIM){SFX.sold();buzz([30,40,60]);if(t.ai&&Math.random()<.5)say(c.leader,"win")}}
+    if(!SIM){SFX.sold();hammer();roar(false);buzz([30,40,60]);if(t.ai&&Math.random()<.5)say(c.leader,"win")}}
   if(!SIM)render();
 }
 function startLoop(){stopLoop();loopT=setInterval(tick,200)}
@@ -833,6 +851,7 @@ function render(){
   if(SCREEN==="game"&&G&&G.phase==="secret")$("#app").insertAdjacentHTML("beforeend",secretUI());
   if(SCREEN==="game"&&G&&G.phase==="sold"&&G.cur&&G.cur.reveal)$$(".stamp").forEach(st=>st.insertAdjacentHTML("afterend",secretRev()));
   if(SCREEN==="game"&&G&&G.phase==="auction")startLoop();else stopLoop();
+  if(SCREEN==="game")crowdOn();else crowdOff();
   if(SCREEN==="game")saveGame();
   if(SCREEN==="results")playReveal();
 }
@@ -1101,6 +1120,7 @@ function winBlast(){
   const el=document.createElement("div");el.className="blast";el.style.setProperty("--tc",col);
   el.innerHTML=`<div class="bx"><small>${G.winner<0?"Fin du match":iWin?"Victoire":"Défaite"}</small><b>${esc(txt)}</b>${sc}<span class="gap">${G.winner<0?"Même score, même argent gardé":G.tieMoney?"À égalité de points, avec plus d'argent gardé":"+"+gap+" point"+(gap>1?"s":"")+" d'écart"}</span></div>`;
   document.body.appendChild(el);const scr=$(".res");if(scr){scr.classList.remove("shake");void scr.offsetWidth;scr.classList.add("shake")}
+  whistle();setTimeout(()=>roar(iWin),700);
   if(iWin){SFX.win();confetti(160);if(me)buzz([40,60,40])}else beep(300,.25);
   let done=false;const close=()=>{if(done)return;done=true;el.classList.add("out");setTimeout(()=>el.remove(),450);showRewards()};
   el.addEventListener("click",close);timers.push(setTimeout(close,2600));
@@ -1406,6 +1426,7 @@ function vProfile(){
   <span class="lbl">Trophées · ${n}/${ACH.length}</span>
   <div class="ach">${ACH.map(a=>{const on=!!P.ach[a.id],g=a.goal&&!on?a.goal():null;return`<div class="${on?"on":""} t${a.tier}"><span class="tier">${["","Bronze","Argent","Or"][a.tier]}</span><b>${esc(a.t)}</b><small>${esc(a.d)}</small>${g?bar(g[0],g[1])+`<small class="gp">${Math.min(g[0],g[1])}/${g[1]}${a.id.startsWith("alb")?" %":""}</small>`:""}</div>`}).join("")}</div>
   <div class="panel between"><span><b>Son</b><br><small class="mute">Bruitages pendant la partie</small></span><button class="tog" aria-pressed="${P.sound!==false}" data-act="sound" aria-label="Son"></button></div>
+  <div class="panel between"><span><b>Ambiance de stade</b><br><small class="mute">Foule en fond, ovation à chaque recrue</small></span><button class="tog" aria-pressed="${P.crowd!==false&&P.sound!==false}" data-act="crowd" aria-label="Ambiance de stade" ${P.sound===false?"disabled":""}></button></div>
   <button class="mini" data-act="legal">Mentions et crédits</button>
   </div></div>`;
 }
@@ -1503,6 +1524,7 @@ document.addEventListener("click",e=>{
   else if(a==="restore")restoreSheet();
   else if(a==="dorestore")PAY.restore($("#remail").value.trim());
   else if(a==="sound"){P.sound=P.sound===false;saveP();render()}
+  else if(a==="crowd"){P.crowd=P.crowd===false;saveP();render()}
   else if(a==="albpack")albumSheet(v);
   else if(a==="newperso"){EDIT={};go("edit")}
   else if(a==="editperso"){const c=P.custom.find(x=>x.id===v);EDIT={id:c.id,name:c.name,txt:c.txt||c.raw.split("\n").map(l=>{const x=l.split("/");return`${x[0]} ; ${x[1]} ; ${x[2]} ; ${x[4]}`}).join("\n")};go("edit")}
