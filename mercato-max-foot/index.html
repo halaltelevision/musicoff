@@ -166,6 +166,17 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 #comm.on .cm{opacity:1;transform:none}
 #comm .cm.flip{align-self:flex-end;margin:0 max(10px,env(safe-area-inset-right,0px)) 0 0;transform:rotate(180deg) translateX(-110%)}#comm.on .cm.flip{transform:rotate(180deg)}
 @keyframes blink{to{visibility:hidden}}
+.soldfx{position:absolute;inset:0;z-index:25;display:grid;place-items:center;border-radius:16px;pointer-events:auto;
+ background:radial-gradient(circle,color-mix(in srgb,var(--tc) 70%,#0A1430),color-mix(in srgb,var(--tc) 35%,rgba(5,10,24,.85)) 75%);animation:sfx 1.6s ease-out forwards}
+.soldfx.other{background:rgba(5,10,24,.72);pointer-events:none}.soldfx.other b{font-size:30px;color:var(--tc)}
+.soldfx.full{position:fixed;z-index:68;border-radius:0}
+.sfx{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;animation:sfxpop .5s cubic-bezier(.2,1.6,.4,1) both}
+.sfx .jer{filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));margin-bottom:4px}
+.sfx .sk{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase;color:#fff;line-height:1}
+.sfx b{font-family:var(--display);font-weight:800;font-size:42px;text-transform:uppercase;color:#fff;line-height:.95;text-shadow:0 3px 0 rgba(0,0,0,.25)}
+.sfx .sp{margin-top:4px;font-family:var(--display);font-weight:700;font-size:15px;text-transform:uppercase;color:#fff;background:rgba(5,10,24,.45);border-radius:6px;padding:2px 10px}
+@keyframes sfx{0%{opacity:0}10%{opacity:1}78%{opacity:1}100%{opacity:0;visibility:hidden}}
+@keyframes sfxpop{0%{transform:scale(.4) rotate(-6deg);opacity:0}100%{transform:none;opacity:1}}
 .duo .half{position:relative;transition:opacity .25s,filter .25s}
 .duo .half.wait{opacity:.42;filter:saturate(.45)}
 .duo .half.act .mine{border-radius:14px;box-shadow:0 0 0 3px var(--tc),0 0 26px -4px var(--tc);background:color-mix(in srgb,var(--tc) 10%,transparent);padding:4px}
@@ -680,7 +691,7 @@ function shuffle(a,r){for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1)
 let rnd=Math.random,SIM=false;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 /* Commentateur : annonce les moments forts (surtout entre amis). À deux sur un téléphone, le texte est écrit pour chaque moitié */
-let COMM_T=null;
+let COMM_T=null,SOLDFX=null;
 function comm(txt,hot){if(SIM||!txt)return;let el=$("#comm");if(!el){el=document.createElement("div");el.id="comm";document.body.appendChild(el)}
   const duo=G&&G.mode==="amis"&&G.teams.length===2&&G.format!=="xi"&&SCREEN==="game";
   el.className=(duo?"duo ":"")+(hot?"hot":"");const one=f=>`<span class="cm ${f}"><i class="live">${hot?"Temps fort":"En direct"}</i><b>${esc(txt)}</b></span>`;el.innerHTML=(duo?one("flip"):"")+one("");
@@ -751,7 +762,7 @@ function startGame(s){
   else teams=[{name:"Toi",ai:false}].concat(shuffle(BOTS.slice(),rnd).slice(0,nai).map(b=>({name:b.n,ai:true,pers:b.pers})));
   const usable=pack.cards.map((_,i)=>i).filter(i=>{const p=pack.cards[i].pos;return slots.some(k=>slotPos(k)===p)||(p!=="G"&&slots.includes("LIB"))});
   G={mode:s.mode,setup:s,seed,diff:s.diff||"normal",draft:s.kind==="draft",chaos:s.chaos!==false&&s.kind!=="draft",daily:s.daily||null,pack:s.pack,format:s.format||"five",formation:s.format==="xi"?(s.formation||"4-3-3"):null,roles:s.format==="xi"?xiRoles(s.formation||"4-3-3"):null,slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
-    order:shuffle(usable,rnd),pos:0,next:0,nPrime:0,
+    order:shuffle(usable,rnd),pos:0,next:Math.floor(rnd()*teams.length),nPrime:0,
     teams:teams.map((t,i)=>Object.assign(t,{money:fm.budget,sl:{},col:TCOL[i]})),cur:null,phase:"draw"};
   SAY={};if(!SIM)go("game");
 }
@@ -880,7 +891,7 @@ function aiTurn(ti){
 function sell(){
   stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;
   if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
-    if(!SIM){SFX.sold();hammer();roar(c.price>=150);buzz([30,40,60]);
+    if(!SIM){SOLDFX={ti:c.leader,i:c.i,price:c.price};SFX.sold();hammer();roar(c.price>=150);buzz([30,40,60]);
       {const pl=lastName(card.n),who=nmS(t);
        if(c.price>=150)comm(pick2([`Transfert record : ${pl} pour ${c.price} !`,`${who} casse la tirelire pour ${pl} !`]),true);
        else if(c.price<=20&&card.p>=88&&!c.mystery)comm(pick2([`Hold-up ! ${pl} pour ${c.price} seulement !`,`Le vol du siècle : ${pl} à ${c.price} !`]),true);
@@ -931,6 +942,15 @@ function render(){
   document.body.classList.toggle("isdraft",!!(G&&G.draft)&&(SCREEN==="game"||SCREEN==="results"));
   if(SCREEN==="game"&&G&&G.phase==="sold"&&G.cur&&G.cur.reveal)$$(".stamp").forEach(st=>st.insertAdjacentHTML("afterend",secretRev()));
   if(SCREEN==="game"&&G&&G.phase==="auction")startLoop();else stopLoop();
+  /* Vente : gros « Recruté par … » à la couleur du gagnant, sur sa moitié à deux, sinon au centre */
+  if(SCREEN==="game"&&G&&G.phase==="sold"&&SOLDFX){const x=SOLDFX;SOLDFX=null;const t=G.teams[x.ti],cd=cardOf(x.i),me=G.mode==="solo"&&x.ti===0;
+    const duo=G.mode==="amis"&&G.teams.length===2&&G.format!=="xi",host=duo?$$(".duo .half")[x.ti===1?0:1]:document.body;
+    if(host){const f=document.createElement("div");f.className="soldfx"+(duo?"":" full");f.style.setProperty("--tc",t.col);
+      f.innerHTML=`<div class="sfx">${jersey(cd,58,G.cur&&G.cur.mystery)}<span class="sk">${me?"Recruté par toi !":"Recruté par"}</span>${me?"":`<b>${esc(t.name)} !</b>`}<span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;
+      f.addEventListener("click",()=>f.remove());host.appendChild(f);setTimeout(()=>f.remove(),1600)}
+    if(duo){const oh=$$(".duo .half")[x.ti===1?1:0];if(oh){const g=document.createElement("div");g.className="soldfx other";g.style.setProperty("--tc",t.col);
+      g.innerHTML=`<div class="sfx"><b>${esc(t.name)}</b><span class="sk">l'a eu</span><span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;oh.appendChild(g);setTimeout(()=>g.remove(),1600)}}
+    const sl=$$(".duo .half")[x.ti===1?0:1];if(sl)sl.classList.add("got");}
   /* Entre amis : grand « À toi ! » quand le tour change de joueur */
   if(SCREEN==="game"&&G&&G.mode==="amis"&&G.phase==="auction"){const ti=G.cur.turn,key=G.pos+"-"+ti;
     if(key!==render.lastTurn&&ti>=0){const prev=render.lastTurn;render.lastTurn=key;
