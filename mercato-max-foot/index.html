@@ -311,8 +311,9 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .pkitem .jer{flex:none}
 
 /* ===== Accueil, boutique, profil, album, packs perso ===== */
-.home{gap:10px}
-.home .logo{padding-top:0}.home .logo svg{width:62px;height:70px}.home .mark{font-size:44px}
+.home{gap:8px}.home .mode{min-height:112px;padding:12px}.home .mode b{font-size:28px}.home .dailyc{padding:6px 10px}
+.home.saved .logo svg{display:none}
+.home .logo{padding-top:0;gap:4px}.home .logo svg{width:52px;height:59px}.home .mark{font-size:42px}
 .lvlpill{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px 9px 3px 3px;min-width:0}
 .lvlpill b{flex:none;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:15px}
 .lvlpill>span:not(.bar){font-family:var(--display);font-weight:700;font-size:12px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
@@ -324,6 +325,11 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .dt .lbl{color:var(--yellow);font-size:12px}
 .dt b{font-family:var(--display);font-size:19px;line-height:1.05;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dt small{font-size:12px;color:var(--mute)}
+.lives{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px}
+.live{display:flex;flex-direction:column;justify-content:center;gap:1px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 9px;min-width:0}
+.live .lbl{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.live b{font-family:var(--display);font-size:16px;text-transform:uppercase;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live b.ok{color:var(--green)}.live b.ko{color:var(--red)}.live small{font-size:10.5px;color:var(--mute);line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.live.wk{flex-direction:row;align-items:center;gap:7px;border-color:color-mix(in srgb,var(--yellow) 50%,var(--line))}.live.wk>span{min-width:0;display:flex;flex-direction:column}.live.wk .lbl{color:var(--yellow)}
 .nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .nav button{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0}
 .nav b{font-family:var(--display);font-size:17px;text-transform:uppercase;letter-spacing:.03em}
@@ -860,7 +866,7 @@ let SAVED=null;
 function vHome(){
   SAVED=loadGame();
   const L=lvl(P.xp),D=dailyInfo(),dp=PACKS[D.pack],best=(P.daily[D.date]||{}).best;
-  return`<div class="screen home">
+  return`<div class="screen home ${SAVED?"saved":""}">
   <div class="between"><button class="lvlpill" data-act="go" data-v="profile"><b>${L.n}</b><span>${esc(L.title)}</span></button><span class="row"><button class="mini" data-act="pals">Couleurs</button><button class="mini" data-act="rules">Règles</button></span></div>
   <div class="logo">${crest}<div class="mark">Mercato <span>Max</span> <em>Foot</em></div><div class="tagline">Mise. Bluffe. Recrute.</div>${SAVED?"":`<p class="mute">Construis l'équipe de tes rêves.</p>`}</div>
   ${SAVED?`<button class="resume" data-act="resume"><b>Reprendre la partie</b><small>${esc(PACKS[SAVED.pack].name)} · ${SAVED.mode==="solo"?"solo":"entre amis"}</small></button>`:""}
@@ -869,9 +875,16 @@ function vHome(){
     <button class="mode" style="background:var(--blue)" data-act="setup" data-v="amis"><span class="ico">2 à 4 joueurs</span><b>Entre amis</b><small>2 à 4 sur un seul téléphone</small></button>
   </div>
   <button class="dailyc" data-act="daily">${packJersey(dp,40)}<span class="dt"><span class="lbl">Défi du jour${P.dstreak.n>1&&P.dstreak.last===D.date?` · ${P.dstreak.n} jours de suite`:""}</span><b>${esc(dp.name)}</b><small>${best!=null?`Ton meilleur score aujourd'hui : ${best}`:"Même tirage pour tout le monde, contre 2 ordis"}</small></span><span class="pkch">Jouer</span></button>
+  ${homeLive()}
   <nav class="nav"><button data-act="go" data-v="shop"><b>Boutique</b><small>${PREMIUM.length} packs premium</small></button><button data-act="go" data-v="album"><b>Album</b><small>${albumTotal()} cartes</small></button><button data-act="go" data-v="profile"><b>Profil</b><small>${Object.keys(P.ach).length}/${ACH.length} trophées</small></button></nav>
   </div>`;
 }
+/* Accueil : dernière partie (avec la série) et pack offert cette semaine */
+function homeLive(){const L=P.last,wf=weekFree(),wp=wf&&PACKS[wf];
+  const last=L&&PACKS[L.pack]?`<button class="live" data-act="relast"><span class="lbl">${P.streakW>1?`Série de ${P.streakW} victoires`:"Dernière partie"}</span><b class="${L.solo?(L.win?"ok":"ko"):""}">${L.solo?(L.tie?"Égalité":L.win?"Victoire":"Défaite")+` ${L.mine} – ${L.oppScore}`:esc(L.wname||"Égalité")+(L.wname?` gagne · ${L.wscore}`:"")}</b><small>${L.solo?"contre "+esc(L.opp)+" · ":""}${esc(PACKS[L.pack].name)} · ${esc(L.fmt)}</small></button>`
+    :`<div class="live"><span class="lbl">Première partie</span><b>Lance-toi !</b><small>Commence en solo contre 1 ordi pour apprendre.</small></div>`;
+  const week=wp?`<button class="live wk" data-act="weekpack">${packJersey(wp,34)}<span><span class="lbl">Offert cette semaine</span><b>${esc(wp.name)}</b><small>Pack premium gratuit</small></span></button>`:"";
+  return`<div class="lives">${last}${week}</div>`}
 function seg(key,opts){return`<div class="seg">${opts.map(([v,l,d])=>`<button data-act="seg" data-k="${key}" data-v="${v}" aria-pressed="${String(SETUP[key])===String(v)}">${l}${d?`<small>${d}</small>`:""}</button>`).join("")}</div>`}
 let OPTOPEN=false;
 function optsSheet(){const s=SETUP,solo=s.mode==="solo";
@@ -1393,6 +1406,9 @@ function rewards(){
   if(G.mode==="solo"){if(win){P.wins++;P.streakW++;P.bestStreakW=Math.max(P.bestStreakW,P.streakW)}else P.streakW=0;
     if(!P.best||me.score.total>P.best.score)P.best={score:me.score.total,pack:packOf().name}}
   if(!P.packsPlayed.includes(G.pack))P.packsPlayed.push(G.pack);
+  /* Dernière partie, affichée sur l'accueil */
+  {const w=G.teams[G.winner],opp=me?[...G.teams].filter(t=>t!==me).sort((a,b)=>b.score.total-a.score.total)[0]:null;
+   P.last={pack:G.pack,fmt:fmtLabel(G),solo:!!me,win,tie:G.winner<0,mine:me?me.score.total:null,opp:opp?opp.name:null,oppScore:opp?opp.score.total:null,wname:w?w.name:null,wscore:w?w.score.total:null,n:G.teams.length}}
   if(G.daily&&me){const d=P.daily[G.daily]||{best:0};d.best=Math.max(d.best,me.score.total);P.daily[G.daily]=d;
     const y=new Date();y.setDate(y.getDate()-1);const ys=y.getFullYear()+"-"+String(y.getMonth()+1).padStart(2,"0")+"-"+String(y.getDate()).padStart(2,"0");
     if(P.dstreak.last!==G.daily){P.dstreak.n=P.dstreak.last===ys?P.dstreak.n+1:1;P.dstreak.last=G.daily}}
@@ -1523,6 +1539,8 @@ document.addEventListener("click",e=>{
   else if(a==="shoptab"){SHOP_TAB=v;render()}
   else if(a==="restore")restoreSheet();
   else if(a==="dorestore")PAY.restore($("#remail").value.trim());
+  else if(a==="relast"){const L=P.last;SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:packOpen(L.pack)?L.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};if(!L.solo)SETUP.mode="amis";go("setup")}
+  else if(a==="weekpack"){const wf=weekFree();SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:wf,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
   else if(a==="sound"){P.sound=P.sound===false;saveP();render()}
   else if(a==="crowd"){P.crowd=P.crowd===false;saveP();render()}
   else if(a==="albpack")albumSheet(v);
