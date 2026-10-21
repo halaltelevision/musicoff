@@ -148,6 +148,12 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .pickc{display:flex;align-items:center;gap:10px;text-align:left;background:var(--soft);border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:12px;padding:7px 10px}
 .pickc:active{transform:scale(.98)}.pickc>span{min-width:0;display:flex;flex-direction:column}.pickc b{font-family:var(--display);font-size:19px;text-transform:uppercase;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pickc small{font-size:12px;color:var(--mute)}.pickc em{font-style:normal;font-size:11px;font-weight:700;color:var(--green)}
+.tvres.live,.winner.live{flex-direction:column;gap:1px;font-size:15px;color:var(--ink);text-transform:none;letter-spacing:0}
+.winner.live{font-size:18px;line-height:1.2}
+.rvl{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);font-size:13px}.rvl b{color:var(--yellow)}
+.rvm{font-family:var(--display);font-weight:800;font-size:19px;text-transform:uppercase;color:#fff}
+.tvres.live{animation:pulse .5s ease-out}
+.tag.scar{background:var(--red);color:#fff;animation:pulse 1.1s ease-in-out infinite;box-shadow:0 0 12px -2px var(--red)}.tag.scar.last{background:var(--yellow);color:#0A1430;box-shadow:0 0 14px -2px var(--yellow)}
 .fmls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .fml{border-radius:10px;padding:9px 2px;background:var(--card);border:1px solid var(--line);font-family:var(--led);font-weight:700;font-size:16px}
 .fml[aria-pressed=true]{background:var(--accent);border-color:transparent;color:#fff}.fml:disabled{opacity:.35}
@@ -448,7 +454,7 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .tvbug .s{display:flex;align-items:center;gap:6px;background:#0E1A3D;padding:0 10px;font-family:var(--led);font-size:29px;font-weight:700;color:var(--boardtxt);text-shadow:0 0 12px rgba(255,216,74,.6);font-variant-numeric:tabular-nums}
 .tvbug .s em{font-style:normal;color:#3C4C80;font-size:20px}
 .tvbug .s .lo{color:#7C88AE;text-shadow:none}
-.tvp{flex:1;min-height:312px;position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0,rgba(255,255,255,.15),transparent 60%),repeating-linear-gradient(180deg,var(--grass) 0 10%,var(--grass2) 10% 20%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.3),0 0 26px -8px rgba(24,209,126,.6)}
+.tvp{flex:1;min-height:292px;position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0,rgba(255,255,255,.15),transparent 60%),repeating-linear-gradient(180deg,var(--grass) 0 10%,var(--grass2) 10% 20%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.3),0 0 26px -8px rgba(24,209,126,.6)}
 .tvp::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px solid rgba(255,255,255,.45)}
 .tvp::after{content:"";position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px;border:2px solid rgba(255,255,255,.45);border-radius:50%}
 .tvbox{position:absolute;left:30%;right:30%;height:26px;border:2px solid rgba(255,255,255,.45)}.tvbox.t{top:-2px;border-top:0}.tvbox.b{bottom:-2px;border-bottom:0}
@@ -475,7 +481,7 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .tvwin small{display:block;font-family:var(--body);font-size:11px;font-weight:700;text-transform:none;opacity:.8;margin-top:1px}
 .tvwin.lose{background:var(--tc);color:#fff;box-shadow:0 0 22px -4px var(--tc)}
 .tvwin.on{opacity:1;transform:translate(-50%,-50%)}
-.tvp .skip{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(5,10,24,.7);border-radius:8px;color:#fff;text-decoration:none;padding:5px 12px}
+.tvp .skip{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;background:rgba(5,10,24,.7);border-radius:8px;color:#fff;text-decoration:none;padding:5px 12px}
 .res .awards .award b{font-size:14px}
 /* Boutons de fin : Revanche + Partager en grand, Autre pack + Accueil en dessous */
 .endb{display:flex;flex-direction:column;gap:6px}
@@ -735,7 +741,7 @@ function draw(){
   computeAI();G.phase="auction";setTurn(starter,true);
   if(SIM||G.phase!=="auction")return;
   if(G.prime>=0){G.cur.aiAt&&(G.cur.aiAt+=2600);G.cur.turnEnd&&(G.cur.turnEnd+=2600)}
-  render();if(G.prime>=0)primeFx(G.prime);beep(golden?880:440,.1,"triangle");
+  render();if(G.prime>=0)primeFx(G.prime);const sx=scarInfo();if(sx){beep(sx.last?990:760,.12,"square",.04);setTimeout(()=>beep(sx.last?1320:880,.12,"square",.04),140)}else beep(440,.1,"triangle");
 }
 /* Draft : chacun son tour, on choisit 1 joueur parmi 3 (gratuit, pas d'enchère). Les 2 autres retournent au fond de la pile */
 function draftPick(){const n=G.teams.length;let pk=-1;
@@ -750,6 +756,12 @@ function finishPick(j){const c=G.cur,i=c.opts[j];c.i=i;c.leader=c.picker;G.order
 function pickUI(){const c=G.cur,t=G.teams[c.picker];if(!t||t.ai)return"";const me=G.mode==="solo";
   return`<div class="secret"><div class="sbox pick" style="--tc:${t.col}"><span class="lbl">Draft</span><h3>${me?"À toi de choisir":"Au tour de "+esc(t.name)}</h3><p class="mute">Prends 1 joueur parmi ces 3. Les notes restent secrètes jusqu'à la fin.</p>
    <div class="picks">${c.opts.map((i,j)=>{const cd=cardOf(i),k=slotFor(t,cd);return`<button class="pickc" data-act="pick" data-v="${j}" style="--pc:${POS[cd.pos].c}">${jersey(cd,40)}<span><b>${esc(cd.n)}</b><small>${G.format==="xi"?(RLBL[roleOf(cd)]||POS[cd.pos].l):POS[cd.pos].l} · ${esc(cd.club)}</small><em>${k==="LIB"?"place libre":"en "+(G.format==="xi"?(RLBL[slotRole(k)]||slotRole(k)):PO(k).l).toLowerCase()}</em></span></button>`}).join("")}</div></div></div>`}
+/* Rareté : « Dernier gardien ! » / « Plus que 2 attaquants » quand ce poste va manquer */
+const POSPL={G:["gardien","gardiens"],DEF:["défenseur","défenseurs"],MIL:["milieu","milieux"],ATT:["attaquant","attaquants"]};
+function scarInfo(){const c=G.cur;if(!c||c.i==null)return null;const card=cardOf(c.i),p=card.pos;
+  const r=G.order.slice(G.pos).filter(i=>cardOf(i).pos===p).length,need=G.teams.reduce((a,t)=>a+G.slots.filter(k=>slotPos(k)===p&&!t.sl[k]).length,0);
+  if(r===0)return{last:true,txt:`Dernier ${POSPL[p][0]} !`};if(r<=2&&r<need)return{last:false,txt:`Plus que ${r} autre${r>1?"s":""} ${POSPL[p][r>1?1:0]}`};return null}
+function scarTag(){if(G.draft||!G.cur||G.phase==="sold")return"";const x=scarInfo();return x?`<span class="tag scar ${x.last?"last":""}">${x.txt}</span>`:""}
 function startSecret(elig){const c=G.cur;computeAI();c.secret=true;c.bids={};c.elig=elig;c.sq=[];c.sv=10;c.sready=G.mode==="solo";
   elig.forEach(ti=>{const t=G.teams[ti];if(t.ai){const m=Math.max(10,c.max[ti]||10);c.bids[ti]=Math.max(10,Math.min(maxBid(t),Math.round(m*(.72+rnd()*.22)/10)*10))}else c.sq.push(ti)});
   G.phase="secret";if(!c.sq.length){resolveSecret();return}if(!SIM){render();beep(520,.12,"triangle")}}
@@ -979,7 +991,7 @@ function cardHTML(){
     mid+=coachHTML()+`<button class="btn go nb" data-act="draw">${isOver()?"Voir les équipes":G.mode==="amis"?esc(nt.name)+" tire la carte":"Carte suivante"}</button>`}
   else if(ph==="skip"){mid=`<div class="note">Plus personne n'a de place pour un ${POS[card.pos].l.toLowerCase()} : carte écartée.</div><button class="btn go nb" data-act="draw">${isOver()?"Voir les équipes":"Carte suivante"}</button>`}
   return`<div class="fcard ${c.golden?"gold":""}" style="--pc:${pc}">${bar}
-    <div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Carte en or · force ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Carte mystère</span>`:""}</div>
+    <div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Carte en or · force ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Carte mystère</span>`:""}${scarTag()}</div>
     <div class="jwrap">${jersey(card,clampJ(),myst)}</div>
     <div class="cname">${myst?"Joueur mystère":esc(card.n)}</div><div class="club">${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</div>
     ${mid}</div>`;
@@ -1013,7 +1025,7 @@ function duoHalf(side){
     else if(ph==="sold")foot=(c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${c.leader===side?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>`:`<div class="note">Personne n'a misé.</div>`)+drawCtl(side);
     else if(ph==="secret"||ph==="pick")foot=`<div class="note">${ph==="pick"?"Choix en cours…":"Enchère secrète en cours…"}</div>`;
     else foot=`<div class="note">Carte écartée : plus de place à ce poste.</div>`+drawCtl(side);
-    body=`<div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}</div>
+    body=`<div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}${scarTag()}</div>
     <div class="dmain">${jersey(card,44,myst)}<span class="dnm"><span class="cname">${myst?"Joueur mystère":esc(card.n)}</span><span class="club">${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</span></span></div>${foot}`}
   return`<div class="half ${side===1?"top":""}"><div class="fcard duoc ${c&&c.golden?"gold":""}" style="--pc:${pc}">${bar}${body}</div>
    <div class="mine"><div class="between"><span class="row"><span class="dot" style="--tc:${t.col}">${esc(t.name[0])}</span><b>${esc(t.name)}</b></span><span class="num">${PP(t.money)}</span></div>${teamView(t,{card:c&&ph==="auction"?cardOf(c.i):null,small:true})}${actsHTML(side)}</div></div>`;
@@ -1038,7 +1050,7 @@ function vGameXI(){
     :`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="gxturn" style="--tc:${t.col}">${auc?"Au tour de "+esc(t.name):esc(t.name)}<small>${PP(t.money)}</small></span><button class="mini" data-act="rules">Règles</button></div>`;
   let banner;
   if(!card)banner=`<div class="gxb"><span class="tx"><h3>Le mercato ouvre !</h3><small>Un joueur sort à chaque carte. Tu ne mises que s'il te reste une place à son poste.</small></span></div>${drawCtl(solo?undefined:ti,true)}`;
-  else{const pc=POS[card.pos].c,head=`<span class="tx"><span class="tags"><span class="pos" style="--pc:${pc}">${myst?POS[card.pos].l:RLBL[roleOf(card)]||POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}</span><h3>${myst?"Joueur mystère":esc(card.n)}</h3><small>${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</small></span>`;
+  else{const pc=POS[card.pos].c,head=`<span class="tx"><span class="tags"><span class="pos" style="--pc:${pc}">${myst?POS[card.pos].l:RLBL[roleOf(card)]||POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}${scarTag()}</span><h3>${myst?"Joueur mystère":esc(card.n)}</h3><small>${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</small></span>`;
     if(auc){const tt=G.teams[c.turn],me=solo&&c.turn===0;
       banner=`<div class="gxb ${c.golden?"gold":""}">${jersey(card,44,myst)}${head}<span class="board"><span class="price">${c.price||"—"}</span></span></div>
        <div class="gxw"><span style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(solo&&c.leader===0?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</span><span class="turnline" style="--tc:${tt.col}">${me?"À toi de miser":tt.ai?esc(tt.name)+" réfléchit…":"Au tour de "+esc(tt.name)}</span></div>${G.ms?`<div class="timer gxt"><i class="tbar"></i></div>`:""}`}
@@ -1079,6 +1091,7 @@ function vResults(){
    ${G.teams.map((t,ti)=>`<div class="rteam" id="rt${ti}" style="--tc:${t.col}"><div class="between"><span class="row"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><b>${esc(t.name)}</b><small class="mute">${PP(t.money)}</small></span><span class="row"><span class="tot" id="tot${ti}">0</span></span></div>
      <div id="pt${ti}">${pitchHTML(t,{reveal:0,small:true})}</div></div>`).join("")}
    <div class="winner" id="winner"></div>
+   <button class="skip" id="skip" data-act="skip">Passer</button>
    <div class="after" id="after">${awardsHTML()}${endButtons()}</div>
   </div>`;
 }
@@ -1102,6 +1115,7 @@ function vResultsTV(){
    <div class="tvbug"><span class="t" style="--tc:${T[0].col}"><i></i><span>${esc(tvShort(T[0]))}</span></span><span class="s"><span id="tot0">0</span><em>–</em><span id="tot1">0</span></span><span class="t r" style="--tc:${T[1].col}"><span>${esc(tvShort(T[1]))}</span><i></i></span></div>
    <div class="tvp ${G.format}"><div id="tvin">${tvPitchInner(0)}</div>
     <span class="tvtag t l" style="--tc:${T[1].col}">${esc(T[1].name)}</span><span class="tvtag t r">${kept(T[1])}</span>
+    <button class="skip" id="skip" data-act="skip">Passer</button>
     <span class="tvtag b l" style="--tc:${T[0].col}">${me?"Toi":esc(T[0].name)}</span><span class="tvtag b r">${kept(T[0])}</span>
 </div>
    <div class="tvres" id="winner"></div>
@@ -1120,19 +1134,24 @@ function awardsHTML(){
 }
 /* Révélation poste par poste, le total monte */
 let SKIP=null;
+/* Révélation ligne par ligne (gardiens, défense, milieu, attaque…) avec qui mène, puis l'annonce du gagnant */
+const LINE_L={G:"Les gardiens",DEF:"La défense",MIL:"Le milieu",ATT:"L'attaque",LIB:"La place libre"};
 function playReveal(){
-  const tot=G.teams.map(()=>0),many=G.teams.length>2,tv=G.teams.length===2;let step=0,fast=false;
+  const many=G.teams.length>2,tv=G.teams.length===2,L=linesOf(),tot=G.teams.map(()=>0);let step=0,shown=0,fast=false;
   const later=(f,ms)=>{if(fast)f();else timers.push(setTimeout(f,ms))};
   SKIP=()=>{if(fast)return;fast=true;timers.forEach(clearTimeout);timers=[];next()};
+  const nm=t=>G.mode==="solo"&&t===G.teams[0]?"Toi":t.name.replace(/^(Le |Mme )/,"");
+  const w=$("#winner");
   const next=()=>{
-    if(step<G.slots.length){const k=G.slots[step];step++;
-      if(tv)$("#tvin").innerHTML=tvPitchInner(step);
-      G.teams.forEach((t,ti)=>{if(t.sl[k])tot[ti]+=force(t.sl[k]);if(!tv)$("#pt"+ti).innerHTML=pitchHTML(t,{reveal:step,small:many});$("#tot"+ti).textContent=tot[ti]});
-      if(!fast)beep(400+step*80,.08,"triangle");later(next,750);return}
-    if(step===G.slots.length){step++;let any=false;
-      G.teams.forEach((t,ti)=>{$("#tot"+ti).textContent=t.score.total});
-      if(any&&!fast)beep(900,.1,"triangle");later(next,any?900:200);return}
-    const w=$("#winner");
+    if(step<L.length){const line=L[step++],part=G.teams.map(t=>line.reduce((a,k)=>a+(t.sl[k]?force(t.sl[k]):0),0));shown+=line.length;
+      G.teams.forEach((t,ti)=>{tot[ti]+=part[ti];if(!tv)$("#pt"+ti).innerHTML=pitchHTML(t,{reveal:shown,small:many});$("#tot"+ti).textContent=tot[ti]});
+      if(tv)$("#tvin").innerHTML=tvPitchInner(shown);
+      if(!fast&&w){const best=Math.max(...tot),lead=G.teams.filter((_,i)=>tot[i]===best),pb=Math.max(...part),pw=G.teams.filter((_,i)=>part[i]===pb);
+        w.innerHTML=`<span class="rvl"><b>${LINE_L[slotPos(line[0])]}</b> · ${tv?`${part[0]} – ${part[1]}`:`${esc(pw.length>1?"égalité":nm(pw[0]))} ${pw.length>1?"":"la gagne"}`}</span><span class="rvm">${lead.length>1?"Égalité au total":G.mode==="solo"&&lead[0]===G.teams[0]?"Tu mènes":esc(nm(lead[0]))+" mène"} · ${best} pts</span>`;
+        w.classList.add("on","live");beep(420+step*90,.09,"triangle");if(!tv&&!many);}
+      later(next,1500);return}
+    G.teams.forEach((t,ti)=>{$("#tot"+ti).textContent=t.score.total});
+    w.classList.remove("live");
     if(tv){const lo=$("#tot"+(G.winner===0?1:0));if(G.winner>=0&&lo)lo.classList.add("lo")}
     if(G.winner<0)w.textContent="Égalité parfaite !";
     else{const t=G.teams[G.winner],gap=t.score.total-G.teams.filter(x=>x!==t).reduce((m,x)=>Math.max(m,x.score.total),0);
@@ -1143,8 +1162,7 @@ function playReveal(){
     w.classList.add("on");$("#after").classList.add("on");const sk=$("#skip");if(sk)sk.hidden=true;
     winBlast();
   };
-  /* Tout est déjà rempli derrière ; l'annonce du gagnant passe par-dessus */
-  fast=true;next();
+  timers.push(setTimeout(next,700));
 }
 /* Grosse annonce du gagnant pendant ~2,6 s (on peut toucher pour la fermer) */
 function winBlast(){
