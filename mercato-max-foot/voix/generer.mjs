@@ -1,10 +1,11 @@
 // Génère les voix du commentateur avec ElevenLabs.
-// Usage :  ELEVENLABS_API_KEY=... node generer.mjs            -> liste des voix françaises disponibles
+// Usage :  node generer.mjs            -> liste des voix françaises disponibles
 //          ELEVENLABS_API_KEY=... node generer.mjs <voice_id> -> génère tous les fichiers voix/*.mp3
 //          ELEVENLABS_API_KEY=... node generer.mjs <voice_id> echantillon -> 4 phrases pour écouter avant
 import fs from "node:fs";
-const KEY=process.env.ELEVENLABS_API_KEY;if(!KEY){console.error("Il manque ELEVENLABS_API_KEY");process.exit(1)}
-const H={"xi-api-key":KEY,"Content-Type":"application/json"};
+// La clé peut venir de ELEVENLABS_API_KEY, ou être ajoutée automatiquement par le proxy de la session (secret réseau sur api.elevenlabs.io)
+const KEY=process.env.ELEVENLABS_API_KEY;
+const H={"Content-Type":"application/json",...(KEY?{"xi-api-key":KEY}:{})};
 const [voice,mode]=process.argv.slice(2);
 const dir=new URL(".",import.meta.url).pathname;
 if(!voice){
