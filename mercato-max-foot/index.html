@@ -891,7 +891,7 @@ function aiTurn(ti){
 function sell(){
   stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;
   if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
-    if(!SIM){SOLDFX={ti:c.leader,i:c.i,price:c.price};SFX.sold();hammer();roar(c.price>=150);buzz([30,40,60]);
+    if(!SIM){SOLDFX={ti:c.leader,i:c.i,price:c.price};SFX.sold();hammer();if(c.price>=150||(c.price<=20&&cardOf(c.i).p>=88&&!c.mystery))roar(true);buzz([30,40,60]);
       {const pl=lastName(card.n),who=nmS(t);
        if(c.price>=150)comm(pick2([`Transfert record : ${pl} pour ${c.price} !`,`${who} casse la tirelire pour ${pl} !`]),true);
        else if(c.price<=20&&card.p>=88&&!c.mystery)comm(pick2([`Hold-up ! ${pl} pour ${c.price} seulement !`,`Le vol du siècle : ${pl} à ${c.price} !`]),true);
@@ -957,7 +957,7 @@ function render(){
       if(prev&&prev.split("-")[1]!==String(ti)){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
         if(host){const f=document.createElement("div");f.className="turnflash";f.style.setProperty("--tc",G.teams[ti].col);f.innerHTML=`<b>À toi,</b><span>${esc(G.teams[ti].name)} !</span>`;host.appendChild(f);setTimeout(()=>f.remove(),1100)}
         beep(660,.07,"sine",.04)}}}
-  if(SCREEN==="game")crowdOn();else crowdOff();
+  crowdOff();
   if(SCREEN==="game")saveGame();
   if(SCREEN==="results")playReveal();
 }
@@ -1551,7 +1551,7 @@ function vProfile(){
   <span class="lbl">Trophées · ${n}/${ACH.length}</span>
   <div class="ach">${ACH.map(a=>{const on=!!P.ach[a.id],g=a.goal&&!on?a.goal():null;return`<div class="${on?"on":""} t${a.tier}"><span class="tier">${["","Bronze","Argent","Or"][a.tier]}</span><b>${esc(a.t)}</b><small>${esc(a.d)}</small>${g?bar(g[0],g[1])+`<small class="gp">${Math.min(g[0],g[1])}/${g[1]}${a.id.startsWith("alb")?" %":""}</small>`:""}</div>`}).join("")}</div>
   <div class="panel between"><span><b>Son</b><br><small class="mute">Bruitages pendant la partie</small></span><button class="tog" aria-pressed="${P.sound!==false}" data-act="sound" aria-label="Son"></button></div>
-  <div class="panel between"><span><b>Ambiance de stade</b><br><small class="mute">Foule en fond, ovation à chaque recrue</small></span><button class="tog" aria-pressed="${P.crowd!==false&&P.sound!==false}" data-act="crowd" aria-label="Ambiance de stade" ${P.sound===false?"disabled":""}></button></div>
+  <div class="panel between"><span><b>Ambiance de stade</b><br><small class="mute">Clameur de la foule sur les gros coups et à la fin du match</small></span><button class="tog" aria-pressed="${P.crowd!==false&&P.sound!==false}" data-act="crowd" aria-label="Ambiance de stade" ${P.sound===false?"disabled":""}></button></div>
   <button class="mini" data-act="legal">Mentions et crédits</button>
   </div></div>`;
 }
