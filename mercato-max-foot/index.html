@@ -596,6 +596,7 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 <script src="config.js"></script>
 <script src="packs.js"></script>
 <script src="roles.js"></script>
+<script src="voix/liste.js"></script>
 <script>
 "use strict";
 /* ===================== Données ===================== */
@@ -692,7 +693,11 @@ let rnd=Math.random,SIM=false;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 /* Commentateur : annonce les moments forts (surtout entre amis). À deux sur un téléphone, le texte est écrit pour chaque moitié */
 let COMM_T=null,SOLDFX=null;
-function comm(txt,hot){if(SIM||!txt)return;let el=$("#comm");if(!el){el=document.createElement("div");el.id="comm";document.body.appendChild(el)}
+/* Voix du commentateur : fichiers voix/<moment>_<n>.mp3 (voir voix/LISEZMOI). Absents = silence */
+let VOICE_A=null,VOICE_T=0;
+function voice(k){if(SIM||!k||P.sound===false||P.voice===false)return;const n=(window.VOIX||{})[k];if(!n)return;const now=Date.now();if(now<VOICE_T)return;
+  try{if(VOICE_A)VOICE_A.pause();VOICE_A=new Audio(`voix/${k}_${1+Math.floor(Math.random()*n)}.mp3`);VOICE_A.volume=.95;VOICE_A.play().catch(()=>{});VOICE_T=now+1400}catch(e){}}
+function comm(txt,hot,vk){if(SIM||!txt)return;voice(vk);let el=$("#comm");if(!el){el=document.createElement("div");el.id="comm";document.body.appendChild(el)}
   const duo=G&&G.mode==="amis"&&G.teams.length===2&&G.format!=="xi"&&SCREEN==="game";
   el.className=(duo?"duo ":"")+(hot?"hot":"");const one=f=>`<span class="cm ${f}"><i class="live">${hot?"Temps fort":"En direct"}</i><b>${esc(txt)}</b></span>`;el.innerHTML=(duo?one("flip"):"")+one("");
   void el.offsetWidth;el.classList.add("on");clearTimeout(COMM_T);COMM_T=setTimeout(()=>el.classList.remove("on"),2300)}
@@ -764,7 +769,7 @@ function startGame(s){
   G={mode:s.mode,setup:s,seed,diff:s.diff||"normal",draft:s.kind==="draft",chaos:s.chaos!==false&&s.kind!=="draft",daily:s.daily||null,pack:s.pack,format:s.format||"five",formation:s.format==="xi"?(s.formation||"4-3-3"):null,roles:s.format==="xi"?xiRoles(s.formation||"4-3-3"):null,slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
     order:shuffle(usable,rnd),pos:0,next:Math.floor(rnd()*teams.length),nPrime:0,
     teams:teams.map((t,i)=>Object.assign(t,{money:fm.budget,sl:{},col:TCOL[i]})),cur:null,phase:"draw"};
-  SAY={};if(!SIM)go("game");
+  SAY={};if(!SIM){go("game");setTimeout(()=>voice("debut"),400)}
 }
 function draw(){
   if(isOver()){finish();return}
@@ -784,7 +789,7 @@ function draw(){
   computeAI();G.phase="auction";setTurn(starter,true);
   if(SIM||G.phase!=="auction")return;
   if(G.prime>=0){G.cur.aiAt&&(G.cur.aiAt+=2600);G.cur.turnEnd&&(G.cur.turnEnd+=2600)}
-  render();if(G.prime>=0)primeFx(G.prime);const sx=scarInfo();if(sx&&sx.last)comm(`${sx.txt.replace(" !","")} : maintenant ou jamais !`,true);if(sx){beep(sx.last?990:760,.12,"square",.04);setTimeout(()=>beep(sx.last?1320:880,.12,"square",.04),140)}else beep(440,.1,"triangle");
+  render();if(G.prime>=0)primeFx(G.prime);const sx=scarInfo();if(sx&&sx.last)comm(`${sx.txt.replace(" !","")} : maintenant ou jamais !`,true,"dernier");else if(mystery)voice("mystere");if(sx){beep(sx.last?990:760,.12,"square",.04);setTimeout(()=>beep(sx.last?1320:880,.12,"square",.04),140)}else beep(440,.1,"triangle");
 }
 /* Draft : chacun son tour, on choisit 1 joueur parmi 3 (gratuit, pas d'enchère). Les 2 autres retournent au fond de la pile */
 function draftPick(){const n=G.teams.length;let pk=-1;
@@ -807,7 +812,7 @@ function scarInfo(){const c=G.cur;if(!c||c.i==null)return null;const card=cardOf
 function scarTag(){if(G.draft||!G.cur||G.phase==="sold")return"";const x=scarInfo();return x?`<span class="tag scar ${x.last?"last":""}">${x.txt}</span>`:""}
 function startSecret(elig){const c=G.cur;computeAI();c.secret=true;c.bids={};c.elig=elig;c.sq=[];c.sv=10;c.sready=G.mode==="solo";
   elig.forEach(ti=>{const t=G.teams[ti];if(t.ai){const m=Math.max(10,c.max[ti]||10);c.bids[ti]=Math.max(10,Math.min(maxBid(t),Math.round(m*(.72+rnd()*.22)/10)*10))}else c.sq.push(ti)});
-  G.phase="secret";if(!c.sq.length){resolveSecret();return}if(!SIM){render();beep(520,.12,"triangle")}}
+  G.phase="secret";if(!SIM)voice("secret");if(!c.sq.length){resolveSecret();return}if(!SIM){render();beep(520,.12,"triangle")}}
 function secretSubmit(){const c=G.cur,ti=c.sq.shift(),t=G.teams[ti];c.bids[ti]=Math.max(10,Math.min(maxBid(t),c.sv));c.sv=10;c.sready=G.mode==="solo";
   if(c.sq.length){render();return}resolveSecret()}
 function resolveSecret(){const c=G.cur;c.reveal=c.elig.map(ti=>[ti,c.bids[ti]]).sort((a,b)=>b[1]-a[1]||G.teams[b[0]].money-G.teams[a[0]].money||a[0]-b[0]);
@@ -863,10 +868,10 @@ function raise(ti,inc){
   if(!canRaise(ti,inc)){if(!t.ai){SFX.nope();const n=emptySlots(t);toast(`${G.mode==="solo"?"Tu peux":t.name+" peut"} miser jusqu'à ${PT(Math.max(0,maxBid(t)))} : il faut garder 10 par place encore vide${n>1?" ("+(n-1)+" autre"+(n>2?"s":"")+")":""}.`)}return}
   const prevLead=G.cur.leader;G.cur.price+=inc;G.cur.leader=ti;G.cur.nr=(G.cur.nr||0)+1;SFX.bid();if(!t.ai)buzz(15);else if(Math.random()<.5)say(ti,"bid");
   if(!SIM){const c=G.cur,pl=lastName(cardOf(c.i).n),amis=G.mode==="amis";
-    if(inc===100){comm(pick2([`${nmS(t)} frappe fort : +100 !`,`Coup de massue : +100 pour ${pl} !`]),true);roar(false)}
-    else if(c.nr===4&&!c.saidB){c.saidB=1;comm(pick2([`Bataille pour ${pl} !`,`Ça chauffe autour de ${pl} !`]))}
-    else if(c.price>=150&&!c.saidP){c.saidP=1;comm(`${pl} dépasse les ${Math.floor(c.price/50)*50} billets !`,true);roar(false)}
-    else if(amis&&prevLead>=0&&prevLead!==ti&&Math.random()<.25)comm(pick2([`${t.name} relance !`,`${t.name} ne lâche rien !`,`Duel entre ${G.teams[prevLead].name} et ${t.name} !`]))}
+    if(inc===100){comm(pick2([`${nmS(t)} frappe fort : +100 !`,`Coup de massue : +100 pour ${pl} !`]),true,"mise100");roar(false)}
+    else if(c.nr===4&&!c.saidB){c.saidB=1;comm(pick2([`Bataille pour ${pl} !`,`Ça chauffe autour de ${pl} !`]),false,"bataille")}
+    else if(c.price>=150&&!c.saidP){c.saidP=1;comm(`${pl} dépasse les ${Math.floor(c.price/50)*50} billets !`,true,"cher");roar(false)}
+    else if(amis&&prevLead>=0&&prevLead!==ti&&Math.random()<.25)comm(pick2([`${t.name} relance !`,`${t.name} ne lâche rien !`,`Duel entre ${G.teams[prevLead].name} et ${t.name} !`]),false,"relance")}
   setTurn(ti,false);if(!SIM&&G.phase==="auction")render();
 }
 function pass(ti){
@@ -893,9 +898,9 @@ function sell(){
   if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
     if(!SIM){SOLDFX={ti:c.leader,i:c.i,price:c.price};SFX.sold();hammer();if(c.price>=150||(c.price<=20&&cardOf(c.i).p>=88&&!c.mystery))roar(true);buzz([30,40,60]);
       {const pl=lastName(card.n),who=nmS(t);
-       if(c.price>=150)comm(pick2([`Transfert record : ${pl} pour ${c.price} !`,`${who} casse la tirelire pour ${pl} !`]),true);
-       else if(c.price<=20&&card.p>=88&&!c.mystery)comm(pick2([`Hold-up ! ${pl} pour ${c.price} seulement !`,`Le vol du siècle : ${pl} à ${c.price} !`]),true);
-       else if(G.mode==="amis"&&Math.random()<.45)comm(pick2([`${who} s'offre ${pl} !`,`${pl} signe chez ${who} !`,`Adjugé à ${who} !`]))}if(t.ai&&Math.random()<.5)say(c.leader,"win")}}
+       if(c.price>=150)comm(pick2([`Transfert record : ${pl} pour ${c.price} !`,`${who} casse la tirelire pour ${pl} !`]),true,"record");
+       else if(c.price<=20&&card.p>=88&&!c.mystery)comm(pick2([`Hold-up ! ${pl} pour ${c.price} seulement !`,`Le vol du siècle : ${pl} à ${c.price} !`]),true,"vol");
+       else if(G.mode==="amis"&&Math.random()<.45)comm(pick2([`${who} s'offre ${pl} !`,`${pl} signe chez ${who} !`,`Adjugé à ${who} !`]),false,"adjuge")}if(t.ai&&Math.random()<.5)say(c.leader,"win")}}
   if(!SIM)render();
 }
 function startLoop(){stopLoop();loopT=setInterval(tick,200)}
@@ -1242,12 +1247,12 @@ function winBlast(){
   const el=document.createElement("div");el.className="blast";el.style.setProperty("--tc",col);
   el.innerHTML=`<div class="bx"><small>${G.winner<0?"Fin du match":iWin?"Victoire":"Défaite"}</small><b>${esc(txt)}</b>${sc}<span class="gap">${G.winner<0?"Même score, même argent gardé":G.tieMoney?"À égalité de points, avec plus d'argent gardé":"+"+gap+" point"+(gap>1?"s":"")+" d'écart"}</span></div>`;
   document.body.appendChild(el);const scr=$(".res");if(scr){scr.classList.remove("shake");void scr.offsetWidth;scr.classList.add("shake")}
-  whistle();setTimeout(()=>roar(iWin),700);
+  whistle();setTimeout(()=>roar(iWin),700);setTimeout(()=>voice(G.winner<0?"egalite":iWin?"victoire":G.mode==="solo"?"defaite":"fin"),1100);
   if(iWin){SFX.win();confetti(160);if(me)buzz([40,60,40])}else beep(300,.25);
   let done=false;const close=()=>{if(done)return;done=true;el.classList.add("out");setTimeout(()=>el.remove(),450);showRewards()};
   el.addEventListener("click",close);timers.push(setTimeout(close,2600));
 }
-function primeFx(ti){const t=G.teams[ti],me=G.mode==="solo"&&ti===0;
+function primeFx(ti){const t=G.teams[ti],me=G.mode==="solo"&&ti===0;voice("prime");
   const el=document.createElement("div");el.className="prime";el.innerHTML=`<div class="pbox"><span class="lbl">Prime surprise</span><b>+${PP(G.primeAmt)}</b><span class="pw">${me?"pour toi !":"pour "+esc(t.name)}</span><small class="mute">Un cadeau rare : ça n'arrive pas à chaque partie</small></div>`;
   el.addEventListener("click",()=>el.remove());document.body.appendChild(el);setTimeout(()=>{SFX.win();confetti(90)},250);buzz([30,40,30]);setTimeout(()=>el.remove(),2600)}
 /* ===================== Feuilles ===================== */
@@ -1551,6 +1556,7 @@ function vProfile(){
   <span class="lbl">Trophées · ${n}/${ACH.length}</span>
   <div class="ach">${ACH.map(a=>{const on=!!P.ach[a.id],g=a.goal&&!on?a.goal():null;return`<div class="${on?"on":""} t${a.tier}"><span class="tier">${["","Bronze","Argent","Or"][a.tier]}</span><b>${esc(a.t)}</b><small>${esc(a.d)}</small>${g?bar(g[0],g[1])+`<small class="gp">${Math.min(g[0],g[1])}/${g[1]}${a.id.startsWith("alb")?" %":""}</small>`:""}</div>`}).join("")}</div>
   <div class="panel between"><span><b>Son</b><br><small class="mute">Bruitages pendant la partie</small></span><button class="tog" aria-pressed="${P.sound!==false}" data-act="sound" aria-label="Son"></button></div>
+  <div class="panel between"><span><b>Voix du commentateur</b><br><small class="mute">${Object.keys(window.VOIX||{}).length?"Les temps forts commentés à voix haute":"Bientôt disponible"}</small></span><button class="tog" aria-pressed="${P.voice!==false&&P.sound!==false}" data-act="voice" aria-label="Voix du commentateur" ${P.sound===false||!Object.keys(window.VOIX||{}).length?"disabled":""}></button></div>
   <div class="panel between"><span><b>Ambiance de stade</b><br><small class="mute">Clameur de la foule sur les gros coups et à la fin du match</small></span><button class="tog" aria-pressed="${P.crowd!==false&&P.sound!==false}" data-act="crowd" aria-label="Ambiance de stade" ${P.sound===false?"disabled":""}></button></div>
   <button class="mini" data-act="legal">Mentions et crédits</button>
   </div></div>`;
@@ -1652,6 +1658,7 @@ document.addEventListener("click",e=>{
   else if(a==="relast"){const L=P.last;SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:packOpen(L.pack)?L.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};if(!L.solo)SETUP.mode="amis";go("setup")}
   else if(a==="weekpack"){const wf=weekFree();SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:wf,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
   else if(a==="sound"){P.sound=P.sound===false;saveP();render()}
+  else if(a==="voice"){P.voice=P.voice===false;saveP();render()}
   else if(a==="crowd"){P.crowd=P.crowd===false;saveP();render()}
   else if(a==="albpack")albumSheet(v);
   else if(a==="newperso"){EDIT={};go("edit")}

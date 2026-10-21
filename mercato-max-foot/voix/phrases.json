@@ -1,0 +1,19 @@
+{
+  "_info": "Phrases du commentateur. Clé = moment du jeu ; chaque phrase devient voix/<clé>_<n>.mp3. Sans nom de joueur pour pouvoir être enregistrées une fois pour toutes.",
+  "mise100":   ["Coup de massue !", "Et il met cent d'un coup !", "Énorme relance !"],
+  "bataille":  ["Quelle bataille !", "Ça chauffe, ça chauffe !", "Personne ne veut lâcher !"],
+  "relance":   ["Il relance !", "Il ne lâche rien !", "Et ça repart !"],
+  "cher":      ["Les prix s'envolent !", "On dépasse les cent cinquante !", "Ça devient très cher !"],
+  "record":    ["Transfert record !", "Il casse la tirelire !", "Quel investissement !"],
+  "vol":       ["Le vol du siècle !", "Hold-up ! Pour trois fois rien !", "Quelle affaire !"],
+  "adjuge":    ["Adjugé !", "Et c'est signé !", "Il rejoint l'équipe !"],
+  "dernier":   ["Attention, c'est le dernier à ce poste !", "Maintenant ou jamais !", "Dernière chance !"],
+  "secret":    ["Enchère secrète ! Une seule mise !", "Silence… enchère secrète !"],
+  "mystere":   ["Carte mystère ! On ne sait pas qui c'est !", "Un joueur mystère… qui va tenter ?"],
+  "prime":     ["Une prime tombe du ciel !", "Cadeau ! Une prime surprise !"],
+  "debut":     ["Bienvenue dans ce mercato ! Que le meilleur gagne !", "Le mercato est ouvert !"],
+  "fin":       ["Et c'est terminé !", "Le mercato est bouclé !"],
+  "victoire":  ["Quelle équipe ! Victoire !", "C'est gagné ! Bravo !", "Champion !"],
+  "defaite":   ["Ce sera pour la revanche !", "Pas cette fois… mais quelle partie !"],
+  "egalite":   ["Égalité parfaite ! Incroyable !"]
+}
