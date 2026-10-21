@@ -143,6 +143,11 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .sbox .btn{width:100%}
 .srev{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 8px;font-family:var(--display);font-weight:700;font-size:13px;text-transform:uppercase}
 .srev .lbl{width:100%;text-align:center;color:var(--yellow);font-size:11px}.srev span:not(.lbl){color:var(--mute)}.srev span.w{color:#fff;background:var(--tc);border-radius:5px;padding:0 6px}
+.isdraft .rteam .between small,.isdraft .acts,.isdraft .tile .mn,.isdraft .mine .num,.isdraft .gxturn small,.isdraft .tvtag.r,.isdraft .gp .pr,.isdraft .tvpl .pr,.isdraft .zone .mn{display:none!important}
+.sbox.pick{max-width:360px}.picks{display:flex;flex-direction:column;gap:7px;width:100%}
+.pickc{display:flex;align-items:center;gap:10px;text-align:left;background:var(--soft);border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:12px;padding:7px 10px}
+.pickc:active{transform:scale(.98)}.pickc>span{min-width:0;display:flex;flex-direction:column}.pickc b{font-family:var(--display);font-size:19px;text-transform:uppercase;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pickc small{font-size:12px;color:var(--mute)}.pickc em{font-style:normal;font-size:11px;font-weight:700;color:var(--green)}
 .fmls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .fml{border-radius:10px;padding:9px 2px;background:var(--card);border:1px solid var(--line);font-family:var(--led);font-weight:700;font-size:16px}
 .fml[aria-pressed=true]{background:var(--accent);border-color:transparent;color:#fff}.fml:disabled{opacity:.35}
@@ -707,13 +712,14 @@ function startGame(s){
   else if(s.allai)teams=shuffle(BOTS.slice(),rnd).slice(0,nai).map(b=>({name:b.n,ai:true,pers:b.pers}));
   else teams=[{name:"Toi",ai:false}].concat(shuffle(BOTS.slice(),rnd).slice(0,nai).map(b=>({name:b.n,ai:true,pers:b.pers})));
   const usable=pack.cards.map((_,i)=>i).filter(i=>{const p=pack.cards[i].pos;return slots.some(k=>slotPos(k)===p)||(p!=="G"&&slots.includes("LIB"))});
-  G={mode:s.mode,setup:s,seed,diff:s.diff||"normal",chaos:s.chaos!==false,daily:s.daily||null,pack:s.pack,format:s.format||"five",formation:s.format==="xi"?(s.formation||"4-3-3"):null,roles:s.format==="xi"?xiRoles(s.formation||"4-3-3"):null,slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
+  G={mode:s.mode,setup:s,seed,diff:s.diff||"normal",draft:s.kind==="draft",chaos:s.chaos!==false&&s.kind!=="draft",daily:s.daily||null,pack:s.pack,format:s.format||"five",formation:s.format==="xi"?(s.formation||"4-3-3"):null,roles:s.format==="xi"?xiRoles(s.formation||"4-3-3"):null,slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
     order:shuffle(usable,rnd),pos:0,next:0,nPrime:0,
     teams:teams.map((t,i)=>Object.assign(t,{money:fm.budget,sl:{},col:TCOL[i]})),cur:null,phase:"draw"};
   SAY={};if(!SIM)go("game");
 }
 function draw(){
   if(isOver()){finish();return}
+  if(G.draft){draftPick();return}
   while(!placeable(G.order[G.pos]))G.pos++;
   G.prime=-1;let golden=false,mystery=false;const r=rnd();
   /* Plus de carte en or : seulement des cartes mystère (≈10 %) */
@@ -731,6 +737,19 @@ function draw(){
   if(G.prime>=0){G.cur.aiAt&&(G.cur.aiAt+=2600);G.cur.turnEnd&&(G.cur.turnEnd+=2600)}
   render();if(G.prime>=0)primeFx(G.prime);beep(golden?880:440,.1,"triangle");
 }
+/* Draft : chacun son tour, on choisit 1 joueur parmi 3 (gratuit, pas d'enchère). Les 2 autres retournent au fond de la pile */
+function draftPick(){const n=G.teams.length;let pk=-1;
+  for(let k=0;k<n;k++){const ti=(G.next+k)%n;if(G.order.slice(G.pos).some(i=>slotFor(G.teams[ti],cardOf(i)))){pk=ti;break}}
+  if(pk<0){finish();return}G.next=(pk+1)%n;const t=G.teams[pk],opts=[];
+  for(let j=G.pos;j<G.order.length&&opts.length<3;j++){const i=G.order[j];if(slotFor(t,cardOf(i)))opts.push(i)}
+  G.order=G.order.filter((i,j)=>j<G.pos||!opts.includes(i));
+  G.cur={i:opts[0],opts,picker:pk,price:0,leader:-1,golden:false,mystery:false,out:{},max:{},turn:pk,starter:pk,turnEnd:0,aiAt:0};G.phase="pick";
+  if(t.ai){const sc=opts.map(i=>{const c=cardOf(i);return c.p+(rnd()*2-1)*(DIFF[G.diff]||DIFF.normal).noise});finishPick(sc.indexOf(Math.max(...sc)));return}
+  if(!SIM)render()}
+function finishPick(j){const c=G.cur,i=c.opts[j];c.i=i;c.leader=c.picker;G.order.push(...c.opts.filter(x=>x!==i));G.pos++;G.order.splice(G.pos-1,0,i);G.phase="auction";sell()}
+function pickUI(){const c=G.cur,t=G.teams[c.picker];if(!t||t.ai)return"";const me=G.mode==="solo";
+  return`<div class="secret"><div class="sbox pick" style="--tc:${t.col}"><span class="lbl">Draft</span><h3>${me?"À toi de choisir":"Au tour de "+esc(t.name)}</h3><p class="mute">Prends 1 joueur parmi ces 3. Les notes restent secrètes jusqu'à la fin.</p>
+   <div class="picks">${c.opts.map((i,j)=>{const cd=cardOf(i),k=slotFor(t,cd);return`<button class="pickc" data-act="pick" data-v="${j}" style="--pc:${POS[cd.pos].c}">${jersey(cd,40)}<span><b>${esc(cd.n)}</b><small>${G.format==="xi"?(RLBL[roleOf(cd)]||POS[cd.pos].l):POS[cd.pos].l} · ${esc(cd.club)}</small><em>${k==="LIB"?"place libre":"en "+(G.format==="xi"?(RLBL[slotRole(k)]||slotRole(k)):PO(k).l).toLowerCase()}</em></span></button>`}).join("")}</div></div></div>`}
 function startSecret(elig){const c=G.cur;computeAI();c.secret=true;c.bids={};c.elig=elig;c.sq=[];c.sv=10;c.sready=G.mode==="solo";
   elig.forEach(ti=>{const t=G.teams[ti];if(t.ai){const m=Math.max(10,c.max[ti]||10);c.bids[ti]=Math.max(10,Math.min(maxBid(t),Math.round(m*(.72+rnd()*.22)/10)*10))}else c.sq.push(ti)});
   G.phase="secret";if(!c.sq.length){resolveSecret();return}if(!SIM){render();beep(520,.12,"triangle")}}
@@ -845,7 +864,7 @@ function finish(){
 }
 /* Partie en cours sauvegardée sur le téléphone : on peut la reprendre depuis l'accueil */
 function saveGame(){if(SIM)return;try{if(G&&G.phase!=="end")localStorage.setItem("mmfoot_game",JSON.stringify(G));else localStorage.removeItem("mmfoot_game")}catch(e){}}
-function loadGame(){try{const g=JSON.parse(localStorage.getItem("mmfoot_game"));if(g&&g.teams&&["draw","auction","sold","skip","secret"].includes(g.phase)&&PACKS[g.pack])return g}catch(e){}return null}
+function loadGame(){try{const g=JSON.parse(localStorage.getItem("mmfoot_game"));if(g&&g.teams&&["draw","auction","sold","skip","secret","pick"].includes(g.phase)&&PACKS[g.pack])return g}catch(e){}return null}
 /* ===================== Écrans ===================== */
 let SCREEN="home",SETUP=null,PAUSED=false;
 function go(s){SCREEN=s;timers.forEach(clearTimeout);timers=[];closeSheet();document.querySelectorAll(".blast").forEach(e=>e.remove());render();scrollTo(0,0)}
@@ -855,6 +874,8 @@ function render(){
   const v={home:vHome,setup:vSetup,game:vGame,results:vResults,shop:vShop,profile:vProfile,album:vAlbum,perso:vPerso,edit:vEdit}[SCREEN]();
   $("#app").innerHTML=v;
   if(SCREEN==="game"&&G&&G.phase==="secret")$("#app").insertAdjacentHTML("beforeend",secretUI());
+  if(SCREEN==="game"&&G&&G.phase==="pick")$("#app").insertAdjacentHTML("beforeend",pickUI());
+  document.body.classList.toggle("isdraft",!!(G&&G.draft)&&(SCREEN==="game"||SCREEN==="results"));
   if(SCREEN==="game"&&G&&G.phase==="sold"&&G.cur&&G.cur.reveal)$$(".stamp").forEach(st=>st.insertAdjacentHTML("afterend",secretRev()));
   if(SCREEN==="game"&&G&&G.phase==="auction")startLoop();else stopLoop();
   if(SCREEN==="game")crowdOn();else crowdOff();
@@ -899,6 +920,7 @@ function vSetup(){
   if(s.format==="xi"&&fmtMissing(s.pack,xiSlots(s.formation),2)){const ok=Object.keys(FORMATIONS).find(f=>!fmtMissing(s.pack,xiSlots(f),2));if(ok)s.formation=ok}
   return`<div class="screen">
   <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>${solo?"Solo":"Entre amis"}</h2></div>
+  <div class="field"><span class="lbl">Type de partie</span>${seg("kind",[["auction","Enchères","on mise, on bluffe"],["draft","Draft","1 joueur parmi 3"]])}</div>
   <div class="field"><span class="lbl">Format</span><div class="opts">${Object.entries(FORMATS).map(([k,f])=>`<button class="opt" data-act="fmt" data-v="${k}" aria-pressed="${s.format===k}" ${f.on?"":"disabled"}><span class="fm">${Array.from({length:Math.min(f.n,11)},(_,j)=>`<i style="--pc:${j===0?"var(--yellow)":s.format===k?"var(--accent)":"var(--mute)"}"></i>`).join("")}</span><b>${f.l}</b><small>${f.d}</small></button>`).join("")}</div></div>
   ${s.format==="xi"?`<div class="field"><span class="lbl">Formation</span><div class="fmls">${Object.keys(FORMATIONS).map(f=>{const miss=fmtMissing(s.pack,xiSlots(f),2);return`<button class="fml" data-act="formation" data-v="${f}" aria-pressed="${s.formation===f}" ${miss?"disabled":""}>${f}</button>`}).join("")}</div></div>`:""}
   <div class="field"><span class="lbl">Pack · ${Object.keys(PACKS).length} au choix</span>${packBtn(PACKS[s.pack])}</div>
@@ -953,7 +975,7 @@ function cardHTML(){
     mid=`<div class="board"><span class="lbl">Mise</span><span class="price">${c.price||"—"}</span><i class="bill" style="font-size:22px"></i></div><div class="who" style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(G.mode==="solo"&&c.leader===0?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</div>
     <span class="turnline" style="--tc:${t.col}">${me?"À toi de miser":t.ai?esc(t.name)+" réfléchit…":"Au tour de "+esc(t.name)}</span>${G.ms?`<div class="timer"><i class="tbar"></i></div><div class="call"></div>`:""}${coachHTML()}`}
   else if(ph==="sold"){const nt=G.teams[G.next%G.teams.length];
-    mid=c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${G.mode==="solo"&&c.leader===0?"Recruté par toi":"Recruté par "+esc(G.teams[c.leader].name)} · ${PP(c.price)}</div>`:`<div class="note">Personne n'a misé.</div>`;
+    mid=c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${G.mode==="solo"&&c.leader===0?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>`:`<div class="note">Personne n'a misé.</div>`;
     mid+=coachHTML()+`<button class="btn go nb" data-act="draw">${isOver()?"Voir les équipes":G.mode==="amis"?esc(nt.name)+" tire la carte":"Carte suivante"}</button>`}
   else if(ph==="skip"){mid=`<div class="note">Plus personne n'a de place pour un ${POS[card.pos].l.toLowerCase()} : carte écartée.</div><button class="btn go nb" data-act="draw">${isOver()?"Voir les équipes":"Carte suivante"}</button>`}
   return`<div class="fcard ${c.golden?"gold":""}" style="--pc:${pc}">${bar}
@@ -988,8 +1010,8 @@ function duoHalf(side){
     let foot="";
     if(ph==="auction"){const tt=G.teams[c.turn];
       foot=`<div class="drow2"><div class="board"><span class="price">${c.price||"—"}</span><i class="bill" style="font-size:18px"></i></div><span class="who" style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(c.leader===side?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</span></div><span class="turnline ${mine?"":"off"}" style="--tc:${tt.col}">${mine?"À toi de miser":"Au tour de "+esc(tt.name)}</span>${G.ms?`<div class="timer"><i class="tbar"></i></div>`:""}`}
-    else if(ph==="sold")foot=(c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${c.leader===side?"Recruté par toi":"Recruté par "+esc(G.teams[c.leader].name)} · ${PP(c.price)}</div>`:`<div class="note">Personne n'a misé.</div>`)+drawCtl(side);
-    else if(ph==="secret")foot=`<div class="note">Enchère secrète en cours…</div>`;
+    else if(ph==="sold")foot=(c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${c.leader===side?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>`:`<div class="note">Personne n'a misé.</div>`)+drawCtl(side);
+    else if(ph==="secret"||ph==="pick")foot=`<div class="note">${ph==="pick"?"Choix en cours…":"Enchère secrète en cours…"}</div>`;
     else foot=`<div class="note">Carte écartée : plus de place à ce poste.</div>`+drawCtl(side);
     body=`<div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}</div>
     <div class="dmain">${jersey(card,44,myst)}<span class="dnm"><span class="cname">${myst?"Joueur mystère":esc(card.n)}</span><span class="club">${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</span></span></div>${foot}`}
@@ -1020,8 +1042,8 @@ function vGameXI(){
     if(auc){const tt=G.teams[c.turn],me=solo&&c.turn===0;
       banner=`<div class="gxb ${c.golden?"gold":""}">${jersey(card,44,myst)}${head}<span class="board"><span class="price">${c.price||"—"}</span></span></div>
        <div class="gxw"><span style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(solo&&c.leader===0?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</span><span class="turnline" style="--tc:${tt.col}">${me?"À toi de miser":tt.ai?esc(tt.name)+" réfléchit…":"Au tour de "+esc(tt.name)}</span></div>${G.ms?`<div class="timer gxt"><i class="tbar"></i></div>`:""}`}
-    else{const st=ph==="sold"?(c.leader>=0?`<span class="stamp" style="--tc:${G.teams[c.leader].col}">${solo&&c.leader===0?"Recruté par toi":"Recruté par "+esc(G.teams[c.leader].name)} · ${PP(c.price)}</span>`:`<span class="note">Personne n'a misé.</span>`):ph==="secret"?`<span class="note">Enchère secrète en cours…</span>`:`<span class="note">Plus de place à ce poste : carte écartée.</span>`;
-      banner=`<div class="gxb">${jersey(card,44)}${head}</div><div class="gxs">${st}</div>${ph==="secret"?"":drawCtl(solo?undefined:ti)}`}}
+    else{const st=ph==="sold"?(c.leader>=0?`<span class="stamp" style="--tc:${G.teams[c.leader].col}">${solo&&c.leader===0?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</span>`:`<span class="note">Personne n'a misé.</span>`):ph==="secret"?`<span class="note">Enchère secrète en cours…</span>`:ph==="pick"?`<span class="note">Choix en cours…</span>`:`<span class="note">Plus de place à ce poste : carte écartée.</span>`;
+      banner=`<div class="gxb">${jersey(card,44)}${head}</div><div class="gxs">${st}</div>${ph==="secret"||ph==="pick"?"":drawCtl(solo?undefined:ti)}`}}
   const foot=solo?`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="lbl">${left} · ${PP(t.money)}</span><button class="mini" data-act="rules">Règles</button></div>`
     :`<div class="gxw"><span class="mute">${left}</span><button class="voir" data-act="voir" data-v="${1-ti}">XI de ${esc(o.name)} · ${PP(o.money)}</button></div>`;
   return`<div class="gscreen gx">${top}${banner}${xiPitch(t,auc?card:null)}${actsHTML(ti)}${foot}</div>`;
@@ -1093,6 +1115,7 @@ function awardsHTML(){
   const deal=[...all].sort((a,b)=>b.f/Math.max(10,b.pk.price)-a.f/Math.max(10,a.pk.price))[0];
   const flops=all.filter(x=>x.pk.price>=60&&x!==best);const flop=flops.sort((a,b)=>a.f/a.pk.price-b.f/b.pk.price)[0];
   const box=(l,x,s)=>x?`<div class="award"><span class="lbl">${l}</span><b>${esc(lastName(x.c.n))}</b><small>${esc(G.mode==="solo"&&x.t===G.teams[0]?"Toi":x.t.name.replace(/^(Le |Mme )/,""))} · ${s}</small></div>`:`<div class="award"><span class="lbl">${l}</span><b>Aucun</b><small>que des prix sages</small></div>`;
+  if(G.draft){const low=[...all].sort((a,b)=>a.f-b.f)[0];return`<div class="awards">${box("Top recrue",best,best.f)}${box("Pire choix",low,low.f)}<div class="award"><span class="lbl">Mode</span><b>Draft</b><small>1 joueur parmi 3</small></div></div>`}
   return`<div class="awards">${box("Top recrue",best,best.f)}${box("Bonne affaire",deal,deal&&PP(deal.pk.price))}${box("Le flop",flop,flop&&PP(flop.pk.price))}</div>`;
 }
 /* Révélation poste par poste, le total monte */
@@ -1247,7 +1270,7 @@ async function resultCanvas(){
     x.beginPath();x.arc(L+P+8,y+P+24,10,0,7);x.fillStyle=col(t.col);x.fill();
     x.textAlign="left";x.font=F(800,44);x.fillStyle="#EEF3FF";const nm=solo&&G.teams.indexOf(t)===0?"TOI":t.name.toUpperCase();x.fillText(fit(nm,440),L+P+32,y+P+38);
     x.font=F(600,24,"b");x.fillStyle="#93A3D1";
-    const sub=`${t.money}`;x.fillText(sub,L+P+32,y+P+80);const sw=x.measureText(sub).width;bill(L+P+40+sw,y+P+62,20);x.fillText("gardés",L+P+84+sw,y+P+80);
+    if(G.draft)x.fillText("Draft",L+P+32,y+P+80);else{const sub=`${t.money}`;x.fillText(sub,L+P+32,y+P+80);const sw=x.measureText(sub).width;bill(L+P+40+sw,y+P+62,20);x.fillText("gardés",L+P+84+sw,y+P+80)}
     /* total */
     x.textAlign="right";x.font=F(700,n>2?72:84,"led");x.fillStyle=win?"#FFD84A":"#7C88AE";if(win){x.shadowColor="rgba(255,216,74,.6)";x.shadowBlur=24}x.fillText(t.score.total,R-P,y+P+70);x.shadowBlur=0;
     /* terrain */
@@ -1264,8 +1287,8 @@ async function resultCanvas(){
         const fs=xi?22:n>2?23:27;x.fillStyle="#fff";x.font=F(800,fs);x.shadowColor="rgba(0,0,0,.35)";x.shadowBlur=4;x.fillText(fit(lastName(c.n).toUpperCase(),cw-12),cx,base+js+fs+4);x.shadowBlur=0;
         const vy=base+js+fs+14,vh=xi?32:n>2?32:38;x.font=F(700,xi?22:n>2?23:27,"led");const vt=(pk.golden?"★":"")+f,vw=x.measureText(vt).width+22;
         rr(cx-vw/2,vy,vw,vh,9,pk.golden?"#FFC93C":"#FFFFFF");x.fillStyle="#141433";x.fillText(vt,cx,vy+vh-8);
-        if(xi){x.font=F(600,17,"b");x.fillStyle="rgba(255,255,255,.85)";const tx=`${pk.price}`,tw=x.measureText(tx).width;x.textAlign="left";x.fillText(tx,cx-(tw+26)/2,vy+vh+22);bill(cx-(tw+26)/2+tw+5,vy+vh+9,13)}})});
-    if(!xi){x.font=F(600,n>2?18:20,"b");x.fillStyle="#7C88AE";const cw=pw/G.slots.length;G.slots.forEach((k,si)=>{const pk=t.sl[k];if(!pk)return;const cx=px+cw*(si+.5),tx=`${pk.price}`,tw=x.measureText(tx).width;x.textAlign="left";x.fillText(tx,cx-(tw+30)/2,py+ph+(n>2?20:22));bill(cx-(tw+30)/2+tw+6,py+ph+(n>2?6:7),n>2?14:15)})}
+        if(xi&&!G.draft){x.font=F(600,17,"b");x.fillStyle="rgba(255,255,255,.85)";const tx=`${pk.price}`,tw=x.measureText(tx).width;x.textAlign="left";x.fillText(tx,cx-(tw+26)/2,vy+vh+22);bill(cx-(tw+26)/2+tw+5,vy+vh+9,13)}})});
+    if(!xi&&!G.draft){x.font=F(600,n>2?18:20,"b");x.fillStyle="#7C88AE";const cw=pw/G.slots.length;G.slots.forEach((k,si)=>{const pk=t.sl[k];if(!pk)return;const cx=px+cw*(si+.5),tx=`${pk.price}`,tw=x.measureText(tx).width;x.textAlign="left";x.fillText(tx,cx-(tw+30)/2,py+ph+(n>2?20:22));bill(cx-(tw+30)/2+tw+6,py+ph+(n>2?6:7),n>2?14:15)})}
   });
   /* pied */
   const fy=H-64;x.strokeStyle="#1F2E62";x.lineWidth=2;x.beginPath();x.moveTo(M,fy-44);x.lineTo(W-M,fy-44);x.stroke();
@@ -1497,7 +1520,7 @@ document.addEventListener("click",e=>{
   const w=e.target.closest(".wrap");if(w&&e.target===w&&w.dataset.close){if(PAUSED)resume();else closeSheet();return}
   const b=e.target.closest("[data-act]");if(!b||b.disabled)return;const a=b.dataset.act,v=b.dataset.v;
   if(a==="go")go(v);
-  else if(a==="setup"){SETUP={mode:v,format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:PACKS[P.pack]&&packOpen(P.pack)?P.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};OPTOPEN=false;go("setup")}
+  else if(a==="setup"){SETUP={mode:v,kind:P.kind==="draft"?"draft":"auction",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:PACKS[P.pack]&&packOpen(P.pack)?P.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};OPTOPEN=false;go("setup")}
   else if(a==="packs"){PK_TAB=null;PK_Q="";packsSheet()}
   else if(a==="pktab"){PK_TAB=v;PK_Q="";packsSheet()}
   else if(a==="pickpack"){if(!packOpen(v)){buySheet("pk_"+v);return}SETUP.pack=v;closeSheet();render()}
@@ -1509,10 +1532,11 @@ document.addEventListener("click",e=>{
   else if(a==="start"){$$("[data-name]").forEach(i=>SETUP.names[+i.dataset.name]=i.value);
     const fmax=FORMATS[SETUP.format].max,miss=fmtMissing(SETUP.pack,fmtSlots(SETUP),fmax===2?2:(SETUP.mode==="solo"?SETUP.nai+1:SETUP.names.length));
     if(miss){toast(`Ce pack n'a pas assez de ${miss} pour ce format`);return}
-    Object.assign(P,{pack:SETUP.pack,nai:SETUP.nai,tempo:SETUP.tempo,diff:SETUP.diff,chaos:SETUP.chaos,format:SETUP.format,formation:SETUP.formation});if(SETUP.mode==="amis")P.names=SETUP.names.slice();saveP();SERIES=null;startGame(SETUP)}
+    Object.assign(P,{pack:SETUP.pack,nai:SETUP.nai,tempo:SETUP.tempo,diff:SETUP.diff,chaos:SETUP.chaos,format:SETUP.format,formation:SETUP.formation,kind:SETUP.kind});if(SETUP.mode==="amis")P.names=SETUP.names.slice();saveP();SERIES=null;startGame(SETUP)}
   else if(a==="draw"){if(G.phase==="sold"||G.phase==="skip"||G.phase==="draw"){if(isOver())finish();else draw()}}
   else if(a==="sb"){G.cur.sv=Math.max(10,Math.min(maxBid(G.teams[G.cur.sq[0]]),G.cur.sv+ +v));render()}
   else if(a==="sok")secretSubmit();
+  else if(a==="pick"&&G&&G.phase==="pick")finishPick(+v);
   else if(a==="sme"){G.cur.sready=true;render()}
   else if(a==="bid"){const ti=b.dataset.i!=null?+b.dataset.i:G.mode==="solo"?0:G.cur.turn;raise(ti,+v)}
   else if(a==="pass"){const ti=b.dataset.i!=null?+b.dataset.i:G.mode==="solo"?0:G.cur.turn;pass(ti)}
