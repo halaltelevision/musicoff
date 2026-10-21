@@ -166,6 +166,18 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 #comm.on .cm{opacity:1;transform:none}
 #comm .cm.flip{align-self:flex-end;margin:0 max(10px,env(safe-area-inset-right,0px)) 0 0;transform:rotate(180deg) translateX(-110%)}#comm.on .cm.flip{transform:rotate(180deg)}
 @keyframes blink{to{visibility:hidden}}
+.duo .half{position:relative;transition:opacity .25s,filter .25s}
+.duo .half.wait{opacity:.42;filter:saturate(.45)}
+.duo .half.act .mine{border-radius:14px;box-shadow:0 0 0 3px var(--tc),0 0 26px -4px var(--tc);background:color-mix(in srgb,var(--tc) 10%,transparent);padding:4px}
+.duo .half.act .mine .pitch{box-shadow:inset 0 0 0 3px var(--tc)}
+.gx{position:relative}.gx.act .gxp{box-shadow:inset 0 0 0 4px var(--tc),0 0 28px -6px var(--tc)}
+.zone{position:relative}
+.turnflash{position:absolute;inset:0;z-index:20;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:16px;
+ background:radial-gradient(circle,color-mix(in srgb,var(--tc) 55%,transparent),color-mix(in srgb,var(--tc) 18%,transparent) 70%);animation:tflash 1.1s ease-out forwards}
+.turnflash b{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase;color:#fff;line-height:1}
+.turnflash span{font-family:var(--display);font-weight:800;font-size:40px;text-transform:uppercase;color:#fff;line-height:1;text-shadow:0 0 20px var(--tc),0 3px 0 rgba(0,0,0,.3)}
+.zone .turnflash b{font-size:13px}.zone .turnflash span{font-size:20px}
+@keyframes tflash{0%{opacity:0;transform:scale(.85)}15%{opacity:1;transform:scale(1.04)}30%{transform:none}75%{opacity:1}100%{opacity:0}}
 .fmls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .fml{border-radius:10px;padding:9px 2px;background:var(--card);border:1px solid var(--line);font-family:var(--led);font-weight:700;font-size:16px}
 .fml[aria-pressed=true]{background:var(--accent);border-color:transparent;color:#fff}.fml:disabled{opacity:.35}
@@ -919,6 +931,12 @@ function render(){
   document.body.classList.toggle("isdraft",!!(G&&G.draft)&&(SCREEN==="game"||SCREEN==="results"));
   if(SCREEN==="game"&&G&&G.phase==="sold"&&G.cur&&G.cur.reveal)$$(".stamp").forEach(st=>st.insertAdjacentHTML("afterend",secretRev()));
   if(SCREEN==="game"&&G&&G.phase==="auction")startLoop();else stopLoop();
+  /* Entre amis : grand « À toi ! » quand le tour change de joueur */
+  if(SCREEN==="game"&&G&&G.mode==="amis"&&G.phase==="auction"){const ti=G.cur.turn,key=G.pos+"-"+ti;
+    if(key!==render.lastTurn&&ti>=0){const prev=render.lastTurn;render.lastTurn=key;
+      if(prev&&prev.split("-")[1]!==String(ti)){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
+        if(host){const f=document.createElement("div");f.className="turnflash";f.style.setProperty("--tc",G.teams[ti].col);f.innerHTML=`<b>À toi,</b><span>${esc(G.teams[ti].name)} !</span>`;host.appendChild(f);setTimeout(()=>f.remove(),1100)}
+        beep(660,.07,"sine",.04)}}}
   if(SCREEN==="game")crowdOn();else crowdOff();
   if(SCREEN==="game")saveGame();
   if(SCREEN==="results")playReveal();
@@ -1056,7 +1074,8 @@ function duoHalf(side){
     else foot=`<div class="note">Carte écartée : plus de place à ce poste.</div>`+drawCtl(side);
     body=`<div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}${scarTag()}</div>
     <div class="dmain">${jersey(card,44,myst)}<span class="dnm"><span class="cname">${myst?"Joueur mystère":esc(card.n)}</span><span class="club">${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</span></span></div>${foot}`}
-  return`<div class="half ${side===1?"top":""}"><div class="fcard duoc ${c&&c.golden?"gold":""}" style="--pc:${pc}">${bar}${body}</div>
+  const st=c&&ph==="auction"?(mine?"act":"wait"):"";
+  return`<div class="half ${side===1?"top":""} ${st}" style="--tc:${t.col}"><div class="fcard duoc ${c&&c.golden?"gold":""}" style="--pc:${pc}">${bar}${body}</div>
    <div class="mine"><div class="between"><span class="row"><span class="dot" style="--tc:${t.col}">${esc(t.name[0])}</span><b>${esc(t.name)}</b></span><span class="num">${PP(t.money)}</span></div>${teamView(t,{card:c&&ph==="auction"?cardOf(c.i):null,small:true})}${actsHTML(side)}</div></div>`;
 }
 /* À 3 ou 4 : chacun sa zone, avec ses propres boutons */
@@ -1087,7 +1106,7 @@ function vGameXI(){
       banner=`<div class="gxb">${jersey(card,44)}${head}</div><div class="gxs">${st}</div>${ph==="secret"||ph==="pick"?"":drawCtl(solo?undefined:ti)}`}}
   const foot=solo?`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="lbl">${left} · ${PP(t.money)}</span><button class="mini" data-act="rules">Règles</button></div>`
     :`<div class="gxw"><span class="mute">${left}</span><button class="voir" data-act="voir" data-v="${1-ti}">XI de ${esc(o.name)} · ${PP(o.money)}</button></div>`;
-  return`<div class="gscreen gx">${top}${banner}${xiPitch(t,auc?card:null)}${actsHTML(ti)}${foot}</div>`;
+  return`<div class="gscreen gx ${!solo&&auc?"act":""}" style="--tc:${t.col}">${top}${banner}${xiPitch(t,auc?card:null)}${actsHTML(ti)}${foot}</div>`;
 }
 function vGame(){
   if(G.format==="xi")return vGameXI();
