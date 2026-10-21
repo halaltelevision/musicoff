@@ -554,13 +554,15 @@ function xiSlots(f){const [d,m,a]=FORMATIONS[f]||FORMATIONS["4-3-3"],r=["G"];[["
 const FROLES={"4-3-3":{DEF:["DG","DC","DC","DD"],MIL:["MC","MDC","MC"],ATT:["AG","BU","AD"]},"4-4-2":{DEF:["DG","DC","DC","DD"],MIL:["MG","MC","MC","MD"],ATT:["BU","BU"]},
   "3-5-2":{DEF:["DC","DC","DC"],MIL:["MG","MC","MDC","MC","MD"],ATT:["BU","BU"]},"3-4-3":{DEF:["DC","DC","DC"],MIL:["MG","MC","MC","MD"],ATT:["AG","BU","AD"]}};
 const RXY={G:[1,0],DG:[0,0],DC:[1,0],DD:[2,0],MG:[0,1],MC:[1,1],MD:[2,1],MDC:[1,0],MOC:[1,2],AG:[0,0],BU:[1,0],AD:[2,0]};
-const RLBL={G:"Gardien",DG:"Latéral gauche",DC:"Défenseur central",DD:"Latéral droit",MG:"Milieu gauche",MC:"Milieu central",MD:"Milieu droit",MDC:"Milieu défensif",MOC:"Meneur",AG:"Ailier gauche",BU:"Avant-centre",AD:"Ailier droit"};
+/* Distance entre le poste d'un joueur et un poste de la formation. Second attaquant : à l'aise en pointe, mais laisse la pointe au vrai 9 */
+function roleDist(r,s){if(r==="SA")return s==="BU"?.5:s==="AG"||s==="AD"?1:2;const [x,y]=RXY[r]||[1,0],[a,b]=RXY[s]||[1,0];return Math.abs(a-x)+Math.abs(b-y)}
+const RLBL={SA:"Second attaquant",G:"Gardien",DG:"Latéral gauche",DC:"Défenseur central",DD:"Latéral droit",MG:"Milieu gauche",MC:"Milieu central",MD:"Milieu droit",MDC:"Milieu défensif",MOC:"Meneur",AG:"Ailier gauche",BU:"Avant-centre",AD:"Ailier droit"};
 const ROLEDEF={G:"G",DEF:"DC",MIL:"MC",ATT:"BU"};
 const roleOf=c=>(window.FOOT_ROLES||{})[c.n+"|"+c.pos]||ROLEDEF[c.pos];
 function xiRoles(f){const R=FROLES[f]||FROLES["4-3-3"],m={G:"G"};xiSlots(f).forEach(k=>{const p=slotPos(k);if(p!=="G")m[k]=R[p][(+(k.match(/\d+$/)||[1])[0])-1]});return m}
 /* XI : après chaque recrue, la ligne se réorganise pour que chacun soit au plus près de son vrai poste */
 function relineup(t,pos){const ks=G.slots.filter(k=>slotPos(k)===pos),pl=ks.map(k=>t.sl[k]).filter(Boolean);if(pl.length<2)return;
-  const dist=(pk,k)=>{const [x,y]=RXY[roleOf(cardOf(pk.i))]||[1,0],[a,b]=RXY[G.roles[k]]||[1,0];return Math.abs(a-x)+Math.abs(b-y)};
+  const dist=(pk,k)=>roleDist(roleOf(cardOf(pk.i)),G.roles[k]);
   let best=null,bc=1e9;const cur=new Map(ks.filter(k=>t.sl[k]).map(k=>[t.sl[k],k]));
   const go=(i,used,asg,c)=>{if(c>=bc)return;if(i===pl.length){bc=c;best=asg.slice();return}
     for(const k of ks){if(used.has(k))continue;used.add(k);asg.push(k);go(i+1,used,asg,c+dist(pl[i],k)+(cur.get(pl[i])===k?0:.01));asg.pop();used.delete(k)}};
@@ -648,7 +650,7 @@ const emptySlots=t=>G.slots.filter(k=>!t.sl[k]).length;
 const full=t=>emptySlots(t)===0;
 function slotFor(t,c){
   if(G.format==="xi"){if(!G.roles)G.roles=xiRoles(G.formation);const free=G.slots.filter(k=>!t.sl[k]&&slotPos(k)===c.pos);if(!free.length)return null;
-    const [x,y]=RXY[roleOf(c)]||[1,0],d=k=>{const [a,b]=RXY[G.roles[k]]||[1,0];return Math.abs(a-x)+Math.abs(b-y)};
+    const r=roleOf(c),d=k=>roleDist(r,G.roles[k]);
     return free.reduce((b,k)=>d(k)<d(b)?k:b,free[0])}
   const k=G.slots.find(k=>!t.sl[k]&&slotPos(k)===c.pos);if(k)return k;if(c.pos!=="G"&&G.slots.includes("LIB")&&!t.sl.LIB)return"LIB";return null}
 function maxBid(t){const n=emptySlots(t);return n<=0?-1:t.money-10*(n-1)}
