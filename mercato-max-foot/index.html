@@ -217,8 +217,6 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .rteam .between b{font-family:var(--display);font-size:19px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.rteam .between>.row:first-child{flex:1;min-width:0}.rteam .between>.row:last-child{flex:none}
 .rteam small{font-size:12px}
 .tot{font-family:var(--display);font-size:28px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
-.bonus{font-family:var(--display);font-size:14px;font-weight:700;text-transform:uppercase;color:#fff;background:var(--green);border-radius:5px;padding:0 6px;white-space:nowrap}
-.bonus:empty{display:none}
 .rteam .pitch{padding:3px}
 .rteam .slot .ph{width:28px;height:28px}
 .pitch.sm{padding:2px 4px}.pitch.sm .slot .ph{width:22px;height:22px;font-size:10px;margin:1px 0}.pitch.sm .slot .sn{font-size:11px}.pitch.sm .slot .sv{font-size:13px;line-height:1.15}
@@ -546,7 +544,7 @@ const POS={G:{l:"Gardien",s:"G",c:"var(--yellow)"},DEF:{l:"Défenseur",s:"DEF",c
 const FORMATS={
   five:{l:"Five",d:"1 gardien + 4",n:5,slots:["G","DEF","MIL","ATT","LIB"],budget:500,max:4,on:true},
   xi:{l:"XI de légende",d:"11 joueurs, à 2",n:11,budget:1000,max:2,on:true},
-  duel:{l:"Duel rapide",d:"3 joueurs, à 2",n:3,slots:["DEF","MIL","ATT"],budget:300,max:2,on:true}
+  duel:{l:"Duel rapide",d:"3 joueurs, de 2 à 4",n:3,slots:["DEF","MIL","ATT"],budget:300,max:4,on:true}
 };
 /* XI de légende : formation au choix (défenseurs, milieux, attaquants) */
 const FORMATIONS={"4-3-3":[4,3,3],"4-4-2":[4,4,2],"3-5-2":[3,5,2],"3-4-3":[3,4,3]};
@@ -741,14 +739,8 @@ function tick(){
 }
 /* ===================== Score ===================== */
 function force(pk){const c=cardOf(pk.i);return Math.round(c.p*(pk.golden?1.5:1))}
-function bonusOf(t){
-  const cards=G.slots.map(k=>t.sl[k]).filter(Boolean).map(pk=>cardOf(pk.i)),out=[];
-  const by=(key)=>{const m={};cards.forEach(c=>m[c[key]]=(m[c[key]]||0)+1);return m};
-  if(!packOf().oneclub)Object.entries(by("club")).forEach(([k,n])=>{if(n>=2)out.push({l:`${n} de ${k}`,v:n===2?4:n===3?8:12})});
-  if(!packOf().onecountry)Object.entries(by("pays")).forEach(([k,n])=>{if(n>=3)out.push({l:`${n} ${k}`,v:n===3?3:n===4?6:10})});
-  return out;
-}
-function scoreTeam(t){const base=G.slots.reduce((a,k)=>a+(t.sl[k]?force(t.sl[k]):0),0),b=bonusOf(t);return{base,bonus:b,total:base+b.reduce((a,x)=>a+x.v,0)}}
+/* Score = somme des notes (pas de bonus caché) */
+function scoreTeam(t){const total=G.slots.reduce((a,k)=>a+(t.sl[k]?force(t.sl[k]):0),0);return{base:total,total}}
 function finish(){
   stopLoop();G.phase="end";
   G.teams.forEach(t=>t.score=scoreTeam(t));
@@ -1013,7 +1005,7 @@ function playReveal(){
       G.teams.forEach((t,ti)=>{if(t.sl[k])tot[ti]+=force(t.sl[k]);if(!tv)$("#pt"+ti).innerHTML=pitchHTML(t,{reveal:step,small:many});$("#tot"+ti).textContent=tot[ti]});
       if(!fast)beep(400+step*80,.08,"triangle");later(next,750);return}
     if(step===G.slots.length){step++;let any=false;
-      G.teams.forEach((t,ti)=>{if(t.score.bonus.length)any=true;$("#tot"+ti).textContent=t.score.total});
+      G.teams.forEach((t,ti)=>{$("#tot"+ti).textContent=t.score.total});
       if(any&&!fast)beep(900,.1,"triangle");later(next,any?900:200);return}
     const w=$("#winner");
     if(tv){const lo=$("#tot"+(G.winner===0?1:0));if(G.winner>=0&&lo)lo.classList.add("lo")}
@@ -1057,7 +1049,7 @@ function rulesSheet(){sheet(`<h2>Les règles</h2><ul class="rules">
  <li><span>3</span><p>Tu ne peux miser que si tu as encore une <b>place à ce poste</b> (ou la place libre pour un joueur de champ).</p></li>
  <li><span>4</span><p>Garde toujours 10 par place encore vide. Aucune note n'est montrée : à toi de connaître le foot !</p></li>
  <li><span>5</span><p>Carte en or : force ×1,5. Carte mystère : on ne voit que le poste. Parfois, une prime tombe du ciel.</p></li>
- <li><span>6</span><p>À la fin, tout se révèle poste par poste. Petit bonus si plusieurs joueurs du même club (ou 3+ du même pays). Égalité : celui qui a gardé le plus d'argent gagne.</p></li>
+ <li><span>6</span><p>À la fin, on additionne les notes de chaque équipe : la plus forte gagne. Égalité : celui qui a gardé le plus d'argent gagne.</p></li>
  </ul><button class="btn go" data-act="close">Compris</button>`)}
 function palSheet(){sheet(`<h2>Couleurs</h2><p class="mute">Choisis l'ambiance du jeu.</p><div class="pals">${PALS.map(([k,l,,c,d])=>`<button class="palbtn" style="background:${c[0]};color:${d?"#fff":"#1A1446"}" aria-pressed="${P.pal===k}" data-act="pal" data-v="${k}"><span class="sw">${c.slice(1).map(x=>`<i style="background:${x}"></i>`).join("")}</span>${l}</button>`).join("")}</div><button class="btn go" data-act="close">C'est bon</button>`)}
 /* ===================== Catalogue des packs ===================== */
@@ -1151,7 +1143,7 @@ async function resultCanvas(){
     /* pastille couleur + nom + billets gardés */
     x.beginPath();x.arc(L+P+8,y+P+24,10,0,7);x.fillStyle=col(t.col);x.fill();
     x.textAlign="left";x.font=F(800,44);x.fillStyle="#EEF3FF";const nm=solo&&G.teams.indexOf(t)===0?"TOI":t.name.toUpperCase();x.fillText(fit(nm,440),L+P+32,y+P+38);
-    const bs=t.score.bonus.reduce((a,b)=>a+b.v,0);x.font=F(600,24,"b");x.fillStyle="#93A3D1";
+    x.font=F(600,24,"b");x.fillStyle="#93A3D1";
     const sub=`${t.money}`;x.fillText(sub,L+P+32,y+P+80);const sw=x.measureText(sub).width;bill(L+P+40+sw,y+P+62,20);x.fillText("gardés",L+P+84+sw,y+P+80);
     /* total */
     x.textAlign="right";x.font=F(700,n>2?72:84,"led");x.fillStyle=win?"#FFD84A":"#7C88AE";if(win){x.shadowColor="rgba(255,216,74,.6)";x.shadowBlur=24}x.fillText(t.score.total,R-P,y+P+70);x.shadowBlur=0;
@@ -1263,13 +1255,15 @@ const MISSIONS=[
  {id:"rich",t:"Gagne en gardant 100 billets ou plus",n:1,f:c=>c.win&&c.me.money>=100?1:0},
  {id:"duel",t:"Gagne un duel contre 1 ordi",n:1,f:c=>c.win&&c.G.teams.length===2?1:0},
  {id:"games5",t:"Joue 5 parties",n:5,f:()=>1},
- {id:"bonus",t:"Décroche un bonus de club ou de pays",n:1,f:c=>c.humans.some(t=>t.score.bonus.length)?1:0},
- {id:"score",t:"Fais une équipe de 450 points ou plus",n:1,f:c=>c.humans.some(t=>t.score.total>=450)?1:0}
+ {id:"formats",t:"Joue en XI de légende ou en Duel rapide",n:1,f:c=>c.G.format!=="five"?1:0},
+ {id:"score",t:"Fais une équipe à 90 de moyenne ou plus",n:1,f:c=>c.humans.some(t=>t.score.total/c.G.slots.length>=90)?1:0}
 ];
 const MXP=60;
 function weekState(){const w=weekNo();if(!P.week||P.week.w!==w){const ids=[],pool=MISSIONS.map(m=>m.id);let h=MMF.cyrb53("missions|"+w);
     while(ids.length<3){const id=pool[h%pool.length];if(!ids.includes(id))ids.push(id);h=Math.floor(h/7)+13}
-    P.week={w,ids,prog:{},done:{},packs:[]}}return P.week}
+    P.week={w,ids,prog:{},done:{},packs:[]}}
+  /* une mission retirée du jeu (ex. bonus) est remplacée */
+  P.week.ids=P.week.ids.map(id=>MISSIONS.some(m=>m.id===id)?id:MISSIONS.map(m=>m.id).find(x=>!P.week.ids.includes(x)));return P.week}
 function missionsAfter(c){const W=weekState(),out=[];if(!W.packs.includes(c.G.pack))W.packs.push(c.G.pack);
   W.ids.forEach(id=>{if(W.done[id])return;const m=MISSIONS.find(x=>x.id===id);if(!m)return;
     W.prog[id]=id==="packs3"?W.packs.length:Math.min(m.n,(W.prog[id]||0)+m.f(c));
@@ -1289,7 +1283,7 @@ const ACH=[
  {id:"galaxy",tier:2,t:"Galactiques",d:"Recrute 4 joueurs notés 92 ou plus dans une même partie",ok:c=>c.humans.some(t=>G.slots.filter(k=>t.sl[k]&&cardOf(t.sl[k].i).p>=92).length>=4)},
  {id:"steal",tier:2,t:"Le casse du siècle",d:"Recrute un joueur noté 92 ou plus pour 20 ou moins",ok:c=>c.mine.some(x=>x.c.p>=92&&x.pk.price<=20)},
  {id:"miser",tier:2,t:"Le Radin",d:"Gagne contre l'ordi en gardant 200 ou plus",ok:c=>c.win&&c.me.money>=200},
- {id:"clubbonus",tier:2,t:"Esprit de club",d:"Aligne 3 joueurs du même club dans une partie",ok:c=>c.humans.some(t=>t.score.bonus.some(b=>b.v>=8&&/ de /.test(b.l)))},
+ {id:"clubbonus",tier:2,t:"Esprit de club",d:"Aligne 3 joueurs du même club dans une partie",ok:c=>c.humans.some(t=>{const m={};G.slots.forEach(k=>{const pk=t.sl[k];if(pk){const cl=cardOf(pk.i).club;m[cl]=(m[cl]||0)+1}});return Object.values(m).some(n=>n>=3)})},
  {id:"gold10",tier:2,t:"Ruée vers l'or",d:"Remporte 10 cartes en or",goal:()=>[P.st.gold,10],ok:()=>P.st.gold>=10},
  {id:"star50",tier:3,t:"Chasseur de stars",d:"Recrute 50 joueurs notés 92 ou plus au total",goal:()=>[P.st.star,50],ok:()=>P.st.star>=50},
  {id:"amis10",tier:1,t:"Soirées mercato",d:"Joue 10 parties entre amis",goal:()=>[P.st.amis,10],ok:()=>P.st.amis>=10},
