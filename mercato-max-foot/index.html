@@ -591,10 +591,10 @@ PALS.forEach(p=>{if(p[4]!==2)p[2]=Object.assign({},LIGHT,p[2])});
 /* ===================== Préférences ===================== */
 function newDevice(){const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";for(let i=0;i<8;i++)s+=a[Math.floor(Math.random()*a.length)];return"MX-"+s.slice(0,4)+"-"+s.slice(4)}
 let P={pal:"nuit",look:3,tempo:"lent",nai:2,diff:"normal",chaos:true,pack:"s_leg",names:["Joueur 1","Joueur 2"],
-  device:newDevice(),xp:0,games:0,wins:0,streakW:0,bestStreakW:0,best:null,packsPlayed:[],ach:{},owned:{},custom:[],daily:{},dstreak:{last:null,n:0},sound:true,album:{},st:{gold:0,star:0,amis:0},week:null};
+  device:newDevice(),xp:0,games:0,wins:0,streakW:0,bestStreakW:0,best:null,packsPlayed:[],ach:{},owned:{},custom:[],daily:{},dstreak:{last:null,n:0},sound:true,album:{},st:{myst:0,star:0,amis:0},week:null};
 try{Object.assign(P,JSON.parse(localStorage.getItem("mmfoot_p"))||{})}catch(e){}
 if(P.look!==3){P.look=3;P.pal="nuit"}
-P.st=Object.assign({gold:0,star:0,amis:0},P.st);P.owned=P.owned||{};P.album=P.album||{};P.custom=P.custom||[];
+P.st=Object.assign({myst:0,star:0,amis:0},P.st);P.owned=P.owned||{};P.album=P.album||{};P.custom=P.custom||[];
 function saveP(){try{localStorage.setItem("mmfoot_p",JSON.stringify(P))}catch(e){}}
 function applyPal(){const r=document.documentElement,keys=new Set();PALS.forEach(p=>Object.keys(p[2]).forEach(k=>keys.add(k)));keys.forEach(k=>r.style.removeProperty(k));
   const p=PALS.find(x=>x[0]===P.pal)||PALS[0];Object.entries(p[2]).forEach(([k,v])=>r.style.setProperty(k,v));
@@ -633,7 +633,10 @@ function slotFor(t,c){const k=G.slots.find(k=>!t.sl[k]&&slotPos(k)===c.pos);if(k
 function maxBid(t){const n=emptySlots(t);return n<=0?-1:t.money-10*(n-1)}
 function canPlace(ti){return !!slotFor(G.teams[ti],cardOf(G.cur.i))}
 function canRaise(ti,inc=10){const t=G.teams[ti];return canPlace(ti)&&!G.cur.out[ti]&&G.cur.price+inc<=maxBid(t)}
-function isOver(){return G.teams.every(full)||G.pos>=G.order.length}
+/* Une carte n'est tirée que si au moins une équipe peut la poser */
+const placeable=i=>G.teams.some(t=>slotFor(t,cardOf(i)));
+const cardsLeft=()=>G.order.slice(G.pos).filter(placeable).length;
+function isOver(){return G.teams.every(full)||!G.order.slice(G.pos).some(placeable)}
 function startGame(s){
   const fm=FORMATS[s.format||"five"],seed=s.seed||Math.floor(Math.random()*2147483647);rnd=mulberry(seed);
   const pack=PACKS[s.pack],slots=fmtSlots(s),nai=Math.min(s.nai,fm.max-(s.allai?0:1));
@@ -649,8 +652,10 @@ function startGame(s){
 }
 function draw(){
   if(isOver()){finish();return}
+  while(!placeable(G.order[G.pos]))G.pos++;
   G.prime=-1;let golden=false,mystery=false;const r=rnd();
-  if(G.chaos&&r<.12)golden=true;else if(G.chaos&&r<.22)mystery=true;
+  /* Plus de carte en or : seulement des cartes mystère (≈10 %) */
+  if(G.chaos&&r<.1)mystery=true;
   /* Prime : rare (≈3 % par carte, 2 par partie au plus) */
   if(G.chaos&&G.pos>0&&G.nPrime<2&&rnd()<.03){const c=G.teams.filter(t=>!full(t));if(c.length){const t=c[Math.floor(rnd()*c.length)],q=rnd(),amt=q<.35?10:q<.65?20:q<.8?30:q<.92?50:q<.98?80:100;t.money+=amt;G.nPrime++;G.prime=G.teams.indexOf(t);G.primeAmt=amt}}
   const i=G.order[G.pos++],n=G.teams.length,starter=G.next%n;G.next=(starter+1)%n;
@@ -720,7 +725,7 @@ function aiTurn(ti){
 }
 function sell(){
   stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;
-  if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden};
+  if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};
     if(!SIM){SFX.sold();buzz([30,40,60]);if(t.ai&&Math.random()<.5)say(c.leader,"win")}}
   if(!SIM)render();
 }
@@ -790,7 +795,7 @@ function optsSheet(){const s=SETUP,solo=s.mode==="solo";
   sheet(`<div class="between"><h2>Options</h2><button class="mini" data-act="close">OK</button></div>
     ${solo?`<div class="field"><span class="lbl">Niveau des ordis</span>${seg("diff",Object.entries(DIFF).map(([k,d])=>[k,d.l]))}</div>`:""}
     <div class="field"><span class="lbl">Chrono par tour</span>${seg("tempo",Object.entries(TEMPO).map(([k,t])=>[k,t.l,t.d]))}</div>
-    <div class="between"><span><b>Surprises</b><br><small class="mute">Cartes en or, cartes mystère et primes rares</small></span><button class="tog" aria-pressed="${s.chaos}" data-act="chaos" aria-label="Surprises"></button></div>
+    <div class="between"><span><b>Surprises</b><br><small class="mute">Cartes mystère et primes rares</small></span><button class="tog" aria-pressed="${s.chaos}" data-act="chaos" aria-label="Surprises"></button></div>
     <button class="btn go" data-act="close">C'est bon</button>`)}
 function vSetup(){
   const s=SETUP,solo=s.mode==="solo";
@@ -836,7 +841,7 @@ function tilesInner(){
       <div class="top"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><span class="nm">${esc(t.name)}</span><span class="mn">${PP(t.money)}</span></div>
       <div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">Voir</button></div></div>`}).join("");
 }
-function leftLbl(){const r=G.order.length-G.pos;return r===0?"Dernière carte":r<=5?`Encore ${r} carte${r>1?"s":""}`:`${r} cartes restantes`}
+function leftLbl(){const r=cardsLeft();return r===0?"Dernière carte":r<=5?`Encore ${r} carte${r>1?"s":""}`:`${r} cartes restantes`}
 function focusTeam(){/* L'équipe affichée en bas : toi en solo ; en mode amis, celui qui a la main */
   if(G.mode==="solo")return 0;const c=G.cur;
   if(G.phase==="auction")return c.turn;
@@ -909,7 +914,7 @@ function xiPitch(t,ghostCard){const can=ghostCard&&slotFor(t,ghostCard),myst=G.c
 function vGameXI(){
   const solo=G.mode==="solo",c=G.cur,ph=G.phase,auc=ph==="auction",ti=solo?0:focusTeam(),t=G.teams[ti],o=G.teams[1-ti];
   const card=c&&ph!=="draw"?cardOf(c.i):null,myst=c&&c.mystery&&auc;
-  const left=`${G.order.length-G.pos} carte${G.order.length-G.pos>1?"s":""}`;
+  const nl=cardsLeft(),left=`${nl} carte${nl>1?"s":""}`;
   const top=solo?`<div class="tiles n1" id="tiles" style="--n:1">${tilesInner()}</div>`
     :`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="gxturn" style="--tc:${t.col}">${auc?"Au tour de "+esc(t.name):esc(t.name)}<small>${PP(t.money)}</small></span><button class="mini" data-act="rules">Règles</button></div>`;
   let banner;
@@ -1048,7 +1053,7 @@ function rulesSheet(){sheet(`<h2>Les règles</h2><ul class="rules">
  <li><span>2</span><p>Une carte joueur sort. <b>Chacun son tour</b>, on mise +10, +50 ou +100, ou on passe. La première mise est obligatoire.</p></li>
  <li><span>3</span><p>Tu ne peux miser que si tu as encore une <b>place à ce poste</b> (ou la place libre pour un joueur de champ).</p></li>
  <li><span>4</span><p>Garde toujours 10 par place encore vide. Aucune note n'est montrée : à toi de connaître le foot !</p></li>
- <li><span>5</span><p>Carte en or : force ×1,5. Carte mystère : on ne voit que le poste. Parfois, une prime tombe du ciel.</p></li>
+ <li><span>5</span><p>Carte mystère : on ne voit que le poste. Parfois, une prime tombe du ciel.</p></li>
  <li><span>6</span><p>À la fin, on additionne les notes de chaque équipe : la plus forte gagne. Égalité : celui qui a gardé le plus d'argent gagne.</p></li>
  </ul><button class="btn go" data-act="close">Compris</button>`)}
 function palSheet(){sheet(`<h2>Couleurs</h2><p class="mute">Choisis l'ambiance du jeu.</p><div class="pals">${PALS.map(([k,l,,c,d])=>`<button class="palbtn" style="background:${c[0]};color:${d?"#fff":"#1A1446"}" aria-pressed="${P.pal===k}" data-act="pal" data-v="${k}"><span class="sw">${c.slice(1).map(x=>`<i style="background:${x}"></i>`).join("")}</span>${l}</button>`).join("")}</div><button class="btn go" data-act="close">C'est bon</button>`)}
@@ -1250,7 +1255,7 @@ const MISSIONS=[
  {id:"cheapstar",t:"Recrute un joueur noté 90 ou plus pour 60 ou moins",n:1,f:c=>c.mine.some(x=>x.c.p>=90&&x.pk.price<=60)?1:0},
  {id:"amis3",t:"Joue 3 parties entre amis",n:3,f:c=>c.G.mode==="amis"?1:0},
  {id:"packs3",t:"Joue avec 3 packs différents",n:3,f:()=>0},
- {id:"gold1",t:"Remporte une carte en or",n:1,f:c=>c.mine.some(x=>x.pk.golden)?1:0},
+ {id:"myst1",t:"Remporte une carte mystère",n:1,f:c=>c.mine.some(x=>x.pk.mystery)?1:0},
  {id:"daily2",t:"Joue le défi du jour 2 fois",n:2,f:c=>c.G.daily?1:0},
  {id:"rich",t:"Gagne en gardant 100 billets ou plus",n:1,f:c=>c.win&&c.me.money>=100?1:0},
  {id:"duel",t:"Gagne un duel contre 1 ordi",n:1,f:c=>c.win&&c.G.teams.length===2?1:0},
@@ -1284,7 +1289,7 @@ const ACH=[
  {id:"steal",tier:2,t:"Le casse du siècle",d:"Recrute un joueur noté 92 ou plus pour 20 ou moins",ok:c=>c.mine.some(x=>x.c.p>=92&&x.pk.price<=20)},
  {id:"miser",tier:2,t:"Le Radin",d:"Gagne contre l'ordi en gardant 200 ou plus",ok:c=>c.win&&c.me.money>=200},
  {id:"clubbonus",tier:2,t:"Esprit de club",d:"Aligne 3 joueurs du même club dans une partie",ok:c=>c.humans.some(t=>{const m={};G.slots.forEach(k=>{const pk=t.sl[k];if(pk){const cl=cardOf(pk.i).club;m[cl]=(m[cl]||0)+1}});return Object.values(m).some(n=>n>=3)})},
- {id:"gold10",tier:2,t:"Ruée vers l'or",d:"Remporte 10 cartes en or",goal:()=>[P.st.gold,10],ok:()=>P.st.gold>=10},
+ {id:"myst10",tier:2,t:"Pari à l'aveugle",d:"Remporte 10 cartes mystère",goal:()=>[P.st.myst,10],ok:()=>P.st.myst>=10},
  {id:"star50",tier:3,t:"Chasseur de stars",d:"Recrute 50 joueurs notés 92 ou plus au total",goal:()=>[P.st.star,50],ok:()=>P.st.star>=50},
  {id:"amis10",tier:1,t:"Soirées mercato",d:"Joue 10 parties entre amis",goal:()=>[P.st.amis,10],ok:()=>P.st.amis>=10},
  {id:"g100",tier:2,t:"Accro au mercato",d:"Joue 100 parties",goal:()=>[P.games,100],ok:()=>P.games>=100},
@@ -1306,7 +1311,7 @@ function rewards(){
   if(G.daily&&me){const d=P.daily[G.daily]||{best:0};d.best=Math.max(d.best,me.score.total);P.daily[G.daily]=d;
     const y=new Date();y.setDate(y.getDate()-1);const ys=y.getFullYear()+"-"+String(y.getMonth()+1).padStart(2,"0")+"-"+String(y.getDate()).padStart(2,"0");
     if(P.dstreak.last!==G.daily){P.dstreak.n=P.dstreak.last===ys?P.dstreak.n+1:1;P.dstreak.last=G.daily}}
-  P.st.gold+=mine.filter(x=>x.pk.golden).length;P.st.star+=mine.filter(x=>x.c.p>=92).length;if(G.mode==="amis")P.st.amis++;
+  P.st.myst+=mine.filter(x=>x.pk.mystery).length;P.st.star+=mine.filter(x=>x.c.p>=92).length;if(G.mode==="amis")P.st.amis++;
   const ctx={G,win,me,humans,mine};
   const newAlbum=albumAdd(G.pack,mine.map(x=>x.c.n));
   const doneM=missionsAfter(ctx);
