@@ -555,8 +555,9 @@ const FROLES={"4-3-3":{DEF:["DG","DC","DC","DD"],MIL:["MC","MDC","MC"],ATT:["AG"
   "3-5-2":{DEF:["DC","DC","DC"],MIL:["MG","MC","MDC","MC","MD"],ATT:["BU","BU"]},"3-4-3":{DEF:["DC","DC","DC"],MIL:["MG","MC","MC","MD"],ATT:["AG","BU","AD"]}};
 const RXY={G:[1,0],DG:[0,0],DC:[1,0],DD:[2,0],MG:[0,1],MC:[1,1],MD:[2,1],MDC:[1,0],MOC:[1,2],AG:[0,0],BU:[1,0],AD:[2,0]};
 /* Distance entre le poste d'un joueur et un poste de la formation. Second attaquant : à l'aise en pointe, mais laisse la pointe au vrai 9 */
-function roleDist(r,s){if(r==="SA")return s==="BU"?.5:s==="AG"||s==="AD"?1:2;const [x,y]=RXY[r]||[1,0],[a,b]=RXY[s]||[1,0];return Math.abs(a-x)+Math.abs(b-y)}
-const RLBL={SA:"Second attaquant",G:"Gardien",DG:"Latéral gauche",DC:"Défenseur central",DD:"Latéral droit",MG:"Milieu gauche",MC:"Milieu central",MD:"Milieu droit",MDC:"Milieu défensif",MOC:"Meneur",AG:"Ailier gauche",BU:"Avant-centre",AD:"Ailier droit"};
+function roleDist(r,s){if(r==="SA")return s==="BU"?.5:s==="AG"||s==="AD"?1:2;
+  if(r==="SAG"||r==="SAD")return s==="BU"?.5:s===(r==="SAG"?"AG":"AD")?1:s==="AG"||s==="AD"?1.3:2;const [x,y]=RXY[r]||[1,0],[a,b]=RXY[s]||[1,0];return Math.abs(a-x)+Math.abs(b-y)}
+const RLBL={SA:"Second attaquant",SAG:"Second attaquant",SAD:"Second attaquant",G:"Gardien",DG:"Latéral gauche",DC:"Défenseur central",DD:"Latéral droit",MG:"Milieu gauche",MC:"Milieu central",MD:"Milieu droit",MDC:"Milieu défensif",MOC:"Meneur",AG:"Ailier gauche",BU:"Avant-centre",AD:"Ailier droit"};
 const ROLEDEF={G:"G",DEF:"DC",MIL:"MC",ATT:"BU"};
 const roleOf=c=>(window.FOOT_ROLES||{})[c.n+"|"+c.pos]||ROLEDEF[c.pos];
 function xiRoles(f){const R=FROLES[f]||FROLES["4-3-3"],m={G:"G"};xiSlots(f).forEach(k=>{const p=slotPos(k);if(p!=="G")m[k]=R[p][(+(k.match(/\d+$/)||[1])[0])-1]});return m}
