@@ -40,7 +40,9 @@ Igor Paixão/ATT/Marseille/Brésil/63
 Brice Samba/G/Rennes/France/62
 Odsonne Édouard/ATT/Lens/France/61
 Lukáš Hrádecký/G/Monaco/Finlande/70
-Berke Özer/G/Lille/Turquie/66`},
+Berke Özer/G/Lille/Turquie/66
+Leonardo Balerdi/DEF/Marseille/Argentine/82
+`},
 {id:"s_bundes",name:"Bundesliga",cat:"ligues",sub:"Championnats",raw:`
 Harry Kane/ATT/Bayern/Angleterre/98
 Michael Olise/ATT/Bayern/France/97
@@ -80,7 +82,9 @@ Can Uzun/MIL/Eintracht Francfort/Turquie/64
 Yan Diomande/ATT/Leipzig/Côte d'Ivoire/63
 Exequiel Palacios/MIL/Leverkusen/Argentine/62
 Alexander Nübel/G/Stuttgart/Allemagne/72
-Mark Flekken/G/Leverkusen/Pays-Bas/68`},
+Mark Flekken/G/Leverkusen/Pays-Bas/68
+Waldemar Anton/DEF/Dortmund/Allemagne/80
+`},
 {id:"s_arg",name:"Argentine",cat:"nations",sub:"Amérique du Sud",desc:"Sélection actuelle",raw:`
 Lionel Messi/ATT/Inter Miami/Argentine/98
 Lautaro Martínez/ATT/Inter/Argentine/97
@@ -159,7 +163,11 @@ Igor Thiago/ATT/Brentford/Brésil/64
 Vitor Roque/ATT/Palmeiras/Brésil/63
 Gerson/MIL/Zenit/Brésil/62
 Lucas Perri/G/Leeds/Brésil/66
-Hugo Souza/G/Corinthians/Brésil/64`},
+Hugo Souza/G/Corinthians/Brésil/64
+Fabinho/MIL/Al-Ittihad/Brésil/79
+André/MIL/Wolverhampton/Brésil/78
+Gabriel Sara/MIL/Galatasaray/Brésil/75
+`},
 {id:"s_eng",name:"Angleterre",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Harry Kane/ATT/Bayern/Angleterre/98
 Declan Rice/MIL/Arsenal/Angleterre/97
@@ -231,7 +239,10 @@ Dino Zoff/G/Juventus/Italie/86
 Iker Casillas/G/Real Madrid/Espagne/85
 Peter Schmeichel/G/Manchester United/Danemark/82
 Franco Baresi/DEF/Milan/Italie/87
-Bobby Moore/DEF/West Ham/Angleterre/84`},
+Bobby Moore/DEF/West Ham/Angleterre/84
+Alessandro Nesta/DEF/Milan/Italie/92
+Carlos Alberto/DEF/Santos/Brésil/90
+`},
 {id:"s_leg_2",name:"Légendes du foot 2",cat:"themes",sub:"D'autres géants de l'histoire",raw:`
 Eusébio/ATT/Benfica/Portugal/85
 Gerd Müller/ATT/Bayern/Allemagne/84
@@ -262,7 +273,13 @@ Steven Gerrard/MIL/Liverpool/Angleterre/79
 Patrick Vieira/MIL/Arsenal/France/77
 Sócrates/MIL/Corinthians/Brésil/76
 Clarence Seedorf/MIL/Milan/Pays-Bas/74
-Roy Keane/MIL/Manchester United/Irlande/72`},
+Roy Keane/MIL/Manchester United/Irlande/72
+Javier Zanetti/DEF/Inter/Argentine/84
+Frank Lampard/MIL/Chelsea/Angleterre/84
+Pavel Nedvěd/MIL/Juventus/Tchéquie/84
+Michael Ballack/MIL/Bayern/Allemagne/82
+Juan Román Riquelme/MIL/Boca Juniors/Argentine/82
+`},
 {id:"s_b_allemagne",name:"Allemagne",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Florian Wirtz/MIL/Liverpool/Allemagne/95
 Jamal Musiala/MIL/Bayern/Allemagne/95
@@ -330,7 +347,10 @@ Thomas Meunier/DEF/Lille/Belgique/70
 Nicolas Raskin/MIL/Rangers/Belgique/70
 Leander Dendoncker/MIL/Anderlecht/Belgique/69
 Michy Batshuayi/ATT/Eintracht Francfort/Belgique/68
-Mike Penders/G/Strasbourg/Belgique/68`},
+Mike Penders/G/Strasbourg/Belgique/68
+Brandon Mechele/DEF/Club Bruges/Belgique/74
+Joaquin Seys/DEF/Club Bruges/Belgique/72
+`},
 {id:"s_b_nigeria",name:"Nigeria",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Victor Osimhen/ATT/Galatasaray/Nigeria/96
 Ademola Lookman/ATT/Atalanta/Nigeria/95
@@ -363,7 +383,13 @@ Cyriel Dessers/ATT/Panathinaïkos/Nigeria/70
 Ahmed Musa/ATT/Kano Pillars/Nigeria/70
 Francis Uzoho/G/Omonia/Nigeria/72
 Adebayo Adeleye/G/Zakynthos/Nigeria/68
-Amas Obasogie/G/Bendel Insurance/Nigeria/66`},
+Amas Obasogie/G/Bendel Insurance/Nigeria/66
+Kevin Akpoguma/DEF/Hoffenheim/Nigeria/72
+Alhassan Yusuf/MIL/New England Revolution/Nigeria/70
+Christantus Uche/MIL/Crystal Palace/Nigeria/72
+Ebenezer Akinsanmiro/MIL/Inter/Nigeria/68
+Oghenekaro Etebo/MIL/Aris/Nigeria/68
+`},
 {id:"s_b_botola",name:"Botola Pro",cat:"ligues",sub:"Championnats",raw:`
 Hakim Ziyech/ATT/Wydad/Maroc/95
 Nordin Amrabat/ATT/Wydad/Maroc/93
@@ -398,7 +424,11 @@ El Mehdi Benabid/G/Wydad/Maroc/76
 Youssef El Motie/G/Wydad/Maroc/74
 Bart Meijers/DEF/Wydad/Pays-Bas/75
 Mohamed Moufid/DEF/Wydad/Maroc/72
-Guilherme Ferreira/DEF/Wydad/Brésil/70`}
+Guilherme Ferreira/DEF/Wydad/Brésil/70
+Jamal Harkass/DEF/Wydad/Maroc/76
+Yahya Jabrane/MIL/Wydad/Maroc/78
+Khalid Aït Ouarkhane/MIL/FAR Rabat/Maroc/74
+`}
 );
 Object.assign(window.CLUB_COLORS,{
 "Ajax":["#D2122E","#FFFFFF"],
@@ -502,3 +532,5 @@ Object.assign(window.CLUB_COLORS,{
 "Zakynthos":["#0055A4","#FFFFFF"],
 "Zenit":["#0077C8","#FFFFFF"]
 });
+
+Object.assign(window.CLUB_COLORS,{"Al-Ittihad": ["#FFD200", "#111111"], "Aris": ["#FFD100", "#000000"], "FAR Rabat": ["#00843D", "#E30613"], "New England Revolution": ["#0A2240", "#CE0E2D"]});

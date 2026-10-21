@@ -80,7 +80,10 @@ Riccardo Orsolini/ATT/Bologne/Italie/63
 Matías Soulé/ATT/Roma/Argentine/62
 Michele Di Gregorio/G/Juventus/Italie/76
 Marco Carnesecchi/G/Atalanta/Italie/72
-Giovanni Di Lorenzo/DEF/Naples/Italie/79`},
+Giovanni Di Lorenzo/DEF/Naples/Italie/79
+Amir Rrahmani/DEF/Naples/Kosovo/82
+Fikayo Tomori/DEF/Milan/Angleterre/80
+`},
 {id:"s_fra",name:"France",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Kylian Mbappé/ATT/Real Madrid/France/98
 Ousmane Dembélé/ATT/PSG/France/97
@@ -156,7 +159,10 @@ Selim Amallah/MIL/Valladolid/Maroc/68
 Yahia Attiyat Allah/DEF/Wydad/Maroc/67
 El Mehdi Al Harrar/G/Raja Casablanca/Maroc/68
 Mehdi Benabid/G/Wydad/Maroc/67
-Ahmed Reda Tagnaouti/G/AS FAR/Maroc/66`},
+Ahmed Reda Tagnaouti/G/AS FAR/Maroc/66
+Yahya Jabrane/MIL/Wydad/Maroc/73
+Amir Richardson/MIL/Fiorentina/Maroc/74
+`},
 {id:"s_esp",name:"Espagne",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Lamine Yamal/ATT/Barcelone/Espagne/98
 Pedri/MIL/Barcelone/Espagne/97
@@ -228,7 +234,12 @@ Amr El Solia/MIL/Ceramica Cleopatra/Égypte/72
 Mahmoud Kahraba/ATT/Al Ahly/Égypte/71
 Mohamed Abou Gabal/G/Zamalek/Égypte/70
 Ahmed El Shenawy/G/Pyramids/Égypte/72
-Mohamed Sobhi/G/Zamalek/Égypte/71`},
+Mohamed Sobhi/G/Zamalek/Égypte/71
+Mohamed Magdy Afsha/MIL/Al Ahly/Égypte/78
+Tarek Hamed/MIL/Zamalek/Égypte/74
+Nabil Emad Dunga/MIL/Al-Najma/Égypte/72
+Mohamed Shehata/MIL/Zamalek/Égypte/72
+`},
 {id:"s_legafr",name:"Légendes d'Afrique",cat:"themes",sub:"Les géants du continent africain",raw:`
 Samuel Eto'o/ATT/Barcelone/Cameroun/98
 Didier Drogba/ATT/Chelsea/Côte d'Ivoire/97
@@ -269,7 +280,11 @@ Essam El Hadary/G/Al Ahly/Égypte/63
 Pierre-Emerick Aubameyang/ATT/Dortmund/Gabon/62
 Joseph-Antoine Bell/G/Marseille/Cameroun/72
 Vincent Enyeama/G/Lille/Nigeria/70
-Kalidou Koulibaly/DEF/Naples/Sénégal/78`},
+Kalidou Koulibaly/DEF/Naples/Sénégal/78
+Taribo West/DEF/Inter/Nigeria/80
+Hany Ramzy/DEF/Werder Brême/Égypte/78
+John Obi Mikel/MIL/Chelsea/Nigeria/80
+`},
 {id:"s_b_paysbas",name:"Pays-Bas",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Virgil van Dijk/DEF/Liverpool/Pays-Bas/95
 Frenkie de Jong/MIL/Barcelone/Pays-Bas/93
@@ -305,7 +320,9 @@ Mark Flekken/G/Leverkusen/Pays-Bas/71
 Lutsharel Geertruida/DEF/Sunderland/Pays-Bas/70
 Robin Roefs/G/Sunderland/Pays-Bas/72
 Justin Bijlow/G/Genoa/Pays-Bas/70
-Jasper Cillessen/G/NEC/Pays-Bas/68`},
+Jasper Cillessen/G/NEC/Pays-Bas/68
+Marten de Roon/MIL/Atalanta/Pays-Bas/76
+`},
 {id:"s_b_civ",name:"Côte d'Ivoire",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Amad Diallo/ATT/Manchester United/Côte d'Ivoire/94
 Franck Kessié/MIL/Al-Ahli/Côte d'Ivoire/93
@@ -339,7 +356,12 @@ Badra Ali Sangaré/G/Sekhukhune/Côte d'Ivoire/68
 Mohamed Koné/G/Charleroi/Côte d'Ivoire/74
 Alban Lafont/G/Panathinaikos/Côte d'Ivoire/76
 Ira Eliezer Tapé/G/San Pédro/Côte d'Ivoire/66
-Mohamed Diomandé/MIL/Rangers/Côte d'Ivoire/78`},
+Mohamed Diomandé/MIL/Rangers/Côte d'Ivoire/78
+Hamed Junior Traorè/MIL/Auxerre/Côte d'Ivoire/76
+Lazare Amani/MIL/Union SG/Côte d'Ivoire/72
+Parfait Guiagon/MIL/Charleroi/Côte d'Ivoire/72
+Habib Maïga/MIL/Metz/Côte d'Ivoire/70
+`},
 {id:"s_b_dz_ligue1",name:"Ligue 1 algérienne",cat:"ligues",sub:"Championnats",raw:`
 Islam Slimani/ATT/CR Belouizdad/Algérie/95
 Tayeb Meziani/ATT/MC Alger/Algérie/94
@@ -370,7 +392,9 @@ Abdelmoumen Djabou/MIL/ES Sétif/Algérie/71
 Housseyn Benayada/DEF/CS Constantine/Algérie/70
 Abdelkrim Namani/MIL/JS Kabylie/Algérie/68
 Farid Chaâl/G/CR Belouizdad/Algérie/72
-Zakaria Bouhalfaya/G/CS Constantine/Algérie/70`},
+Zakaria Bouhalfaya/G/CS Constantine/Algérie/70
+Mohamed Benkhemassa/MIL/MC Alger/Algérie/74
+`},
 {id:"s_b_pepites",name:"Jeunes pépites",cat:"themes",sub:"Les cracks de demain",raw:`
 Lamine Yamal/ATT/Barcelone/Espagne/98
 Désiré Doué/ATT/PSG/France/93
@@ -409,7 +433,10 @@ Guillaume Restes/G/Toulouse/France/75
 Jonas Urbig/G/Bayern/Allemagne/74
 Mike Penders/G/Strasbourg/Belgique/72
 Diego Kochen/G/Barcelone/États-Unis/68
-Cristhian Mosquera/DEF/Arsenal/Espagne/77`}
+Cristhian Mosquera/DEF/Arsenal/Espagne/77
+Luka Vušković/DEF/Hambourg/Croatie/80
+Josh Acheampong/DEF/Chelsea/Angleterre/76
+`}
 );
 Object.assign(window.CLUB_COLORS,{
 "Real Madrid":["#FFFFFF","#D4A53A"],"Barcelone":["#A50044","#004D98"],"Atlético Madrid":["#CB3524","#272E61"],"Athletic Bilbao":["#EE2523","#FFFFFF"],"Real Sociedad":["#0067B1","#FFFFFF"],
@@ -429,3 +456,5 @@ Object.assign(window.CLUB_COLORS,{
 "Sekhukhune":["#FFD200","#111111"],"San Pédro":["#F58220","#FFFFFF"],"ASEC Mimosas":["#FFD200","#111111"],
 "Corinthians":["#FFFFFF","#111111"],"Charlotte":["#1A85C8","#111111"]
 });
+
+Object.assign(window.CLUB_COLORS,{"Al-Najma": ["#0054A6", "#FFFFFF"], "Auxerre": ["#FFFFFF", "#0055A4"], "Hambourg": ["#FFFFFF", "#E2001A"], "Metz": ["#8B0A26", "#FFFFFF"], "Union SG": ["#FFD100", "#003DA5"], "Werder Brême": ["#1D9053", "#FFFFFF"]});

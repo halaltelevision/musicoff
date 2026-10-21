@@ -35,7 +35,9 @@ Mike Maignan/G/Milan/France/83
 Dominique Rocheteau/ATT/Saint-Étienne/France/83
 Joël Bats/G/PSG/France/82
 Bernard Lama/G/PSG/France/81
-Grégory Coupet/G/Lyon/France/80`},
+Grégory Coupet/G/Lyon/France/80
+Patrice Evra/DEF/Manchester United/France/85
+`},
 {id:"bra",name:"Légendes du Brésil",cat:"nations",sub:"Amérique du Sud",raw:`
 Pelé/ATT/Santos/Brésil/99
 Ronaldo/ATT/Real Madrid/Brésil/97
@@ -189,7 +191,9 @@ Gianluca Zambrotta/DEF/Juventus/Italie/84
 Demetrio Albertini/MIL/Milan/Italie/84
 Marco Verratti/MIL/PSG/Italie/84
 Angelo Peruzzi/G/Juventus/Italie/83
-Francesco Toldo/G/Fiorentina/Italie/82`},
+Francesco Toldo/G/Fiorentina/Italie/82
+Roberto Donadoni/MIL/Milan/Italie/86
+`},
 {id:"esp",name:"Légendes de l'Espagne",cat:"nations",sub:"Europe",raw:`
 Andrés Iniesta/MIL/Barcelone/Espagne/96
 Xavi/MIL/Barcelone/Espagne/95
@@ -303,7 +307,9 @@ Cody Gakpo/ATT/Liverpool/Pays-Bas/82
 Maarten Stekelenburg/G/Ajax/Pays-Bas/80
 Jasper Cillessen/G/Ajax/Pays-Bas/78
 Piet Schrijvers/G/Ajax/Pays-Bas/78
-Tim Krul/G/Newcastle/Pays-Bas/77`},
+Tim Krul/G/Newcastle/Pays-Bas/77
+Danny Blind/DEF/Ajax/Pays-Bas/84
+`},
 {id:"por",name:"Légendes du Portugal",cat:"nations",sub:"Europe",raw:`
 Cristiano Ronaldo/ATT/Real Madrid/Portugal/99
 Eusébio/ATT/Benfica/Portugal/96
@@ -340,7 +346,9 @@ Ricardo Quaresma/ATT/Porto/Portugal/82
 Nuno Gomes/ATT/Benfica/Portugal/81
 Nani/ATT/Manchester United/Portugal/81
 Ricardo/G/Sporting/Portugal/81
-Paulo Ferreira/DEF/Chelsea/Portugal/80`},
+Paulo Ferreira/DEF/Chelsea/Portugal/80
+Paulo Sousa/MIL/Juventus/Portugal/85
+`},
 {id:"bel",name:"Légendes de la Belgique",cat:"nations",sub:"Europe",raw:`
 Kevin De Bruyne/MIL/Manchester City/Belgique/94
 Thibaut Courtois/G/Real Madrid/Belgique/92
@@ -410,7 +418,10 @@ Martín Cáceres/DEF/Juventus/Uruguay/78
 Diego Pérez/MIL/Monaco/Uruguay/78
 Sergio Rochet/G/Nacional/Uruguay/78
 Fernando Álvez/G/Peñarol/Uruguay/78
-Egidio Arévalo Ríos/MIL/Peñarol/Uruguay/77`},
+Egidio Arévalo Ríos/MIL/Peñarol/Uruguay/77
+Gustavo Poyet/MIL/Chelsea/Uruguay/82
+Walter Gargano/MIL/Naples/Uruguay/79
+`},
 {id:"cro",name:"Légendes de la Croatie",cat:"nations",sub:"Europe",raw:`
 Luka Modrić/MIL/Real Madrid/Croatie/95
 Davor Šuker/ATT/Séville/Croatie/90
@@ -481,7 +492,10 @@ Héctor Moreno/DEF/PSV/Mexique/78
 Javier Aguirre/MIL/Club América/Mexique/78
 Adolfo Ríos/G/Club América/Mexique/78
 Ricardo Osorio/DEF/Stuttgart/Mexique/77
-Duilio Davino/DEF/Club América/Mexique/77`}
+Duilio Davino/DEF/Club América/Mexique/77
+Francisco Javier Rodríguez/DEF/Guadalajara/Mexique/79
+Benjamín Galindo/MIL/Guadalajara/Mexique/80
+`}
 );
 Object.assign(window.CLUB_COLORS,{
 "Real Madrid":["#FFFFFF","#D4A53A"],"Barcelone":["#A50044","#004D98"],"Atlético Madrid":["#CB3524","#FFFFFF"],

@@ -88,7 +88,10 @@ Riccardo Orsolini/ATT/Bologne/Italie/63
 Matías Soulé/ATT/Roma/Argentine/62
 Michele Di Gregorio/G/Juventus/Italie/76
 Marco Carnesecchi/G/Atalanta/Italie/72
-Giovanni Di Lorenzo/DEF/Naples/Italie/79`},
+Giovanni Di Lorenzo/DEF/Naples/Italie/79
+Amir Rrahmani/DEF/Naples/Kosovo/82
+Fikayo Tomori/DEF/Milan/Angleterre/80
+`},
 {id:"s_fra",name:"France",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Kylian Mbappé/ATT/Real Madrid/France/98
 Ousmane Dembélé/ATT/PSG/France/97
@@ -164,7 +167,10 @@ Selim Amallah/MIL/Valladolid/Maroc/68
 Yahia Attiyat Allah/DEF/Wydad/Maroc/67
 El Mehdi Al Harrar/G/Raja Casablanca/Maroc/68
 Mehdi Benabid/G/Wydad/Maroc/67
-Ahmed Reda Tagnaouti/G/AS FAR/Maroc/66`},
+Ahmed Reda Tagnaouti/G/AS FAR/Maroc/66
+Yahya Jabrane/MIL/Wydad/Maroc/73
+Amir Richardson/MIL/Fiorentina/Maroc/74
+`},
 {id:"s_esp",name:"Espagne",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Lamine Yamal/ATT/Barcelone/Espagne/98
 Pedri/MIL/Barcelone/Espagne/97
@@ -236,7 +242,12 @@ Amr El Solia/MIL/Ceramica Cleopatra/Égypte/72
 Mahmoud Kahraba/ATT/Al Ahly/Égypte/71
 Mohamed Abou Gabal/G/Zamalek/Égypte/70
 Ahmed El Shenawy/G/Pyramids/Égypte/72
-Mohamed Sobhi/G/Zamalek/Égypte/71`},
+Mohamed Sobhi/G/Zamalek/Égypte/71
+Mohamed Magdy Afsha/MIL/Al Ahly/Égypte/78
+Tarek Hamed/MIL/Zamalek/Égypte/74
+Nabil Emad Dunga/MIL/Al-Najma/Égypte/72
+Mohamed Shehata/MIL/Zamalek/Égypte/72
+`},
 {id:"s_legafr",name:"Légendes d'Afrique",cat:"themes",sub:"Les géants du continent africain",raw:`
 Samuel Eto'o/ATT/Barcelone/Cameroun/98
 Didier Drogba/ATT/Chelsea/Côte d'Ivoire/97
@@ -277,7 +288,11 @@ Essam El Hadary/G/Al Ahly/Égypte/63
 Pierre-Emerick Aubameyang/ATT/Dortmund/Gabon/62
 Joseph-Antoine Bell/G/Marseille/Cameroun/72
 Vincent Enyeama/G/Lille/Nigeria/70
-Kalidou Koulibaly/DEF/Naples/Sénégal/78`},
+Kalidou Koulibaly/DEF/Naples/Sénégal/78
+Taribo West/DEF/Inter/Nigeria/80
+Hany Ramzy/DEF/Werder Brême/Égypte/78
+John Obi Mikel/MIL/Chelsea/Nigeria/80
+`},
 {id:"s_b_paysbas",name:"Pays-Bas",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Virgil van Dijk/DEF/Liverpool/Pays-Bas/95
 Frenkie de Jong/MIL/Barcelone/Pays-Bas/93
@@ -313,7 +328,9 @@ Mark Flekken/G/Leverkusen/Pays-Bas/71
 Lutsharel Geertruida/DEF/Sunderland/Pays-Bas/70
 Robin Roefs/G/Sunderland/Pays-Bas/72
 Justin Bijlow/G/Genoa/Pays-Bas/70
-Jasper Cillessen/G/NEC/Pays-Bas/68`},
+Jasper Cillessen/G/NEC/Pays-Bas/68
+Marten de Roon/MIL/Atalanta/Pays-Bas/76
+`},
 {id:"s_b_civ",name:"Côte d'Ivoire",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Amad Diallo/ATT/Manchester United/Côte d'Ivoire/94
 Franck Kessié/MIL/Al-Ahli/Côte d'Ivoire/93
@@ -347,7 +364,12 @@ Badra Ali Sangaré/G/Sekhukhune/Côte d'Ivoire/68
 Mohamed Koné/G/Charleroi/Côte d'Ivoire/74
 Alban Lafont/G/Panathinaikos/Côte d'Ivoire/76
 Ira Eliezer Tapé/G/San Pédro/Côte d'Ivoire/66
-Mohamed Diomandé/MIL/Rangers/Côte d'Ivoire/78`},
+Mohamed Diomandé/MIL/Rangers/Côte d'Ivoire/78
+Hamed Junior Traorè/MIL/Auxerre/Côte d'Ivoire/76
+Lazare Amani/MIL/Union SG/Côte d'Ivoire/72
+Parfait Guiagon/MIL/Charleroi/Côte d'Ivoire/72
+Habib Maïga/MIL/Metz/Côte d'Ivoire/70
+`},
 {id:"s_b_dz_ligue1",name:"Ligue 1 algérienne",cat:"ligues",sub:"Championnats",raw:`
 Islam Slimani/ATT/CR Belouizdad/Algérie/95
 Tayeb Meziani/ATT/MC Alger/Algérie/94
@@ -378,7 +400,9 @@ Abdelmoumen Djabou/MIL/ES Sétif/Algérie/71
 Housseyn Benayada/DEF/CS Constantine/Algérie/70
 Abdelkrim Namani/MIL/JS Kabylie/Algérie/68
 Farid Chaâl/G/CR Belouizdad/Algérie/72
-Zakaria Bouhalfaya/G/CS Constantine/Algérie/70`},
+Zakaria Bouhalfaya/G/CS Constantine/Algérie/70
+Mohamed Benkhemassa/MIL/MC Alger/Algérie/74
+`},
 {id:"s_b_pepites",name:"Jeunes pépites",cat:"themes",sub:"Les cracks de demain",raw:`
 Lamine Yamal/ATT/Barcelone/Espagne/98
 Désiré Doué/ATT/PSG/France/93
@@ -417,7 +441,10 @@ Guillaume Restes/G/Toulouse/France/75
 Jonas Urbig/G/Bayern/Allemagne/74
 Mike Penders/G/Strasbourg/Belgique/72
 Diego Kochen/G/Barcelone/États-Unis/68
-Cristhian Mosquera/DEF/Arsenal/Espagne/77`}
+Cristhian Mosquera/DEF/Arsenal/Espagne/77
+Luka Vušković/DEF/Hambourg/Croatie/80
+Josh Acheampong/DEF/Chelsea/Angleterre/76
+`}
 );
 Object.assign(window.CLUB_COLORS,{
 "Real Madrid":["#FFFFFF","#D4A53A"],"Barcelone":["#A50044","#004D98"],"Atlético Madrid":["#CB3524","#272E61"],"Athletic Bilbao":["#EE2523","#FFFFFF"],"Real Sociedad":["#0067B1","#FFFFFF"],
@@ -437,6 +464,8 @@ Object.assign(window.CLUB_COLORS,{
 "Sekhukhune":["#FFD200","#111111"],"San Pédro":["#F58220","#FFFFFF"],"ASEC Mimosas":["#FFD200","#111111"],
 "Corinthians":["#FFFFFF","#111111"],"Charlotte":["#1A85C8","#111111"]
 });
+
+Object.assign(window.CLUB_COLORS,{"Al-Najma": ["#0054A6", "#FFFFFF"], "Auxerre": ["#FFFFFF", "#0055A4"], "Hambourg": ["#FFFFFF", "#E2001A"], "Metz": ["#8B0A26", "#FFFFFF"], "Union SG": ["#FFD100", "#003DA5"], "Werder Brême": ["#1D9053", "#FFFFFF"]});
 
 /* ---- base_2.js ---- */
 // Packs convertis depuis base_src_2.txt : 5 champs → Nom/Poste/Club/Pays/Note
@@ -481,7 +510,9 @@ Igor Paixão/ATT/Marseille/Brésil/63
 Brice Samba/G/Rennes/France/62
 Odsonne Édouard/ATT/Lens/France/61
 Lukáš Hrádecký/G/Monaco/Finlande/70
-Berke Özer/G/Lille/Turquie/66`},
+Berke Özer/G/Lille/Turquie/66
+Leonardo Balerdi/DEF/Marseille/Argentine/82
+`},
 {id:"s_bundes",name:"Bundesliga",cat:"ligues",sub:"Championnats",raw:`
 Harry Kane/ATT/Bayern/Angleterre/98
 Michael Olise/ATT/Bayern/France/97
@@ -521,7 +552,9 @@ Can Uzun/MIL/Eintracht Francfort/Turquie/64
 Yan Diomande/ATT/Leipzig/Côte d'Ivoire/63
 Exequiel Palacios/MIL/Leverkusen/Argentine/62
 Alexander Nübel/G/Stuttgart/Allemagne/72
-Mark Flekken/G/Leverkusen/Pays-Bas/68`},
+Mark Flekken/G/Leverkusen/Pays-Bas/68
+Waldemar Anton/DEF/Dortmund/Allemagne/80
+`},
 {id:"s_arg",name:"Argentine",cat:"nations",sub:"Amérique du Sud",desc:"Sélection actuelle",raw:`
 Lionel Messi/ATT/Inter Miami/Argentine/98
 Lautaro Martínez/ATT/Inter/Argentine/97
@@ -600,7 +633,11 @@ Igor Thiago/ATT/Brentford/Brésil/64
 Vitor Roque/ATT/Palmeiras/Brésil/63
 Gerson/MIL/Zenit/Brésil/62
 Lucas Perri/G/Leeds/Brésil/66
-Hugo Souza/G/Corinthians/Brésil/64`},
+Hugo Souza/G/Corinthians/Brésil/64
+Fabinho/MIL/Al-Ittihad/Brésil/79
+André/MIL/Wolverhampton/Brésil/78
+Gabriel Sara/MIL/Galatasaray/Brésil/75
+`},
 {id:"s_eng",name:"Angleterre",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Harry Kane/ATT/Bayern/Angleterre/98
 Declan Rice/MIL/Arsenal/Angleterre/97
@@ -672,7 +709,10 @@ Dino Zoff/G/Juventus/Italie/86
 Iker Casillas/G/Real Madrid/Espagne/85
 Peter Schmeichel/G/Manchester United/Danemark/82
 Franco Baresi/DEF/Milan/Italie/87
-Bobby Moore/DEF/West Ham/Angleterre/84`},
+Bobby Moore/DEF/West Ham/Angleterre/84
+Alessandro Nesta/DEF/Milan/Italie/92
+Carlos Alberto/DEF/Santos/Brésil/90
+`},
 {id:"s_leg_2",name:"Légendes du foot 2",cat:"themes",sub:"D'autres géants de l'histoire",raw:`
 Eusébio/ATT/Benfica/Portugal/85
 Gerd Müller/ATT/Bayern/Allemagne/84
@@ -703,7 +743,13 @@ Steven Gerrard/MIL/Liverpool/Angleterre/79
 Patrick Vieira/MIL/Arsenal/France/77
 Sócrates/MIL/Corinthians/Brésil/76
 Clarence Seedorf/MIL/Milan/Pays-Bas/74
-Roy Keane/MIL/Manchester United/Irlande/72`},
+Roy Keane/MIL/Manchester United/Irlande/72
+Javier Zanetti/DEF/Inter/Argentine/84
+Frank Lampard/MIL/Chelsea/Angleterre/84
+Pavel Nedvěd/MIL/Juventus/Tchéquie/84
+Michael Ballack/MIL/Bayern/Allemagne/82
+Juan Román Riquelme/MIL/Boca Juniors/Argentine/82
+`},
 {id:"s_b_allemagne",name:"Allemagne",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Florian Wirtz/MIL/Liverpool/Allemagne/95
 Jamal Musiala/MIL/Bayern/Allemagne/95
@@ -771,7 +817,10 @@ Thomas Meunier/DEF/Lille/Belgique/70
 Nicolas Raskin/MIL/Rangers/Belgique/70
 Leander Dendoncker/MIL/Anderlecht/Belgique/69
 Michy Batshuayi/ATT/Eintracht Francfort/Belgique/68
-Mike Penders/G/Strasbourg/Belgique/68`},
+Mike Penders/G/Strasbourg/Belgique/68
+Brandon Mechele/DEF/Club Bruges/Belgique/74
+Joaquin Seys/DEF/Club Bruges/Belgique/72
+`},
 {id:"s_b_nigeria",name:"Nigeria",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Victor Osimhen/ATT/Galatasaray/Nigeria/96
 Ademola Lookman/ATT/Atalanta/Nigeria/95
@@ -804,7 +853,13 @@ Cyriel Dessers/ATT/Panathinaïkos/Nigeria/70
 Ahmed Musa/ATT/Kano Pillars/Nigeria/70
 Francis Uzoho/G/Omonia/Nigeria/72
 Adebayo Adeleye/G/Zakynthos/Nigeria/68
-Amas Obasogie/G/Bendel Insurance/Nigeria/66`},
+Amas Obasogie/G/Bendel Insurance/Nigeria/66
+Kevin Akpoguma/DEF/Hoffenheim/Nigeria/72
+Alhassan Yusuf/MIL/New England Revolution/Nigeria/70
+Christantus Uche/MIL/Crystal Palace/Nigeria/72
+Ebenezer Akinsanmiro/MIL/Inter/Nigeria/68
+Oghenekaro Etebo/MIL/Aris/Nigeria/68
+`},
 {id:"s_b_botola",name:"Botola Pro",cat:"ligues",sub:"Championnats",raw:`
 Hakim Ziyech/ATT/Wydad/Maroc/95
 Nordin Amrabat/ATT/Wydad/Maroc/93
@@ -839,7 +894,11 @@ El Mehdi Benabid/G/Wydad/Maroc/76
 Youssef El Motie/G/Wydad/Maroc/74
 Bart Meijers/DEF/Wydad/Pays-Bas/75
 Mohamed Moufid/DEF/Wydad/Maroc/72
-Guilherme Ferreira/DEF/Wydad/Brésil/70`}
+Guilherme Ferreira/DEF/Wydad/Brésil/70
+Jamal Harkass/DEF/Wydad/Maroc/76
+Yahya Jabrane/MIL/Wydad/Maroc/78
+Khalid Aït Ouarkhane/MIL/FAR Rabat/Maroc/74
+`}
 );
 Object.assign(window.CLUB_COLORS,{
 "Ajax":["#D2122E","#FFFFFF"],
@@ -944,6 +1003,8 @@ Object.assign(window.CLUB_COLORS,{
 "Zenit":["#0077C8","#FFFFFF"]
 });
 
+Object.assign(window.CLUB_COLORS,{"Al-Ittihad": ["#FFD200", "#111111"], "Aris": ["#FFD100", "#000000"], "FAR Rabat": ["#00843D", "#E30613"], "New England Revolution": ["#0A2240", "#CE0E2D"]});
+
 /* ---- base_3.js ---- */
 // Packs base 3 (championnats, sélections, légendes) — 5 champs : Nom/Poste/Club/Pays/Note
 window.FOOT_PACKS.push(
@@ -987,7 +1048,10 @@ Cristian Romero/DEF/Tottenham/Argentine/63
 Anthony Gordon/ATT/Newcastle/Angleterre/62
 Jordan Pickford/G/Everton/Angleterre/66
 Robert Sánchez/G/Chelsea/Espagne/64
-Micky van de Ven/DEF/Tottenham/Pays-Bas/65`},
+Micky van de Ven/DEF/Tottenham/Pays-Bas/65
+Rúben Dias/DEF/Manchester City/Portugal/88
+Marc Cucurella/DEF/Chelsea/Espagne/84
+`},
 {id:"s_saudi",name:"Saudi Pro League",cat:"ligues",sub:"Championnats",raw:`
 Cristiano Ronaldo/ATT/Al-Nassr/Portugal/98
 Karim Benzema/ATT/Al-Hilal/France/97
@@ -1025,7 +1089,12 @@ Bento/G/Al-Nassr/Brésil/66
 Predrag Rajković/G/Al-Ittihad/Serbie/74
 Nawaf Al-Aqidi/G/Al-Nassr/Arabie saoudite/68
 Roger Ibañez/DEF/Al-Ahli/Brésil/72
-Hassan Tambakti/DEF/Al-Hilal/Arabie saoudite/70`},
+Hassan Tambakti/DEF/Al-Hilal/Arabie saoudite/70
+Mohamed Simakan/DEF/Al-Nassr/France/80
+Nacho Fernández/DEF/Al-Qadsiah/Espagne/79
+Abdullah Al-Khaibari/MIL/Al-Nassr/Arabie saoudite/70
+Sami Al-Najei/MIL/Al-Nassr/Arabie saoudite/68
+`},
 {id:"s_alg",name:"Algérie",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Riyad Mahrez/ATT/Al-Ahli/Algérie/98
 Rayan Aït-Nouri/DEF/Manchester City/Algérie/97
@@ -1059,7 +1128,9 @@ Zineddine Belaïd/DEF/JS Kabylie/Algérie/70
 Islam Slimani/ATT/CR Belouizdad/Algérie/69
 Oussama Benbot/G/USM Alger/Algérie/68
 Mustapha Zeghba/G/Damac/Algérie/70
-Melvin Mastil/G/Stade Nyonnais/Algérie/67`},
+Melvin Mastil/G/Stade Nyonnais/Algérie/67
+Adem Zorgane/MIL/Charleroi/Algérie/71
+`},
 {id:"s_por",name:"Portugal",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Vitinha/MIL/PSG/Portugal/98
 Nuno Mendes/DEF/PSG/Portugal/97
@@ -1131,7 +1202,10 @@ Mory Diaw/G/Le Havre/Sénégal/70
 Seny Dieng/G/Middlesbrough/Sénégal/69
 Pathé Ciss/MIL/Rayo Vallecano/Sénégal/68
 Yehvann Diouf/G/Nice/Sénégal/72
-Alfred Gomis/G/Palerme/Sénégal/68`},
+Alfred Gomis/G/Palerme/Sénégal/68
+Moustapha Name/MIL/Pafos/Sénégal/72
+Rassoul Ndiaye/MIL/Le Havre/Sénégal/71
+`},
 {id:"s_legalg",name:"Légendes d'Algérie",cat:"themes",sub:"Les héros des Fennecs",raw:`
 Rabah Madjer/ATT/Porto/Algérie/98
 Riyad Mahrez (2016)/ATT/Leicester/Algérie/97
@@ -1167,7 +1241,11 @@ Abdelaziz Ben Tifour/MIL/Monaco/Algérie/68
 Mehdi Cerbah/G/JS Kabylie/Algérie/80
 Nasreddine Drid/G/MC Oran/Algérie/76
 Lounès Gaouaoui/G/ASO Chlef/Algérie/74
-Fawzi Chaouchi/G/ES Sétif/Algérie/73`},
+Fawzi Chaouchi/G/ES Sétif/Algérie/73
+Chaabane Merzekane/DEF/NA Hussein Dey/Algérie/80
+Rafik Halliche/DEF/Nacional/Algérie/78
+Mehdi Lacen/MIL/Getafe/Algérie/77
+`},
 {id:"s_b_italie",name:"Italie",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Gianluigi Donnarumma/G/Manchester City/Italie/95
 Nicolò Barella/MIL/Inter/Italie/93
@@ -1201,7 +1279,9 @@ Bryan Cristante/MIL/Roma/Italie/70
 Wilfried Gnonto/ATT/Leeds/Italie/70
 Nicolò Fagioli/MIL/Fiorentina/Italie/69
 Michael Folorunsho/MIL/Cagliari/Italie/68
-Michele Di Gregorio/G/Juventus/Italie/80`},
+Michele Di Gregorio/G/Juventus/Italie/80
+Nicolò Rovella/MIL/Lazio/Italie/80
+`},
 {id:"s_b_tunisie",name:"Tunisie",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Ellyes Skhiri/MIL/Eintracht Francfort/Tunisie/95
 Hannibal Mejbri/MIL/Burnley/Tunisie/94
@@ -1233,7 +1313,10 @@ Ali Maâloul/DEF/CS Sfaxien/Tunisie/69
 Firas Chaouat/ATT/Club Africain/Tunisie/68
 Sabri Ben Hassen/G/Étoile du Sahel/Tunisie/70
 Noureddine Farhati/G/Stade Tunisien/Tunisie/68
-Moez Ben Cherifia/G/Espérance de Tunis/Tunisie/67`},
+Moez Ben Cherifia/G/Espérance de Tunis/Tunisie/67
+Mohamed Haj Mahmoud/MIL/Lugano/Tunisie/70
+Ghaylène Chaalali/MIL/Espérance de Tunis/Tunisie/70
+`},
 {id:"s_b_cameroun",name:"Cameroun",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Bryan Mbeumo/ATT/Manchester United/Cameroun/95
 Carlos Baleba/MIL/Brighton/Cameroun/94
@@ -1266,7 +1349,13 @@ Léandre Tawamba/ATT/Al-Okhdood/Cameroun/68
 Didier Lamkel Zé/ATT/Dukla Prague/Cameroun/66
 Simon Ngapandouetnbu/G/Montpellier/Cameroun/74
 Simon Omossola/G/Saint-Éloi Lupopo/Cameroun/72
-Fabrice Ondoa/G/RFS Riga/Cameroun/70`},
+Fabrice Ondoa/G/RFS Riga/Cameroun/70
+Darlin Yongwa/DEF/Lorient/Cameroun/72
+Eric-Junior Dina Ebimbe/MIL/Brest/Cameroun/76
+Olivier Kemen/MIL/Istanbul Basaksehir/Cameroun/72
+Martin Ndzie/MIL/Rapid Vienne/Cameroun/69
+Brice Ambina/MIL/Vålerenga/Cameroun/67
+`},
 {id:"s_b_ligaportugal",name:"Liga Portugal",cat:"ligues",sub:"Championnats",raw:`
 Diogo Costa/G/Porto/Portugal/94
 Francisco Trincão/ATT/Sporting/Portugal/93
@@ -1301,9 +1390,13 @@ Leandro Barreiro/MIL/Benfica/Luxembourg/70
 Iván Fresneda/DEF/Sporting/Espagne/70
 Pau Víctor/ATT/Braga/Espagne/69
 Samuel Soares/G/Benfica/Portugal/68
-Lukas Horníček/G/Braga/Tchéquie/71`}
+Lukas Horníček/G/Braga/Tchéquie/71
+Hidemasa Morita/MIL/Sporting/Japon/80
+`}
 );
 Object.assign(window.CLUB_COLORS,{"Manchester City":["#6CABDD","#FFFFFF"],"Liverpool":["#C8102E","#FFFFFF"],"Arsenal":["#EF0107","#FFFFFF"],"Chelsea":["#034694","#FFFFFF"],"Manchester United":["#DA291C","#FFFFFF"],"Newcastle":["#000000","#FFFFFF"],"Tottenham":["#FFFFFF","#132257"],"Everton":["#003399","#FFFFFF"],"Al-Nassr":["#FFD100","#0033A0"],"Al-Hilal":["#005BAC","#FFFFFF"],"Al-Ahli":["#00843D","#FFFFFF"],"Al-Ittihad":["#FFD200","#111"],"Al-Qadsiah":["#E30613","#FFD100"],"Neom":["#1A1A1A","#C9A227"],"Al-Shabab":["#FFFFFF","#000000"],"Al-Ettifaq":["#007A3D","#E30613"],"Wolfsburg":["#65B32E","#FFFFFF"],"Marseille":["#FFFFFF","#2FAEE0"],"Dinamo Zagreb":["#0033A0","#FFFFFF"],"Leverkusen":["#E32221","#000000"],"Eintracht Francfort":["#000000","#E1000F"],"Dortmund":["#FDE100","#000000"],"Nice":["#E30613","#000000"],"Feyenoord":["#E2001A","#FFFFFF"],"Hellas Vérone":["#003C82","#FFD100"],"Espérance de Tunis":["#E30613","#FFD100"],"Twente":["#E30613","#fff"],"Lille":["#E01E13","#20325F"],"Young Boys":["#FFD200","#111"],"Grenade":["#C8102E","#FFFFFF"],"Al-Shamal":["#0054A6","#FFFFFF"],"Al-Duhail":["#C8102E","#FFFFFF"],"Al-Sadd":["#fff","#111"],"Caen":["#1F3A8C","#E30613"],"Frosinone":["#FFD100","#0054A6"],"Paris FC":["#002D62","#FFFFFF"],"Angers":["#000000","#FFFFFF"],"Stuttgart":["#FFFFFF","#E32219"],"JS Kabylie":["#FFD700","#00843D"],"CR Belouizdad":["#C8102E","#FFFFFF"],"USM Alger":["#C8102E","#111"],"Damac":["#E30613","#FFD100"],"Stade Nyonnais":["#E30613","#FFFFFF"],"PSG":["#004170","#DA291C"],"Milan":["#FB090B","#000000"],"Porto":["#003893","#FFFFFF"],"Sporting":["#00805F","#FFFFFF"],"Juventus":["#FFFFFF","#000000"],"Villarreal":["#FFE667","#005187"],"Fenerbahçe":["#FFED00","#00205B"],"Benfica":["#E83030","#FFFFFF"],"Majorque":["#E20613","#000000"],"Wolverhampton":["#FDB913","#231F20"],"Hambourg":["#FFFFFF","#E2001A"],"Lazio":["#87D8F7","#FFFFFF"],"Nottingham Forest":["#DD0000","#FFFFFF"],"Real Sociedad":["#0067B1","#FFFFFF"],"Gençlerbirliği":["#E30613","#000000"],"Bayern":["#DC052D","#FFFFFF"],"Crystal Palace":["#1B458F","#C4122E"],"Monaco":["#E4002B","#FFFFFF"],"Lyon":["#FFFFFF","#DA001A"],"West Ham":["#7A263A","#1BB1E7"],"Sunderland":["#EB172B","#FFFFFF"],"Metz":["#8B0A26","#FFFFFF"],"Al-Arabi":["#C8102E","#FFFFFF"],"Galatasaray":["#A90432","#FDB912"],"Côme":["#004A99","#FFFFFF"],"Strasbourg":["#009FE3","#FFFFFF"],"Lorient":["#F58220","#000000"],"Samsunspor":["#E30613","#FFFFFF"],"Maccabi Haïfa":["#007A3D","#FFFFFF"],"Betis":["#00954C","#FFFFFF"],"Lens":["#FFE500","#E2001A"],"Montpellier":["#F26522","#00205B"],"Le Havre":["#4F9ACE","#002D62"],"Middlesbrough":["#E30613","#FFFFFF"],"Rayo Vallecano":["#FFFFFF","#E30613"],"Palerme":["#F5A9C4","#000000"],"Leicester":["#003090","#FFFFFF"],"GC Mascara":["#0E8A3E","#fff"],"Saint-Étienne":["#009639","#FFFFFF"],"Mulhouse":["#1D4E9E","#FFD200"],"Rangers":["#1B458F","#FFFFFF"],"Valence":["#FFFFFF","#000000"],"Ettifaq":["#0E7C3A","#E31B23"],"Bochum":["#005BA9","#fff"],"NA Hussein Dey":["#C8102E","#FFD100"],"MC Oran":["#E30613","#FFFFFF"],"Portsmouth":["#001489","#FFFFFF"],"Naples":["#12A0D7","#FFFFFF"],"Troyes":["#0054A6","#FFFFFF"],"Auxerre":["#FFFFFF","#0055A4"],"ASO Chlef":["#E30613","#FFFFFF"],"ES Sétif":["#000000","#FFFFFF"],"Inter":["#0068A8","#000000"],"Fiorentina":["#482E92","#FFFFFF"],"Atalanta":["#1E71B8","#000000"],"Atlético Madrid":["#CB3524","#FFFFFF"],"Roma":["#8E1F2F","#F0BC42"],"Bologne":["#A21C26","#1A2F48"],"Leeds":["#FFFFFF","#1D428A"],"Cagliari":["#A6192E","#002350"],"Burnley":["#6C1D45","#99D6EA"],"Al-Wakrah":["#0054A6","#FFFFFF"],"Al Ahly":["#E30613","#FFFFFF"],"Copenhague":["#FFFFFF","#003DA5"],"Servette":["#8B1538","#FFFFFF"],"CS Sfaxien":["#000000","#FFFFFF"],"Al-Gharafa":["#FFD100","#0054A6"],"Augsbourg":["#BA3733","#46714D"],"Zamalek":["#FFFFFF","#E30613"],"Lecce":["#FFD100","#E30613"],"Norwich":["#FFF200","#00A650"],"Winterthur":["#E30613","#FFFFFF"],"Al-Jazira":["#E30613","#000000"],"Maribor":["#6A2C91","#FFD100"],"Dynamo Makhachkala":["#0054A6","#FFFFFF"],"Kasimpasa":["#002D72","#FFFFFF"],"Lucerne":["#003DA5","#FFFFFF"],"Club Africain":["#E30613","#FFFFFF"],"Étoile du Sahel":["#E30613","#FFFFFF"],"Stade Tunisien":["#007A3D","#E30613"],"Brighton":["#0057B8","#FFFFFF"],"Trabzonspor":["#7A1E3C","#41B6E6"],"Neftchi Bakou":["#000000","#FFFFFF"],"Rennes":["#E13327","#000000"],"New York Red Bulls":["#ED1E36","#23326A"],"Nantes":["#FCD405","#00863F"],"Seattle Sounders":["#5D9741","#005595"],"Besiktas":["#000000","#FFFFFF"],"Abha":["#007A3D","#FFFFFF"],"Udinese":["#FFFFFF","#000000"],"Genoa":["#A4161A","#002D72"],"Dynamo Moscou":["#0033A0","#FFFFFF"],"Legia Varsovie":["#007A3D","#FFFFFF"],"Sivasspor":["#E30613","#FFFFFF"],"Stoke City":["#E03A3E","#FFFFFF"],"Al-Tai":["#FFD100","#000000"],"Al-Okhdood":["#E30613","#FFFFFF"],"Dukla Prague":["#8B1A1A","#FFD700"],"Saint-Éloi Lupopo":["#007A3D","#FFFFFF"],"RFS Riga":["#0054A6","#FFFFFF"],"Braga":["#E30613","#FFFFFF"]});
+
+Object.assign(window.CLUB_COLORS,{"Brest": ["#E30613", "#FFFFFF"], "Charleroi": ["#000000", "#FFFFFF"], "Getafe": ["#005999", "#FFFFFF"], "Istanbul Basaksehir": ["#F26522", "#002D62"], "Lugano": ["#000000", "#FFFFFF"], "Nacional": ["#FFFFFF", "#002D72"], "Pafos": ["#002D72", "#FFFFFF"], "Rapid Vienne": ["#00843D", "#FFFFFF"], "Vålerenga": ["#002D72", "#E30613"]});
 
 /* ---- clubs_en_nl.js ---- */
 // Packs « légendes de club » : Angleterre, Pays-Bas, Écosse
@@ -2129,7 +2222,10 @@ Christian Vieri/ATT/Italie/87
 Roberto Boninsegna/ATT/Italie/86
 Adriano/ATT/Brésil/85
 Jair da Costa/ATT/Brésil/84
-Zlatan Ibrahimović/ATT/Suède/84`},
+Zlatan Ibrahimović/ATT/Suède/84
+Nicola Berti/MIL/Italie/86
+Evaristo Beccalossi/MIL/Italie/85
+`},
 {id:"juve",name:"Légendes de la Juventus",cat:"clubs",sub:"Italie",club:"Juventus",raw:`
 Gianluigi Buffon/G/Italie/97
 Dino Zoff/G/Italie/95
@@ -2986,7 +3082,9 @@ Clemente Rodríguez/DEF/Argentine/78
 Frank Fabra/DEF/Colombie/78
 Ever Banega/MIL/Argentine/78
 Agustín Orión/G/Argentine/77
-Cristian Pavón/ATT/Argentine/77`},
+Cristian Pavón/ATT/Argentine/77
+Alberto Márcico/MIL/Argentine/84
+`},
 {id:"river",name:"Légendes de River Plate",cat:"clubs",sub:"Argentine",club:"River Plate",raw:`
 Ángel Labruna/ATT/Argentine/95
 Daniel Passarella/DEF/Argentine/93
@@ -3225,7 +3323,9 @@ Besheer El-Tabei/DEF/Égypte/76
 Mahmoud Alaa/DEF/Égypte/76
 Ahmed Abou El Fotouh/DEF/Égypte/76
 Mahmoud Genesh/G/Égypte/76
-Mohamed Awad/G/Égypte/76`},
+Mohamed Awad/G/Égypte/76
+Ismail Youssef/MIL/Égypte/80
+`},
 {id:"esperance",name:"Légendes de l'Espérance de Tunis",cat:"clubs",sub:"Tunisie",club:"Espérance",raw:`
 Tarek Dhiab/MIL/Tunisie/92
 Chokri El Ouaer/G/Tunisie/88
@@ -3342,7 +3442,9 @@ Mehdi Benabid/G/Maroc/75
 Badie Aouk/MIL/Maroc/74
 Jean-Jacques Gosso/MIL/Côte d'Ivoire/74
 Amine Atouchi/MIL/Maroc/74
-Bouly Sambou/ATT/Sénégal/74`},
+Bouly Sambou/ATT/Sénégal/74
+Brahim Nakach/MIL/Maroc/77
+`},
 {id:"jsk",name:"Légendes de la JS Kabylie",cat:"clubs",sub:"Algérie",club:"JS Kabylie",raw:`
 Ali Fergani/MIL/Algérie/88
 Djamel Menad/ATT/Algérie/86
@@ -3377,7 +3479,9 @@ Rezki Amrouche/DEF/Algérie/74
 Rédha Bensayah/MIL/Algérie/74
 Abderrazak Djahnit/ATT/Algérie/74
 Abderrazak Harb/G/Algérie/73
-Badreddine Souyad/MIL/Algérie/72`},
+Badreddine Souyad/MIL/Algérie/72
+Abdelkrim Namani/MIL/Algérie/74
+`},
 {id:"mca",name:"Légendes du MC Alger",cat:"clubs",sub:"Algérie",club:"MC Alger",raw:`
 Ali Bencheikh/MIL/Algérie/88
 Zoubir Bachi/ATT/Algérie/85
@@ -3411,7 +3515,10 @@ Amir Karaoui/MIL/Algérie/73
 Mohammed Benkhemassa/MIL/Algérie/73
 Abdelatif Ramdane/G/Algérie/73
 Chahreddine Boukholda/MIL/Algérie/72
-Abdelkader Salhi/G/Algérie/72`},
+Abdelkader Salhi/G/Algérie/72
+Ayoub Ghezala/DEF/Algérie/76
+Akram Bouras/MIL/Algérie/74
+`},
 {id:"galatasaray",name:"Légendes de Galatasaray",cat:"clubs",sub:"Turquie",club:"Galatasaray",raw:`
 Gheorghe Hagi/MIL/Roumanie/95
 Metin Oktay/ATT/Turquie/93
@@ -3533,7 +3640,9 @@ Isaac Terrazas/DEF/Mexique/77
 Bruno Valdez/DEF/Paraguay/77
 Jorge Sánchez/DEF/Mexique/77
 Richard Sánchez/MIL/Paraguay/76
-Kevin Álvarez/DEF/Mexique/75`}
+Kevin Álvarez/DEF/Mexique/75
+Sebastián Córdova/MIL/Mexique/80
+`}
 );
 Object.assign(window.CLUB_COLORS,{"Boca Juniors":["#003C8F","#FCD116"],"River Plate":["#FFFFFF","#E30613"],"Santos":["#FFFFFF","#000000"],"Flamengo":["#C8102E","#000000"],"São Paulo":["#FFFFFF","#E30613"],"Al Ahly":["#C8102E","#FFFFFF"],"Zamalek":["#FFFFFF","#E30613"],"Espérance":["#C8102E","#FFD700"],"Raja Casablanca":["#00843D","#FFFFFF"],"Wydad Casablanca":["#D50000","#FFFFFF"],"JS Kabylie":["#FFD700","#00843D"],"MC Alger":["#C8102E","#00843D"],"Galatasaray":["#A90432","#FDB912"],"Fenerbahçe":["#002D72","#FFED00"],"Club América":["#FFD200","#002D72"]});
 
@@ -3740,7 +3849,9 @@ Victor Ikpeba/ATT/Monaco/Nigeria/81
 Obafemi Martins/ATT/Inter/Nigeria/81
 Yakubu Aiyegbeni/ATT/Portsmouth/Nigeria/81
 Victor Osimhen/ATT/Naples/Nigeria/89
-Ademola Lookman/ATT/Atalanta/Nigeria/86`},
+Ademola Lookman/ATT/Atalanta/Nigeria/86
+Wilson Oruma/MIL/Lens/Nigeria/78
+`},
 {id:"egy",name:"Légendes de l'Égypte",cat:"nations",sub:"Afrique",raw:`
 Essam El-Hadary/G/Al Ahly/Égypte/88
 Ahmed Shobair/G/Al Ahly/Égypte/83
@@ -3985,7 +4096,9 @@ Mike Maignan/G/Milan/France/83
 Dominique Rocheteau/ATT/Saint-Étienne/France/83
 Joël Bats/G/PSG/France/82
 Bernard Lama/G/PSG/France/81
-Grégory Coupet/G/Lyon/France/80`},
+Grégory Coupet/G/Lyon/France/80
+Patrice Evra/DEF/Manchester United/France/85
+`},
 {id:"bra",name:"Légendes du Brésil",cat:"nations",sub:"Amérique du Sud",raw:`
 Pelé/ATT/Santos/Brésil/99
 Ronaldo/ATT/Real Madrid/Brésil/97
@@ -4139,7 +4252,9 @@ Gianluca Zambrotta/DEF/Juventus/Italie/84
 Demetrio Albertini/MIL/Milan/Italie/84
 Marco Verratti/MIL/PSG/Italie/84
 Angelo Peruzzi/G/Juventus/Italie/83
-Francesco Toldo/G/Fiorentina/Italie/82`},
+Francesco Toldo/G/Fiorentina/Italie/82
+Roberto Donadoni/MIL/Milan/Italie/86
+`},
 {id:"esp",name:"Légendes de l'Espagne",cat:"nations",sub:"Europe",raw:`
 Andrés Iniesta/MIL/Barcelone/Espagne/96
 Xavi/MIL/Barcelone/Espagne/95
@@ -4253,7 +4368,9 @@ Cody Gakpo/ATT/Liverpool/Pays-Bas/82
 Maarten Stekelenburg/G/Ajax/Pays-Bas/80
 Jasper Cillessen/G/Ajax/Pays-Bas/78
 Piet Schrijvers/G/Ajax/Pays-Bas/78
-Tim Krul/G/Newcastle/Pays-Bas/77`},
+Tim Krul/G/Newcastle/Pays-Bas/77
+Danny Blind/DEF/Ajax/Pays-Bas/84
+`},
 {id:"por",name:"Légendes du Portugal",cat:"nations",sub:"Europe",raw:`
 Cristiano Ronaldo/ATT/Real Madrid/Portugal/99
 Eusébio/ATT/Benfica/Portugal/96
@@ -4290,7 +4407,9 @@ Ricardo Quaresma/ATT/Porto/Portugal/82
 Nuno Gomes/ATT/Benfica/Portugal/81
 Nani/ATT/Manchester United/Portugal/81
 Ricardo/G/Sporting/Portugal/81
-Paulo Ferreira/DEF/Chelsea/Portugal/80`},
+Paulo Ferreira/DEF/Chelsea/Portugal/80
+Paulo Sousa/MIL/Juventus/Portugal/85
+`},
 {id:"bel",name:"Légendes de la Belgique",cat:"nations",sub:"Europe",raw:`
 Kevin De Bruyne/MIL/Manchester City/Belgique/94
 Thibaut Courtois/G/Real Madrid/Belgique/92
@@ -4360,7 +4479,10 @@ Martín Cáceres/DEF/Juventus/Uruguay/78
 Diego Pérez/MIL/Monaco/Uruguay/78
 Sergio Rochet/G/Nacional/Uruguay/78
 Fernando Álvez/G/Peñarol/Uruguay/78
-Egidio Arévalo Ríos/MIL/Peñarol/Uruguay/77`},
+Egidio Arévalo Ríos/MIL/Peñarol/Uruguay/77
+Gustavo Poyet/MIL/Chelsea/Uruguay/82
+Walter Gargano/MIL/Naples/Uruguay/79
+`},
 {id:"cro",name:"Légendes de la Croatie",cat:"nations",sub:"Europe",raw:`
 Luka Modrić/MIL/Real Madrid/Croatie/95
 Davor Šuker/ATT/Séville/Croatie/90
@@ -4431,7 +4553,10 @@ Héctor Moreno/DEF/PSV/Mexique/78
 Javier Aguirre/MIL/Club América/Mexique/78
 Adolfo Ríos/G/Club América/Mexique/78
 Ricardo Osorio/DEF/Stuttgart/Mexique/77
-Duilio Davino/DEF/Club América/Mexique/77`}
+Duilio Davino/DEF/Club América/Mexique/77
+Francisco Javier Rodríguez/DEF/Guadalajara/Mexique/79
+Benjamín Galindo/MIL/Guadalajara/Mexique/80
+`}
 );
 Object.assign(window.CLUB_COLORS,{
 "Real Madrid":["#FFFFFF","#D4A53A"],"Barcelone":["#A50044","#004D98"],"Atlético Madrid":["#CB3524","#FFFFFF"],
@@ -4506,7 +4631,10 @@ Ousmane Dembélé/ATT/PSG/France/89
 Andriy Shevchenko/ATT/Milan/Ukraine/89
 Rivaldo/ATT/Barcelone/Brésil/89
 Raymond Kopa/ATT/Reims/France/88
-George Best/ATT/Manchester United/Irlande du Nord/92`},
+George Best/ATT/Manchester United/Irlande du Nord/92
+Giacinto Facchetti/DEF/Inter/Italie/91
+Roberto Carlos/DEF/Real Madrid/Brésil/91
+`},
 {id:"heros_cdm",name:"Héros de Coupe du monde",cat:"themes",sub:"Ils ont fait basculer un Mondial",raw:`
 Gordon Banks/G/Leicester City/Angleterre/89
 Dino Zoff/G/Juventus/Italie/89
@@ -4547,7 +4675,9 @@ Garrincha/ATT/Botafogo/Brésil/92
 Romário/ATT/Barcelone/Brésil/91
 Eusébio/ATT/Benfica/Portugal/91
 Davor Šuker/ATT/Real Madrid/Croatie/86
-David Villa/ATT/Valence/Espagne/87`},
+David Villa/ATT/Valence/Espagne/87
+Xavi/MIL/Barcelone/Espagne/93
+`},
 {id:"heros_ldc",name:"Héros de Ligue des champions",cat:"themes",sub:"Les rois des soirées européennes",raw:`
 Oliver Kahn/G/Bayern/Allemagne/89
 Jerzy Dudek/G/Liverpool/Pologne/82
@@ -4586,7 +4716,9 @@ Vinícius Júnior/ATT/Real Madrid/Brésil/90
 Diego Milito/ATT/Inter/Argentine/84
 Samuel Eto'o/ATT/Barcelone/Cameroun/89
 Ousmane Dembélé/ATT/PSG/France/89
-Kingsley Coman/ATT/Bayern/France/83`},
+Kingsley Coman/ATT/Bayern/France/83
+Andrea Pirlo/MIL/Milan/Italie/91
+`},
 {id:"leg_pl",name:"Légendes de Premier League",cat:"themes",sub:"Les monstres du championnat anglais",raw:`
 Peter Schmeichel/G/Manchester United/Danemark/90
 Petr Čech/G/Chelsea/Tchéquie/89
@@ -4666,7 +4798,9 @@ Antoine Griezmann/ATT/Atlético de Madrid/France/88
 Luis Suárez/ATT/Barcelone/Uruguay/90
 Samuel Eto'o/ATT/Barcelone/Cameroun/89
 David Villa/ATT/Valence/Espagne/87
-Johan Cruyff/ATT/Barcelone/Pays-Bas/95`},
+Johan Cruyff/ATT/Barcelone/Pays-Bas/95
+Fernando Redondo/MIL/Real Madrid/Argentine/89
+`},
 {id:"leg_seriea",name:"Légendes de Serie A",cat:"themes",sub:"Les maîtres du Calcio",raw:`
 Gianluigi Buffon/G/Juventus/Italie/93
 Dino Zoff/G/Juventus/Italie/90
@@ -4744,7 +4878,10 @@ Arjen Robben/ATT/Bayern/Pays-Bas/90
 Claudio Pizarro/ATT/Werder Brême/Pérou/84
 Harry Kane/ATT/Bayern/Angleterre/91
 Erling Haaland/ATT/Dortmund/Norvège/89
-Rudi Völler/ATT/Werder Brême/Allemagne/85`},
+Rudi Völler/ATT/Werder Brême/Allemagne/85
+Stefan Effenberg/MIL/Bayern/Allemagne/87
+Andreas Möller/MIL/Dortmund/Allemagne/86
+`},
 {id:"leg_ligue1",name:"Légendes de Ligue 1",cat:"themes",sub:"Les grands noms du championnat de France",raw:`
 Grégory Coupet/G/Lyon/France/85
 Steve Mandanda/G/Marseille/France/84
@@ -4824,7 +4961,9 @@ László Kubala/ATT/Barcelone/Hongrie/90
 Rivaldo/ATT/Barcelone/Brésil/90
 Neymar/ATT/Barcelone/Brésil/91
 Luis Suárez/ATT/Barcelone/Uruguay/90
-Samuel Eto'o/ATT/Barcelone/Cameroun/89`},
+Samuel Eto'o/ATT/Barcelone/Cameroun/89
+Michael Laudrup/MIL/Barcelone/Danemark/90
+`},
 {id:"classique",name:"Le Classique PSG-OM",cat:"themes",sub:"Paris contre Marseille",raw:`
 Bernard Lama/G/PSG/France/85
 Keylor Navas/G/PSG/Costa Rica/85
@@ -4864,7 +5003,9 @@ Josip Skoblar/ATT/Marseille/Yougoslavie/87
 Rudi Völler/ATT/Marseille/Allemagne/86
 Mamadou Niang/ATT/Marseille/Sénégal/82
 Alen Bokšić/ATT/Marseille/Croatie/84
-Roger Magnusson/ATT/Marseille/Suède/83`},
+Roger Magnusson/ATT/Marseille/Suède/83
+Thiago Motta/MIL/PSG/Italie/85
+`},
 {id:"derby_manchester",name:"Derby de Manchester",cat:"themes",sub:"United contre City",raw:`
 Peter Schmeichel/G/Manchester United/Danemark/90
 Edwin van der Sar/G/Manchester United/Pays-Bas/87

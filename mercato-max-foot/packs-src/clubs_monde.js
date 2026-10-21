@@ -40,7 +40,9 @@ Clemente Rodríguez/DEF/Argentine/78
 Frank Fabra/DEF/Colombie/78
 Ever Banega/MIL/Argentine/78
 Agustín Orión/G/Argentine/77
-Cristian Pavón/ATT/Argentine/77`},
+Cristian Pavón/ATT/Argentine/77
+Alberto Márcico/MIL/Argentine/84
+`},
 {id:"river",name:"Légendes de River Plate",cat:"clubs",sub:"Argentine",club:"River Plate",raw:`
 Ángel Labruna/ATT/Argentine/95
 Daniel Passarella/DEF/Argentine/93
@@ -279,7 +281,9 @@ Besheer El-Tabei/DEF/Égypte/76
 Mahmoud Alaa/DEF/Égypte/76
 Ahmed Abou El Fotouh/DEF/Égypte/76
 Mahmoud Genesh/G/Égypte/76
-Mohamed Awad/G/Égypte/76`},
+Mohamed Awad/G/Égypte/76
+Ismail Youssef/MIL/Égypte/80
+`},
 {id:"esperance",name:"Légendes de l'Espérance de Tunis",cat:"clubs",sub:"Tunisie",club:"Espérance",raw:`
 Tarek Dhiab/MIL/Tunisie/92
 Chokri El Ouaer/G/Tunisie/88
@@ -396,7 +400,9 @@ Mehdi Benabid/G/Maroc/75
 Badie Aouk/MIL/Maroc/74
 Jean-Jacques Gosso/MIL/Côte d'Ivoire/74
 Amine Atouchi/MIL/Maroc/74
-Bouly Sambou/ATT/Sénégal/74`},
+Bouly Sambou/ATT/Sénégal/74
+Brahim Nakach/MIL/Maroc/77
+`},
 {id:"jsk",name:"Légendes de la JS Kabylie",cat:"clubs",sub:"Algérie",club:"JS Kabylie",raw:`
 Ali Fergani/MIL/Algérie/88
 Djamel Menad/ATT/Algérie/86
@@ -431,7 +437,9 @@ Rezki Amrouche/DEF/Algérie/74
 Rédha Bensayah/MIL/Algérie/74
 Abderrazak Djahnit/ATT/Algérie/74
 Abderrazak Harb/G/Algérie/73
-Badreddine Souyad/MIL/Algérie/72`},
+Badreddine Souyad/MIL/Algérie/72
+Abdelkrim Namani/MIL/Algérie/74
+`},
 {id:"mca",name:"Légendes du MC Alger",cat:"clubs",sub:"Algérie",club:"MC Alger",raw:`
 Ali Bencheikh/MIL/Algérie/88
 Zoubir Bachi/ATT/Algérie/85
@@ -465,7 +473,10 @@ Amir Karaoui/MIL/Algérie/73
 Mohammed Benkhemassa/MIL/Algérie/73
 Abdelatif Ramdane/G/Algérie/73
 Chahreddine Boukholda/MIL/Algérie/72
-Abdelkader Salhi/G/Algérie/72`},
+Abdelkader Salhi/G/Algérie/72
+Ayoub Ghezala/DEF/Algérie/76
+Akram Bouras/MIL/Algérie/74
+`},
 {id:"galatasaray",name:"Légendes de Galatasaray",cat:"clubs",sub:"Turquie",club:"Galatasaray",raw:`
 Gheorghe Hagi/MIL/Roumanie/95
 Metin Oktay/ATT/Turquie/93
@@ -587,6 +598,8 @@ Isaac Terrazas/DEF/Mexique/77
 Bruno Valdez/DEF/Paraguay/77
 Jorge Sánchez/DEF/Mexique/77
 Richard Sánchez/MIL/Paraguay/76
-Kevin Álvarez/DEF/Mexique/75`}
+Kevin Álvarez/DEF/Mexique/75
+Sebastián Córdova/MIL/Mexique/80
+`}
 );
 Object.assign(window.CLUB_COLORS,{"Boca Juniors":["#003C8F","#FCD116"],"River Plate":["#FFFFFF","#E30613"],"Santos":["#FFFFFF","#000000"],"Flamengo":["#C8102E","#000000"],"São Paulo":["#FFFFFF","#E30613"],"Al Ahly":["#C8102E","#FFFFFF"],"Zamalek":["#FFFFFF","#E30613"],"Espérance":["#C8102E","#FFD700"],"Raja Casablanca":["#00843D","#FFFFFF"],"Wydad Casablanca":["#D50000","#FFFFFF"],"JS Kabylie":["#FFD700","#00843D"],"MC Alger":["#C8102E","#00843D"],"Galatasaray":["#A90432","#FDB912"],"Fenerbahçe":["#002D72","#FFED00"],"Club América":["#FFD200","#002D72"]});

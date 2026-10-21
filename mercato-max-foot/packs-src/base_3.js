@@ -40,7 +40,10 @@ Cristian Romero/DEF/Tottenham/Argentine/63
 Anthony Gordon/ATT/Newcastle/Angleterre/62
 Jordan Pickford/G/Everton/Angleterre/66
 Robert Sánchez/G/Chelsea/Espagne/64
-Micky van de Ven/DEF/Tottenham/Pays-Bas/65`},
+Micky van de Ven/DEF/Tottenham/Pays-Bas/65
+Rúben Dias/DEF/Manchester City/Portugal/88
+Marc Cucurella/DEF/Chelsea/Espagne/84
+`},
 {id:"s_saudi",name:"Saudi Pro League",cat:"ligues",sub:"Championnats",raw:`
 Cristiano Ronaldo/ATT/Al-Nassr/Portugal/98
 Karim Benzema/ATT/Al-Hilal/France/97
@@ -78,7 +81,12 @@ Bento/G/Al-Nassr/Brésil/66
 Predrag Rajković/G/Al-Ittihad/Serbie/74
 Nawaf Al-Aqidi/G/Al-Nassr/Arabie saoudite/68
 Roger Ibañez/DEF/Al-Ahli/Brésil/72
-Hassan Tambakti/DEF/Al-Hilal/Arabie saoudite/70`},
+Hassan Tambakti/DEF/Al-Hilal/Arabie saoudite/70
+Mohamed Simakan/DEF/Al-Nassr/France/80
+Nacho Fernández/DEF/Al-Qadsiah/Espagne/79
+Abdullah Al-Khaibari/MIL/Al-Nassr/Arabie saoudite/70
+Sami Al-Najei/MIL/Al-Nassr/Arabie saoudite/68
+`},
 {id:"s_alg",name:"Algérie",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Riyad Mahrez/ATT/Al-Ahli/Algérie/98
 Rayan Aït-Nouri/DEF/Manchester City/Algérie/97
@@ -112,7 +120,9 @@ Zineddine Belaïd/DEF/JS Kabylie/Algérie/70
 Islam Slimani/ATT/CR Belouizdad/Algérie/69
 Oussama Benbot/G/USM Alger/Algérie/68
 Mustapha Zeghba/G/Damac/Algérie/70
-Melvin Mastil/G/Stade Nyonnais/Algérie/67`},
+Melvin Mastil/G/Stade Nyonnais/Algérie/67
+Adem Zorgane/MIL/Charleroi/Algérie/71
+`},
 {id:"s_por",name:"Portugal",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Vitinha/MIL/PSG/Portugal/98
 Nuno Mendes/DEF/PSG/Portugal/97
@@ -184,7 +194,10 @@ Mory Diaw/G/Le Havre/Sénégal/70
 Seny Dieng/G/Middlesbrough/Sénégal/69
 Pathé Ciss/MIL/Rayo Vallecano/Sénégal/68
 Yehvann Diouf/G/Nice/Sénégal/72
-Alfred Gomis/G/Palerme/Sénégal/68`},
+Alfred Gomis/G/Palerme/Sénégal/68
+Moustapha Name/MIL/Pafos/Sénégal/72
+Rassoul Ndiaye/MIL/Le Havre/Sénégal/71
+`},
 {id:"s_legalg",name:"Légendes d'Algérie",cat:"themes",sub:"Les héros des Fennecs",raw:`
 Rabah Madjer/ATT/Porto/Algérie/98
 Riyad Mahrez (2016)/ATT/Leicester/Algérie/97
@@ -220,7 +233,11 @@ Abdelaziz Ben Tifour/MIL/Monaco/Algérie/68
 Mehdi Cerbah/G/JS Kabylie/Algérie/80
 Nasreddine Drid/G/MC Oran/Algérie/76
 Lounès Gaouaoui/G/ASO Chlef/Algérie/74
-Fawzi Chaouchi/G/ES Sétif/Algérie/73`},
+Fawzi Chaouchi/G/ES Sétif/Algérie/73
+Chaabane Merzekane/DEF/NA Hussein Dey/Algérie/80
+Rafik Halliche/DEF/Nacional/Algérie/78
+Mehdi Lacen/MIL/Getafe/Algérie/77
+`},
 {id:"s_b_italie",name:"Italie",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Gianluigi Donnarumma/G/Manchester City/Italie/95
 Nicolò Barella/MIL/Inter/Italie/93
@@ -254,7 +271,9 @@ Bryan Cristante/MIL/Roma/Italie/70
 Wilfried Gnonto/ATT/Leeds/Italie/70
 Nicolò Fagioli/MIL/Fiorentina/Italie/69
 Michael Folorunsho/MIL/Cagliari/Italie/68
-Michele Di Gregorio/G/Juventus/Italie/80`},
+Michele Di Gregorio/G/Juventus/Italie/80
+Nicolò Rovella/MIL/Lazio/Italie/80
+`},
 {id:"s_b_tunisie",name:"Tunisie",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Ellyes Skhiri/MIL/Eintracht Francfort/Tunisie/95
 Hannibal Mejbri/MIL/Burnley/Tunisie/94
@@ -286,7 +305,10 @@ Ali Maâloul/DEF/CS Sfaxien/Tunisie/69
 Firas Chaouat/ATT/Club Africain/Tunisie/68
 Sabri Ben Hassen/G/Étoile du Sahel/Tunisie/70
 Noureddine Farhati/G/Stade Tunisien/Tunisie/68
-Moez Ben Cherifia/G/Espérance de Tunis/Tunisie/67`},
+Moez Ben Cherifia/G/Espérance de Tunis/Tunisie/67
+Mohamed Haj Mahmoud/MIL/Lugano/Tunisie/70
+Ghaylène Chaalali/MIL/Espérance de Tunis/Tunisie/70
+`},
 {id:"s_b_cameroun",name:"Cameroun",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
 Bryan Mbeumo/ATT/Manchester United/Cameroun/95
 Carlos Baleba/MIL/Brighton/Cameroun/94
@@ -319,7 +341,13 @@ Léandre Tawamba/ATT/Al-Okhdood/Cameroun/68
 Didier Lamkel Zé/ATT/Dukla Prague/Cameroun/66
 Simon Ngapandouetnbu/G/Montpellier/Cameroun/74
 Simon Omossola/G/Saint-Éloi Lupopo/Cameroun/72
-Fabrice Ondoa/G/RFS Riga/Cameroun/70`},
+Fabrice Ondoa/G/RFS Riga/Cameroun/70
+Darlin Yongwa/DEF/Lorient/Cameroun/72
+Eric-Junior Dina Ebimbe/MIL/Brest/Cameroun/76
+Olivier Kemen/MIL/Istanbul Basaksehir/Cameroun/72
+Martin Ndzie/MIL/Rapid Vienne/Cameroun/69
+Brice Ambina/MIL/Vålerenga/Cameroun/67
+`},
 {id:"s_b_ligaportugal",name:"Liga Portugal",cat:"ligues",sub:"Championnats",raw:`
 Diogo Costa/G/Porto/Portugal/94
 Francisco Trincão/ATT/Sporting/Portugal/93
@@ -354,6 +382,10 @@ Leandro Barreiro/MIL/Benfica/Luxembourg/70
 Iván Fresneda/DEF/Sporting/Espagne/70
 Pau Víctor/ATT/Braga/Espagne/69
 Samuel Soares/G/Benfica/Portugal/68
-Lukas Horníček/G/Braga/Tchéquie/71`}
+Lukas Horníček/G/Braga/Tchéquie/71
+Hidemasa Morita/MIL/Sporting/Japon/80
+`}
 );
 Object.assign(window.CLUB_COLORS,{"Manchester City":["#6CABDD","#FFFFFF"],"Liverpool":["#C8102E","#FFFFFF"],"Arsenal":["#EF0107","#FFFFFF"],"Chelsea":["#034694","#FFFFFF"],"Manchester United":["#DA291C","#FFFFFF"],"Newcastle":["#000000","#FFFFFF"],"Tottenham":["#FFFFFF","#132257"],"Everton":["#003399","#FFFFFF"],"Al-Nassr":["#FFD100","#0033A0"],"Al-Hilal":["#005BAC","#FFFFFF"],"Al-Ahli":["#00843D","#FFFFFF"],"Al-Ittihad":["#FFD200","#111"],"Al-Qadsiah":["#E30613","#FFD100"],"Neom":["#1A1A1A","#C9A227"],"Al-Shabab":["#FFFFFF","#000000"],"Al-Ettifaq":["#007A3D","#E30613"],"Wolfsburg":["#65B32E","#FFFFFF"],"Marseille":["#FFFFFF","#2FAEE0"],"Dinamo Zagreb":["#0033A0","#FFFFFF"],"Leverkusen":["#E32221","#000000"],"Eintracht Francfort":["#000000","#E1000F"],"Dortmund":["#FDE100","#000000"],"Nice":["#E30613","#000000"],"Feyenoord":["#E2001A","#FFFFFF"],"Hellas Vérone":["#003C82","#FFD100"],"Espérance de Tunis":["#E30613","#FFD100"],"Twente":["#E30613","#fff"],"Lille":["#E01E13","#20325F"],"Young Boys":["#FFD200","#111"],"Grenade":["#C8102E","#FFFFFF"],"Al-Shamal":["#0054A6","#FFFFFF"],"Al-Duhail":["#C8102E","#FFFFFF"],"Al-Sadd":["#fff","#111"],"Caen":["#1F3A8C","#E30613"],"Frosinone":["#FFD100","#0054A6"],"Paris FC":["#002D62","#FFFFFF"],"Angers":["#000000","#FFFFFF"],"Stuttgart":["#FFFFFF","#E32219"],"JS Kabylie":["#FFD700","#00843D"],"CR Belouizdad":["#C8102E","#FFFFFF"],"USM Alger":["#C8102E","#111"],"Damac":["#E30613","#FFD100"],"Stade Nyonnais":["#E30613","#FFFFFF"],"PSG":["#004170","#DA291C"],"Milan":["#FB090B","#000000"],"Porto":["#003893","#FFFFFF"],"Sporting":["#00805F","#FFFFFF"],"Juventus":["#FFFFFF","#000000"],"Villarreal":["#FFE667","#005187"],"Fenerbahçe":["#FFED00","#00205B"],"Benfica":["#E83030","#FFFFFF"],"Majorque":["#E20613","#000000"],"Wolverhampton":["#FDB913","#231F20"],"Hambourg":["#FFFFFF","#E2001A"],"Lazio":["#87D8F7","#FFFFFF"],"Nottingham Forest":["#DD0000","#FFFFFF"],"Real Sociedad":["#0067B1","#FFFFFF"],"Gençlerbirliği":["#E30613","#000000"],"Bayern":["#DC052D","#FFFFFF"],"Crystal Palace":["#1B458F","#C4122E"],"Monaco":["#E4002B","#FFFFFF"],"Lyon":["#FFFFFF","#DA001A"],"West Ham":["#7A263A","#1BB1E7"],"Sunderland":["#EB172B","#FFFFFF"],"Metz":["#8B0A26","#FFFFFF"],"Al-Arabi":["#C8102E","#FFFFFF"],"Galatasaray":["#A90432","#FDB912"],"Côme":["#004A99","#FFFFFF"],"Strasbourg":["#009FE3","#FFFFFF"],"Lorient":["#F58220","#000000"],"Samsunspor":["#E30613","#FFFFFF"],"Maccabi Haïfa":["#007A3D","#FFFFFF"],"Betis":["#00954C","#FFFFFF"],"Lens":["#FFE500","#E2001A"],"Montpellier":["#F26522","#00205B"],"Le Havre":["#4F9ACE","#002D62"],"Middlesbrough":["#E30613","#FFFFFF"],"Rayo Vallecano":["#FFFFFF","#E30613"],"Palerme":["#F5A9C4","#000000"],"Leicester":["#003090","#FFFFFF"],"GC Mascara":["#0E8A3E","#fff"],"Saint-Étienne":["#009639","#FFFFFF"],"Mulhouse":["#1D4E9E","#FFD200"],"Rangers":["#1B458F","#FFFFFF"],"Valence":["#FFFFFF","#000000"],"Ettifaq":["#0E7C3A","#E31B23"],"Bochum":["#005BA9","#fff"],"NA Hussein Dey":["#C8102E","#FFD100"],"MC Oran":["#E30613","#FFFFFF"],"Portsmouth":["#001489","#FFFFFF"],"Naples":["#12A0D7","#FFFFFF"],"Troyes":["#0054A6","#FFFFFF"],"Auxerre":["#FFFFFF","#0055A4"],"ASO Chlef":["#E30613","#FFFFFF"],"ES Sétif":["#000000","#FFFFFF"],"Inter":["#0068A8","#000000"],"Fiorentina":["#482E92","#FFFFFF"],"Atalanta":["#1E71B8","#000000"],"Atlético Madrid":["#CB3524","#FFFFFF"],"Roma":["#8E1F2F","#F0BC42"],"Bologne":["#A21C26","#1A2F48"],"Leeds":["#FFFFFF","#1D428A"],"Cagliari":["#A6192E","#002350"],"Burnley":["#6C1D45","#99D6EA"],"Al-Wakrah":["#0054A6","#FFFFFF"],"Al Ahly":["#E30613","#FFFFFF"],"Copenhague":["#FFFFFF","#003DA5"],"Servette":["#8B1538","#FFFFFF"],"CS Sfaxien":["#000000","#FFFFFF"],"Al-Gharafa":["#FFD100","#0054A6"],"Augsbourg":["#BA3733","#46714D"],"Zamalek":["#FFFFFF","#E30613"],"Lecce":["#FFD100","#E30613"],"Norwich":["#FFF200","#00A650"],"Winterthur":["#E30613","#FFFFFF"],"Al-Jazira":["#E30613","#000000"],"Maribor":["#6A2C91","#FFD100"],"Dynamo Makhachkala":["#0054A6","#FFFFFF"],"Kasimpasa":["#002D72","#FFFFFF"],"Lucerne":["#003DA5","#FFFFFF"],"Club Africain":["#E30613","#FFFFFF"],"Étoile du Sahel":["#E30613","#FFFFFF"],"Stade Tunisien":["#007A3D","#E30613"],"Brighton":["#0057B8","#FFFFFF"],"Trabzonspor":["#7A1E3C","#41B6E6"],"Neftchi Bakou":["#000000","#FFFFFF"],"Rennes":["#E13327","#000000"],"New York Red Bulls":["#ED1E36","#23326A"],"Nantes":["#FCD405","#00863F"],"Seattle Sounders":["#5D9741","#005595"],"Besiktas":["#000000","#FFFFFF"],"Abha":["#007A3D","#FFFFFF"],"Udinese":["#FFFFFF","#000000"],"Genoa":["#A4161A","#002D72"],"Dynamo Moscou":["#0033A0","#FFFFFF"],"Legia Varsovie":["#007A3D","#FFFFFF"],"Sivasspor":["#E30613","#FFFFFF"],"Stoke City":["#E03A3E","#FFFFFF"],"Al-Tai":["#FFD100","#000000"],"Al-Okhdood":["#E30613","#FFFFFF"],"Dukla Prague":["#8B1A1A","#FFD700"],"Saint-Éloi Lupopo":["#007A3D","#FFFFFF"],"RFS Riga":["#0054A6","#FFFFFF"],"Braga":["#E30613","#FFFFFF"]});
+
+Object.assign(window.CLUB_COLORS,{"Brest": ["#E30613", "#FFFFFF"], "Charleroi": ["#000000", "#FFFFFF"], "Getafe": ["#005999", "#FFFFFF"], "Istanbul Basaksehir": ["#F26522", "#002D62"], "Lugano": ["#000000", "#FFFFFF"], "Nacional": ["#FFFFFF", "#002D72"], "Pafos": ["#002D72", "#FFFFFF"], "Rapid Vienne": ["#00843D", "#FFFFFF"], "Vålerenga": ["#002D72", "#E30613"]});

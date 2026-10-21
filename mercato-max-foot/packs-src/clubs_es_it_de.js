@@ -282,7 +282,10 @@ Christian Vieri/ATT/Italie/87
 Roberto Boninsegna/ATT/Italie/86
 Adriano/ATT/Brésil/85
 Jair da Costa/ATT/Brésil/84
-Zlatan Ibrahimović/ATT/Suède/84`},
+Zlatan Ibrahimović/ATT/Suède/84
+Nicola Berti/MIL/Italie/86
+Evaristo Beccalossi/MIL/Italie/85
+`},
 {id:"juve",name:"Légendes de la Juventus",cat:"clubs",sub:"Italie",club:"Juventus",raw:`
 Gianluigi Buffon/G/Italie/97
 Dino Zoff/G/Italie/95

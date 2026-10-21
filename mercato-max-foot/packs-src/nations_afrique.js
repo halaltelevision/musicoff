@@ -200,7 +200,9 @@ Victor Ikpeba/ATT/Monaco/Nigeria/81
 Obafemi Martins/ATT/Inter/Nigeria/81
 Yakubu Aiyegbeni/ATT/Portsmouth/Nigeria/81
 Victor Osimhen/ATT/Naples/Nigeria/89
-Ademola Lookman/ATT/Atalanta/Nigeria/86`},
+Ademola Lookman/ATT/Atalanta/Nigeria/86
+Wilson Oruma/MIL/Lens/Nigeria/78
+`},
 {id:"egy",name:"Légendes de l'Égypte",cat:"nations",sub:"Afrique",raw:`
 Essam El-Hadary/G/Al Ahly/Égypte/88
 Ahmed Shobair/G/Al Ahly/Égypte/83

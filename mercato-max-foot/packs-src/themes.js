@@ -39,7 +39,10 @@ Ousmane Dembélé/ATT/PSG/France/89
 Andriy Shevchenko/ATT/Milan/Ukraine/89
 Rivaldo/ATT/Barcelone/Brésil/89
 Raymond Kopa/ATT/Reims/France/88
-George Best/ATT/Manchester United/Irlande du Nord/92`},
+George Best/ATT/Manchester United/Irlande du Nord/92
+Giacinto Facchetti/DEF/Inter/Italie/91
+Roberto Carlos/DEF/Real Madrid/Brésil/91
+`},
 {id:"heros_cdm",name:"Héros de Coupe du monde",cat:"themes",sub:"Ils ont fait basculer un Mondial",raw:`
 Gordon Banks/G/Leicester City/Angleterre/89
 Dino Zoff/G/Juventus/Italie/89
@@ -80,7 +83,9 @@ Garrincha/ATT/Botafogo/Brésil/92
 Romário/ATT/Barcelone/Brésil/91
 Eusébio/ATT/Benfica/Portugal/91
 Davor Šuker/ATT/Real Madrid/Croatie/86
-David Villa/ATT/Valence/Espagne/87`},
+David Villa/ATT/Valence/Espagne/87
+Xavi/MIL/Barcelone/Espagne/93
+`},
 {id:"heros_ldc",name:"Héros de Ligue des champions",cat:"themes",sub:"Les rois des soirées européennes",raw:`
 Oliver Kahn/G/Bayern/Allemagne/89
 Jerzy Dudek/G/Liverpool/Pologne/82
@@ -119,7 +124,9 @@ Vinícius Júnior/ATT/Real Madrid/Brésil/90
 Diego Milito/ATT/Inter/Argentine/84
 Samuel Eto'o/ATT/Barcelone/Cameroun/89
 Ousmane Dembélé/ATT/PSG/France/89
-Kingsley Coman/ATT/Bayern/France/83`},
+Kingsley Coman/ATT/Bayern/France/83
+Andrea Pirlo/MIL/Milan/Italie/91
+`},
 {id:"leg_pl",name:"Légendes de Premier League",cat:"themes",sub:"Les monstres du championnat anglais",raw:`
 Peter Schmeichel/G/Manchester United/Danemark/90
 Petr Čech/G/Chelsea/Tchéquie/89
@@ -199,7 +206,9 @@ Antoine Griezmann/ATT/Atlético de Madrid/France/88
 Luis Suárez/ATT/Barcelone/Uruguay/90
 Samuel Eto'o/ATT/Barcelone/Cameroun/89
 David Villa/ATT/Valence/Espagne/87
-Johan Cruyff/ATT/Barcelone/Pays-Bas/95`},
+Johan Cruyff/ATT/Barcelone/Pays-Bas/95
+Fernando Redondo/MIL/Real Madrid/Argentine/89
+`},
 {id:"leg_seriea",name:"Légendes de Serie A",cat:"themes",sub:"Les maîtres du Calcio",raw:`
 Gianluigi Buffon/G/Juventus/Italie/93
 Dino Zoff/G/Juventus/Italie/90
@@ -277,7 +286,10 @@ Arjen Robben/ATT/Bayern/Pays-Bas/90
 Claudio Pizarro/ATT/Werder Brême/Pérou/84
 Harry Kane/ATT/Bayern/Angleterre/91
 Erling Haaland/ATT/Dortmund/Norvège/89
-Rudi Völler/ATT/Werder Brême/Allemagne/85`},
+Rudi Völler/ATT/Werder Brême/Allemagne/85
+Stefan Effenberg/MIL/Bayern/Allemagne/87
+Andreas Möller/MIL/Dortmund/Allemagne/86
+`},
 {id:"leg_ligue1",name:"Légendes de Ligue 1",cat:"themes",sub:"Les grands noms du championnat de France",raw:`
 Grégory Coupet/G/Lyon/France/85
 Steve Mandanda/G/Marseille/France/84
@@ -357,7 +369,9 @@ László Kubala/ATT/Barcelone/Hongrie/90
 Rivaldo/ATT/Barcelone/Brésil/90
 Neymar/ATT/Barcelone/Brésil/91
 Luis Suárez/ATT/Barcelone/Uruguay/90
-Samuel Eto'o/ATT/Barcelone/Cameroun/89`},
+Samuel Eto'o/ATT/Barcelone/Cameroun/89
+Michael Laudrup/MIL/Barcelone/Danemark/90
+`},
 {id:"classique",name:"Le Classique PSG-OM",cat:"themes",sub:"Paris contre Marseille",raw:`
 Bernard Lama/G/PSG/France/85
 Keylor Navas/G/PSG/Costa Rica/85
@@ -397,7 +411,9 @@ Josip Skoblar/ATT/Marseille/Yougoslavie/87
 Rudi Völler/ATT/Marseille/Allemagne/86
 Mamadou Niang/ATT/Marseille/Sénégal/82
 Alen Bokšić/ATT/Marseille/Croatie/84
-Roger Magnusson/ATT/Marseille/Suède/83`},
+Roger Magnusson/ATT/Marseille/Suède/83
+Thiago Motta/MIL/PSG/Italie/85
+`},
 {id:"derby_manchester",name:"Derby de Manchester",cat:"themes",sub:"United contre City",raw:`
 Peter Schmeichel/G/Manchester United/Danemark/90
 Edwin van der Sar/G/Manchester United/Pays-Bas/87
