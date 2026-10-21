@@ -563,11 +563,14 @@ const roleOf=c=>(window.FOOT_ROLES||{})[c.n+"|"+c.pos]||ROLEDEF[c.pos];
 function xiRoles(f){const R=FROLES[f]||FROLES["4-3-3"],m={G:"G"};xiSlots(f).forEach(k=>{const p=slotPos(k);if(p!=="G")m[k]=R[p][(+(k.match(/\d+$/)||[1])[0])-1]});return m}
 /* XI : après chaque recrue, la ligne se réorganise pour que chacun soit au plus près de son vrai poste */
 function relineup(t,pos){const ks=G.slots.filter(k=>slotPos(k)===pos),pl=ks.map(k=>t.sl[k]).filter(Boolean);if(pl.length<2)return;
-  const dist=(pk,k)=>roleDist(roleOf(cardOf(pk.i)),G.roles[k]);
+  const dist=(pk,k)=>fitCost(cardOf(pk.i),k);
   let best=null,bc=1e9;const cur=new Map(ks.filter(k=>t.sl[k]).map(k=>[t.sl[k],k]));
   const go=(i,used,asg,c)=>{if(i===pl.length){if(c<bc){bc=c;best=asg.slice()}return}
-    for(const k of ks){if(used.has(k))continue;used.add(k);asg.push(k);const dd=dist(pl[i],k);go(i+1,used,asg,c+dd-(dd===0?cardOf(pl[i].i).p*.002:0)+(cur.get(pl[i])===k?0:.001));asg.pop();used.delete(k)}};
+    for(const k of ks){if(used.has(k))continue;used.add(k);asg.push(k);const dd=dist(pl[i],k);go(i+1,used,asg,c+dd-(dd<.5?cardOf(pl[i].i).p*.002:0)+(cur.get(pl[i])===k?0:.001));asg.pop();used.delete(k)}};
   go(0,new Set(),[],0);ks.forEach(k=>delete t.sl[k]);pl.forEach((pk,i)=>t.sl[best[i]]=pk)}
+/* Côté de chaque place dans sa ligne (gauche, axe, droite) et côté préféré du joueur : petit malus s'il est du mauvais côté */
+function slotSide(k){const ks=G.slots.filter(x=>slotPos(x)===slotPos(k)),i=ks.indexOf(k),m=(ks.length-1)/2;return i<m?"G":i>m?"D":"C"}
+function fitCost(c,k){const r=roleOf(c),d=roleDist(r,G.roles[k]),sd=(window.FOOT_SIDES||{})[c.n+"|"+c.pos],ss=slotSide(k);return d+(sd&&ss!=="C"&&sd!==ss?.2:0)}
 const slotRole=k=>(G.roles&&G.roles[k])||PO(k).s;
 function fmtSlots(s){return s.format==="xi"?xiSlots(s.formation):FORMATS[s.format||"five"].slots}
 const slotPos=k=>k.replace(/\d+$/,"");
@@ -651,7 +654,7 @@ const emptySlots=t=>G.slots.filter(k=>!t.sl[k]).length;
 const full=t=>emptySlots(t)===0;
 function slotFor(t,c){
   if(G.format==="xi"){if(!G.roles)G.roles=xiRoles(G.formation);const free=G.slots.filter(k=>!t.sl[k]&&slotPos(k)===c.pos);if(!free.length)return null;
-    const r=roleOf(c),d=k=>roleDist(r,G.roles[k]);
+    const d=k=>fitCost(c,k);
     return free.reduce((b,k)=>d(k)<d(b)?k:b,free[0])}
   const k=G.slots.find(k=>!t.sl[k]&&slotPos(k)===c.pos);if(k)return k;if(c.pos!=="G"&&G.slots.includes("LIB")&&!t.sl.LIB)return"LIB";return null}
 function maxBid(t){const n=emptySlots(t);return n<=0?-1:t.money-10*(n-1)}
