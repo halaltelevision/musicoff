@@ -558,6 +558,13 @@ const RLBL={G:"Gardien",DG:"Latéral gauche",DC:"Défenseur central",DD:"Latéra
 const ROLEDEF={G:"G",DEF:"DC",MIL:"MC",ATT:"BU"};
 const roleOf=c=>(window.FOOT_ROLES||{})[c.n+"|"+c.pos]||ROLEDEF[c.pos];
 function xiRoles(f){const R=FROLES[f]||FROLES["4-3-3"],m={G:"G"};xiSlots(f).forEach(k=>{const p=slotPos(k);if(p!=="G")m[k]=R[p][(+(k.match(/\d+$/)||[1])[0])-1]});return m}
+/* XI : après chaque recrue, la ligne se réorganise pour que chacun soit au plus près de son vrai poste */
+function relineup(t,pos){const ks=G.slots.filter(k=>slotPos(k)===pos),pl=ks.map(k=>t.sl[k]).filter(Boolean);if(pl.length<2)return;
+  const dist=(pk,k)=>{const [x,y]=RXY[roleOf(cardOf(pk.i))]||[1,0],[a,b]=RXY[G.roles[k]]||[1,0];return Math.abs(a-x)+Math.abs(b-y)};
+  let best=null,bc=1e9;const cur=new Map(ks.filter(k=>t.sl[k]).map(k=>[t.sl[k],k]));
+  const go=(i,used,asg,c)=>{if(c>=bc)return;if(i===pl.length){bc=c;best=asg.slice();return}
+    for(const k of ks){if(used.has(k))continue;used.add(k);asg.push(k);go(i+1,used,asg,c+dist(pl[i],k)+(cur.get(pl[i])===k?0:.01));asg.pop();used.delete(k)}};
+  go(0,new Set(),[],0);ks.forEach(k=>delete t.sl[k]);pl.forEach((pk,i)=>t.sl[best[i]]=pk)}
 const slotRole=k=>(G.roles&&G.roles[k])||PO(k).s;
 function fmtSlots(s){return s.format==="xi"?xiSlots(s.formation):FORMATS[s.format||"five"].slots}
 const slotPos=k=>k.replace(/\d+$/,"");
@@ -739,7 +746,7 @@ function aiTurn(ti){
 }
 function sell(){
   stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;
-  if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};
+  if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
     if(!SIM){SFX.sold();buzz([30,40,60]);if(t.ai&&Math.random()<.5)say(c.leader,"win")}}
   if(!SIM)render();
 }
