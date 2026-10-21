@@ -533,6 +533,7 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 <canvas id="fx"></canvas>
 <script src="config.js"></script>
 <script src="packs.js"></script>
+<script src="roles.js"></script>
 <script>
 "use strict";
 /* ===================== Données ===================== */
@@ -549,6 +550,15 @@ const FORMATS={
 /* XI de légende : formation au choix (défenseurs, milieux, attaquants) */
 const FORMATIONS={"4-3-3":[4,3,3],"4-4-2":[4,4,2],"3-5-2":[3,5,2],"3-4-3":[3,4,3]};
 function xiSlots(f){const [d,m,a]=FORMATIONS[f]||FORMATIONS["4-3-3"],r=["G"];[["DEF",d],["MIL",m],["ATT",a]].forEach(([p,n])=>{for(let i=1;i<=n;i++)r.push(i===1?p:p+i)});return r}
+/* Postes précis : chaque joueur va d'abord à son poste (latéral droit, 9…), sinon au plus proche dans sa ligne */
+const FROLES={"4-3-3":{DEF:["DG","DC","DC","DD"],MIL:["MC","MDC","MC"],ATT:["AG","BU","AD"]},"4-4-2":{DEF:["DG","DC","DC","DD"],MIL:["MG","MC","MC","MD"],ATT:["BU","BU"]},
+  "3-5-2":{DEF:["DC","DC","DC"],MIL:["MG","MC","MDC","MC","MD"],ATT:["BU","BU"]},"3-4-3":{DEF:["DC","DC","DC"],MIL:["MG","MC","MC","MD"],ATT:["AG","BU","AD"]}};
+const RXY={G:[1,0],DG:[0,0],DC:[1,0],DD:[2,0],MG:[0,1],MC:[1,1],MD:[2,1],MDC:[1,0],MOC:[1,2],AG:[0,0],BU:[1,0],AD:[2,0]};
+const RLBL={G:"Gardien",DG:"Latéral gauche",DC:"Défenseur central",DD:"Latéral droit",MG:"Milieu gauche",MC:"Milieu central",MD:"Milieu droit",MDC:"Milieu défensif",MOC:"Meneur",AG:"Ailier gauche",BU:"Avant-centre",AD:"Ailier droit"};
+const ROLEDEF={G:"G",DEF:"DC",MIL:"MC",ATT:"BU"};
+const roleOf=c=>(window.FOOT_ROLES||{})[c.n+"|"+c.pos]||ROLEDEF[c.pos];
+function xiRoles(f){const R=FROLES[f]||FROLES["4-3-3"],m={G:"G"};xiSlots(f).forEach(k=>{const p=slotPos(k);if(p!=="G")m[k]=R[p][(+(k.match(/\d+$/)||[1])[0])-1]});return m}
+const slotRole=k=>(G.roles&&G.roles[k])||PO(k).s;
 function fmtSlots(s){return s.format==="xi"?xiSlots(s.formation):FORMATS[s.format||"five"].slots}
 const slotPos=k=>k.replace(/\d+$/,"");
 const PO=k=>POS[slotPos(k)];
@@ -629,7 +639,11 @@ const packOf=()=>PACKS[G.pack];
 const cardOf=i=>packOf().cards[i];
 const emptySlots=t=>G.slots.filter(k=>!t.sl[k]).length;
 const full=t=>emptySlots(t)===0;
-function slotFor(t,c){const k=G.slots.find(k=>!t.sl[k]&&slotPos(k)===c.pos);if(k)return k;if(c.pos!=="G"&&G.slots.includes("LIB")&&!t.sl.LIB)return"LIB";return null}
+function slotFor(t,c){
+  if(G.format==="xi"){if(!G.roles)G.roles=xiRoles(G.formation);const free=G.slots.filter(k=>!t.sl[k]&&slotPos(k)===c.pos);if(!free.length)return null;
+    const [x,y]=RXY[roleOf(c)]||[1,0],d=k=>{const [a,b]=RXY[G.roles[k]]||[1,0];return Math.abs(a-x)+Math.abs(b-y)};
+    return free.reduce((b,k)=>d(k)<d(b)?k:b,free[0])}
+  const k=G.slots.find(k=>!t.sl[k]&&slotPos(k)===c.pos);if(k)return k;if(c.pos!=="G"&&G.slots.includes("LIB")&&!t.sl.LIB)return"LIB";return null}
 function maxBid(t){const n=emptySlots(t);return n<=0?-1:t.money-10*(n-1)}
 function canPlace(ti){return !!slotFor(G.teams[ti],cardOf(G.cur.i))}
 function canRaise(ti,inc=10){const t=G.teams[ti];return canPlace(ti)&&!G.cur.out[ti]&&G.cur.price+inc<=maxBid(t)}
@@ -645,7 +659,7 @@ function startGame(s){
   else if(s.allai)teams=shuffle(BOTS.slice(),rnd).slice(0,nai).map(b=>({name:b.n,ai:true,pers:b.pers}));
   else teams=[{name:"Toi",ai:false}].concat(shuffle(BOTS.slice(),rnd).slice(0,nai).map(b=>({name:b.n,ai:true,pers:b.pers})));
   const usable=pack.cards.map((_,i)=>i).filter(i=>{const p=pack.cards[i].pos;return slots.some(k=>slotPos(k)===p)||(p!=="G"&&slots.includes("LIB"))});
-  G={mode:s.mode,setup:s,seed,diff:s.diff||"normal",chaos:s.chaos!==false,daily:s.daily||null,pack:s.pack,format:s.format||"five",formation:s.format==="xi"?(s.formation||"4-3-3"):null,slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
+  G={mode:s.mode,setup:s,seed,diff:s.diff||"normal",chaos:s.chaos!==false,daily:s.daily||null,pack:s.pack,format:s.format||"five",formation:s.format==="xi"?(s.formation||"4-3-3"):null,roles:s.format==="xi"?xiRoles(s.formation||"4-3-3"):null,slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
     order:shuffle(usable,rnd),pos:0,next:0,nPrime:0,
     teams:teams.map((t,i)=>Object.assign(t,{money:fm.budget,sl:{},col:TCOL[i]})),cur:null,phase:"draw"};
   SAY={};if(!SIM)go("game");
@@ -908,7 +922,7 @@ function zoneHTML(ti){const t=G.teams[ti],c=G.cur,auc=G.phase==="auction",my=auc
 function xiPitch(t,ghostCard){const can=ghostCard&&slotFor(t,ghostCard),myst=G.cur&&G.cur.mystery&&G.phase==="auction";
   const pl=k=>{const pk=t.sl[k];
     if(can===k)return`<span class="gp ghost">${jersey(ghostCard,32,myst)}<span class="sn">${myst?"Mystère":esc(lastName(ghostCard.n))}</span><span class="tag">en vente</span></span>`;
-    if(!pk)return`<span class="gp"><span class="ph">${PO(k).s}</span></span>`;
+    if(!pk)return`<span class="gp"><span class="ph" title="${RLBL[slotRole(k)]||""}">${slotRole(k)}</span></span>`;
     const cd=cardOf(pk.i);return`<span class="gp">${jersey(cd,26)}<span class="sn">${esc(lastName(cd.n))}</span><span class="pr">${pk.price}<i class="bill"></i></span></span>`};
   return`<div class="gxp"><span class="box"></span>${[...linesOf()].reverse().map(r=>`<div class="row">${r.map(pl).join("")}</div>`).join("")}</div>`}
 function vGameXI(){
@@ -919,7 +933,7 @@ function vGameXI(){
     :`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="gxturn" style="--tc:${t.col}">${auc?"Au tour de "+esc(t.name):esc(t.name)}<small>${PP(t.money)}</small></span><button class="mini" data-act="rules">Règles</button></div>`;
   let banner;
   if(!card)banner=`<div class="gxb"><span class="tx"><h3>Le mercato ouvre !</h3><small>Un joueur sort à chaque carte. Tu ne mises que s'il te reste une place à son poste.</small></span></div>${drawCtl(solo?undefined:ti,true)}`;
-  else{const pc=POS[card.pos].c,head=`<span class="tx"><span class="tags"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}</span><h3>${myst?"Joueur mystère":esc(card.n)}</h3><small>${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</small></span>`;
+  else{const pc=POS[card.pos].c,head=`<span class="tx"><span class="tags"><span class="pos" style="--pc:${pc}">${myst?POS[card.pos].l:RLBL[roleOf(card)]||POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}</span><h3>${myst?"Joueur mystère":esc(card.n)}</h3><small>${myst?"Club et pays cachés":esc(card.club)+" · "+esc(card.pays)}</small></span>`;
     if(auc){const tt=G.teams[c.turn],me=solo&&c.turn===0;
       banner=`<div class="gxb ${c.golden?"gold":""}">${jersey(card,44,myst)}${head}<span class="board"><span class="price">${c.price||"—"}</span></span></div>
        <div class="gxw"><span style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(solo&&c.leader===0?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</span><span class="turnline" style="--tc:${tt.col}">${me?"À toi de miser":tt.ai?esc(tt.name)+" réfléchit…":"Au tour de "+esc(tt.name)}</span></div>${G.ms?`<div class="timer gxt"><i class="tbar"></i></div>`:""}`}
