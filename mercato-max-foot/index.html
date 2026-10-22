@@ -764,12 +764,13 @@ const NOMCACHE={},NOMALIAS={requin:"lerequin",flambeur:"leflambeur",prudence:"mm
 function nomVoix(t){const N=window.NOMS||{};if(!t)return null;
   if(G&&G.mode==="solo"&&t===G.teams[0])return N.toi?"toi":null;
   const full=nomCle(t.name),al=NOMALIAS[full]||NOMALIAS[full.replace(/^(le|la|les|l|mme|madame|mr|monsieur)/,"")];if(N[full])return full;if(al&&N[al])return al;
-  {const sa=full.replace(/^(le|la|les|l)(?=[a-z])/,"");if(sa!==full&&N[sa])return sa}
-  const k=nomCle((t.name||"").trim().split(/[\s\-_.]+/)[0]);if(!k)return null;if(N[k])return k;
+  {const sa=full.replace(/^(le|la|les|l|ma|mon|mes)(?=[a-z])/,"");if(sa!==full&&N[sa])return sa;if(N["le"+sa])return"le"+sa;if(N["la"+sa])return"la"+sa}
+  const k=nomCle((t.name||"").trim().split(/[\s\-_.]+/)[0]).replace(/[0-9]+$/,"");if(!k)return null;if(N[k])return k;
   if(k in NOMCACHE)return NOMCACHE[k];
   const sk=sonore(k);let best=null,bd=99;
   for(const c in N){if(Math.abs(c.length-k.length)>2)continue;const d=sonore(c)===sk?0:lev(sk,sonore(c));if(d<bd||(d===bd&&c[0]===k[0]&&best[0]!==k[0])){bd=d;best=c}}
-  return NOMCACHE[k]=(best&&bd<=(sk.length<=4?0:sk.length<=6?1:2)&&best[0]===k[0])?best:null}
+  /* Prudent : même première et même dernière lettre (Alexandra ne devient pas Alexandre), un prénom court doit être exact */
+  return NOMCACHE[k]=(best&&bd<=(k.length<=5?0:k.length<=7?1:2)&&best[0]===k[0]&&sonore(best).slice(-1)===sk.slice(-1))?best:null}
 function nomSeg(c){const x=(window.NOMS||{})[c];return x?{src:`voix/noms/${x[0]}.mp3`,seg:[x[1],x[2]]}:null}
 function sayName(lead,t,prio){const c=nomVoix(t),n=c&&nomSeg(c),L=(window.VOIX||{})[lead];if(!n||!L||!L.length)return false;
   return playVoice(`voix/${lead}.mp3`,prio,L[Math.floor(Math.random()*L.length)],n)}
