@@ -1,4 +1,4 @@
-// Génère les voix du commentateur avec ElevenLabs.
+// Génère les voix du commentateur avec ElevenLabs (voix retenue : Paul K, ecxPjiGTvAfpGEams6ec).
 // Usage :  node generer.mjs            -> liste des voix françaises disponibles
 //          ELEVENLABS_API_KEY=... node generer.mjs <voice_id> -> génère tous les fichiers voix/*.mp3
 //          ELEVENLABS_API_KEY=... node generer.mjs <voice_id> echantillon -> 4 phrases pour écouter avant
@@ -13,11 +13,13 @@ if(!voice){
   for(const v of j.voices||[])console.log(v.voice_id,"|",v.name,"|",JSON.stringify(v.labels||{}));
   console.log("\nAstuce : ajoute une voix « commentateur sportif » française depuis la Voice Library, puis relance.");process.exit(0)}
 const P=JSON.parse(fs.readFileSync(dir+"phrases.json","utf8"));delete P._info;
-let jobs=Object.entries(P).flatMap(([k,l])=>l.map((t,i)=>[`${k}_${i+1}`,t]));
+/* Émotion jouée par moment (modèle eleven_v3, balises entre crochets) */
+const TON={mise100:"[excited]",bataille:"[excited]",relance:"[excited]",cher:"[excited]",record:"[shouting]",vol:"[shouting]",adjuge:"[excited]",dernier:"[tense]",secret:"[whispers]",mystere:"[curious]",prime:"[excited]",debut:"[excited]",fin:"[excited]",victoire:"[shouting]",defaite:"[sighs]",egalite:"[surprised]"};
+let jobs=Object.entries(P).flatMap(([k,l])=>l.map((t,i)=>[`${k}_${i+1}`,(TON[k]?TON[k]+" ":"")+t]));
 if(mode==="echantillon")jobs=jobs.filter(([f])=>["mise100_1","vol_1","dernier_2","victoire_1"].includes(f));
 for(const [f,t] of jobs){
-  const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_64`,{method:"POST",headers:H,
-    body:JSON.stringify({text:t,model_id:"eleven_multilingual_v2",voice_settings:{stability:.3,similarity_boost:.8,style:.7,use_speaker_boost:true}})});
+  const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_96`,{method:"POST",headers:H,
+    body:JSON.stringify({text:t,model_id:"eleven_v3",voice_settings:{stability:.3}})});
   if(!r.ok){console.error(f,r.status,await r.text());process.exit(1)}
   fs.writeFileSync(dir+f+".mp3",Buffer.from(await r.arrayBuffer()));console.log("ok",f,"«"+t+"»")}
 fs.writeFileSync(dir+"liste.js","window.VOIX="+JSON.stringify(Object.fromEntries(Object.entries(P).map(([k,l])=>[k,l.length])))+";\n");
