@@ -785,7 +785,7 @@ function roar(big){if(!sfxOk())return;if(big===-1){sfx("ohhh_1",.75);return}if(b
 /* Tic-tac de fin de chrono : sec et bref, comme une trotteuse */
 function tictac(fast){beep(fast?1900:1500,.035,"square",.035);beep(fast?3800:3000,.02,"sine",.02)}
 /* Chants de tribune (sans musique) sur les grosses batailles d'enchères */
-const CHANTS=0;function chant(){if(CHANTS&&!SIM)timers.push(setTimeout(()=>sfx("chant_"+(1+Math.floor(Math.random()*CHANTS)),.45),900))}
+const CHANTS=3;function chant(){if(CHANTS&&!SIM)timers.push(setTimeout(()=>sfx("chant_"+(1+Math.floor(Math.random()*CHANTS)),.45),900))}
 function chip(inc){const n=inc>=100?3:inc>=50?2:1;for(let k=0;k<n;k++)setTimeout(()=>{beep(1250+k*260,.07,"triangle",.11);beep(2500+k*300,.04,"sine",.04)},k*70)}
 const SFX={bid:inc=>chip(inc||10),sold:()=>{beep(520,.09);setTimeout(()=>beep(780,.12),90)},nope:()=>beep(200,.12,"square",.03),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,"triangle"),i*110))};
 function confetti(n=120){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cv=$("#fx"),cx=cv.getContext("2d"),W=cv.width=innerWidth,H=cv.height=innerHeight;
