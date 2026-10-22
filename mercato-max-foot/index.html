@@ -709,7 +709,7 @@ let COMM_T=null,SOLDFX=null;
 const VOICE_RATE=1.45;function voiceRate(a){a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
 /* Chef d'orchestre audio : une seule voix à la fois, par priorité. Une voix plus importante coupe une moins importante ;
    sinon elle attend la fin (file d'une place, oubliée si trop vieille). La foule baisse quand le commentateur parle. */
-const VPRIO={star:9,pour:3,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:3,debut:2};
+const VPRIO={star:9,pour:7,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:7,debut:2};
 let VCUR=null,VQ=null;
 /* Préchargement : les sons sont téléchargés à l'avance et réutilisés, pour partir sans délai */
 const ACACHE={};
@@ -729,7 +729,7 @@ function playVoice(src,prio,seg,after){if(!voiceOk())return false;
     if(prio>=VCUR.prio+3){VCUR.a.pause()}
     else{if(prio>=5&&(!VQ||prio>=VQ.prio))VQ={src,prio,seg,after,at:Date.now()};return true}}
   try{const a=fresh(src);a.volume=.95;voiceRate(a);VCUR={a,prio,until:Date.now()+6000};duck(true);
-    const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;if(after&&voiceOk()){playVoice(after.src,prio,after.seg);return}duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<1500)playVoice(q.src,q.prio,q.seg,q.after)}};
+    const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;if(after&&voiceOk()){playVoice(after.src,prio,after.seg);return}duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<(q.prio>=7?3500:1500))playVoice(q.src,q.prio,q.seg,q.after)}};
     a.onended=a.onerror=end;a.ontimeupdate=null;clearTimeout(a.stopT);
     if(seg){const fin=seg[0]+seg[1]+.1,stop=()=>{if(!a.paused)a.pause();end()};
       const go=()=>{try{a.currentTime=seg[0]}catch(e){}};if(a.readyState>=1)go();else a.addEventListener("loadedmetadata",go,{once:true});
@@ -737,7 +737,7 @@ function playVoice(src,prio,seg,after){if(!voiceOk())return false;
       a.stopT=setTimeout(stop,(seg[1]+.25)/(a.playbackRate||1)*1000+150);
       /* Amorce + prénom (« Recruté par » + « Maxime ! ») : le prénom part juste avant la fin de l'amorce, d'un seul souffle */
       if(after)a.addEventListener("playing",()=>{clearTimeout(a.stopT);a.stopT=setTimeout(stop,Math.max(0,seg[1]/(a.playbackRate||1)*1000-70))},{once:true})}
-    a.play().catch(()=>{VCUR=null;duck(false)});return true}catch(e){return false}}
+    a.play().catch(()=>{if(VCUR&&VCUR.a===a){VCUR=null;duck(false);const q=VQ;VQ=null;if(q)playVoice(q.src,q.prio,q.seg,q.after)}});return true}catch(e){return false}}
 /* Prénoms : le commentateur dit le nom de l'équipe (« Adjugé à… Karim ! »). Prénom tapé absent de la liste :
    on prend le plus proche s'il ressemble vraiment (Kareem → Karim, Yannis → Yanis), sinon pas de nom. */
 function nomCle(n){return(n||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"")}
@@ -991,11 +991,12 @@ function sell(){
       if(G.draft){if(card.p>=88)setTimeout(()=>roar(2),250)}
       else if(c.price>=150||(c.price<=20&&card.p>=88&&!c.mystery)){roar(true);flashes(c.price>=150?18:12)}else if(c.price>=80)setTimeout(()=>roar(2),250);buzz([30,40,60]);
       {const pl=lastName(card.n),who=nmS(t);
-       /* Le commentateur parle une vente sur deux (toujours pour un record ou un vol) ; le texte va dans l'annonce de vente, pas dans un 2e bandeau */
+       /* Le commentateur parle à chaque vente ; le texte va dans l'annonce de vente, pas dans un 2e bandeau */
        let k="adjuge",tag="";
        if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
        else if(!G.draft&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
-       G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;if(k!=="adjuge")voice(k);else if(G.nSold%2&&!sayName("pour",t,3))voice(k)}}}
+       G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;/* Le nom de l'équipe est dit à chaque vente : « Recruté par Karim ! », ou « Transfert record ! Karim ! » */
+       if(!sayName(k==="adjuge"?"pour":k,t,7))voice(k)}}}
   else if(!SIM){roar(-1);voice("personne")}
   if(!SIM)render();
 }
