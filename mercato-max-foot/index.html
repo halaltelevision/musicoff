@@ -750,7 +750,10 @@ function toast(m,top){if(SIM)return;const t=$("#toast");t.textContent=m;t.hidden
 function sheet(h){$("#layer").innerHTML=`<div class="wrap" data-close="1"><div class="sheet" role="dialog" aria-modal="true">${h}</div></div>`}
 function closeSheet(){$("#layer").innerHTML=""}
 function buzz(ms){if(typeof G!=="undefined"&&G&&G.mode==="amis")return;try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
-let AC=null;function beep(f=600,d=.08,type="sine",v=.05){if(SIM||P.sound===false)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
+let AC=null;
+/* Débloque le son du téléphone au premier toucher (sinon les petits sons restent muets sur mobile) */
+document.addEventListener("pointerdown",()=>{try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume()}catch(e){}},{capture:true});
+function beep(f=600,d=.08,type="sine",v=.05){if(SIM||P.sound===false)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=Math.min(.3,v*2.5);/* remis au niveau des voix et bruitages */o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
 /* ===== Sons de stade (synthétisés, pas de fichier) : foule en fond, marteau à chaque vente, sifflet, ovation ===== */
 const STADE={crowd:null};
 function acx(){if(SIM||P.sound===false)return null;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();return AC}catch(e){return null}}
@@ -773,7 +776,9 @@ function whistle(){if(sfx("sifflet",.7))return;const a=acx();if(!a)return;[0,.42
   o.connect(g);g.connect(a.destination);o.start(t);v.start(t);o.stop(t+.7);v.stop(t+.7)})}
 function roar(big){if(P.crowd===false)return;if(big===-1){sfx("ohhh_1",.75);return}if(big===2){sfx("applaus",.6);return}if(sfx(big?"foule_"+(1+(Math.random()<.5)):"clameur_"+(1+(Math.random()<.5)),big?.75:.6))return;const a=acx();if(!a)return;const t=a.currentTime,n=a.createBufferSource();n.buffer=noiseBuf(a,2.6);const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=big?700:420;bp.Q.value=.5;
   const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(big?.32:.12,t+.35);g.gain.exponentialRampToValueAtTime(.001,t+2.5);n.connect(bp);bp.connect(g);g.connect(a.destination);n.start(t)}
-const SFX={bid:()=>beep(720,.06,"triangle"),sold:()=>{beep(520,.09);setTimeout(()=>beep(780,.12),90)},nope:()=>beep(200,.12,"square",.03),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,"triangle"),i*110))};
+/* Mise : petit bruit de jeton, plus riche pour +50 et +100 */
+function chip(inc){const n=inc>=100?3:inc>=50?2:1;for(let k=0;k<n;k++)setTimeout(()=>{beep(1250+k*260,.07,"triangle",.11);beep(2500+k*300,.04,"sine",.04)},k*70)}
+const SFX={bid:inc=>chip(inc||10),sold:()=>{beep(520,.09);setTimeout(()=>beep(780,.12),90)},nope:()=>beep(200,.12,"square",.03),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,"triangle"),i*110))};
 function confetti(n=120){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cv=$("#fx"),cx=cv.getContext("2d"),W=cv.width=innerWidth,H=cv.height=innerHeight;
   const cols=["#FF3B5C","#2D7BFF","#FFB400","#00B874","#8B5CF6"],ps=Array.from({length:n},()=>({x:W/2+(Math.random()-.5)*80,y:H*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*12-4,r:Math.random()*6,vr:(Math.random()-.5)*.4,s:6+Math.random()*6,c:pick(cols)}));
   let f=0;(function fr(){cx.clearRect(0,0,W,H);ps.forEach(p=>{p.vy+=.33;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);cx.restore()});if(++f<110)requestAnimationFrame(fr);else cx.clearRect(0,0,W,H)})()}
@@ -913,7 +918,7 @@ function raise(ti,inc){
   if(!G||G.phase!=="auction"||G.cur.turn!==ti)return;
   const t=G.teams[ti];
   if(!canRaise(ti,inc)){if(!t.ai){SFX.nope();const n=emptySlots(t);toast(`${G.mode==="solo"?"Tu peux":t.name+" peut"} miser jusqu'à ${PT(Math.max(0,maxBid(t)))} : il faut garder 10 par place encore vide${n>1?" ("+(n-1)+" autre"+(n>2?"s":"")+")":""}.`)}return}
-  const prevLead=G.cur.leader;G.cur.price+=inc;G.cur.leader=ti;G.cur.nr=(G.cur.nr||0)+1;SFX.bid();if(!t.ai)buzz(15);else if(Math.random()<.25&&!screenBusy())say(ti,"bid");
+  const prevLead=G.cur.leader;G.cur.price+=inc;G.cur.leader=ti;G.cur.nr=(G.cur.nr||0)+1;SFX.bid(inc);if(!t.ai)buzz(15);else if(Math.random()<.25&&!screenBusy())say(ti,"bid");
   if(!SIM){const c=G.cur,pl=lastName(cardOf(c.i).n),amis=G.mode==="amis";
     if(inc===100){comm(pick2([`${nmS(t)} frappe fort : +100 !`,`Coup de massue : +100 pour ${pl} !`]),true,"mise100");roar(false)}
     else if(c.nr===4&&!c.saidB){c.saidB=1;comm(pick2([`Bataille pour ${pl} !`,`Ça chauffe autour de ${pl} !`]),false,"bataille")}
