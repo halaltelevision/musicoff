@@ -171,6 +171,7 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .soldfx.other{background:rgba(5,10,24,.72);pointer-events:none}.soldfx.other b{font-size:30px;color:var(--tc)}
 .soldfx.full{position:fixed;z-index:68;border-radius:0}
 .sfx{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;animation:sfxpop .5s cubic-bezier(.2,1.6,.4,1) both}
+.sfx .stag{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#0A1430;background:var(--yellow);border-radius:5px;padding:2px 10px;margin-bottom:6px;box-shadow:0 0 18px -2px var(--yellow)}
 .sfx .jer{filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));margin-bottom:4px}
 .sfx .sk{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase;color:#fff;line-height:1}
 .sfx b{font-family:var(--display);font-weight:800;font-size:42px;text-transform:uppercase;color:#fff;line-height:.95;text-shadow:0 3px 0 rgba(0,0,0,.25)}
@@ -734,7 +735,12 @@ function hush(){VQ=null;if(VCUR){try{VCUR.a.pause()}catch(e){}VCUR=null}SFXA.for
 function lights(on){let l=$("#lights");if(on&&!l){l=document.createElement("div");l.id="lights";l.innerHTML="<i></i><i></i>";document.body.prepend(l)}if(l)l.classList.toggle("on",!!on)}
 function flashes(n=14){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;for(let k=0;k<n;k++)setTimeout(()=>{const f=document.createElement("span");f.className="pflash";
   f.style.left=(4+Math.random()*92)+"vw";f.style.top=(2+Math.random()*30)+"vh";document.body.appendChild(f);setTimeout(()=>f.remove(),450)},Math.random()*900)}
-function comm(txt,hot,vk){if(SIM||!txt)return;voice(vk);let el=$("#comm");if(!el){el=document.createElement("div");el.id="comm";document.body.appendChild(el)}
+/* Un seul texte à la fois : le bandeau ne s'affiche pas à deux (écran déjà chargé) ni pendant une annonce de vente,
+   un « À toi », une enchère secrète ou un choix de Draft. La voix, elle, part toujours. */
+function screenBusy(){return !!(document.querySelector(".soldfx,.turnflash,.secret,.blast,.prime"))}
+function comm(txt,hot,vk){if(SIM||!txt)return;voice(vk);
+  if(G&&G.mode==="amis"&&G.teams.length===2&&G.format!=="xi")return;
+  if(screenBusy())return;let el=$("#comm");if(!el){el=document.createElement("div");el.id="comm";document.body.appendChild(el)}
   const duo=G&&G.mode==="amis"&&G.teams.length===2&&G.format!=="xi"&&SCREEN==="game";
   el.className=(duo?"duo ":"")+(hot?"hot":"");const one=f=>`<span class="cm ${f}"><i class="live">${hot?"Temps fort":"En direct"}</i><b>${esc(txt)}</b></span>`;el.innerHTML=(duo?one("flip"):"")+one("");
   void el.offsetWidth;el.classList.add("on");clearTimeout(COMM_T);COMM_T=setTimeout(()=>el.classList.remove("on"),2300)}
@@ -907,7 +913,7 @@ function raise(ti,inc){
   if(!G||G.phase!=="auction"||G.cur.turn!==ti)return;
   const t=G.teams[ti];
   if(!canRaise(ti,inc)){if(!t.ai){SFX.nope();const n=emptySlots(t);toast(`${G.mode==="solo"?"Tu peux":t.name+" peut"} miser jusqu'à ${PT(Math.max(0,maxBid(t)))} : il faut garder 10 par place encore vide${n>1?" ("+(n-1)+" autre"+(n>2?"s":"")+")":""}.`)}return}
-  const prevLead=G.cur.leader;G.cur.price+=inc;G.cur.leader=ti;G.cur.nr=(G.cur.nr||0)+1;SFX.bid();if(!t.ai)buzz(15);else if(Math.random()<.5)say(ti,"bid");
+  const prevLead=G.cur.leader;G.cur.price+=inc;G.cur.leader=ti;G.cur.nr=(G.cur.nr||0)+1;SFX.bid();if(!t.ai)buzz(15);else if(Math.random()<.25&&!screenBusy())say(ti,"bid");
   if(!SIM){const c=G.cur,pl=lastName(cardOf(c.i).n),amis=G.mode==="amis";
     if(inc===100){comm(pick2([`${nmS(t)} frappe fort : +100 !`,`Coup de massue : +100 pour ${pl} !`]),true,"mise100");roar(false)}
     else if(c.nr===4&&!c.saidB){c.saidB=1;comm(pick2([`Bataille pour ${pl} !`,`Ça chauffe autour de ${pl} !`]),false,"bataille")}
@@ -918,7 +924,7 @@ function raise(ti,inc){
 function pass(ti){
   if(!G||G.phase!=="auction"||G.cur.turn!==ti)return;
   if(G.cur.leader<0&&canRaise(ti,10)){if(!G.teams[ti].ai){SFX.nope();toast("Personne n'a encore misé : la première mise est obligatoire.")}return}
-  G.cur.out[ti]=1;if(G.teams[ti].ai&&Math.random()<.6)say(ti,"out");
+  G.cur.out[ti]=1;if(G.teams[ti].ai&&Math.random()<.3)say(ti,"out");
   setTurn(ti,false);if(!SIM&&G.phase==="auction")render();
 }
 function aiTurn(ti){
@@ -935,16 +941,17 @@ function aiTurn(ti){
     raise(ti,inc)}else pass(ti);
 }
 function sell(){
-  stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;
+  stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;SAY={};
   if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
     if(!SIM){SOLDFX={ti:c.leader,i:c.i,price:c.price};hammer();
       if(G.draft){if(card.p>=88)setTimeout(()=>roar(2),250)}
       else if(c.price>=150||(c.price<=20&&card.p>=88&&!c.mystery)){roar(true);flashes(c.price>=150?18:12)}else if(c.price>=80)setTimeout(()=>roar(2),250);buzz([30,40,60]);
       {const pl=lastName(card.n),who=nmS(t);
-       if(G.draft){}
-       else if(c.price>=150)comm(pick2([`Transfert record : ${pl} pour ${c.price} !`,`${who} casse la tirelire pour ${pl} !`]),true,"record");
-       else if(c.price<=20&&card.p>=88&&!c.mystery)comm(pick2([`Hold-up ! ${pl} pour ${c.price} seulement !`,`Le vol du siècle : ${pl} à ${c.price} !`]),true,"vol");
-       else if(G.mode==="amis"&&Math.random()<.45)comm(pick2([`${who} s'offre ${pl} !`,`${pl} signe chez ${who} !`,`Adjugé à ${who} !`]),false,"adjuge")}if(t.ai&&Math.random()<.5)say(c.leader,"win")}}
+       /* Le commentateur parle à chaque vente (rythme régulier) ; le texte va dans l'annonce de vente, pas dans un 2e bandeau */
+       let k="adjuge",tag="";
+       if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
+       else if(!G.draft&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
+       SOLDFX.tag=tag;voice(k)}}}
   if(!SIM)render();
 }
 function startLoop(){stopLoop();loopT=setInterval(tick,200)}
@@ -994,8 +1001,9 @@ function render(){
   /* Vente : gros « Recruté par … » à la couleur du gagnant, sur sa moitié à deux, sinon au centre */
   if(SCREEN==="game"&&G&&G.phase==="sold"&&SOLDFX){const x=SOLDFX;SOLDFX=null;const t=G.teams[x.ti],cd=cardOf(x.i),me=G.mode==="solo"&&x.ti===0;
     const duo=G.mode==="amis"&&G.teams.length===2&&G.format!=="xi",host=duo?$$(".duo .half")[x.ti===1?0:1]:document.body;
+    {const cm=$("#comm");if(cm)cm.classList.remove("on")}
     if(host){const f=document.createElement("div");f.className="soldfx"+(duo?"":" full");f.style.setProperty("--tc",t.col);
-      f.innerHTML=`<div class="sfx">${jersey(cd,58,G.cur&&G.cur.mystery)}<span class="sk">${me?"Recruté par toi !":"Recruté par"}</span>${me?"":`<b>${esc(t.name)} !</b>`}<span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;
+      f.innerHTML=`<div class="sfx">${x.tag?`<span class="stag">${x.tag}</span>`:""}${jersey(cd,58,G.cur&&G.cur.mystery)}<span class="sk">${me?"Recruté par toi !":"Recruté par"}</span>${me?"":`<b>${esc(t.name)} !</b>`}<span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;
       f.addEventListener("click",()=>f.remove());host.appendChild(f);setTimeout(()=>f.remove(),1600)}
     if(duo){const oh=$$(".duo .half")[x.ti===1?1:0];if(oh){const g=document.createElement("div");g.className="soldfx other";g.style.setProperty("--tc",t.col);
       g.innerHTML=`<div class="sfx"><b>${esc(t.name)}</b><span class="sk">l'a eu</span><span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;oh.appendChild(g);setTimeout(()=>g.remove(),1600)}}
@@ -1003,7 +1011,7 @@ function render(){
   /* Entre amis : grand « À toi ! » quand le tour change de joueur */
   if(SCREEN==="game"&&G&&G.mode==="amis"&&G.phase==="auction"){const ti=G.cur.turn,key=G.pos+"-"+ti;
     if(key!==render.lastTurn&&ti>=0){const prev=render.lastTurn;render.lastTurn=key;
-      if(prev&&prev.split("-")[1]!==String(ti)){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
+      if(prev&&prev.split("-")[1]!==String(ti)&&!document.querySelector(".soldfx")){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
         if(host){const f=document.createElement("div");f.className="turnflash";f.style.setProperty("--tc",G.teams[ti].col);f.innerHTML=`<b>À toi,</b><span>${esc(G.teams[ti].name)} !</span>`;host.appendChild(f);setTimeout(()=>f.remove(),1100)}
         beep(660,.07,"sine",.04)}}}
   crowdOff();lights(SCREEN==="game");if(SCREEN==="game")preloadAudio();
