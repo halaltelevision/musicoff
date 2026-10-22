@@ -708,7 +708,7 @@ let COMM_T=null,SOLDFX=null;
 const VOICE_RATE=1.45;function voiceRate(a){a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
 /* Chef d'orchestre audio : une seule voix à la fois, par priorité. Une voix plus importante coupe une moins importante ;
    sinon elle attend la fin (file d'une place, oubliée si trop vieille). La foule baisse quand le commentateur parle. */
-const VPRIO={star:9,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:3,debut:2};
+const VPRIO={star:9,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:3,debut:2};
 let VCUR=null,VQ=null;
 /* Préchargement : les sons sont téléchargés à l'avance et réutilisés, pour partir sans délai */
 const ACACHE={};
@@ -717,7 +717,7 @@ function fresh(src){for(const key of [src,src+"#2"]){const a=getAudio(key===src?
 function sfxOk(){return P.sound!==false&&P.crowd!==false}
 function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>`}
 function preloadAudio(){if(SIM||(!sfxOk()&&P.voice===false)||preloadAudio.done)return;preloadAudio.done=1;
-  ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus"].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
+  ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus",...Array.from({length:CHANTS},(_,i)=>"chant_"+(i+1))].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
   Object.entries(window.VOIX||{}).forEach(([k,n])=>{for(let i=1;i<=n;i++)getAudio(`voix/${k}_${i}.mp3`)})}
 function preloadStars(){if(SIM||!G||P.voice===false)return;G.order.slice(G.pos,G.pos+3).forEach(i=>{const f=(window.VOIX_STARS||{})[cardOf(i).n];if(f)getAudio(`voix/stars/${f}.mp3`)})}
 function voiceOk(){return!(SIM||P.voice===false||PAUSED)}
@@ -770,7 +770,7 @@ function crowdOn(){const a=acx();if(!a||STADE.crowd)return;
   src.connect(bp);bp.connect(g);g.connect(a.destination);src.start();lfo.start();STADE.crowd={src,g,lfo}}
 function crowdOff(){const c=STADE.crowd;if(!c)return;STADE.crowd=null;try{c.g.gain.cancelScheduledValues(AC.currentTime);c.g.gain.setTargetAtTime(0,AC.currentTime,.3);setTimeout(()=>{c.src.stop();c.lfo.stop()},1200)}catch(e){}}
 /* Vrais bruitages (voix/sfx) ; les sons synthétisés servent de secours */
-const SFXA=[];function sfx(name,vol=.8){if(SIM||!sfxOk()||PAUSED)return false;try{const a=fresh(`voix/sfx/${name}.mp3`);a.onended=null;a.base=vol;a.volume=VCUR&&/foule|clameur|applaus|ohhh/.test(name)?vol*.35:vol;a.crowd=/foule|clameur|applaus|ohhh/.test(name);
+const SFXA=[];function sfx(name,vol=.8){if(SIM||!sfxOk()||PAUSED)return false;try{const a=fresh(`voix/sfx/${name}.mp3`);a.onended=null;a.base=vol;a.volume=VCUR&&/foule|clameur|applaus|ohhh|chant/.test(name)?vol*.35:vol;a.crowd=/foule|clameur|applaus|ohhh|chant/.test(name);
   SFXA.push(a);a.onended=()=>{const i=SFXA.indexOf(a);if(i>=0)SFXA.splice(i,1)};a.play().catch(()=>{});return true}catch(e){return false}}
 function duck(on){SFXA.forEach(a=>{if(a.crowd)a.volume=on?a.base*.35:a.base})}
 function hammer(){if(sfx("marteau_"+(1+(Math.random()<.5)),.9))return;SFX.sold();const a=acx();if(!a)return;const t=a.currentTime;
@@ -782,6 +782,10 @@ function whistle(){if(sfx("sifflet",.7))return;const a=acx();if(!a)return;[0,.42
 function roar(big){if(!sfxOk())return;if(big===-1){sfx("ohhh_1",.75);return}if(big===2){sfx("applaus",.6);return}if(sfx(big?"foule_"+(1+(Math.random()<.5)):"clameur_"+(1+(Math.random()<.5)),big?.75:.6))return;const a=acx();if(!a)return;const t=a.currentTime,n=a.createBufferSource();n.buffer=noiseBuf(a,2.6);const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=big?700:420;bp.Q.value=.5;
   const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(big?.32:.12,t+.35);g.gain.exponentialRampToValueAtTime(.001,t+2.5);n.connect(bp);bp.connect(g);g.connect(a.destination);n.start(t)}
 /* Mise : petit bruit de jeton, plus riche pour +50 et +100 */
+/* Tic-tac de fin de chrono : sec et bref, comme une trotteuse */
+function tictac(fast){beep(fast?1900:1500,.035,"square",.035);beep(fast?3800:3000,.02,"sine",.02)}
+/* Chants de tribune (sans musique) sur les grosses batailles d'enchères */
+const CHANTS=0;function chant(){if(CHANTS&&!SIM)timers.push(setTimeout(()=>sfx("chant_"+(1+Math.floor(Math.random()*CHANTS)),.45),900))}
 function chip(inc){const n=inc>=100?3:inc>=50?2:1;for(let k=0;k<n;k++)setTimeout(()=>{beep(1250+k*260,.07,"triangle",.11);beep(2500+k*300,.04,"sine",.04)},k*70)}
 const SFX={bid:inc=>chip(inc||10),sold:()=>{beep(520,.09);setTimeout(()=>beep(780,.12),90)},nope:()=>beep(200,.12,"square",.03),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,"triangle"),i*110))};
 function confetti(n=120){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cv=$("#fx"),cx=cv.getContext("2d"),W=cv.width=innerWidth,H=cv.height=innerHeight;
@@ -926,7 +930,7 @@ function raise(ti,inc){
   const prevLead=G.cur.leader;G.cur.price+=inc;G.cur.leader=ti;G.cur.nr=(G.cur.nr||0)+1;SFX.bid(inc);if(!t.ai)buzz(15);else if(Math.random()<.25&&!screenBusy())say(ti,"bid");
   if(!SIM){const c=G.cur,pl=lastName(cardOf(c.i).n),amis=G.mode==="amis";
     if(inc===100){comm(pick2([`${nmS(t)} frappe fort : +100 !`,`Coup de massue : +100 pour ${pl} !`]),true,"mise100");roar(false)}
-    else if(c.nr===4&&!c.saidB){c.saidB=1;comm(pick2([`Bataille pour ${pl} !`,`Ça chauffe autour de ${pl} !`]),false,"bataille")}
+    else if(c.nr===4&&!c.saidB){c.saidB=1;comm(pick2([`Bataille pour ${pl} !`,`Ça chauffe autour de ${pl} !`]),false,"bataille");chant()}
     else if(c.price>=150&&!c.saidP){c.saidP=1;comm(`${pl} dépasse les ${Math.floor(c.price/50)*50} billets !`,true,"cher");roar(false)}
     else if(amis&&prevLead>=0&&prevLead!==ti&&Math.random()<.25)comm(pick2([`${t.name} relance !`,`${t.name} ne lâche rien !`,`Duel entre ${G.teams[prevLead].name} et ${t.name} !`]),false,"relance")}
   setTurn(ti,false);if(!SIM&&G.phase==="auction")render();
@@ -957,11 +961,12 @@ function sell(){
       if(G.draft){if(card.p>=88)setTimeout(()=>roar(2),250)}
       else if(c.price>=150||(c.price<=20&&card.p>=88&&!c.mystery)){roar(true);flashes(c.price>=150?18:12)}else if(c.price>=80)setTimeout(()=>roar(2),250);buzz([30,40,60]);
       {const pl=lastName(card.n),who=nmS(t);
-       /* Le commentateur parle à chaque vente (rythme régulier) ; le texte va dans l'annonce de vente, pas dans un 2e bandeau */
+       /* Le commentateur parle une vente sur deux (toujours pour un record ou un vol) ; le texte va dans l'annonce de vente, pas dans un 2e bandeau */
        let k="adjuge",tag="";
        if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
        else if(!G.draft&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
-       SOLDFX.tag=tag;voice(k)}}}
+       G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;if(k!=="adjuge"||G.nSold%2)voice(k)}}}
+  else if(!SIM){roar(-1);voice("personne")}
   if(!SIM)render();
 }
 function startLoop(){stopLoop();loopT=setInterval(tick,200)}
@@ -973,6 +978,7 @@ function tick(){
   if(c.turnEnd){const rem=c.turnEnd-now;
     $$(".tbar").forEach(b=>{b.style.width=Math.max(0,Math.min(100,rem/G.ms*100))+"%";b.className="tbar "+(rem<5000?"hurry":rem<10000?"warn":"")});
     $$(".call").forEach(cl=>cl.textContent=rem<5000?`Plus que ${Math.ceil(rem/1000)} s !`:"");
+    if(rem<5000&&rem>0&&!G.teams[c.turn].ai){const q=Math.ceil(rem/(rem<2000?400:1000));if(q!==c.tk){c.tk=q;tictac(rem<2000)}}
     if(rem<=0&&!G.teams[c.turn].ai){const nm=G.teams[c.turn].name;if(c.leader<0&&canRaise(c.turn,10)){toast(`Temps écoulé : ${nm} mise 10`);raise(c.turn,10)}else{toast(`Temps écoulé : ${nm} passe`);pass(c.turn)}return}}
   let ch=false;for(const k in SAY)if(SAY[k].until<now){delete SAY[k];ch=true}
   if(ch){const z=$("#tiles");if(z)z.innerHTML=tilesInner()}
@@ -1273,7 +1279,7 @@ let SKIP=null;
 /* Révélation ligne par ligne (gardiens, défense, milieu, attaque…) avec qui mène, puis l'annonce du gagnant */
 const LINE_L={G:"Les gardiens",DEF:"La défense",MIL:"Le milieu",ATT:"L'attaque",LIB:"La place libre"};
 function playReveal(){
-  const many=G.teams.length>2,tv=G.teams.length===2,L=linesOf(),tot=G.teams.map(()=>0);let step=0,shown=0,fast=false;
+  const many=G.teams.length>2,tv=G.teams.length===2,L=linesOf(),tot=G.teams.map(()=>0);let step=0,shown=0,fast=false,prevLd=-1;
   const later=(f,ms)=>{if(fast)f();else timers.push(setTimeout(f,ms))};
   SKIP=()=>{if(fast)return;fast=true;timers.forEach(clearTimeout);timers=[];next()};
   const nm=t=>G.mode==="solo"&&t===G.teams[0]?"Toi":t.name.replace(/^(Le |Mme )/,"");
@@ -1282,9 +1288,12 @@ function playReveal(){
     if(step<L.length){const line=L[step++],part=G.teams.map(t=>line.reduce((a,k)=>a+(t.sl[k]?force(t.sl[k]):0),0));shown+=line.length;
       G.teams.forEach((t,ti)=>{tot[ti]+=part[ti];if(!tv)$("#pt"+ti).innerHTML=pitchHTML(t,{reveal:shown,small:many});$("#tot"+ti).textContent=tot[ti]});
       if(tv)$("#tvin").innerHTML=tvPitchInner(shown);
-      if(!fast&&w){const best=Math.max(...tot),lead=G.teams.filter((_,i)=>tot[i]===best),pb=Math.max(...part),pw=G.teams.filter((_,i)=>part[i]===pb);
+      if(!fast&&w){const best=Math.max(...tot),lead=G.teams.filter((_,i)=>tot[i]===best),ld=lead.length>1?-1:G.teams.indexOf(lead[0]);
+        if(step>1&&ld>=0&&prevLd>=0&&ld!==prevLd){roar(false);voice("remontada")}
+        else if(step===L.length-1&&G.winner>=0&&Math.abs(G.teams[0].score.total-(G.teams[1]||{score:{total:0}}).score.total)<=5&&G.teams.length===2)voice("serre");
+        prevLd=ld;const pb=Math.max(...part),pw=G.teams.filter((_,i)=>part[i]===pb);
         w.innerHTML=`<span class="rvl"><b>${LINE_L[slotPos(line[0])]}</b> · ${tv?`${part[0]} – ${part[1]}`:`${esc(pw.length>1?"égalité":nm(pw[0]))} ${pw.length>1?"":"la gagne"}`}</span><span class="rvm">${lead.length>1?"Égalité au total":G.mode==="solo"&&lead[0]===G.teams[0]?"Tu mènes":esc(nm(lead[0]))+" mène"} · ${best} pts</span>`;
-        w.classList.add("on","live");beep(420+step*90,.09,"triangle");if(!tv&&!many);}
+        w.classList.add("on","live")}
       later(next,1500);return}
     G.teams.forEach((t,ti)=>{$("#tot"+ti).textContent=t.score.total});
     w.classList.remove("live");
@@ -1313,13 +1322,13 @@ function winBlast(){
   el.innerHTML=`<div class="bx"><small>${G.winner<0?"Fin du match":iWin?"Victoire":"Défaite"}</small><b>${esc(txt)}</b>${sc}<span class="gap">${G.winner<0?"Même score, même argent gardé":G.tieMoney?"À égalité de points, avec plus d'argent gardé":"+"+gap+" point"+(gap>1?"s":"")+" d'écart"}</span></div>`;
   document.body.appendChild(el);const scr=$(".res");if(scr){scr.classList.remove("shake");void scr.offsetWidth;scr.classList.add("shake")}
   roar(iWin?true:G.mode==="solo"?-1:true);setTimeout(()=>voice(G.winner<0?"egalite":G.mode==="solo"&&!iWin?"defaite":"victoire"),600);
-  if(iWin){SFX.win();confetti(160);flashes(24);if(me)buzz([40,60,40])}else beep(300,.25);
+  if(iWin){confetti(160);flashes(24);if(me)buzz([40,60,40])}
   let done=false;const close=()=>{if(done)return;done=true;el.classList.add("out");setTimeout(()=>el.remove(),450);showRewards()};
   el.addEventListener("click",close);timers.push(setTimeout(close,2600));
 }
 function primeFx(ti){const t=G.teams[ti],me=G.mode==="solo"&&ti===0;voice("prime");
   const el=document.createElement("div");el.className="prime";el.innerHTML=`<div class="pbox"><span class="lbl">Prime surprise</span><b>+${PP(G.primeAmt)}</b><span class="pw">${me?"pour toi !":"pour "+esc(t.name)}</span><small class="mute">Un cadeau rare : ça n'arrive pas à chaque partie</small></div>`;
-  el.addEventListener("click",()=>el.remove());document.body.appendChild(el);setTimeout(()=>{SFX.win();confetti(90)},250);buzz([30,40,30]);setTimeout(()=>el.remove(),2600)}
+  el.addEventListener("click",()=>el.remove());document.body.appendChild(el);setTimeout(()=>{roar(2);confetti(90)},250);buzz([30,40,30]);setTimeout(()=>el.remove(),2600)}
 /* ===================== Feuilles ===================== */
 function fmtRule(g){const f=g.format||"five";
   if(f==="xi"){const [d,m,a]=FORMATIONS[g.formation]||FORMATIONS["4-3-3"];return`Chacun a ${PP(1000)} pour recruter un <b>XI de légende</b> en ${g.formation||"4-3-3"} : 1 gardien, ${d} défenseurs, ${m} milieux et ${a} attaquant${a>1?"s":""}.`}

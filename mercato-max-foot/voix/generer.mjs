@@ -13,13 +13,13 @@ if(!voice){
   for(const v of j.voices||[])console.log(v.voice_id,"|",v.name,"|",JSON.stringify(v.labels||{}));
   console.log("\nAstuce : ajoute une voix « commentateur sportif » française depuis la Voice Library, puis relance.");process.exit(0)}
 const P=JSON.parse(fs.readFileSync(dir+"phrases.json","utf8"));delete P._info;
-/* Émotion jouée par moment (modèle eleven_v3, balises entre crochets) */
-const TON={mise100:"[excited]",bataille:"[excited]",relance:"[excited]",cher:"[excited]",record:"[shouting]",vol:"[shouting]",adjuge:"[excited]",dernier:"[tense]",secret:"[whispers]",mystere:"[curious]",prime:"[excited]",debut:"[excited]",fin:"[excited]",victoire:"[shouting]",defaite:"[sighs]",egalite:"[surprised]"};
+/* Ton « commentateur de Ligue 1 » : stabilité 0 (le plus expressif) ; émotion jouée par moment (modèle eleven_v3, balises entre crochets) */
+const TON={mise100:"[shouting]",bataille:"[excited] [fast]",relance:"[excited]",cher:"[excited]",record:"[shouting]",vol:"[shouting]",adjuge:"[excited]",dernier:"[tense]",secret:"[whispers]",mystere:"[intrigued]",prime:"[excited]",debut:"[excited] [shouting]",fin:"[excited]",victoire:"[shouting]",defaite:"[sighs]",egalite:"[surprised] [shouting]",personne:"[surprised]",remontada:"[shouting]",serre:"[tense] [excited]"};
 let jobs=Object.entries(P).flatMap(([k,l])=>l.map((t,i)=>[`${k}_${i+1}`,(TON[k]?TON[k]+" ":"")+t]));
 if(mode==="echantillon")jobs=jobs.filter(([f])=>["mise100_1","vol_1","dernier_2","victoire_1"].includes(f));
 for(const [f,t] of jobs){
   const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_96`,{method:"POST",headers:H,
-    body:JSON.stringify({text:t,model_id:"eleven_v3",voice_settings:{stability:.3}})});
+    body:JSON.stringify({text:t,model_id:"eleven_v3",voice_settings:{stability:0}})});
   if(!r.ok){console.error(f,r.status,await r.text());process.exit(1)}
   fs.writeFileSync(dir+f+".mp3",Buffer.from(await r.arrayBuffer()));console.log("ok",f,"«"+t+"»")}
 fs.writeFileSync(dir+"liste.js","window.VOIX="+JSON.stringify(Object.fromEntries(Object.entries(P).map(([k,l])=>[k,l.length])))+";\n");

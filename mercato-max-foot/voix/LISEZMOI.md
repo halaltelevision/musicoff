@@ -12,3 +12,9 @@ il reste silencieux et le réglage « Voix du commentateur » affiche « Bientô
    française de commentateur sportif depuis la Voice Library du site).
 3. `node voix/generer.mjs <voice_id> echantillon` : 4 phrases pour écouter.
 4. `node voix/generer.mjs <voice_id>` : génère tout et met à jour `liste.js`.
+
+## Bruitages de stade
+
+`python3 voix/sfx/generer-sfx.py` génère foule, clameurs, « ohhh », applaudissements et
+chants de tribune (`chant_1..3`, jamais de musique) en `*_brut.mp3`. Ensuite on normalise
+(`ffmpeg -i x_brut.mp3 -af loudnorm=I=-22 x.mp3`) et on met `CHANTS` à 3 dans `index.html`.

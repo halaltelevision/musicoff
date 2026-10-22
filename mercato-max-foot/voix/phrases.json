@@ -1,19 +1,141 @@
 {
-  "_info": "Phrases du commentateur. Clé = moment du jeu ; chaque phrase devient voix/<clé>_<n>.mp3. Sans nom de joueur pour pouvoir être enregistrées une fois pour toutes.",
-  "mise100":   ["Coup de massue !", "Et il met cent d'un coup !", "Énorme relance !"],
-  "bataille":  ["Quelle bataille !", "Ça chauffe, ça chauffe !", "Personne ne veut lâcher !"],
-  "relance":   ["Il relance !", "Il ne lâche rien !", "Et ça repart !"],
-  "cher":      ["Les prix s'envolent !", "On dépasse les cent cinquante !", "Ça devient très cher !"],
-  "record":    ["Transfert record !", "Il casse la tirelire !", "Quel investissement !"],
-  "vol":       ["Le vol du siècle !", "Hold-up ! Pour trois fois rien !", "Quelle affaire !"],
-  "adjuge":    ["Adjugé !", "Et c'est signé !", "Il rejoint l'équipe !"],
-  "dernier":   ["Attention, c'est le dernier à ce poste !", "Maintenant ou jamais !", "Dernière chance !"],
-  "secret":    ["Enchère secrète ! Une seule mise !", "Silence… enchère secrète !"],
-  "mystere":   ["Carte mystère ! On ne sait pas qui c'est !", "Un joueur mystère… qui va tenter ?"],
-  "prime":     ["Une prime tombe du ciel !", "Cadeau ! Une prime surprise !"],
-  "debut":     ["Bienvenue dans ce mercato ! Que le meilleur gagne !", "Le mercato est ouvert !"],
-  "fin":       ["Et c'est terminé !", "Le mercato est bouclé !"],
-  "victoire":  ["Quelle équipe ! Victoire !", "C'est gagné ! Bravo !", "Champion !"],
-  "defaite":   ["Ce sera pour la revanche !", "Pas cette fois… mais quelle partie !"],
-  "egalite":   ["Égalité parfaite ! Incroyable !"]
+ "_info": "Phrases du commentateur. Clé = moment du jeu ; chaque phrase devient voix/<clé>_<n>.mp3. Sans nom de joueur pour pouvoir être enregistrées une fois pour toutes.",
+ "mise100": [
+  "Coup de massue !",
+  "Et il met cent d'un coup !",
+  "Énorme relance !",
+  "Oh la mise ! Cent d'un coup !",
+  "Il frappe fort, très fort !",
+  "Quelle claque sur la table !"
+ ],
+ "bataille": [
+  "Quelle bataille !",
+  "Ça chauffe, ça chauffe !",
+  "Personne ne veut lâcher !",
+  "C'est un duel au sommet !",
+  "Ça se rend coup pour coup !",
+  "Qui va craquer le premier ?"
+ ],
+ "relance": [
+  "Il relance !",
+  "Il ne lâche rien !",
+  "Et ça repart !",
+  "Encore une relance !",
+  "Il en remet une couche !",
+  "Et on monte encore !"
+ ],
+ "cher": [
+  "Les prix s'envolent !",
+  "On dépasse les cent cinquante !",
+  "Ça devient très cher !",
+  "Ça va coûter une fortune !",
+  "On est dans la folie !",
+  "Les compteurs s'affolent !"
+ ],
+ "record": [
+  "Transfert record !",
+  "Il casse la tirelire !",
+  "Quel investissement !",
+  "Mais quelle somme ! Incroyable !",
+  "C'est le transfert de l'été !",
+  "Il a sorti le chéquier !"
+ ],
+ "vol": [
+  "Le vol du siècle !",
+  "Hold-up ! Pour trois fois rien !",
+  "Quelle affaire !",
+  "Il l'a eu pour une bouchée de pain !",
+  "Mais personne n'a vu le coup venir !",
+  "C'est un cadeau ! Un vrai cadeau !"
+ ],
+ "adjuge": [
+  "Adjugé !",
+  "Et c'est signé !",
+  "Il rejoint l'équipe !",
+  "Une fois, deux fois… adjugé !",
+  "Le contrat est signé !",
+  "Bienvenue au club !"
+ ],
+ "dernier": [
+  "Attention, c'est le dernier à ce poste !",
+  "Maintenant ou jamais !",
+  "Dernière chance !",
+  "C'est le dernier, ne le laissez pas filer !",
+  "Plus d'autre choix derrière !",
+  "Attention, il n'y en aura pas d'autre !"
+ ],
+ "secret": [
+  "Enchère secrète ! Une seule mise !",
+  "Silence… enchère secrète !",
+  "Chacun mise dans son coin… chut !",
+  "Enchère à l'aveugle ! Une seule chance !",
+  "Pas de relance cette fois, une seule mise !"
+ ],
+ "mystere": [
+  "Carte mystère ! On ne sait pas qui c'est !",
+  "Un joueur mystère… qui va tenter ?",
+  "Joueur mystère ! Coup de poker !",
+  "Qui se cache derrière cette carte ?",
+  "Mystère total ! Qui ose ?"
+ ],
+ "prime": [
+  "Une prime tombe du ciel !",
+  "Cadeau ! Une prime surprise !",
+  "Un bonus inattendu !",
+  "De l'argent frais pour le mercato !",
+  "Jackpot ! Une prime !"
+ ],
+ "debut": [
+  "Bienvenue dans ce mercato ! Que le meilleur gagne !",
+  "Le mercato est ouvert !",
+  "Mesdames et messieurs, le mercato commence !",
+  "Les chéquiers sont prêts ? C'est parti !",
+  "Coup d'envoi du mercato !"
+ ],
+ "fin": [
+  "Et c'est terminé !",
+  "Le mercato est bouclé !",
+  "Fin du mercato ! Place au verdict !",
+  "Les équipes sont bouclées ! Voyons qui l'emporte !",
+  "Le marché est fermé !"
+ ],
+ "victoire": [
+  "Quelle équipe ! Victoire !",
+  "C'est gagné ! Bravo !",
+  "Champion !",
+  "Quelle équipe de rêve !",
+  "Le titre est pour vous ! Magnifique !",
+  "Une victoire éclatante !"
+ ],
+ "defaite": [
+  "Ce sera pour la revanche !",
+  "Pas cette fois… mais quelle partie !",
+  "Pas loin ! La prochaine sera la bonne !",
+  "Il faudra revoir le recrutement !",
+  "Défaite, mais on reviendra plus forts !",
+  "Dommage ! Tout se jouera à la revanche !"
+ ],
+ "egalite": [
+  "Égalité parfaite ! Incroyable !",
+  "Impossible de les départager !",
+  "Match nul ! Personne ne lâche !",
+  "Exactement le même score ! Fou !",
+  "Égalité ! Il faudra une revanche !"
+ ],
+ "personne": [
+  "Personne n'en veut ?",
+  "Aucune offre ! Il reste sur le marché !",
+  "Pas preneur ! Incroyable !"
+ ],
+ "remontada": [
+  "Remontada ! Il passe devant !",
+  "Retournement de situation !",
+  "Le classement bascule !",
+  "Changement en tête !"
+ ],
+ "serre": [
+  "Ça se joue à rien !",
+  "C'est très, très serré !",
+  "Tout se joue maintenant !"
+ ]
 }
