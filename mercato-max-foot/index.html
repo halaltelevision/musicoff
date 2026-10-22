@@ -1103,7 +1103,6 @@ function vSetup(){
   if(s.format==="xi"&&fmtMissing(s.pack,xiSlots(s.formation),2)){const ok=Object.keys(FORMATIONS).find(f=>!fmtMissing(s.pack,xiSlots(f),2));if(ok)s.formation=ok}
   return`<div class="screen">
   <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>${solo?"Solo":"Entre amis"}</h2></div>
-  <div class="field"><span class="lbl">Type de partie</span>${seg("kind",[["auction","Enchères","on mise, on bluffe"],["draft","Draft","1 joueur parmi 3"]])}</div>
   <div class="field"><span class="lbl">Format</span><div class="opts">${Object.entries(FORMATS).map(([k,f])=>`<button class="opt" data-act="fmt" data-v="${k}" aria-pressed="${s.format===k}" ${f.on?"":"disabled"}><span class="fm">${Array.from({length:Math.min(f.n,11)},(_,j)=>`<i style="--pc:${j===0?"var(--yellow)":s.format===k?"var(--accent)":"var(--mute)"}"></i>`).join("")}</span><b>${f.l}</b><small>${f.d}</small></button>`).join("")}</div></div>
   ${s.format==="xi"?`<div class="field"><span class="lbl">Formation</span><div class="fmls">${Object.keys(FORMATIONS).map(f=>{const miss=fmtMissing(s.pack,xiSlots(f),2);return`<button class="fml" data-act="formation" data-v="${f}" aria-pressed="${s.formation===f}" ${miss?"disabled":""}>${f}</button>`}).join("")}</div></div>`:""}
   <div class="field"><span class="lbl">Pack · ${Object.keys(PACKS).length} au choix</span>${packBtn(PACKS[s.pack])}</div>
@@ -1715,7 +1714,7 @@ document.addEventListener("click",e=>{
   const w=e.target.closest(".wrap");if(w&&e.target===w&&w.dataset.close){if(PAUSED)resume();else closeSheet();return}
   const b=e.target.closest("[data-act]");if(!b||b.disabled)return;const a=b.dataset.act,v=b.dataset.v;
   if(a==="go")go(v);
-  else if(a==="setup"){SETUP={mode:v,kind:P.kind==="draft"?"draft":"auction",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:PACKS[P.pack]&&packOpen(P.pack)?P.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};OPTOPEN=false;go("setup")}
+  else if(a==="setup"){SETUP={mode:v,kind:"auction",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:PACKS[P.pack]&&packOpen(P.pack)?P.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};OPTOPEN=false;go("setup")}
   else if(a==="packs"){PK_TAB=null;PK_Q="";packsSheet()}
   else if(a==="pktab"){PK_TAB=v;PK_Q="";packsSheet()}
   else if(a==="pickpack"){if(!packOpen(v)){buySheet("pk_"+v);return}SETUP.pack=v;closeSheet();render()}
@@ -1744,13 +1743,13 @@ document.addEventListener("click",e=>{
   else if(a==="resumePause")resume();
   else if(a==="resume"){G=loadGame();if(!G){render();return}rnd=mulberry((G.seed||7)+G.pos*7919);SAY={};SERIES=null;PAUSED=false;
     if(G.phase==="auction"){G.cur.turnEnd=G.ms?Date.now()+G.ms:0;G.cur.aiAt=G.teams[G.cur.turn].ai?Date.now()+1200:0}go("game")}
-  else if(a==="newpack"){SETUP=Object.assign({},G.setup,{seed:undefined,daily:undefined});go("setup");PK_TAB=null;PK_Q="";packsSheet()}
+  else if(a==="newpack"){SETUP=Object.assign({},G.setup,{seed:undefined,daily:undefined,kind:"auction"});go("setup");PK_TAB=null;PK_Q="";packsSheet()}
   else if(a==="skip"){SKIP&&SKIP()}
   else if(a==="chaos"){SETUP.chaos=!SETUP.chaos;render();optsSheet()}
   else if(a==="opts")optsSheet();
   else if(a==="close"){if(PAUSED&&SCREEN==="game")pauseSheet();else closeSheet()}
   else if(a==="quit"){PAUSED=false;stopLoop();saveGame();G=null;go("home")}
-  else if(a==="revanche"){startGame(G.setup)}
+  else if(a==="revanche"){startGame(Object.assign({},G.setup,{kind:"auction"}))}
   else if(a==="share")share();
   else if(a==="daily")startDaily();
   else if(a==="buy")buySheet(v);
