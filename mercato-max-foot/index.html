@@ -167,7 +167,7 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 #comm .cm.flip{align-self:flex-end;margin:0 max(10px,env(safe-area-inset-right,0px)) 0 0;transform:rotate(180deg) translateX(-110%)}#comm.on .cm.flip{transform:rotate(180deg)}
 @keyframes blink{to{visibility:hidden}}
 .soldfx{position:absolute;inset:0;z-index:25;display:grid;place-items:center;border-radius:16px;pointer-events:auto;
- background:radial-gradient(circle,color-mix(in srgb,var(--tc) 70%,#0A1430),color-mix(in srgb,var(--tc) 35%,rgba(5,10,24,.85)) 75%);animation:sfx 1.6s ease-out forwards}
+ background:radial-gradient(circle,color-mix(in srgb,var(--tc) 70%,#0A1430),color-mix(in srgb,var(--tc) 35%,rgba(5,10,24,.85)) 75%);animation:sfx 2.8s ease-out forwards}
 .soldfx.other{background:rgba(5,10,24,.72);pointer-events:none}.soldfx.other b{font-size:30px;color:var(--tc)}
 .soldfx.full{position:fixed;z-index:68;border-radius:0}
 .sfx{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;animation:sfxpop .5s cubic-bezier(.2,1.6,.4,1) both}
@@ -176,7 +176,7 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .sfx .sk{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase;color:#fff;line-height:1}
 .sfx b{font-family:var(--display);font-weight:800;font-size:42px;text-transform:uppercase;color:#fff;line-height:.95;text-shadow:0 3px 0 rgba(0,0,0,.25)}
 .sfx .sp{margin-top:4px;font-family:var(--display);font-weight:700;font-size:15px;text-transform:uppercase;color:#fff;background:rgba(5,10,24,.45);border-radius:6px;padding:2px 10px}
-@keyframes sfx{0%{opacity:0}10%{opacity:1}78%{opacity:1}100%{opacity:0;visibility:hidden}}
+@keyframes sfx{0%{opacity:0}6%{opacity:1}86%{opacity:1}100%{opacity:0;visibility:hidden}}
 @keyframes sfxpop{0%{transform:scale(.4) rotate(-6deg);opacity:0}100%{transform:none;opacity:1}}
 .duo .half{position:relative;transition:opacity .25s,filter .25s}
 .duo .half.wait{opacity:.42;filter:saturate(.45)}
@@ -1026,9 +1026,9 @@ function render(){
     {const cm=$("#comm");if(cm)cm.classList.remove("on")}
     if(host){const f=document.createElement("div");f.className="soldfx"+(duo?"":" full");f.style.setProperty("--tc",t.col);
       f.innerHTML=`<div class="sfx">${x.tag?`<span class="stag">${x.tag}</span>`:""}${jersey(cd,58,G.cur&&G.cur.mystery)}<span class="sk">${me?"Recruté par toi !":"Recruté par"}</span>${me?"":`<b>${esc(t.name)} !</b>`}<span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;
-      f.addEventListener("click",()=>f.remove());host.appendChild(f);setTimeout(()=>f.remove(),1600)}
+      f.addEventListener("click",()=>f.remove());host.appendChild(f);setTimeout(()=>f.remove(),2800)}
     if(duo){const oh=$$(".duo .half")[x.ti===1?1:0];if(oh){const g=document.createElement("div");g.className="soldfx other";g.style.setProperty("--tc",t.col);
-      g.innerHTML=`<div class="sfx"><b>${esc(t.name)}</b><span class="sk">l'a eu</span><span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;oh.appendChild(g);setTimeout(()=>g.remove(),1600)}}
+      g.innerHTML=`<div class="sfx"><b>${esc(t.name)}</b><span class="sk">l'a eu</span><span class="sp">${G.cur&&G.cur.mystery?"Joueur mystère":esc(cd.n)}${G.draft?"":" · "+x.price+" billets"}</span></div>`;oh.appendChild(g);setTimeout(()=>g.remove(),2800)}}
     const sl=$$(".duo .half")[x.ti===1?0:1];if(sl)sl.classList.add("got");}
   /* Entre amis : grand « À toi ! » quand le tour change de joueur */
   if(SCREEN==="game"&&G&&G.mode==="amis"&&G.phase==="auction"){const ti=G.cur.turn,key=G.pos+"-"+ti;
