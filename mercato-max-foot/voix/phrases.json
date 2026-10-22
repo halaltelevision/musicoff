@@ -137,5 +137,20 @@
   "Ça se joue à rien !",
   "C'est très, très serré !",
   "Tout se joue maintenant !"
+ ],
+ "pour": [
+  "Et c'est pour…",
+  "Signé par…",
+  "Adjugé à…"
+ ],
+ "gagnant": [
+  "Et la victoire est pour…",
+  "Le mercato est remporté par…",
+  "Champion du mercato…"
+ ],
+ "atoi": [
+  "À toi…",
+  "À toi de jouer…",
+  "À ton tour…"
  ]
 }

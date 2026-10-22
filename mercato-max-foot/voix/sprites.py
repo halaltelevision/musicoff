@@ -3,6 +3,8 @@
 # Un fichier par moment au lieu d'un par phrase : moins de fichiers à publier et à charger.
 import glob, json, os, re, subprocess, tempfile
 D = os.path.dirname(os.path.abspath(__file__)); GAP = 0.7
+# Silences du début et de la fin coupés (la phrase part tout de suite), volume égalisé
+TRIM = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,loudnorm=I=-16:TP=-1.5"
 def dur(f): return float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f]))
 moments = {}
 for f in glob.glob(os.path.join(D, "phrases", "*.mp3")):
@@ -14,7 +16,7 @@ with tempfile.TemporaryDirectory() as t:
     for k, fs in sorted(moments.items()):
         fs.sort(); segs, parts, pos = [], [], 0.0
         for i, (_, f) in enumerate(fs):
-            w = os.path.join(t, f"{k}{i}.wav"); subprocess.run(["ffmpeg","-loglevel","error","-y","-i",f,"-ar","44100","-ac","1",w], check=True)
+            w = os.path.join(t, f"{k}{i}.wav"); subprocess.run(["ffmpeg","-loglevel","error","-y","-i",f,"-af",TRIM,"-ar","44100","-ac","1",w], check=True)
             d = dur(w); segs.append([round(pos, 3), round(d, 3)]); parts += [w, sil]; pos += d + GAP
         lst = os.path.join(t, k + ".txt"); open(lst, "w").write("".join(f"file '{p}'\n" for p in parts))
         subprocess.run(["ffmpeg","-loglevel","error","-y","-f","concat","-safe","0","-i",lst,"-b:a","96k",os.path.join(D, k + ".mp3")], check=True)

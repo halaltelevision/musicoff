@@ -14,8 +14,10 @@ if(!voice){
   console.log("\nAstuce : ajoute une voix « commentateur sportif » française depuis la Voice Library, puis relance.");process.exit(0)}
 const P=JSON.parse(fs.readFileSync(dir+"phrases.json","utf8"));delete P._info;
 /* Ton « commentateur de Ligue 1 » : stabilité 0 (le plus expressif) ; émotion jouée par moment (modèle eleven_v3, balises entre crochets) */
-const TON={mise100:"[shouting]",bataille:"[excited] [fast]",relance:"[excited]",cher:"[excited]",record:"[shouting]",vol:"[shouting]",adjuge:"[excited]",dernier:"[tense]",secret:"[whispers]",mystere:"[intrigued]",prime:"[excited]",debut:"[excited] [shouting]",fin:"[excited]",victoire:"[shouting]",defaite:"[sighs]",egalite:"[surprised] [shouting]",personne:"[surprised]",remontada:"[shouting]",serre:"[tense] [excited]"};
+const TON={pour:"[excited]",gagnant:"[excited]",atoi:"[excited]",mise100:"[shouting]",bataille:"[excited] [fast]",relance:"[excited]",cher:"[excited]",record:"[shouting]",vol:"[shouting]",adjuge:"[excited]",dernier:"[tense]",secret:"[whispers]",mystere:"[intrigued]",prime:"[excited]",debut:"[excited] [shouting]",fin:"[excited]",victoire:"[shouting]",defaite:"[sighs]",egalite:"[surprised] [shouting]",personne:"[surprised]",remontada:"[shouting]",serre:"[tense] [excited]"};
 let jobs=Object.entries(P).flatMap(([k,l])=>l.map((t,i)=>[`${k}_${i+1}`,(TON[k]?TON[k]+" ":"")+t]));
+/* « seulement=pour,gagnant » : ne régénère que ces moments */
+if(mode&&mode.startsWith("seulement="))jobs=jobs.filter(([f])=>mode.slice(10).split(",").includes(f.replace(/_\d+$/,"")));
 if(mode==="echantillon")jobs=jobs.filter(([f])=>["mise100_1","vol_1","dernier_2","victoire_1"].includes(f));
 for(const [f,t] of jobs){
   const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_96`,{method:"POST",headers:H,

@@ -606,6 +606,7 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 <script src="roles.js"></script>
 <script src="voix/liste.js"></script>
 <script src="voix/stars.js"></script>
+<script src="voix/noms.js"></script>
 <script>
 "use strict";
 /* ===================== Données ===================== */
@@ -708,7 +709,7 @@ let COMM_T=null,SOLDFX=null;
 const VOICE_RATE=1.45;function voiceRate(a){a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
 /* Chef d'orchestre audio : une seule voix à la fois, par priorité. Une voix plus importante coupe une moins importante ;
    sinon elle attend la fin (file d'une place, oubliée si trop vieille). La foule baisse quand le commentateur parle. */
-const VPRIO={star:9,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:3,debut:2};
+const VPRIO={star:9,pour:3,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:3,debut:2};
 let VCUR=null,VQ=null;
 /* Préchargement : les sons sont téléchargés à l'avance et réutilisés, pour partir sans délai */
 const ACACHE={};
@@ -718,22 +719,40 @@ function sfxOk(){return P.sound!==false&&P.crowd!==false}
 function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>`}
 function preloadAudio(){if(SIM||(!sfxOk()&&P.voice===false)||preloadAudio.done)return;preloadAudio.done=1;
   ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus",...Array.from({length:CHANTS},(_,i)=>"chant_"+(i+1))].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
-  Object.keys(window.VOIX||{}).forEach(k=>getAudio(`voix/${k}.mp3`))}
+  Object.keys(window.VOIX||{}).forEach(k=>getAudio(`voix/${k}.mp3`));preloadNoms()}
 function preloadStars(){if(SIM||!G||P.voice===false)return;G.order.slice(G.pos,G.pos+3).forEach(i=>{const f=(window.VOIX_STARS||{})[cardOf(i).n];if(f)getAudio(`voix/stars/${f}.mp3`)})}
 function voiceOk(){return!(SIM||P.voice===false||PAUSED)}
 /* seg = [début, durée] : une phrase dans le fichier qui regroupe toutes celles d'un moment */
-function playVoice(src,prio,seg){if(!voiceOk())return false;
+function playVoice(src,prio,seg,after){if(!voiceOk())return false;
   if(VCUR&&!VCUR.a.ended&&!VCUR.a.paused&&Date.now()<VCUR.until){
     if(prio>=VCUR.prio+3){VCUR.a.pause()}
-    else{if(prio>=5&&(!VQ||prio>=VQ.prio))VQ={src,prio,seg,at:Date.now()};return true}}
+    else{if(prio>=5&&(!VQ||prio>=VQ.prio))VQ={src,prio,seg,after,at:Date.now()};return true}}
   try{const a=fresh(src);a.volume=.95;voiceRate(a);VCUR={a,prio,until:Date.now()+6000};duck(true);
-    const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<1500)playVoice(q.src,q.prio,q.seg)}};
+    const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;if(after&&voiceOk()){playVoice(after.src,prio,after.seg);return}duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<1500)playVoice(q.src,q.prio,q.seg,q.after)}};
     a.onended=a.onerror=end;a.ontimeupdate=null;clearTimeout(a.stopT);
     if(seg){const fin=seg[0]+seg[1]+.1,stop=()=>{if(!a.paused)a.pause();end()};
       const go=()=>{try{a.currentTime=seg[0]}catch(e){}};if(a.readyState>=1)go();else a.addEventListener("loadedmetadata",go,{once:true});
       a.ontimeupdate=()=>{if(a.currentTime>=fin)stop()};
       a.stopT=setTimeout(stop,(seg[1]+.25)/(a.playbackRate||1)*1000+150)}
     a.play().catch(()=>{VCUR=null;duck(false)});return true}catch(e){return false}}
+/* Prénoms : le commentateur dit le nom de l'équipe (« Adjugé à… Karim ! »). Prénom tapé absent de la liste :
+   on prend le plus proche s'il ressemble vraiment (Kareem → Karim, Yannis → Yanis), sinon pas de nom. */
+function nomCle(n){return(n||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"")}
+function sonore(k){return k.replace(/ph/g,"f").replace(/y/g,"i").replace(/ee/g,"i").replace(/(.)\1+/g,"$1").replace(/h/g,"").replace(/e$/,"")}
+function lev(a,b){const d=Array.from({length:b.length+1},(_,j)=>j);for(let i=1;i<=a.length;i++){let p=d[0];d[0]=i;for(let j=1;j<=b.length;j++){const t=d[j];d[j]=Math.min(d[j]+1,d[j-1]+1,p+(a[i-1]===b[j-1]?0:1));p=t}}return d[b.length]}
+const NOMCACHE={};
+function nomVoix(t){const N=window.NOMS||{};if(!t)return null;
+  if(G&&G.mode==="solo"&&t===G.teams[0])return N.toi?"toi":null;
+  const full=nomCle(t.name);if(N[full])return full;
+  const k=nomCle((t.name||"").trim().split(/[\s\-_.]+/)[0]);if(!k)return null;if(N[k])return k;
+  if(k in NOMCACHE)return NOMCACHE[k];
+  const sk=sonore(k);let best=null,bd=99;
+  for(const c in N){if(Math.abs(c.length-k.length)>2)continue;const d=sonore(c)===sk?0:lev(sk,sonore(c));if(d<bd||(d===bd&&c[0]===k[0]&&best[0]!==k[0])){bd=d;best=c}}
+  return NOMCACHE[k]=(best&&bd<=(sk.length<=4?0:sk.length<=6?1:2)&&best[0]===k[0])?best:null}
+function nomSeg(c){const x=(window.NOMS||{})[c];return x?{src:`voix/noms/${x[0]}.mp3`,seg:[x[1],x[2]]}:null}
+function sayName(lead,t,prio){const c=nomVoix(t),n=c&&nomSeg(c),L=(window.VOIX||{})[lead];if(!n||!L||!L.length)return false;
+  return playVoice(`voix/${lead}.mp3`,prio,L[Math.floor(Math.random()*L.length)],n)}
+function preloadNoms(){if(SIM||!G||P.voice===false)return;G.teams.forEach(t=>{const c=nomVoix(t),n=c&&nomSeg(c);if(n)getAudio(n.src)});["pour","gagnant","atoi"].forEach(k=>getAudio(`voix/${k}.mp3`))}
 function voice(k){if(!k)return;const L=(window.VOIX||{})[k];if(!L||!L.length)return;playVoice(`voix/${k}.mp3`,VPRIO[k]||3,L[Math.floor(Math.random()*L.length)])}
 /* Annonce d'une star qui sort : « Et voici… Zidane ! » */
 function starVoice(c){if(!c||!voiceOk())return false;const f=(window.VOIX_STARS||{})[c.n];if(!f)return false;return playVoice(`voix/stars/${f}.mp3`,VPRIO.star)}
@@ -836,7 +855,7 @@ function startGame(s){
   G={mode:s.mode,setup:s,seed,diff:s.diff||"normal",draft:s.kind==="draft",chaos:s.chaos!==false&&s.kind!=="draft",daily:s.daily||null,pack:s.pack,format:s.format||"five",formation:s.format==="xi"?(s.formation||"4-3-3"):null,roles:s.format==="xi"?xiRoles(s.formation||"4-3-3"):null,slots,budget:fm.budget,ms:SIM?0:(TEMPO[s.tempo]||TEMPO.lent).ms,
     order:shuffle(usable,rnd),pos:0,next:Math.floor(rnd()*teams.length),nPrime:0,
     teams:teams.map((t,i)=>Object.assign(t,{money:fm.budget,sl:{},col:TCOL[i]})),cur:null,phase:"draw"};
-  SAY={};if(!SIM){preloadAudio();preloadStars();go("game");setTimeout(()=>voice("debut"),400)}
+  SAY={};if(!SIM){preloadAudio();preloadStars();preloadNoms();go("game");setTimeout(()=>voice("debut"),400)}
 }
 function draw(){
   if(isOver()){finish();return}
@@ -971,7 +990,7 @@ function sell(){
        let k="adjuge",tag="";
        if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
        else if(!G.draft&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
-       G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;if(k!=="adjuge"||G.nSold%2)voice(k)}}}
+       G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;if(k!=="adjuge")voice(k);else if(G.nSold%2&&!sayName("pour",t,3))voice(k)}}}
   else if(!SIM){roar(-1);voice("personne")}
   if(!SIM)render();
 }
@@ -1035,7 +1054,7 @@ function render(){
     if(key!==render.lastTurn&&ti>=0){const prev=render.lastTurn;render.lastTurn=key;
       if(prev&&prev.split("-")[1]!==String(ti)&&!document.querySelector(".soldfx")){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
         if(host){const f=document.createElement("div");f.className="turnflash";f.style.setProperty("--tc",G.teams[ti].col);f.innerHTML=`<b>À toi,</b><span>${esc(G.teams[ti].name)} !</span>`;host.appendChild(f);setTimeout(()=>f.remove(),1100)}
-        beep(660,.07,"sine",.04)}}}
+        beep(660,.07,"sine",.04);if(Date.now()-(render.atoi||0)>8000&&!VCUR&&sayName("atoi",G.teams[ti],2))render.atoi=Date.now()}}}
   crowdOff();lights(SCREEN==="game");if(SCREEN==="game")preloadAudio();
   if(SCREEN==="game")saveGame();
   if(SCREEN==="results")playReveal();
@@ -1327,7 +1346,7 @@ function winBlast(){
   const el=document.createElement("div");el.className="blast";el.style.setProperty("--tc",col);
   el.innerHTML=`<div class="bx"><small>${G.winner<0?"Fin du match":iWin?"Victoire":"Défaite"}</small><b>${esc(txt)}</b>${sc}<span class="gap">${G.winner<0?"Même score, même argent gardé":G.tieMoney?"À égalité de points, avec plus d'argent gardé":"+"+gap+" point"+(gap>1?"s":"")+" d'écart"}</span></div>`;
   document.body.appendChild(el);const scr=$(".res");if(scr){scr.classList.remove("shake");void scr.offsetWidth;scr.classList.add("shake")}
-  roar(iWin?true:G.mode==="solo"?-1:true);setTimeout(()=>voice(G.winner<0?"egalite":G.mode==="solo"&&!iWin?"defaite":"victoire"),600);
+  roar(iWin?true:G.mode==="solo"?-1:true);setTimeout(()=>{if(G.winner>=0&&!(me&&G.winner===0)&&sayName("gagnant",t,8))return;voice(G.winner<0?"egalite":G.mode==="solo"&&!iWin?"defaite":"victoire")},600);
   if(iWin){confetti(160);flashes(24);if(me)buzz([40,60,40])}
   let done=false;const close=()=>{if(done)return;done=true;el.classList.add("out");setTimeout(()=>el.remove(),450);showRewards()};
   el.addEventListener("click",close);timers.push(setTimeout(close,2600));
