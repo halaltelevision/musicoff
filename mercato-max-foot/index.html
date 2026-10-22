@@ -706,7 +706,8 @@ let COMM_T=null,SOLDFX=null;
 /* Voix du commentateur : fichiers voix/<moment>_<n>.mp3 (voir voix/LISEZMOI). Absents = silence */
 
 /* Débit du commentateur : plus rapide, sans changer la hauteur de la voix */
-const VOICE_RATE=1.45;function voiceRate(a){a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
+const VOICE_RATE=1.45;/* Les phrases et prénoms sont déjà accélérés à la fabrication : seules les annonces de stars le sont au moment de jouer */
+function voiceRate(a){if(!/\/stars\//.test(a.src))return;a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
 /* Chef d'orchestre audio : une seule voix à la fois, par priorité. Une voix plus importante coupe une moins importante ;
    sinon elle attend la fin (file d'une place, oubliée si trop vieille). La foule baisse quand le commentateur parle. */
 const VPRIO={star:9,relancer:3,moitie:6,derniere:7,pour:7,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:7,debut:2};
@@ -728,16 +729,31 @@ function playVoice(src,prio,seg,after){if(!voiceOk())return false;
   if(VCUR&&!VCUR.a.ended&&!VCUR.a.paused&&Date.now()<VCUR.until){
     if(prio>=VCUR.prio+3){VCUR.a.pause()}
     else{if(prio>=5&&(!VQ||prio>=VQ.prio))VQ={src,prio,seg,after,at:Date.now()};return true}}
+  if(after&&waChain(src,prio,seg,after))return true;
   try{const a=fresh(src);a.volume=.95;voiceRate(a);VCUR={a,prio,until:Date.now()+6000};duck(true);
     const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;if(after&&voiceOk()){playVoice(after.src,prio,after.seg);return}duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<(q.prio>=7?3500:1500))playVoice(q.src,q.prio,q.seg,q.after)}};
     a.onended=a.onerror=end;a.ontimeupdate=null;clearTimeout(a.stopT);
     if(seg){const fin=seg[0]+seg[1]+.1,stop=()=>{if(!a.paused)a.pause();end()};
       const go=()=>{try{a.currentTime=seg[0]}catch(e){}};if(a.readyState>=1)go();else a.addEventListener("loadedmetadata",go,{once:true});
       a.ontimeupdate=()=>{if(a.currentTime>=fin)stop()};
-      a.stopT=setTimeout(stop,(seg[1]+.25)/(a.playbackRate||1)*1000+150);
-      /* Amorce + prénom (« Recruté par » + « Maxime ! ») : le prénom part juste avant la fin de l'amorce, d'un seul souffle */
-      if(after)a.addEventListener("playing",()=>{clearTimeout(a.stopT);a.stopT=setTimeout(stop,Math.max(0,seg[1]/(a.playbackRate||1)*1000-70))},{once:true})}
+      /* Filet de sécurité lancé au vrai démarrage du son (sur téléphone le chargement peut prendre plus d'une seconde) */
+      a.stopT=setTimeout(stop,8000);
+      a.addEventListener("playing",()=>{clearTimeout(a.stopT);a.stopT=setTimeout(stop,after?Math.max(0,seg[1]/(a.playbackRate||1)*1000-40):(seg[1]+.25)/(a.playbackRate||1)*1000+150)},{once:true})}
     a.play().catch(()=>{if(VCUR&&VCUR.a===a){VCUR=null;duck(false);const q=VQ;VQ=null;if(q)playVoice(q.src,q.prio,q.seg,q.after)}});return true}catch(e){return false}}
+/* Amorce + prénom (« Recruté par » + « Maxime ! ») d'un seul souffle : les deux morceaux sont programmés
+   au millième près avec le moteur audio. Les sons sont décodés à l'avance (amorces entières, seulement le prénom de chaque équipe). */
+const WA={};
+function waLoad(url){let a=null;try{a=AC=AC||new(window.AudioContext||window.webkitAudioContext)()}catch(e){}if(!a)return Promise.reject();if(!WA[url])WA[url]=fetch(url).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(x=>a.decodeAudioData(x)).then(b=>(WA[url].buf=b,b));WA[url].catch(()=>{});return WA[url]}
+function waClip(src,seg){const k=src+"@"+seg[0];if(WA[k])return WA[k].buf;
+  WA[k]={buf:null};waLoad(src).then(b=>{const a=AC,i0=Math.floor(seg[0]*b.sampleRate),n=Math.max(1,Math.floor(seg[1]*b.sampleRate)),c=a.createBuffer(1,n,b.sampleRate);c.copyToChannel(b.getChannelData(0).subarray(i0,i0+n),0);WA[k].buf=c;if(/\/noms\//.test(src))delete WA[src]}).catch(()=>{});return null}
+function waChain(src,prio,seg,after){const a=AC,lead=WA[src]&&WA[src].buf,nm=waClip(after.src,after.seg);
+  if(!a||a.state!=="running"||!lead||!nm)return false;
+  try{const g=a.createGain();g.gain.value=.95;g.connect(a.destination);const s1=a.createBufferSource(),s2=a.createBufferSource();s1.buffer=lead;s2.buffer=nm;s1.connect(g);s2.connect(g);
+    const t0=a.currentTime+.03;s1.start(t0,seg[0],seg[1]);s2.start(t0+seg[1]-.02);
+    const shim={paused:false,ended:false,src,pause(){shim.paused=true;try{s1.stop()}catch(e){}try{s2.stop()}catch(e){}}};
+    VCUR={a:shim,prio,until:Date.now()+6000};duck(true);
+    s2.onended=()=>{shim.ended=true;if(VCUR&&VCUR.a===shim){VCUR=null;duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<(q.prio>=7?3500:1500))playVoice(q.src,q.prio,q.seg,q.after)}};
+    return true}catch(e){return false}}
 /* Prénoms : le commentateur dit le nom de l'équipe (« Adjugé à… Karim ! »). Prénom tapé absent de la liste :
    on prend le plus proche s'il ressemble vraiment (Kareem → Karim, Yannis → Yanis), sinon pas de nom. */
 function nomCle(n){return(n||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"")}
@@ -757,7 +773,8 @@ function nomVoix(t){const N=window.NOMS||{};if(!t)return null;
 function nomSeg(c){const x=(window.NOMS||{})[c];return x?{src:`voix/noms/${x[0]}.mp3`,seg:[x[1],x[2]]}:null}
 function sayName(lead,t,prio){const c=nomVoix(t),n=c&&nomSeg(c),L=(window.VOIX||{})[lead];if(!n||!L||!L.length)return false;
   return playVoice(`voix/${lead}.mp3`,prio,L[Math.floor(Math.random()*L.length)],n)}
-function preloadNoms(){if(SIM||!G||P.voice===false)return;G.teams.forEach(t=>{const c=nomVoix(t),n=c&&nomSeg(c);if(n)getAudio(n.src)});["pour","gagnant","atoi"].forEach(k=>getAudio(`voix/${k}.mp3`))}
+function preloadNoms(){if(SIM||!G||P.voice===false)return;G.teams.forEach(t=>{const c=nomVoix(t),n=c&&nomSeg(c);if(n){getAudio(n.src);waClip(n.src,n.seg)}});
+  ["pour","gagnant","atoi","fauche","riche","complet","record","vol"].forEach(k=>{getAudio(`voix/${k}.mp3`);waLoad(`voix/${k}.mp3`).catch(()=>{})})}
 function voice(k){if(!k)return;const L=(window.VOIX||{})[k];if(!L||!L.length)return;playVoice(`voix/${k}.mp3`,VPRIO[k]||3,L[Math.floor(Math.random()*L.length)])}
 /* Annonce d'une star qui sort : « Et voici… Zidane ! » */
 function starVoice(c){if(!c||!voiceOk())return false;const f=(window.VOIX_STARS||{})[c.n];if(!f)return false;return playVoice(`voix/stars/${f}.mp3`,VPRIO.star)}
