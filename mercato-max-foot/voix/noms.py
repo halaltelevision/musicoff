@@ -2,8 +2,8 @@
 # et écrit voix/noms.js : window.NOMS={clé:[lettre,début,durée]}.
 import glob, json, os, subprocess, tempfile
 D = os.path.dirname(os.path.abspath(__file__)); GAP = 0.5
-# Même traitement que les phrases : silences coupés, accéléré ×1,45, volume égalisé
-TRIM = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=1.45,loudnorm=I=-16:TP=-1.5"; os.makedirs(os.path.join(D, "noms"), exist_ok=True)
+# Même traitement que les phrases : silences coupés, accéléré ×1,30, volume égalisé
+TRIM = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=1.3,loudnorm=I=-16:TP=-1.5"; os.makedirs(os.path.join(D, "noms"), exist_ok=True)
 def dur(f): return float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f]))
 groupes = {}
 for f in sorted(glob.glob(os.path.join(D, "prenoms", "*.mp3"))):

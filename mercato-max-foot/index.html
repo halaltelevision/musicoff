@@ -434,6 +434,8 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .acard.on{opacity:1}.acard b{font-size:11px;line-height:1.15;overflow-wrap:anywhere}.acard small{font-size:10px;color:var(--mute)}
 textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card);color:var(--ink);resize:none}
 .toast.top{bottom:auto;top:calc(12px + env(safe-area-inset-top,0px))}
+.rwd{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:center;gap:5px;margin:4px 0}.rwd:empty{display:none}
+.rwd button{font:inherit;cursor:pointer;white-space:nowrap;flex:none;font-size:11px;font-weight:600;color:var(--yellow);background:rgba(255,210,63,.1);border:1px solid rgba(255,210,63,.35);border-radius:20px;padding:4px 10px;animation:sfxpop .4s ease both}
 
 /* ===== Réglages repris de l'appli générale ===== */
 .resume{display:flex;flex-direction:column;align-items:flex-start;background:var(--accent);color:#fff;border-radius:12px;padding:8px 14px;text-align:left}
@@ -706,12 +708,15 @@ let COMM_T=null,SOLDFX=null;
 /* Voix du commentateur : fichiers voix/<moment>_<n>.mp3 (voir voix/LISEZMOI). Absents = silence */
 
 /* Débit du commentateur : plus rapide, sans changer la hauteur de la voix */
-const VOICE_RATE=1.45;/* Les phrases et prénoms sont déjà accélérés à la fabrication : seules les annonces de stars le sont au moment de jouer */
+const VOICE_RATE=1.3;/* Les phrases et prénoms sont déjà accélérés à la fabrication : seules les annonces de stars le sont au moment de jouer */
 function voiceRate(a){if(!/\/stars\//.test(a.src))return;a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
 /* Chef d'orchestre audio : une seule voix à la fois, par priorité. Une voix plus importante coupe une moins importante ;
    sinon elle attend la fin (file d'une place, oubliée si trop vieille). La foule baisse quand le commentateur parle. */
-const VPRIO={star:9,relancer:3,moitie:6,derniere:7,pour:7,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:7,debut:2};
-let VCUR=null,VQ=null;
+const VPRIO={star:9,complet:6,fauche:6,riche:6,relancer:3,moitie:6,derniere:7,pour:7,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:7,debut:6};
+let VCUR=null,VQ=[];
+/* File d'attente des voix (3 places, la plus importante d'abord) ; une phrase trop vieille est oubliée */
+function qAdd(src,prio,seg,after){if(prio<5)return;VQ.push({src,prio,seg,after,at:Date.now()});VQ.sort((x,y)=>y.prio-x.prio||x.at-y.at);VQ.length=Math.min(VQ.length,3)}
+function qNext(){const now=Date.now();while(VQ.length){const q=VQ.shift();if(now-q.at<(q.prio>=7?5000:2500)){playVoice(q.src,q.prio,q.seg,q.after);return}}}
 /* Préchargement : les sons sont téléchargés à l'avance et réutilisés, pour partir sans délai */
 const ACACHE={};
 function getAudio(key){let a=ACACHE[key];if(!a){a=new Audio();a.preload="auto";a.src=key.replace(/#2$/,"");try{a.load()}catch(e){}ACACHE[key]=a}return a}
@@ -725,34 +730,38 @@ function preloadAudio(){if(SIM||(!sfxOk()&&P.voice===false)||preloadAudio.done)r
 function preloadStars(){if(SIM||!G||P.voice===false)return;G.order.slice(G.pos,G.pos+3).forEach(i=>{const f=(window.VOIX_STARS||{})[cardOf(i).n];if(f)getAudio(`voix/stars/${f}.mp3`)})}
 function voiceOk(){return!(SIM||P.voice===false||PAUSED)}
 /* seg = [début, durée] : une phrase dans le fichier qui regroupe toutes celles d'un moment */
+function fadeVoice(v){const a=v.a;VCUR=null;if(a.fade){a.fade();return}let k=0;const v0=a.volume;const t=setInterval(()=>{k++;try{a.volume=Math.max(0,v0*(1-k/6))}catch(e){}if(k>=6){clearInterval(t);a.pause()}},25)}
 function playVoice(src,prio,seg,after){if(!voiceOk())return false;
+  /* Une phrase n'est jamais coupée net : une petite relance (priorité ≤ 5) s'efface en douceur devant une annonce importante,
+     sinon la nouvelle phrase attend la fin de celle en cours (file d'une place, la plus importante gagne) */
   if(VCUR&&!VCUR.a.ended&&!VCUR.a.paused&&Date.now()<VCUR.until){
-    if(prio>=VCUR.prio+3){VCUR.a.pause()}
-    else{if(prio>=5&&(!VQ||prio>=VQ.prio))VQ={src,prio,seg,after,at:Date.now()};return true}}
+    if(prio>=6&&VCUR.prio<=5){fadeVoice(VCUR);VQ=VQ.filter(q=>q.prio>=6)}
+    else{qAdd(src,prio,seg,after);return true}}
   if(after&&waChain(src,prio,seg,after))return true;
   try{const a=fresh(src);a.volume=.95;voiceRate(a);VCUR={a,prio,until:Date.now()+6000};duck(true);
-    const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;if(after&&voiceOk()){playVoice(after.src,prio,after.seg);return}duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<(q.prio>=7?3500:1500))playVoice(q.src,q.prio,q.seg,q.after)}};
+    const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;if(after&&voiceOk()){playVoice(after.src,prio,after.seg);return}duck(false);qNext()}};
     a.onended=a.onerror=end;a.ontimeupdate=null;clearTimeout(a.stopT);
     if(seg){const fin=seg[0]+seg[1]+.1,stop=()=>{if(!a.paused)a.pause();end()};
       const go=()=>{try{a.currentTime=seg[0]}catch(e){}};if(a.readyState>=1)go();else a.addEventListener("loadedmetadata",go,{once:true});
       a.ontimeupdate=()=>{if(a.currentTime>=fin)stop()};
       /* Filet de sécurité lancé au vrai démarrage du son (sur téléphone le chargement peut prendre plus d'une seconde) */
       a.stopT=setTimeout(stop,8000);
-      a.addEventListener("playing",()=>{clearTimeout(a.stopT);a.stopT=setTimeout(stop,after?Math.max(0,seg[1]/(a.playbackRate||1)*1000-40):(seg[1]+.25)/(a.playbackRate||1)*1000+150)},{once:true})}
-    a.play().catch(()=>{if(VCUR&&VCUR.a===a){VCUR=null;duck(false);const q=VQ;VQ=null;if(q)playVoice(q.src,q.prio,q.seg,q.after)}});return true}catch(e){return false}}
+      a.addEventListener("playing",()=>{clearTimeout(a.stopT);a.stopT=setTimeout(stop,after?seg[1]/(a.playbackRate||1)*1000+SOUFFLE*1000-60:(seg[1]+.25)/(a.playbackRate||1)*1000+150)},{once:true})}
+    a.play().catch(()=>{if(VCUR&&VCUR.a===a){VCUR=null;duck(false);qNext()}});return true}catch(e){return false}}
 /* Amorce + prénom (« Recruté par » + « Maxime ! ») d'un seul souffle : les deux morceaux sont programmés
    au millième près avec le moteur audio. Les sons sont décodés à l'avance (amorces entières, seulement le prénom de chaque équipe). */
-const WA={};
+const WA={},SOUFFLE=.12;/* petit souffle entre « Recruté par » et le prénom */
 function waLoad(url){let a=null;try{a=AC=AC||new(window.AudioContext||window.webkitAudioContext)()}catch(e){}if(!a)return Promise.reject();if(!WA[url])WA[url]=fetch(url).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(x=>a.decodeAudioData(x)).then(b=>(WA[url].buf=b,b));WA[url].catch(()=>{});return WA[url]}
 function waClip(src,seg){const k=src+"@"+seg[0];if(WA[k])return WA[k].buf;
   WA[k]={buf:null};waLoad(src).then(b=>{const a=AC,i0=Math.floor(seg[0]*b.sampleRate),n=Math.max(1,Math.floor(seg[1]*b.sampleRate)),c=a.createBuffer(1,n,b.sampleRate);c.copyToChannel(b.getChannelData(0).subarray(i0,i0+n),0);WA[k].buf=c;if(/\/noms\//.test(src))delete WA[src]}).catch(()=>{});return null}
 function waChain(src,prio,seg,after){const a=AC,lead=WA[src]&&WA[src].buf,nm=waClip(after.src,after.seg);
   if(!a||a.state!=="running"||!lead||!nm)return false;
   try{const g=a.createGain();g.gain.value=.95;g.connect(a.destination);const s1=a.createBufferSource(),s2=a.createBufferSource();s1.buffer=lead;s2.buffer=nm;s1.connect(g);s2.connect(g);
-    const t0=a.currentTime+.03;s1.start(t0,seg[0],seg[1]);s2.start(t0+seg[1]-.02);
-    const shim={paused:false,ended:false,src,pause(){shim.paused=true;try{s1.stop()}catch(e){}try{s2.stop()}catch(e){}}};
+    const t0=a.currentTime+.03;s1.start(t0,seg[0],seg[1]);s2.start(t0+seg[1]+SOUFFLE);
+    const shim={paused:false,ended:false,src,pause(){shim.paused=true;try{s1.stop()}catch(e){}try{s2.stop()}catch(e){}},
+      fade(){shim.paused=true;try{g.gain.setTargetAtTime(0,a.currentTime,.05);setTimeout(()=>shim.pause(),220)}catch(e){shim.pause()}}};
     VCUR={a:shim,prio,until:Date.now()+6000};duck(true);
-    s2.onended=()=>{shim.ended=true;if(VCUR&&VCUR.a===shim){VCUR=null;duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<(q.prio>=7?3500:1500))playVoice(q.src,q.prio,q.seg,q.after)}};
+    s2.onended=()=>{shim.ended=true;if(VCUR&&VCUR.a===shim){VCUR=null;duck(false);qNext()}};
     return true}catch(e){return false}}
 /* Prénoms : le commentateur dit le nom de l'équipe (« Adjugé à… Karim ! »). Prénom tapé absent de la liste :
    on prend le plus proche s'il ressemble vraiment (Kareem → Karim, Yannis → Yanis), sinon pas de nom. */
@@ -765,12 +774,14 @@ function nomVoix(t){const N=window.NOMS||{};if(!t)return null;
   if(G&&G.mode==="solo"&&t===G.teams[0])return N.toi?"toi":null;
   const full=nomCle(t.name),al=NOMALIAS[full]||NOMALIAS[full.replace(/^(le|la|les|l|mme|madame|mr|monsieur)/,"")];if(N[full])return full;if(al&&N[al])return al;
   {const sa=full.replace(/^(le|la|les|l|ma|mon|mes)(?=[a-z])/,"");if(sa!==full&&N[sa])return sa;if(N["le"+sa])return"le"+sa;if(N["la"+sa])return"la"+sa}
-  const k=nomCle((t.name||"").trim().split(/[\s\-_.]+/)[0]).replace(/[0-9]+$/,"");if(!k)return null;if(N[k])return k;
-  if(k in NOMCACHE)return NOMCACHE[k];
-  const sk=sonore(k);let best=null,bd=99;
-  for(const c in N){if(Math.abs(c.length-k.length)>2)continue;const d=sonore(c)===sk?0:lev(sk,sonore(c));if(d<bd||(d===bd&&c[0]===k[0]&&best[0]!==k[0])){bd=d;best=c}}
-  /* Prudent : même première et même dernière lettre (Alexandra ne devient pas Alexandre), un prénom court doit être exact */
-  return NOMCACHE[k]=(best&&bd<=(k.length<=5?0:k.length<=7?1:2)&&best[0]===k[0]&&sonore(best).slice(-1)===sk.slice(-1))?best:null}
+  /* Prénom inconnu entre amis : « le joueur 2 » (numéro de place), pour que tout le monde soit annoncé pareil */
+  const idx=G&&G.teams?G.teams.indexOf(t):-1,place=G&&G.mode==="amis"&&idx>=0&&N["joueur"+(idx+1)]?"joueur"+(idx+1):null;
+  const k=nomCle((t.name||"").trim().split(/[\s\-_.]+/)[0]).replace(/[0-9]+$/,"");if(!k)return place;if(N[k])return k;
+  if(!(k in NOMCACHE)){const sk=sonore(k);let best=null,bd=99;
+    for(const c in N){if(Math.abs(c.length-k.length)>2)continue;const d=sonore(c)===sk?0:lev(sk,sonore(c));if(d<bd||(d===bd&&c[0]===k[0]&&best[0]!==k[0])){bd=d;best=c}}
+    /* Prudent : même première et même dernière lettre (Alexandra ne devient pas Alexandre), un prénom court doit être exact */
+    NOMCACHE[k]=(best&&bd<=(k.length<=5?0:k.length<=7?1:2)&&best[0]===k[0]&&sonore(best).slice(-1)===sk.slice(-1))?best:null}
+  return NOMCACHE[k]||place}
 function nomSeg(c){const x=(window.NOMS||{})[c];return x?{src:`voix/noms/${x[0]}.mp3`,seg:[x[1],x[2]]}:null}
 function sayName(lead,t,prio){const c=nomVoix(t),n=c&&nomSeg(c),L=(window.VOIX||{})[lead];if(!n||!L||!L.length)return false;
   return playVoice(`voix/${lead}.mp3`,prio,L[Math.floor(Math.random()*L.length)],n)}
@@ -780,7 +791,7 @@ function voice(k){if(!k)return;const L=(window.VOIX||{})[k];if(!L||!L.length)ret
 /* Annonce d'une star qui sort : « Et voici… Zidane ! » */
 function starVoice(c){if(!c||!voiceOk())return false;const f=(window.VOIX_STARS||{})[c.n];if(!f)return false;return playVoice(`voix/stars/${f}.mp3`,VPRIO.star)}
 /* Coupe tout (pause, changement d'écran) */
-function hushVoice(){VQ=null;if(VCUR){try{VCUR.a.pause()}catch(e){}VCUR=null;duck(false)}}
+function hushVoice(){VQ=[];if(VCUR){try{VCUR.a.pause()}catch(e){}VCUR=null;duck(false)}}
 function hushSfx(){SFXA.forEach(a=>{try{a.pause()}catch(e){}});SFXA.length=0}
 function hush(){hushVoice();hushSfx()}
 function togIn(b,on){b.setAttribute("aria-pressed",on)}
@@ -844,7 +855,7 @@ function roar(big){if(!sfxOk())return;if(big===-1){sfx("ohhh_1",.75);return}if(b
 /* Tic-tac de fin de chrono : sec et bref, comme une trotteuse */
 function tictac(fast){beep(fast?1900:1500,.035,"square",.035);beep(fast?3800:3000,.02,"sine",.02)}
 /* Chants de tribune (sans musique) sur les grosses batailles d'enchères */
-const CHANTS=3;function chant(){if(CHANTS&&!SIM)timers.push(setTimeout(()=>sfx("chant_"+(1+Math.floor(Math.random()*CHANTS)),.45),900))}
+const CHANTS=3;function chant(){if(G)G.nChant=(G.nChant||0)+1;if(G&&G.nChant%2===0)return;if(CHANTS&&!SIM)timers.push(setTimeout(()=>sfx("chant_"+(1+Math.floor(Math.random()*CHANTS)),.45),900))}
 function chip(inc){const n=inc>=100?3:inc>=50?2:1;for(let k=0;k<n;k++)setTimeout(()=>{beep(1250+k*260,.07,"triangle",.11);beep(2500+k*300,.04,"sine",.04)},k*70)}
 const SFX={bid:inc=>chip(inc||10),sold:()=>{beep(520,.09);setTimeout(()=>beep(780,.12),90)},nope:()=>beep(200,.12,"square",.03),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.14,"triangle"),i*110))};
 function confetti(n=120){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cv=$("#fx"),cx=cv.getContext("2d"),W=cv.width=innerWidth,H=cv.height=innerHeight;
@@ -858,7 +869,7 @@ function jersey(c,size=64,mystery=false){
   const light=/^#(f|e|d)/i.test(a)&&a.length===7&&a!=="#E01E13"&&a!=="#DC052D"&&a!=="#E2001A"&&a!=="#E13327"&&a!=="#DA291C"&&a!=="#EF0107"&&a!=="#E30613"&&a!=="#E32221"&&a!=="#E63946";
   const txt=mystery?"?":c.iniOverride||clubInit(c.club),ink=light?(b==="#fff"?"#1A1446":b):b,fs=txt.length>2?15:19;
   return`<svg class="jer" width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true"><path d="M22 6l-14 7-6 14 9 5 3-5v31h36V27l3 5 9-5-6-14-14-7c-1 4-5 7-10 7S23 10 22 6z" fill="${a}" stroke="rgba(0,0,0,.18)" stroke-width="1.5" stroke-linejoin="round"/><path d="M22 6c1 4 5 7 10 7s9-3 10-7" fill="none" stroke="${b}" stroke-width="3"/><path d="M8 13l-6 14 3 1.7 6.5-14z M56 13l6 14-3 1.7-6.5-14z" fill="${b}" opacity=".9"/><path d="M14 58h36" stroke="rgba(0,0,0,.12)" stroke-width="3"/><path d="M26 18q-9 4-9 16" stroke="rgba(255,255,255,.35)" stroke-width="3" fill="none" stroke-linecap="round"/><text x="32" y="${txt.length>2?42:43}" text-anchor="middle" font-family="Saira Condensed,Arial Narrow,sans-serif" font-weight="800" font-size="${fs}" fill="${ink}">${esc(txt)}</text></svg>`}
-const lastName=n=>{const w=n.split(" ");return w.length>1&&w[0].length>2?w.slice(1).join(" "):n};
+const lastName=n=>{n=n.replace(/\s*\(.*?\)\s*/g," ").trim();const w=n.split(" ");return w.length>1&&w[0].length>2?w.slice(1).join(" "):n};
 
 /* ===================== Moteur de partie ===================== */
 let G=null,SAY={},loopT=null,timers=[],SERIES=null;
@@ -901,7 +912,7 @@ function apresVente(t){if(SIM||G.draft)return;const e=emptySlots(t),others=G.tea
   if(e===0&&others.length&&!t.saidC){t.saidC=1;k="complet"}
   else if(e>=2&&t.money<=10*e+15&&!t.saidF){t.saidF=1;k="fauche"}
   else if(e>=2&&others.length&&!G.saidRiche&&others.every(x=>t.money>=x.money*2&&t.money-x.money>=80)){G.saidRiche=1;k="riche"}
-  if(k)timers.push(setTimeout(()=>{if(SCREEN==="game")sayName(k,t,5)},2700))}
+  if(k)timers.push(setTimeout(()=>{if(SCREEN==="game")sayName(k,t,6)},2700))}
 function draw(){
   if(isOver()){finish();return}
   if(G.draft){draftPick();return}
@@ -1025,7 +1036,7 @@ function aiTurn(ti){
     raise(ti,inc)}else pass(ti);
 }
 function sell(){
-  stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;SAY={};
+  stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;SAY={};VQ=VQ.filter(q=>!/\/stars\//.test(q.src));
   if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
     if(!SIM){SOLDFX={ti:c.leader,i:c.i,price:c.price};hammer();
       if(G.draft){if(card.p>=88)setTimeout(()=>roar(2),250)}
@@ -1102,7 +1113,7 @@ function render(){
     if(key!==render.lastTurn&&ti>=0){const prev=render.lastTurn;render.lastTurn=key;
       if(prev&&prev.split("-")[1]!==String(ti)&&!document.querySelector(".soldfx")){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
         if(host){const f=document.createElement("div");f.className="turnflash";f.style.setProperty("--tc",G.teams[ti].col);f.innerHTML=`<b>À toi,</b><span>${esc(G.teams[ti].name)} !</span>`;host.appendChild(f);setTimeout(()=>f.remove(),1100)}
-        beep(660,.07,"sine",.04);if(Date.now()-(render.atoi||0)>8000&&!VCUR&&sayName("atoi",G.teams[ti],2))render.atoi=Date.now()}}}
+        beep(660,.07,"sine",.04);if(render.atoiPos!==G.pos){const pos=G.pos;render.atoiPos=pos;setTimeout(()=>{if(!VCUR&&!VQ.length&&G&&G.pos===pos&&G.phase==="auction")sayName("atoi",G.teams[G.cur.turn],2)},0)}}}}
   bed(SCREEN==="game"||SCREEN==="results"?"jeu":"menu");lights(SCREEN==="game");if(SCREEN==="game")preloadAudio();
   if(SCREEN==="game")saveGame();
   if(SCREEN==="results")playReveal();
@@ -1306,7 +1317,7 @@ function vResults(){
      <div id="pt${ti}">${pitchHTML(t,{reveal:0,small:true})}</div></div>`).join("")}
    <div class="winner" id="winner"></div>
    <button class="skip" id="skip" data-act="skip">Passer</button>
-   <div class="after" id="after">${awardsHTML()}${endButtons()}</div>
+   <div class="after" id="after">${awardsHTML()}<div class="rwd" id="rwd"></div>${endButtons()}</div>
   </div>`;
 }
 /* À 2 : « Match TV ». L'adversaire en haut, toi (ou le joueur 1) en bas ; les notes se révèlent poste par poste */
@@ -1333,7 +1344,7 @@ function vResultsTV(){
     <span class="tvtag b l" style="--tc:${T[0].col}">${me?"Toi":esc(T[0].name)}</span><span class="tvtag b r">${kept(T[0])}</span>
 </div>
    <div class="tvres" id="winner"></div>
-   <div class="after" id="after">${awardsHTML()}${endButtons()}</div>
+   <div class="after" id="after">${awardsHTML()}<div class="rwd" id="rwd"></div>${endButtons()}</div>
   </div>`;
 }
 function awardsHTML(){
@@ -1683,7 +1694,14 @@ function rewards(){
 function showRewards(){const r=G&&G.rew;if(!r)return;const msgs=[`+${r.xp} XP${r.newAlbum?` · ${r.newAlbum} nouvelle${r.newAlbum>1?"s":""} carte${r.newAlbum>1?"s":""} dans l'album`:""}`];
   r.doneM.forEach(m=>msgs.push("Mission réussie : "+m.t));r.newAch.forEach(a=>msgs.push(`Trophée ${["","bronze","argent","or"][a.tier]} : ${a.t}`));
   if(r.lvlUp)msgs.push(`Niveau ${r.lvlUp.n} : ${r.lvlUp.title}`);
-  msgs.forEach((m,i)=>timers.push(setTimeout(()=>toast(m,true),i*2700)));if(r.newAch.length)timers.push(setTimeout(()=>confetti(90),2700))}
+  /* Récompenses affichées dans l'écran des résultats (au-dessus des boutons), une par une : elles ne cachent plus rien */
+  const z=$("#rwd");if(!z){msgs.forEach((m,i)=>timers.push(setTimeout(()=>toast(m),i*2700)))}else{
+    /* Une ligne de pastilles courtes ; toucher une pastille montre le détail */
+    const tiers=["","bronze","argent","or"],chips=[[`+${r.xp} XP`,msgs[0]]];
+    if(r.doneM.length)chips.push([r.doneM.length>1?`${r.doneM.length} missions réussies`:"Mission réussie",r.doneM.map(m=>m.t).join(" · ")]);
+    if(r.newAch.length)chips.push([r.newAch.length>1?`${r.newAch.length} trophées`:`Trophée ${tiers[r.newAch[0].tier]}`,r.newAch.map(a=>`${tiers[a.tier]} : ${a.t}`).join(" · ")]);
+    if(r.lvlUp)chips.push([`Niveau ${r.lvlUp.n}`,r.lvlUp.title]);
+    chips.forEach(([c,d],i)=>timers.push(setTimeout(()=>{const e=document.createElement("button");e.textContent=c;e.onclick=()=>toast(d,true);z.appendChild(e)},i*500)))};if(r.newAch.length)timers.push(setTimeout(()=>confetti(90),2700))}
 /* ===================== Défi du jour ===================== */
 function dailyInfo(){const d=today(),ids=Object.keys(PACKS).filter(id=>PACKS[id].cat!=="perso"&&!isPremium(id));const h=MMF.cyrb53("daily|"+d);return{date:d,pack:ids[h%ids.length],seed:h%2147483647||7}}
 function startDaily(){const D=dailyInfo();SERIES=null;startGame({mode:"solo",format:"five",pack:D.pack,nai:2,tempo:P.tempo,diff:"normal",chaos:true,names:[],seed:D.seed,daily:D.date})}

@@ -3,9 +3,9 @@
 # Un fichier par moment au lieu d'un par phrase : moins de fichiers à publier et à charger.
 import glob, json, os, re, subprocess, tempfile
 D = os.path.dirname(os.path.abspath(__file__)); GAP = 0.7
-# Silences du début et de la fin coupés (la phrase part tout de suite), débit accéléré ×1,45 dès la fabrication
+# Silences du début et de la fin coupés (la phrase part tout de suite), débit accéléré ×1,30 dès la fabrication
 # (le jeu les lit à vitesse normale : pas de retard au démarrage), volume égalisé
-TRIM = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=1.45,loudnorm=I=-16:TP=-1.5"
+TRIM = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=1.3,loudnorm=I=-16:TP=-1.5"
 def dur(f): return float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f]))
 moments = {}
 for f in glob.glob(os.path.join(D, "phrases", "*.mp3")):
