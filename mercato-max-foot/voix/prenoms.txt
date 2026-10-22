@@ -909,3 +909,184 @@ Yoann
 Yohann
 Yanis
 Zinedine
+
+# Noms du jeu et mots du quotidien
+Joueur
+Moi
+Lui
+Elle
+Nous
+Vous
+Eux
+Équipe un
+Équipe deux
+Équipe trois
+Équipe quatre
+Équipe A
+Équipe B
+Équipe C
+Équipe D
+Requin
+Flambeur
+Prudence
+Les Bleus
+Les Rouges
+Les Verts
+Les Jaunes
+Papa
+Maman
+Papi
+Mamie
+Tonton
+Tata
+Frérot
+Sœurette
+Frère
+Sœur
+Cousin
+Cousine
+Bébé
+Chéri
+Chérie
+Pote
+Le Boss
+Boss
+Chef
+Patron
+Coach
+Capitaine
+Président
+Champion
+Le Roi
+Roi
+La Reine
+Reine
+Le Prince
+Le GOAT
+Goat
+Légende
+La Star
+Star
+Le Magicien
+Le Sorcier
+Le Mur
+La Machine
+Le Génie
+Le Pro
+Le Fou
+Le Chat
+Le Lion
+Le Loup
+Le Tigre
+L'Aigle
+Le Taureau
+La Panthère
+Le Requin blanc
+Le Vieux
+Le Petit
+Le Grand
+Le Gros
+Le Bg
+Le Beau
+Le Rookie
+Le Débutant
+Le Noob
+Inconnu
+Mystère
+Personne
+Quelqu'un
+Ordinateur
+Robot
+Ordi
+# Surnoms courants
+Momo
+Kiki
+Juju
+Nono
+Doudou
+Titi
+Lulu
+Mimi
+Fifi
+Zizou
+Ziz
+Max
+Matt
+Seb
+Nico
+Ben
+Tom
+Théo
+Jo
+Vince
+Flo
+Manu
+Alex
+Rafa
+Gabi
+Lolo
+Toto
+Riri
+Bibi
+Coco
+Dédé
+Jojo
+Didi
+Sissi
+Lili
+Nana
+Popo
+Pipo
+Mumu
+Yoyo
+Bouba
+Babou
+Zaza
+Mika
+Kader
+Hamou
+Rachidou
+Mouss
+Brahim
+Dédou
+Kenz
+Sofi
+Yass
+Ilyou
+Nass
+Riri
+Bilou
+Sam
+Rayou
+# Surnoms de footballeurs que les joueurs tapent souvent
+Messi
+Ronaldo
+CR7
+Neymar
+Mbappé
+Benzema
+Zidane
+Haaland
+Griezmann
+Pogba
+Henry
+Ronaldinho
+Pelé
+Maradona
+Kaka
+Ibrahimovic
+Zlatan
+Salah
+Mahrez
+Hakimi
+Ziyech
+Vinicius
+Yamal
+Dembélé
+Kanté
+Giroud
+Ribéry
+Cantona
+Platini
+Drogba
+Eto'o

@@ -715,7 +715,8 @@ let VCUR=null,VQ=null;
 const ACACHE={};
 function getAudio(key){let a=ACACHE[key];if(!a){a=new Audio();a.preload="auto";a.src=key.replace(/#2$/,"");try{a.load()}catch(e){}ACACHE[key]=a}return a}
 function fresh(src){for(const key of [src,src+"#2"]){const a=getAudio(key===src?src:src+"#2");if(a.paused||a.ended){try{a.currentTime=0}catch(e){}return a}}const b=new Audio(src);return b}
-function sfxOk(){return P.sound!==false&&P.crowd!==false}
+/* L'ancien réglage « Ambiance de stade » (P.crowd) ne coupe plus rien : seul « Bruitages » compte */
+function sfxOk(){return P.sound!==false}
 function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>`}
 function preloadAudio(){if(SIM||(!sfxOk()&&P.voice===false)||preloadAudio.done)return;preloadAudio.done=1;
   ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus",...Array.from({length:CHANTS},(_,i)=>"chant_"+(i+1))].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
@@ -733,17 +734,21 @@ function playVoice(src,prio,seg,after){if(!voiceOk())return false;
     if(seg){const fin=seg[0]+seg[1]+.1,stop=()=>{if(!a.paused)a.pause();end()};
       const go=()=>{try{a.currentTime=seg[0]}catch(e){}};if(a.readyState>=1)go();else a.addEventListener("loadedmetadata",go,{once:true});
       a.ontimeupdate=()=>{if(a.currentTime>=fin)stop()};
-      a.stopT=setTimeout(stop,(seg[1]+.25)/(a.playbackRate||1)*1000+150)}
+      a.stopT=setTimeout(stop,(seg[1]+.25)/(a.playbackRate||1)*1000+150);
+      /* Amorce + prénom (« Recruté par » + « Maxime ! ») : le prénom part juste avant la fin de l'amorce, d'un seul souffle */
+      if(after)a.addEventListener("playing",()=>{clearTimeout(a.stopT);a.stopT=setTimeout(stop,Math.max(0,seg[1]/(a.playbackRate||1)*1000-70))},{once:true})}
     a.play().catch(()=>{VCUR=null;duck(false)});return true}catch(e){return false}}
 /* Prénoms : le commentateur dit le nom de l'équipe (« Adjugé à… Karim ! »). Prénom tapé absent de la liste :
    on prend le plus proche s'il ressemble vraiment (Kareem → Karim, Yannis → Yanis), sinon pas de nom. */
 function nomCle(n){return(n||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"")}
 function sonore(k){return k.replace(/ph/g,"f").replace(/y/g,"i").replace(/ee/g,"i").replace(/(.)\1+/g,"$1").replace(/h/g,"").replace(/e$/,"")}
 function lev(a,b){const d=Array.from({length:b.length+1},(_,j)=>j);for(let i=1;i<=a.length;i++){let p=d[0];d[0]=i;for(let j=1;j<=b.length;j++){const t=d[j];d[j]=Math.min(d[j]+1,d[j-1]+1,p+(a[i-1]===b[j-1]?0:1));p=t}}return d[b.length]}
-const NOMCACHE={};
+const NOMCACHE={},NOMALIAS={requin:"lerequin",flambeur:"leflambeur",prudence:"mmeprudence",madameprudence:"mmeprudence",
+  j1:"joueur1",j2:"joueur2",j3:"joueur3",j4:"joueur4",p1:"joueur1",p2:"joueur2",p3:"joueur3",p4:"joueur4",player1:"joueur1",player2:"joueur2",player3:"joueur3",player4:"joueur4"};
 function nomVoix(t){const N=window.NOMS||{};if(!t)return null;
   if(G&&G.mode==="solo"&&t===G.teams[0])return N.toi?"toi":null;
-  const full=nomCle(t.name);if(N[full])return full;
+  const full=nomCle(t.name),al=NOMALIAS[full]||NOMALIAS[full.replace(/^(le|la|les|l|mme|madame|mr|monsieur)/,"")];if(N[full])return full;if(al&&N[al])return al;
+  {const sa=full.replace(/^(le|la|les|l)(?=[a-z])/,"");if(sa!==full&&N[sa])return sa}
   const k=nomCle((t.name||"").trim().split(/[\s\-_.]+/)[0]);if(!k)return null;if(N[k])return k;
   if(k in NOMCACHE)return NOMCACHE[k];
   const sk=sonore(k);let best=null,bd=99;
@@ -1755,7 +1760,7 @@ document.addEventListener("click",e=>{
   else if(a==="dorestore")PAY.restore($("#remail").value.trim());
   else if(a==="relast"){const L=P.last;SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:packOpen(L.pack)?L.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};if(!L.solo)SETUP.mode="amis";go("setup")}
   else if(a==="weekpack"){const wf=weekFree();SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:wf,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
-  else if(a==="sound"){const on=!sfxOk();P.sound=on;P.crowd=on;saveP();if(!on)hushSfx();else beep(1250,.07,"triangle",.11);togIn(b,on)}
+  else if(a==="sound"){const on=!sfxOk();P.sound=on;delete P.crowd;saveP();if(!on)hushSfx();else beep(1250,.07,"triangle",.11);togIn(b,on)}
   else if(a==="voice"){P.voice=P.voice===false;saveP();if(P.voice===false)hushVoice();togIn(b,P.voice!==false)}
   else if(a==="albpack")albumSheet(v);
   else if(a==="newperso"){EDIT={};go("edit")}
