@@ -21,6 +21,7 @@ for(const [f,t] of jobs){
   const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_96`,{method:"POST",headers:H,
     body:JSON.stringify({text:t,model_id:"eleven_v3",voice_settings:{stability:0}})});
   if(!r.ok){console.error(f,r.status,await r.text());process.exit(1)}
-  fs.writeFileSync(dir+f+".mp3",Buffer.from(await r.arrayBuffer()));console.log("ok",f,"«"+t+"»")}
-fs.writeFileSync(dir+"liste.js","window.VOIX="+JSON.stringify(Object.fromEntries(Object.entries(P).map(([k,l])=>[k,l.length])))+";\n");
-console.log("\nTerminé :",jobs.length,"fichiers. voix/liste.js mis à jour.");
+  fs.mkdirSync(dir+"phrases",{recursive:true});fs.writeFileSync(dir+"phrases/"+f+".mp3",Buffer.from(await r.arrayBuffer()));console.log("ok",f,"«"+t+"»")}
+/* Regroupe ensuite les phrases en un fichier par moment et écrit liste.js */
+await import("node:child_process").then(c=>c.execFileSync("python3",[dir+"sprites.py"],{stdio:"inherit"}));
+console.log("\nTerminé :",jobs.length,"phrases. voix/liste.js mis à jour.");

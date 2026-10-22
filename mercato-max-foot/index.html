@@ -718,17 +718,23 @@ function sfxOk(){return P.sound!==false&&P.crowd!==false}
 function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>`}
 function preloadAudio(){if(SIM||(!sfxOk()&&P.voice===false)||preloadAudio.done)return;preloadAudio.done=1;
   ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus",...Array.from({length:CHANTS},(_,i)=>"chant_"+(i+1))].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
-  Object.entries(window.VOIX||{}).forEach(([k,n])=>{for(let i=1;i<=n;i++)getAudio(`voix/${k}_${i}.mp3`)})}
+  Object.keys(window.VOIX||{}).forEach(k=>getAudio(`voix/${k}.mp3`))}
 function preloadStars(){if(SIM||!G||P.voice===false)return;G.order.slice(G.pos,G.pos+3).forEach(i=>{const f=(window.VOIX_STARS||{})[cardOf(i).n];if(f)getAudio(`voix/stars/${f}.mp3`)})}
 function voiceOk(){return!(SIM||P.voice===false||PAUSED)}
-function playVoice(src,prio){if(!voiceOk())return false;
+/* seg = [début, durée] : une phrase dans le fichier qui regroupe toutes celles d'un moment */
+function playVoice(src,prio,seg){if(!voiceOk())return false;
   if(VCUR&&!VCUR.a.ended&&!VCUR.a.paused&&Date.now()<VCUR.until){
     if(prio>=VCUR.prio+3){VCUR.a.pause()}
-    else{if(prio>=5&&(!VQ||prio>=VQ.prio))VQ={src,prio,at:Date.now()};return true}}
+    else{if(prio>=5&&(!VQ||prio>=VQ.prio))VQ={src,prio,seg,at:Date.now()};return true}}
   try{const a=fresh(src);a.volume=.95;voiceRate(a);VCUR={a,prio,until:Date.now()+6000};duck(true);
-    a.onended=a.onerror=()=>{if(VCUR&&VCUR.a===a){VCUR=null;duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<1500)playVoice(q.src,q.prio)}};
+    const end=()=>{a.ontimeupdate=null;clearTimeout(a.stopT);if(VCUR&&VCUR.a===a){VCUR=null;duck(false);const q=VQ;VQ=null;if(q&&Date.now()-q.at<1500)playVoice(q.src,q.prio,q.seg)}};
+    a.onended=a.onerror=end;a.ontimeupdate=null;clearTimeout(a.stopT);
+    if(seg){const fin=seg[0]+seg[1]+.1,stop=()=>{if(!a.paused)a.pause();end()};
+      const go=()=>{try{a.currentTime=seg[0]}catch(e){}};if(a.readyState>=1)go();else a.addEventListener("loadedmetadata",go,{once:true});
+      a.ontimeupdate=()=>{if(a.currentTime>=fin)stop()};
+      a.stopT=setTimeout(stop,(seg[1]+.25)/(a.playbackRate||1)*1000+150)}
     a.play().catch(()=>{VCUR=null;duck(false)});return true}catch(e){return false}}
-function voice(k){if(!k)return;const n=(window.VOIX||{})[k];if(!n)return;playVoice(`voix/${k}_${1+Math.floor(Math.random()*n)}.mp3`,VPRIO[k]||3)}
+function voice(k){if(!k)return;const L=(window.VOIX||{})[k];if(!L||!L.length)return;playVoice(`voix/${k}.mp3`,VPRIO[k]||3,L[Math.floor(Math.random()*L.length)])}
 /* Annonce d'une star qui sort : « Et voici… Zidane ! » */
 function starVoice(c){if(!c||!voiceOk())return false;const f=(window.VOIX_STARS||{})[c.n];if(!f)return false;return playVoice(`voix/stars/${f}.mp3`,VPRIO.star)}
 /* Coupe tout (pause, changement d'écran) */
