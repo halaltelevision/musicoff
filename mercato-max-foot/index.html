@@ -714,11 +714,13 @@ let VCUR=null,VQ=null;
 const ACACHE={};
 function getAudio(key){let a=ACACHE[key];if(!a){a=new Audio();a.preload="auto";a.src=key.replace(/#2$/,"");try{a.load()}catch(e){}ACACHE[key]=a}return a}
 function fresh(src){for(const key of [src,src+"#2"]){const a=getAudio(key===src?src:src+"#2");if(a.paused||a.ended){try{a.currentTime=0}catch(e){}return a}}const b=new Audio(src);return b}
-function preloadAudio(){if(SIM||P.sound===false||preloadAudio.done)return;preloadAudio.done=1;
+function sfxOk(){return P.sound!==false&&P.crowd!==false}
+function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>`}
+function preloadAudio(){if(SIM||(!sfxOk()&&P.voice===false)||preloadAudio.done)return;preloadAudio.done=1;
   ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus"].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
   Object.entries(window.VOIX||{}).forEach(([k,n])=>{for(let i=1;i<=n;i++)getAudio(`voix/${k}_${i}.mp3`)})}
-function preloadStars(){if(SIM||!G||P.sound===false||P.voice===false)return;G.order.slice(G.pos,G.pos+3).forEach(i=>{const f=(window.VOIX_STARS||{})[cardOf(i).n];if(f)getAudio(`voix/stars/${f}.mp3`)})}
-function voiceOk(){return!(SIM||P.sound===false||P.voice===false||PAUSED)}
+function preloadStars(){if(SIM||!G||P.voice===false)return;G.order.slice(G.pos,G.pos+3).forEach(i=>{const f=(window.VOIX_STARS||{})[cardOf(i).n];if(f)getAudio(`voix/stars/${f}.mp3`)})}
+function voiceOk(){return!(SIM||P.voice===false||PAUSED)}
 function playVoice(src,prio){if(!voiceOk())return false;
   if(VCUR&&!VCUR.a.ended&&!VCUR.a.paused&&Date.now()<VCUR.until){
     if(prio>=VCUR.prio+3){VCUR.a.pause()}
@@ -730,7 +732,10 @@ function voice(k){if(!k)return;const n=(window.VOIX||{})[k];if(!n)return;playVoi
 /* Annonce d'une star qui sort : « Et voici… Zidane ! » */
 function starVoice(c){if(!c||!voiceOk())return false;const f=(window.VOIX_STARS||{})[c.n];if(!f)return false;return playVoice(`voix/stars/${f}.mp3`,VPRIO.star)}
 /* Coupe tout (pause, changement d'écran) */
-function hush(){VQ=null;if(VCUR){try{VCUR.a.pause()}catch(e){}VCUR=null}SFXA.forEach(a=>{try{a.pause()}catch(e){}});SFXA.length=0}
+function hushVoice(){VQ=null;if(VCUR){try{VCUR.a.pause()}catch(e){}VCUR=null;duck(false)}}
+function hushSfx(){SFXA.forEach(a=>{try{a.pause()}catch(e){}});SFXA.length=0}
+function hush(){hushVoice();hushSfx()}
+function togIn(b,on){b.setAttribute("aria-pressed",on)}
 /* Stade vivant : projecteurs en fond pendant la partie, flashs de photographes sur les gros moments */
 function lights(on){let l=$("#lights");if(on&&!l){l=document.createElement("div");l.id="lights";l.innerHTML="<i></i><i></i>";document.body.prepend(l)}if(l)l.classList.toggle("on",!!on)}
 function flashes(n=14){if(SIM||matchMedia("(prefers-reduced-motion: reduce)").matches)return;for(let k=0;k<n;k++)setTimeout(()=>{const f=document.createElement("span");f.className="pflash";
@@ -753,19 +758,19 @@ function buzz(ms){if(typeof G!=="undefined"&&G&&G.mode==="amis")return;try{navig
 let AC=null;
 /* Débloque le son du téléphone au premier toucher (sinon les petits sons restent muets sur mobile) */
 document.addEventListener("pointerdown",()=>{try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume()}catch(e){}},{capture:true});
-function beep(f=600,d=.08,type="sine",v=.05){if(SIM||P.sound===false)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=Math.min(.3,v*2.5);/* remis au niveau des voix et bruitages */o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
+function beep(f=600,d=.08,type="sine",v=.05){if(SIM||!sfxOk())return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=Math.min(.3,v*2.5);/* remis au niveau des voix et bruitages */o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
 /* ===== Sons de stade (synthétisés, pas de fichier) : foule en fond, marteau à chaque vente, sifflet, ovation ===== */
 const STADE={crowd:null};
-function acx(){if(SIM||P.sound===false)return null;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();return AC}catch(e){return null}}
+function acx(){if(SIM||!sfxOk())return null;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();return AC}catch(e){return null}}
 function noiseBuf(a,sec){const b=a.createBuffer(1,a.sampleRate*sec,a.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;l=(l+.02*w)/1.02;d[i]=l*3.5}return b}
-function crowdOn(){const a=acx();if(!a||STADE.crowd||P.crowd===false)return;
+function crowdOn(){const a=acx();if(!a||STADE.crowd)return;
   const src=a.createBufferSource();src.buffer=noiseBuf(a,4);src.loop=true;const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=520;bp.Q.value=.6;
   const g=a.createGain();g.gain.value=0;g.gain.linearRampToValueAtTime(.05,a.currentTime+1.5);
   const lfo=a.createOscillator(),lg=a.createGain();lfo.frequency.value=.13;lg.gain.value=.018;lfo.connect(lg);lg.connect(g.gain);
   src.connect(bp);bp.connect(g);g.connect(a.destination);src.start();lfo.start();STADE.crowd={src,g,lfo}}
 function crowdOff(){const c=STADE.crowd;if(!c)return;STADE.crowd=null;try{c.g.gain.cancelScheduledValues(AC.currentTime);c.g.gain.setTargetAtTime(0,AC.currentTime,.3);setTimeout(()=>{c.src.stop();c.lfo.stop()},1200)}catch(e){}}
 /* Vrais bruitages (voix/sfx) ; les sons synthétisés servent de secours */
-const SFXA=[];function sfx(name,vol=.8){if(SIM||P.sound===false||PAUSED)return false;try{const a=fresh(`voix/sfx/${name}.mp3`);a.onended=null;a.base=vol;a.volume=VCUR&&/foule|clameur|applaus|ohhh/.test(name)?vol*.35:vol;a.crowd=/foule|clameur|applaus|ohhh/.test(name);
+const SFXA=[];function sfx(name,vol=.8){if(SIM||!sfxOk()||PAUSED)return false;try{const a=fresh(`voix/sfx/${name}.mp3`);a.onended=null;a.base=vol;a.volume=VCUR&&/foule|clameur|applaus|ohhh/.test(name)?vol*.35:vol;a.crowd=/foule|clameur|applaus|ohhh/.test(name);
   SFXA.push(a);a.onended=()=>{const i=SFXA.indexOf(a);if(i>=0)SFXA.splice(i,1)};a.play().catch(()=>{});return true}catch(e){return false}}
 function duck(on){SFXA.forEach(a=>{if(a.crowd)a.volume=on?a.base*.35:a.base})}
 function hammer(){if(sfx("marteau_"+(1+(Math.random()<.5)),.9))return;SFX.sold();const a=acx();if(!a)return;const t=a.currentTime;
@@ -774,7 +779,7 @@ function hammer(){if(sfx("marteau_"+(1+(Math.random()<.5)),.9))return;SFX.sold()
 function whistle(){if(sfx("sifflet",.7))return;const a=acx();if(!a)return;[0,.42,.84].forEach((d,i)=>{const t=a.currentTime+d,o=a.createOscillator(),v=a.createOscillator(),vg=a.createGain(),g=a.createGain();
   o.type="sine";o.frequency.value=2850;v.frequency.value=28;vg.gain.value=90;v.connect(vg);vg.connect(o.frequency);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+.02);g.gain.setValueAtTime(.09,t+(i===2?.55:.3));g.gain.linearRampToValueAtTime(0,t+(i===2?.6:.34));
   o.connect(g);g.connect(a.destination);o.start(t);v.start(t);o.stop(t+.7);v.stop(t+.7)})}
-function roar(big){if(P.crowd===false)return;if(big===-1){sfx("ohhh_1",.75);return}if(big===2){sfx("applaus",.6);return}if(sfx(big?"foule_"+(1+(Math.random()<.5)):"clameur_"+(1+(Math.random()<.5)),big?.75:.6))return;const a=acx();if(!a)return;const t=a.currentTime,n=a.createBufferSource();n.buffer=noiseBuf(a,2.6);const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=big?700:420;bp.Q.value=.5;
+function roar(big){if(!sfxOk())return;if(big===-1){sfx("ohhh_1",.75);return}if(big===2){sfx("applaus",.6);return}if(sfx(big?"foule_"+(1+(Math.random()<.5)):"clameur_"+(1+(Math.random()<.5)),big?.75:.6))return;const a=acx();if(!a)return;const t=a.currentTime,n=a.createBufferSource();n.buffer=noiseBuf(a,2.6);const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=big?700:420;bp.Q.value=.5;
   const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(big?.32:.12,t+.35);g.gain.exponentialRampToValueAtTime(.001,t+2.5);n.connect(bp);bp.connect(g);g.connect(a.destination);n.start(t)}
 /* Mise : petit bruit de jeton, plus riche pour +50 et +100 */
 function chip(inc){const n=inc>=100?3:inc>=50?2:1;for(let k=0;k<n;k++)setTimeout(()=>{beep(1250+k*260,.07,"triangle",.11);beep(2500+k*300,.04,"sine",.04)},k*70)}
@@ -1054,6 +1059,7 @@ function optsSheet(){const s=SETUP,solo=s.mode==="solo";
     ${solo?`<div class="field"><span class="lbl">Niveau des ordis</span>${seg("diff",Object.entries(DIFF).map(([k,d])=>[k,d.l]))}</div>`:""}
     <div class="field"><span class="lbl">Chrono par tour</span>${seg("tempo",Object.entries(TEMPO).map(([k,t])=>[k,t.l,t.d]))}</div>
     <div class="between"><span><b>Surprises</b><br><small class="mute">Cartes mystère, enchères secrètes et primes rares</small></span><button class="tog" aria-pressed="${s.chaos}" data-act="chaos" aria-label="Surprises"></button></div>
+    <div class="field"><span class="lbl">Son</span>${audioTogs()}</div>
     <button class="btn go" data-act="close">C'est bon</button>`)}
 function vSetup(){
   const s=SETUP,solo=s.mode==="solo";
@@ -1378,7 +1384,7 @@ function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><
   <p class="mute">Contact : [TON E-MAIL DE CONTACT]</p>`)}
 function voirSheet(ti){const t=G.teams[ti],bot=t.ai&&BOTS.find(b=>b.pers===t.pers);sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div>${bot?`<p class="botd">${esc(bot.d)}</p>`:""}<p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${G.format==="xi"?`<div class="gxsheet">${xiPitch(t,null)}</div>`:pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
 function pauseSheet(){PAUSED=true;hush();const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-Date.now():0;PAUSED_REM=rem;
-  sheet(`<h2>Pause</h2><p class="mute">La partie est sauvegardée : tu pourras la reprendre depuis l'accueil.</p><button class="btn go" data-act="resumePause">Reprendre</button><button class="btn" data-act="rules">Règles</button><button class="btn" data-act="pals">🎨 Couleurs</button><button class="btn" data-act="quit">Retour à l'accueil</button>`)}
+  sheet(`<h2>Pause</h2><p class="mute">La partie est sauvegardée : tu pourras la reprendre depuis l'accueil.</p><div class="field ptogs">${audioTogs()}</div><button class="btn go" data-act="resumePause">Reprendre</button><button class="btn" data-act="rules">Règles</button><button class="btn" data-act="pals">🎨 Couleurs</button><button class="btn" data-act="quit">Retour à l'accueil</button>`)}
 let PAUSED_REM=0;
 function resume(){if(PAUSED&&G&&G.cur&&G.phase==="auction"){if(G.cur.turnEnd)G.cur.turnEnd=Date.now()+Math.max(3000,PAUSED_REM);if(G.cur.aiAt)G.cur.aiAt=Date.now()+600}PAUSED=false;closeSheet()}
 /* ===================== Image du résultat ===================== */
@@ -1614,9 +1620,8 @@ function vProfile(){
      return`<div class="mis ${ok?"ok":""}"><span class="mt"><b>${esc(m.t)}</b>${bar(pr,m.n)}</span><span class="mr">${ok?"Fait":pr+"/"+m.n}<small>+${MXP} XP</small></span></div>`}).join("")}</div>
   <span class="lbl">Trophées · ${n}/${ACH.length}</span>
   <div class="ach">${ACH.map(a=>{const on=!!P.ach[a.id],g=a.goal&&!on?a.goal():null;return`<div class="${on?"on":""} t${a.tier}"><span class="tier">${["","Bronze","Argent","Or"][a.tier]}</span><b>${esc(a.t)}</b><small>${esc(a.d)}</small>${g?bar(g[0],g[1])+`<small class="gp">${Math.min(g[0],g[1])}/${g[1]}${a.id.startsWith("alb")?" %":""}</small>`:""}</div>`}).join("")}</div>
-  <div class="panel between"><span><b>Son</b><br><small class="mute">Bruitages pendant la partie</small></span><button class="tog" aria-pressed="${P.sound!==false}" data-act="sound" aria-label="Son"></button></div>
-  <div class="panel between"><span><b>Voix du commentateur</b><br><small class="mute">${Object.keys(window.VOIX||{}).length?"Les temps forts commentés à voix haute":"Bientôt disponible"}</small></span><button class="tog" aria-pressed="${P.voice!==false&&P.sound!==false}" data-act="voice" aria-label="Voix du commentateur" ${P.sound===false||!Object.keys(window.VOIX||{}).length?"disabled":""}></button></div>
-  <div class="panel between"><span><b>Ambiance de stade</b><br><small class="mute">Clameur de la foule sur les gros coups et à la fin du match</small></span><button class="tog" aria-pressed="${P.crowd!==false&&P.sound!==false}" data-act="crowd" aria-label="Ambiance de stade" ${P.sound===false?"disabled":""}></button></div>
+  <div class="panel between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div>
+  <div class="panel between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>
   <button class="mini" data-act="legal">Mentions et crédits</button>
   </div></div>`;
 }
@@ -1716,9 +1721,8 @@ document.addEventListener("click",e=>{
   else if(a==="dorestore")PAY.restore($("#remail").value.trim());
   else if(a==="relast"){const L=P.last;SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:packOpen(L.pack)?L.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};if(!L.solo)SETUP.mode="amis";go("setup")}
   else if(a==="weekpack"){const wf=weekFree();SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:wf,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
-  else if(a==="sound"){P.sound=P.sound===false;saveP();render()}
-  else if(a==="voice"){P.voice=P.voice===false;saveP();render()}
-  else if(a==="crowd"){P.crowd=P.crowd===false;saveP();render()}
+  else if(a==="sound"){const on=!sfxOk();P.sound=on;P.crowd=on;saveP();if(!on)hushSfx();else beep(1250,.07,"triangle",.11);togIn(b,on)}
+  else if(a==="voice"){P.voice=P.voice===false;saveP();if(P.voice===false)hushVoice();togIn(b,P.voice!==false)}
   else if(a==="albpack")albumSheet(v);
   else if(a==="newperso"){EDIT={};go("edit")}
   else if(a==="editperso"){const c=P.custom.find(x=>x.id===v);EDIT={id:c.id,name:c.name,txt:c.txt||c.raw.split("\n").map(l=>{const x=l.split("/");return`${x[0]} ; ${x[1]} ; ${x[2]} ; ${x[4]}`}).join("\n")};go("edit")}
