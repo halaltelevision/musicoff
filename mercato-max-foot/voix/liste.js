@@ -1,1 +1,1 @@
-window.VOIX={"mise100":3,"bataille":3,"relance":3,"cher":3,"record":3,"vol":3,"adjuge":3,"dernier":3,"secret":2,"mystere":2,"prime":2,"debut":2,"fin":2,"victoire":3,"defaite":2,"egalite":1};
+window.VOIX={"mise100":6,"bataille":6,"relance":6,"cher":6,"record":6,"vol":6,"adjuge":6,"dernier":6,"secret":5,"mystere":5,"prime":5,"debut":5,"fin":5,"victoire":6,"defaite":6,"egalite":5,"personne":3,"remontada":4,"serre":3};
