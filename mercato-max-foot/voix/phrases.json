@@ -152,5 +152,37 @@
   "À toi",
   "À toi de jouer",
   "À ton tour"
+ ],
+ "relancer": [
+  "Alors, qui se lance ?",
+  "Personne n'ose ?",
+  "Allez, il faut se décider !",
+  "On attend une offre !",
+  "Le marteau est prêt à tomber !"
+ ],
+ "fauche": [
+  "Il ne reste plus grand-chose à",
+  "Les caisses sont presque vides pour",
+  "Attention au budget pour"
+ ],
+ "riche": [
+  "Encore un gros budget pour",
+  "Le plus riche du mercato, c'est",
+  "Le portefeuille est encore bien rempli pour"
+ ],
+ "complet": [
+  "Équipe au complet pour",
+  "Effectif bouclé pour",
+  "C'est terminé pour"
+ ],
+ "moitie": [
+  "On est à la moitié du mercato !",
+  "Mi-temps du mercato !",
+  "Déjà la moitié des places prises !"
+ ],
+ "derniere": [
+  "Dernière place à prendre !",
+  "C'est la dernière enchère !",
+  "Ultime recrue du mercato !"
  ]
 }

@@ -709,7 +709,7 @@ let COMM_T=null,SOLDFX=null;
 const VOICE_RATE=1.45;function voiceRate(a){a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
 /* Chef d'orchestre audio : une seule voix à la fois, par priorité. Une voix plus importante coupe une moins importante ;
    sinon elle attend la fin (file d'une place, oubliée si trop vieille). La foule baisse quand le commentateur parle. */
-const VPRIO={star:9,pour:7,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:7,debut:2};
+const VPRIO={star:9,relancer:3,moitie:6,derniere:7,pour:7,gagnant:8,atoi:2,remontada:7,serre:7,personne:5,dernier:8,victoire:8,defaite:8,egalite:8,fin:7,record:7,vol:7,secret:6,mystere:6,prime:6,cher:5,mise100:5,bataille:4,relance:3,adjuge:7,debut:2};
 let VCUR=null,VQ=null;
 /* Préchargement : les sons sont téléchargés à l'avance et réutilisés, pour partir sans délai */
 const ACACHE={};
@@ -719,7 +719,7 @@ function fresh(src){for(const key of [src,src+"#2"]){const a=getAudio(key===src?
 function sfxOk(){return P.sound!==false}
 function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>`}
 function preloadAudio(){if(SIM||(!sfxOk()&&P.voice===false)||preloadAudio.done)return;preloadAudio.done=1;
-  ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus",...Array.from({length:CHANTS},(_,i)=>"chant_"+(i+1))].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
+  ["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","marteau_1","marteau_2","applaus","sifflet_court",...Array.from({length:CHANTS},(_,i)=>"chant_"+(i+1))].forEach(n=>{getAudio(`voix/sfx/${n}.mp3`);getAudio(`voix/sfx/${n}.mp3#2`)});
   Object.keys(window.VOIX||{}).forEach(k=>getAudio(`voix/${k}.mp3`));preloadNoms()}
 function preloadStars(){if(SIM||!G||P.voice===false)return;G.order.slice(G.pos,G.pos+3).forEach(i=>{const f=(window.VOIX_STARS||{})[cardOf(i).n];if(f)getAudio(`voix/stars/${f}.mp3`)})}
 function voiceOk(){return!(SIM||P.voice===false||PAUSED)}
@@ -793,16 +793,27 @@ function beep(f=600,d=.08,type="sine",v=.05){if(SIM||!sfxOk())return;try{AC=AC||
 const STADE={crowd:null};
 function acx(){if(SIM||!sfxOk())return null;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();return AC}catch(e){return null}}
 function noiseBuf(a,sec){const b=a.createBuffer(1,a.sampleRate*sec,a.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;l=(l+.02*w)/1.02;d[i]=l*3.5}return b}
-function crowdOn(){const a=acx();if(!a||STADE.crowd)return;
-  const src=a.createBufferSource();src.buffer=noiseBuf(a,4);src.loop=true;const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=520;bp.Q.value=.6;
-  const g=a.createGain();g.gain.value=0;g.gain.linearRampToValueAtTime(.05,a.currentTime+1.5);
-  const lfo=a.createOscillator(),lg=a.createGain();lfo.frequency.value=.13;lg.gain.value=.018;lfo.connect(lg);lg.connect(g.gain);
-  src.connect(bp);bp.connect(g);g.connect(a.destination);src.start();lfo.start();STADE.crowd={src,g,lfo}}
-function crowdOff(){const c=STADE.crowd;if(!c)return;STADE.crowd=null;try{c.g.gain.cancelScheduledValues(AC.currentTime);c.g.gain.setTargetAtTime(0,AC.currentTime,.3);setTimeout(()=>{c.src.stop();c.lfo.stop()},1200)}catch(e){}}
+/* Rumeur de stade (vrais enregistrements en boucle, sans musique) : « jeu » pendant la partie, « menu » ailleurs, très bas.
+   Elle baisse quand le commentateur parle et se tait en pause ou si les bruitages sont coupés. */
+const BED={kind:null,src:null,g:null,el:null,buf:{}};
+function bedVol(){return!BED.kind||PAUSED||!sfxOk()?0:(BED.kind==="jeu"?.24:.13)*(VCUR?.45:1)}
+function bedLevel(){const v=bedVol();if(BED.g&&AC)try{BED.g.gain.setTargetAtTime(v,AC.currentTime,.35)}catch(e){}if(BED.el)BED.el.volume=Math.min(1,v)}
+function bed(kind){if(SIM)return;if(kind===BED.kind){bedLevel();return}
+  const old={src:BED.src,g:BED.g,el:BED.el};BED.kind=kind;BED.src=BED.g=BED.el=null;
+  if(old.g&&AC)try{old.g.gain.setTargetAtTime(0,AC.currentTime,.4);setTimeout(()=>{try{old.src.stop()}catch(e){}},1500)}catch(e){}
+  if(old.el){const e=old.el;let v=e.volume;const t=setInterval(()=>{v-=.03;if(v<=0){clearInterval(t);e.pause()}else e.volume=v},60)}
+  if(!kind)return;const url=`voix/sfx/rumeur_${kind}.mp3`,a=acx();
+  const start=buf=>{if(BED.kind!==kind||BED.src)return;const src=a.createBufferSource(),g=a.createGain();src.buffer=buf;src.loop=true;src.loopStart=.05;src.loopEnd=buf.duration-.05;
+    g.gain.value=0;src.connect(g);g.connect(a.destination);src.start(0,.05);BED.src=src;BED.g=g;bedLevel()};
+  const repli=()=>{if(BED.kind!==kind||BED.el)return;const e=new Audio(url);e.loop=true;e.volume=0;BED.el=e;e.play().catch(()=>{});bedLevel()};
+  if(!a)return;if(BED.buf[url]){start(BED.buf[url]);return}
+  fetch(url).then(r=>r.arrayBuffer()).then(x=>a.decodeAudioData(x)).then(b=>{BED.buf[url]=b;start(b)}).catch(repli)}
+/* Petit « toc » sur les boutons des menus */
+function toc(){beep(1500,.028,"sine",.045);beep(700,.035,"triangle",.03)}
 /* Vrais bruitages (voix/sfx) ; les sons synthétisés servent de secours */
 const SFXA=[];function sfx(name,vol=.8){if(SIM||!sfxOk()||PAUSED)return false;try{const a=fresh(`voix/sfx/${name}.mp3`);a.onended=null;a.base=vol;a.volume=VCUR&&/foule|clameur|applaus|ohhh|chant/.test(name)?vol*.35:vol;a.crowd=/foule|clameur|applaus|ohhh|chant/.test(name);
   SFXA.push(a);a.onended=()=>{const i=SFXA.indexOf(a);if(i>=0)SFXA.splice(i,1)};a.play().catch(()=>{});return true}catch(e){return false}}
-function duck(on){SFXA.forEach(a=>{if(a.crowd)a.volume=on?a.base*.35:a.base})}
+function duck(on){SFXA.forEach(a=>{if(a.crowd)a.volume=on?a.base*.35:a.base});setTimeout(bedLevel,0)}
 function hammer(){if(sfx("marteau_"+(1+(Math.random()<.5)),.9))return;SFX.sold();const a=acx();if(!a)return;const t=a.currentTime;
   const o=a.createOscillator(),g=a.createGain();o.type="sine";o.frequency.setValueAtTime(190,t);o.frequency.exponentialRampToValueAtTime(70,t+.12);g.gain.setValueAtTime(.35,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.2);
   const n=a.createBufferSource();n.buffer=noiseBuf(a,.08);const hp=a.createBiquadFilter();hp.type="highpass";hp.frequency.value=1800;const ng=a.createGain();ng.gain.setValueAtTime(.25,t);ng.gain.exponentialRampToValueAtTime(.001,t+.06);n.connect(hp);hp.connect(ng);ng.connect(a.destination);n.start(t)}
@@ -862,6 +873,17 @@ function startGame(s){
     teams:teams.map((t,i)=>Object.assign(t,{money:fm.budget,sl:{},col:TCOL[i]})),cur:null,phase:"draw"};
   SAY={};if(!SIM){preloadAudio();preloadStars();preloadNoms();go("game");setTimeout(()=>voice("debut"),400)}
 }
+/* Repères du mercato annoncés au tirage : la moitié des places prises, la toute dernière place */
+function moments(){const tot=G.teams.length*G.slots.length,vide=G.teams.reduce((a,t)=>a+emptySlots(t),0);
+  if(vide===1&&!G.saidLast){G.saidLast=1;voice("derniere")}
+  else if(!G.saidHalf&&vide<=tot/2&&vide>1){G.saidHalf=1;voice("moitie")}}
+/* Après une vente : équipe complète, caisses presque vides, ou gros budget restant (une fois chacun par équipe) */
+function apresVente(t){if(SIM||G.draft)return;const e=emptySlots(t),others=G.teams.filter(x=>x!==t&&!full(x));
+  let k=null;
+  if(e===0&&others.length&&!t.saidC){t.saidC=1;k="complet"}
+  else if(e>=2&&t.money<=10*e+15&&!t.saidF){t.saidF=1;k="fauche"}
+  else if(e>=2&&others.length&&!G.saidRiche&&others.every(x=>t.money>=x.money*2&&t.money-x.money>=80)){G.saidRiche=1;k="riche"}
+  if(k)timers.push(setTimeout(()=>{if(SCREEN==="game")sayName(k,t,5)},2700))}
 function draw(){
   if(isOver()){finish();return}
   if(G.draft){draftPick();return}
@@ -880,7 +902,7 @@ function draw(){
   computeAI();G.phase="auction";setTurn(starter,true);
   if(SIM||G.phase!=="auction")return;
   if(G.prime>=0){G.cur.aiAt&&(G.cur.aiAt+=2600);G.cur.turnEnd&&(G.cur.turnEnd+=2600)}
-  render();setTimeout(preloadStars,50);if(G.prime>=0)primeFx(G.prime);const sx=scarInfo();if(sx&&sx.last)comm(`${sx.txt.replace(" !","")} : maintenant ou jamais !`,true,"dernier");else if(mystery)voice("mystere");else if(starVoice(cardOf(i)))setTimeout(()=>flashes(10),300);if(sx){beep(sx.last?990:760,.12,"square",.04);setTimeout(()=>beep(sx.last?1320:880,.12,"square",.04),140)}else beep(440,.1,"triangle");
+  render();setTimeout(preloadStars,50);if(G.prime>=0)primeFx(G.prime);moments();const sx=scarInfo();if(sx&&sx.last)comm(`${sx.txt.replace(" !","")} : maintenant ou jamais !`,true,"dernier");else if(mystery)voice("mystere");else if(starVoice(cardOf(i)))setTimeout(()=>flashes(10),300);if(sx){beep(sx.last?990:760,.12,"square",.04);setTimeout(()=>beep(sx.last?1320:880,.12,"square",.04),140)}else beep(440,.1,"triangle");
 }
 /* Draft : chacun son tour, on choisit 1 joueur parmi 3 (gratuit, pas d'enchère). Les 2 autres retournent au fond de la pile */
 function draftPick(){const n=G.teams.length;let pk=-1;
@@ -996,7 +1018,7 @@ function sell(){
        if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
        else if(!G.draft&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
        G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;/* Le nom de l'équipe est dit à chaque vente : « Recruté par Karim ! », ou « Transfert record ! Karim ! » */
-       if(!sayName(k==="adjuge"?"pour":k,t,7))voice(k)}}}
+       if(!sayName(k==="adjuge"?"pour":k,t,7))voice(k);apresVente(t)}}}
   else if(!SIM){roar(-1);voice("personne")}
   if(!SIM)render();
 }
@@ -1006,6 +1028,8 @@ function tick(){
   if(!G||G.phase!=="auction"||SCREEN!=="game"||PAUSED){return}
   const now=Date.now(),c=G.cur;
   if(c.aiAt&&now>=c.aiAt){c.aiAt=0;aiTurn(c.turn);return}
+  /* Le joueur hésite depuis 7 s : le commentateur relance (une fois par carte) */
+  if(c.turn!==c.tt){c.tt=c.turn;c.ta=now}else if(!c.saidR&&now-c.ta>7000&&!VCUR&&!G.teams[c.turn].ai){c.saidR=1;voice("relancer")}
   if(c.turnEnd){const rem=c.turnEnd-now;
     $$(".tbar").forEach(b=>{b.style.width=Math.max(0,Math.min(100,rem/G.ms*100))+"%";b.className="tbar "+(rem<5000?"hurry":rem<10000?"warn":"")});
     $$(".call").forEach(cl=>cl.textContent=rem<5000?`Plus que ${Math.ceil(rem/1000)} s !`:"");
@@ -1061,7 +1085,7 @@ function render(){
       if(prev&&prev.split("-")[1]!==String(ti)&&!document.querySelector(".soldfx")){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
         if(host){const f=document.createElement("div");f.className="turnflash";f.style.setProperty("--tc",G.teams[ti].col);f.innerHTML=`<b>À toi,</b><span>${esc(G.teams[ti].name)} !</span>`;host.appendChild(f);setTimeout(()=>f.remove(),1100)}
         beep(660,.07,"sine",.04);if(Date.now()-(render.atoi||0)>8000&&!VCUR&&sayName("atoi",G.teams[ti],2))render.atoi=Date.now()}}}
-  crowdOff();lights(SCREEN==="game");if(SCREEN==="game")preloadAudio();
+  bed(SCREEN==="game"||SCREEN==="results"?"jeu":"menu");lights(SCREEN==="game");if(SCREEN==="game")preloadAudio();
   if(SCREEN==="game")saveGame();
   if(SCREEN==="results")playReveal();
 }
@@ -1422,10 +1446,10 @@ function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><
   <a class="btn" href="politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
   <p class="mute">Contact : [TON E-MAIL DE CONTACT]</p>`)}
 function voirSheet(ti){const t=G.teams[ti],bot=t.ai&&BOTS.find(b=>b.pers===t.pers);sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div>${bot?`<p class="botd">${esc(bot.d)}</p>`:""}<p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${G.format==="xi"?`<div class="gxsheet">${xiPitch(t,null)}</div>`:pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
-function pauseSheet(){PAUSED=true;hush();const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-Date.now():0;PAUSED_REM=rem;
+function pauseSheet(){PAUSED=true;hush();bedLevel();const rem=G.cur&&G.cur.turnEnd?G.cur.turnEnd-Date.now():0;PAUSED_REM=rem;
   sheet(`<h2>Pause</h2><p class="mute">La partie est sauvegardée : tu pourras la reprendre depuis l'accueil.</p><div class="field ptogs">${audioTogs()}</div><button class="btn go" data-act="resumePause">Reprendre</button><button class="btn" data-act="rules">Règles</button><button class="btn" data-act="pals">🎨 Couleurs</button><button class="btn" data-act="quit">Retour à l'accueil</button>`)}
 let PAUSED_REM=0;
-function resume(){if(PAUSED&&G&&G.cur&&G.phase==="auction"){if(G.cur.turnEnd)G.cur.turnEnd=Date.now()+Math.max(3000,PAUSED_REM);if(G.cur.aiAt)G.cur.aiAt=Date.now()+600}PAUSED=false;closeSheet()}
+function resume(){if(PAUSED&&G&&G.cur&&G.phase==="auction"){if(G.cur.turnEnd)G.cur.turnEnd=Date.now()+Math.max(3000,PAUSED_REM);if(G.cur.aiAt)G.cur.aiAt=Date.now()+600}PAUSED=false;closeSheet();bedLevel()}
 /* ===================== Image du résultat ===================== */
 /* Image à partager : même mise en page que l'écran (une carte par équipe), avec les vrais maillots */
 function svgImg(svg){return new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg.replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" '))})}
@@ -1714,6 +1738,7 @@ function saveperso(){const name=$("#pname").value.trim(),txt=$("#ptxt").value,{l
 document.addEventListener("click",e=>{
   const w=e.target.closest(".wrap");if(w&&e.target===w&&w.dataset.close){if(PAUSED)resume();else closeSheet();return}
   const b=e.target.closest("[data-act]");if(!b||b.disabled)return;const a=b.dataset.act,v=b.dataset.v;
+  if(a==="start")sfx("sifflet_court",.6);else if(!["bid","sound","voice"].includes(a))toc();
   if(a==="go")go(v);
   else if(a==="setup"){SETUP={mode:v,kind:"auction",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:PACKS[P.pack]&&packOpen(P.pack)?P.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};OPTOPEN=false;go("setup")}
   else if(a==="packs"){PK_TAB=null;PK_Q="";packsSheet()}
@@ -1760,7 +1785,7 @@ document.addEventListener("click",e=>{
   else if(a==="dorestore")PAY.restore($("#remail").value.trim());
   else if(a==="relast"){const L=P.last;SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:packOpen(L.pack)?L.pack:DEFPK,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};if(!L.solo)SETUP.mode="amis";go("setup")}
   else if(a==="weekpack"){const wf=weekFree();SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:wf,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
-  else if(a==="sound"){const on=!sfxOk();P.sound=on;delete P.crowd;saveP();if(!on)hushSfx();else beep(1250,.07,"triangle",.11);togIn(b,on)}
+  else if(a==="sound"){const on=!sfxOk();P.sound=on;delete P.crowd;saveP();if(!on)hushSfx();else beep(1250,.07,"triangle",.11);togIn(b,on);bedLevel()}
   else if(a==="voice"){P.voice=P.voice===false;saveP();if(P.voice===false)hushVoice();togIn(b,P.voice!==false)}
   else if(a==="albpack")albumSheet(v);
   else if(a==="newperso"){EDIT={};go("edit")}
