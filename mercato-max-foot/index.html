@@ -704,7 +704,7 @@ let COMM_T=null,SOLDFX=null;
 /* Voix du commentateur : fichiers voix/<moment>_<n>.mp3 (voir voix/LISEZMOI). Absents = silence */
 let VOICE_A=null,VOICE_T=0;
 /* Débit du commentateur : plus rapide, sans changer la hauteur de la voix */
-const VOICE_RATE=1.25;function voiceRate(a){a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
+const VOICE_RATE=1.45;function voiceRate(a){a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;a.defaultPlaybackRate=VOICE_RATE;a.playbackRate=VOICE_RATE}
 function voice(k){if(SIM||!k||P.sound===false||P.voice===false)return;const n=(window.VOIX||{})[k];if(!n)return;const now=Date.now();if(now<VOICE_T)return;
   try{if(VOICE_A)VOICE_A.pause();VOICE_A=new Audio(`voix/${k}_${1+Math.floor(Math.random()*n)}.mp3`);VOICE_A.volume=.95;voiceRate(VOICE_A);VOICE_A.play().catch(()=>{});VOICE_T=now+1100}catch(e){}}
 /* Annonce d'une star qui sort : « Et voici… Zidane ! » */
