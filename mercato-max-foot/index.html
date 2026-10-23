@@ -476,6 +476,32 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .mj .vide{display:grid;place-items:center;border:1.5px dashed color-mix(in srgb,var(--pc) 70%,transparent);border-radius:50%;width:22px;height:22px;font-style:normal;font-family:var(--display);font-size:9px;font-weight:700;color:var(--pc)}
 .tile .low .pips,.zone .low .pips{flex:1;min-width:0;gap:2px}.tile .low .pips i,.zone .low .pips i{flex:1 1 0;min-width:4px;max-width:12px;height:12px}
 .tile .low .voir,.zone .low .voir{white-space:nowrap;flex:none;font-size:12px}
+.nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}.nav b{font-size:15px;white-space:nowrap;letter-spacing:.01em}.nav small{font-size:11px;white-space:nowrap}
+.phero{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.plv{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:30px;font-weight:800;background:var(--accent);color:#fff;box-shadow:0 0 22px -6px var(--accent)}
+.pinfo{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}.pinfo b{font-family:var(--display);font-size:20px;text-transform:uppercase}.pinfo small{color:var(--mute);font-size:12px}
+.prof{display:flex;flex-direction:column;gap:12px}.psec{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.pmis{display:flex;justify-content:space-between;gap:10px;font-size:14px;align-items:center}.pmis b{font-family:var(--display);font-size:15px;color:var(--mute);flex:none}.pmis.ok b{color:var(--green)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:8px}
+.badge{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:14px;color:rgba(255,255,255,.35);background:rgba(255,255,255,.06);border:2px dashed rgba(255,255,255,.18)}
+.badge.on{color:#1A1446;border-style:solid;border-color:rgba(255,255,255,.6)}.badge.t1.on{background:#D08A4E}.badge.t2.on{background:#C9D3E8}.badge.t3.on{background:#F5C542;box-shadow:0 0 12px -3px #F5C542}
+.pedit{gap:10px}.pcount{display:flex;gap:6px}.pcount span{flex:1;text-align:center;padding:6px 2px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-size:11px;color:var(--mute);font-weight:700;text-transform:uppercase}
+.pcount span b{display:block;font-family:var(--display);font-size:20px;color:var(--ink)}.pcount span.ok{border-color:var(--pc,var(--green));box-shadow:inset 0 -3px 0 var(--pc,var(--green))}.pcount .tot.ok{--pc:var(--green)}
+.ptabs{display:flex}.ptabs button{flex:1}
+.pres,.plist{display:flex;flex-direction:column;gap:6px}
+.prow{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 10px}
+.prow .pn{flex:1;min-width:0;display:flex;flex-direction:column}.prow .pn b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.prow .pn small{color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.padd{flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-size:22px;font-weight:700;line-height:1}.padd.ok{background:var(--green)}
+.pdel{flex:none;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.08);color:var(--mute);font-size:18px}
+.pnote{font-family:var(--display);font-weight:700;font-size:13px;color:var(--yellow);flex:none}
+.pform{display:flex;flex-direction:column;gap:8px}.fposs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.fposs button{padding:9px 2px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:13px;text-transform:uppercase}
+.fposs button[aria-pressed="true"]{background:var(--pc);border-color:var(--pc);color:#fff}
+.fnote{display:flex;align-items:center;gap:10px}.fnote span{color:var(--mute);font-size:13px;font-weight:600;text-transform:uppercase}
+.fnote button{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);font-size:22px}.fnote b{font-family:var(--display);font-size:28px;min-width:42px;text-align:center}.fnote small{color:var(--mute)}
+.pedit .cta{position:sticky;bottom:0;padding:12px 0 calc(4px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 30%);display:flex;flex-direction:column;gap:6px;z-index:5;margin-top:auto}
+.pedit .cta .btn[disabled]{opacity:.45}.pmiss{text-align:center;font-size:12px}
+.mini.go{background:var(--accent);color:#fff;border-color:transparent}
 .rwd{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:center;gap:5px;margin:4px 0}.rwd:empty{display:none}
 .rwd button{font:inherit;cursor:pointer;white-space:nowrap;flex:none;font-size:11px;font-weight:600;color:var(--yellow);background:rgba(255,210,63,.1);border:1px solid rgba(255,210,63,.35);border-radius:20px;padding:4px 10px;animation:sfxpop .4s ease both}
 
@@ -1220,7 +1246,7 @@ function vHome(){
   </div>
   <button class="dailyc" data-act="daily">${packJersey(dp,40)}<span class="dt"><span class="lbl">Défi du jour${SR.n>1?`<i class="fl ${SR.today?"ok":""}">🔥 ${SR.n} jours</i>`:""}</span><b>${esc(dp.name)}</b><small>${best!=null?`Ton meilleur score aujourd'hui : ${best}`:SR.n>0&&!SR.today?`Joue aujourd'hui pour garder ta série de ${SR.n} jour${SR.n>1?"s":""} !`:"Même tirage pour tout le monde, contre 2 ordis"}</small></span><span class="pkch">Jouer</span></button>
   ${homeLive()}
-  <nav class="nav"><button data-act="go" data-v="shop"><b>Boutique</b><small>${PREMIUM.length} packs premium</small></button><button data-act="go" data-v="album"><b>Album</b><small>${(P.hist||[]).length} partie${(P.hist||[]).length>1?"s":""}</small></button><button data-act="go" data-v="profile"><b>Profil</b><small>${Object.keys(P.ach).length}/${ACH.length} trophées</small></button></nav>
+  <nav class="nav"><button data-act="go" data-v="shop"><b>Boutique</b><small>${PREMIUM.length} premium</small></button><button data-act="go" data-v="perso"><b>Mes packs</b><small>${P.custom.length?P.custom.length+" créé"+(P.custom.length>1?"s":""):"Crée le tien"}</small></button><button data-act="go" data-v="album"><b>Album</b><small>${(P.hist||[]).length} partie${(P.hist||[]).length>1?"s":""}</small></button><button data-act="go" data-v="profile"><b>Profil</b><small>Niveau ${lvl(P.xp).n}</small></button></nav>
   </div>`;
 }
 /* Accueil : dernière partie (avec la série) et pack offert cette semaine */
@@ -1817,17 +1843,17 @@ function vProfile(){
   const L=lvl(P.xp),n=ACH.filter(a=>P.ach[a.id]).length,W=weekState();saveP();const days=7-((Math.floor(Date.now()/864e5)+3)%7);
   return`<div class="page">
   <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Mon profil</h2></div>
-  <div class="scroll">
-  <div class="panel"><div class="between"><b class="lvt">Niveau ${L.n} · ${esc(L.title)}</b><span class="mute">${L.into}/${L.need} XP</span></div>${bar(L.into,L.need)}</div>
-  <div class="stats"><div><span class="num">${P.games}</span><small>Parties jouées</small></div><div><span class="num">${P.wins}</span><small>Victoires contre l'ordi</small></div><div><span class="num">${P.best?P.best.score:0}</span><small>Meilleur score</small></div></div>
-  <div class="panel"><div class="between"><span class="lbl">Missions de la semaine</span><small class="mute">encore ${days} jour${days>1?"s":""}</small></div>
+  <div class="scroll prof">
+  <div class="phero"><span class="plv">${L.n}</span><span class="pinfo"><b>${esc(L.title)}</b><small>${L.into} / ${L.need} XP avant le niveau ${L.n+1}</small>${bar(L.into,L.need)}</span></div>
+  <div class="stats"><div><span class="num">${P.games}</span><small>Parties</small></div><div><span class="num">${P.wins}</span><small>Victoires</small></div><div><span class="num">${P.best?P.best.score:0}</span><small>Record</small></div></div>
+  <div class="psec"><div class="between"><span class="lbl">Missions de la semaine</span><small class="mute">${days} jour${days>1?"s":""}</small></div>
    ${W.ids.map(id=>{const m=MISSIONS.find(x=>x.id===id);if(!m)return"";const pr=Math.min(m.n,W.prog[id]||0),ok=!!W.done[id];
-     return`<div class="mis ${ok?"ok":""}"><span class="mt"><b>${esc(m.t)}</b>${bar(pr,m.n)}</span><span class="mr">${ok?"Fait":pr+"/"+m.n}<small>+${MXP} XP</small></span></div>`}).join("")}</div>
-  <span class="lbl">Trophées · ${n}/${ACH.length}</span>
-  <div class="ach">${ACH.map(a=>{const on=!!P.ach[a.id],g=a.goal&&!on?a.goal():null;return`<div class="${on?"on":""} t${a.tier}"><span class="tier">${["","Bronze","Argent","Or"][a.tier]}</span><b>${esc(a.t)}</b><small>${esc(a.d)}</small>${g?bar(g[0],g[1])+`<small class="gp">${Math.min(g[0],g[1])}/${g[1]}${a.id.startsWith("alb")?" %":""}</small>`:""}</div>`}).join("")}</div>
-  <div class="panel between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div>
-  <div class="panel between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>
-  <button class="mini" data-act="legal">Mentions et crédits</button>
+     return`<div class="pmis ${ok?"ok":""}"><span>${esc(m.t)}</span><b>${ok?"✓":pr+"/"+m.n}</b></div>`}).join("")}</div>
+  <div class="psec"><div class="between"><span class="lbl">Trophées</span><small class="mute">${n} / ${ACH.length}</small></div>
+   <div class="badges">${ACH.map(a=>`<button class="badge t${a.tier} ${P.ach[a.id]?"on":""}" data-act="ach" data-v="${a.id}" aria-label="${esc(a.t)}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 3h10v3h3v2a5 5 0 0 1-4.6 5A5 5 0 0 1 13 15.7V18h3v3H8v-3h3v-2.3A5 5 0 0 1 8.6 13 5 5 0 0 1 4 8V6h3zm0 5V8H6a3 3 0 0 0 1 2.2zm10 0v2.2A3 3 0 0 0 18 8z" fill="currentColor"/></svg></button>`).join("")}</div>
+   <small class="mute">Touche un trophée pour voir comment le gagner.</small></div>
+  <div class="psec"><span class="lbl">Réglages</span>${audioTogs()}<button class="btn" data-act="pals">Couleurs du jeu</button></div>
+  <button class="mini" data-act="legal" style="align-self:center">Mentions et crédits</button>
   </div></div>`;
 }
 /* ===================== Album : les résultats des anciennes parties =====================
@@ -1863,27 +1889,45 @@ function persoMax(){return owns("createur")?Infinity:CONFIG.freeCustomPacks+(own
 let EDIT=null,DEL=null;
 function vPerso(){const n=P.custom.length,mx=persoMax();
   return`<div class="page">
-  <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Mes packs perso</h2></div>
-  <p class="mute" style="font-size:14px">Crée un pack avec tes joueurs, ton équipe de quartier ou tes potes. ${mx===Infinity?"Packs illimités.":`${n}/${mx} pack${mx>1?"s":""} utilisé${n>1?"s":""}.`}</p>
-  <button class="btn go" data-act="${n<mx?"newperso":"buy"}" ${n<mx?"":`data-v="perso3"`}>${n<mx?"Créer un pack":"Débloquer plus de packs perso"}</button>
-  <div class="scroll">${P.custom.map(c=>`<div class="prod">${packJersey(PACKS[c.id],34)}<div class="l"><b>${esc(c.name)}</b><span>${PACKS[c.id].cards.length} joueurs</span></div><span class="row"><button class="mini" data-act="editperso" data-v="${c.id}">Modifier</button><button class="mini" data-act="delperso" data-v="${c.id}">${DEL===c.id?"Confirmer ?":"Supprimer"}</button></span></div>`).join("")||`<p class="mute">Aucun pack perso pour l'instant.</p>`}</div></div>`}
-function vEdit(){const c=EDIT;
-  return`<div class="page">
-  <div class="topbar"><button class="mini" data-act="go" data-v="perso">Retour</button><h2>${c.id?"Modifier le pack":"Nouveau pack"}</h2></div>
-  <input id="pname" maxlength="28" placeholder="Nom du pack, ex. Les légendes du quartier" value="${esc(c.name||"")}" aria-label="Nom du pack">
-  <p class="mute" style="font-size:13px">Un joueur par ligne : <b>Nom ; Poste ; Note</b>, ou <b>Nom ; Poste ; Club ; Note</b>. Poste : G, DEF, MIL ou ATT. Note de 1 à 99. Il faut au moins 15 joueurs, dont 3 gardiens, 3 défenseurs, 3 milieux et 3 attaquants.</p>
-  <textarea id="ptxt" placeholder="Karim ; ATT ; FC Quartier ; 88&#10;Yanis ; G ; 75&#10;Sofiane ; MIL ; 82" aria-label="Joueurs du pack">${esc(c.txt||"")}</textarea>
-  <p class="err" id="perr"></p>
-  <button class="btn go" data-act="saveperso">Enregistrer le pack</button></div>`}
-function saveperso(){const name=$("#pname").value.trim(),txt=$("#ptxt").value,{lines,bad}=parsePerso(txt),err=$("#perr");
-  if(!name){err.textContent="Donne un nom à ton pack.";return}
-  if(bad.length){err.textContent=`Ligne${bad.length>1?"s":""} ${bad.slice(0,6).join(", ")} : écris Nom ; Poste ; Note (poste G, DEF, MIL ou ATT).`;return}
-  const cnt={G:0,DEF:0,MIL:0,ATT:0};lines.forEach(l=>cnt[l.split("/")[1]]++);
-  if(lines.length<15||lines.length>80){err.textContent=`Il faut entre 15 et 80 joueurs (tu en as ${lines.length}).`;return}
-  const miss=Object.entries(cnt).filter(([k,v])=>v<3).map(([k])=>POS[k].l.toLowerCase()+"s");
-  if(miss.length){err.textContent="Il manque des "+miss.join(", ")+" (3 minimum par poste).";return}
-  const id=EDIT.id||"perso_"+Date.now().toString(36),c={id,name,raw:lines.join("\n"),txt};
-  const i=P.custom.findIndex(x=>x.id===id);if(i>=0)P.custom[i]=c;else P.custom.push(c);regCustom(c);saveP();toast("Pack enregistré");go("perso")}
+  <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Mes packs</h2></div>
+  <p class="mute" style="font-size:14px;margin:0">Crée un pack avec les joueurs de ton choix : tes stars préférées, ton équipe de quartier ou tes potes. ${mx===Infinity?"Packs illimités.":`${n}/${mx} pack${mx>1?"s":""} utilisé${n>1?"s":""}.`}</p>
+  <button class="btn go" data-act="${n<mx?"newperso":"buy"}" ${n<mx?"":`data-v="perso3"`}>${n<mx?"+ Créer un pack":"Débloquer plus de packs"}</button>
+  <div class="scroll">${n?P.custom.map(c=>`<div class="prod">${packJersey(PACKS[c.id],34)}<div class="l"><b>${esc(c.name)}</b><span>${PACKS[c.id].cards.length} joueurs</span></div><span class="row"><button class="mini go" data-act="playperso" data-v="${c.id}">Jouer</button><button class="mini" data-act="editperso" data-v="${c.id}">Modifier</button><button class="mini" data-act="delperso" data-v="${c.id}">${DEL===c.id?"Sûr ?":"×"}</button></span></div>`).join("")
+   :`<div class="hempty" style="padding:24px 8px">${jersey({club:"__perso",iniOverride:"+"},64)}<b>Aucun pack pour l'instant</b><p class="mute">En 2 minutes : cherche des joueurs connus ou invente les tiens, puis joue avec.</p></div>`}</div></div>`}
+/* Éditeur de pack : chercher des joueurs du jeu ou créer les siens, avec un compteur par poste */
+const PMIN={G:3,DEF:3,MIL:3,ATT:3},PTOT=15;
+let ALLP=null;
+function allPlayers(){if(!ALLP){const seen=new Set();ALLP=[];Object.values(PACKS).filter(p=>p.cat!=="perso").forEach(p=>p.cards.forEach(c=>{if(!seen.has(c.n)){seen.add(c.n);ALLP.push(c)}}))}return ALLP}
+function editFrom(c){const list=(c&&c.raw?c.raw.split("\n"):[]).map(l=>{const x=l.split("/");return{n:x[0],pos:x[1],club:x[2],pays:x[3],note:+x[4],real:x[3]!=="Perso"}});
+  return{id:c&&c.id,name:c?c.name:"",list,tab:"jeu",q:"",f:{n:"",pos:"ATT",note:75,club:""}}}
+function packCount(){const k={G:0,DEF:0,MIL:0,ATT:0};EDIT.list.forEach(x=>k[x.pos]++);return k}
+function packMissing(){const k=packCount(),m=[];if(!EDIT.name.trim())m.push("un nom");
+  Object.entries(PMIN).forEach(([p,v])=>{if(k[p]<v)m.push(`${v-k[p]} ${POS[p].l.toLowerCase()}${v-k[p]>1?"s":""}`)});
+  if(EDIT.list.length<PTOT)m.push(`${PTOT-EDIT.list.length} joueur${PTOT-EDIT.list.length>1?"s":""} au total`);return m}
+function searchHTML(){const q=norm(EDIT.q||"").trim();if(q.length<2)return`<p class="mute" style="font-size:13px;margin:4px 0">Tape au moins 2 lettres : un nom, un club ou un pays.</p>`;
+  const have=new Set(EDIT.list.map(x=>x.n)),res=allPlayers().filter(c=>norm(c.n).includes(q)||norm(c.club).includes(q)||norm(c.pays).includes(q)).slice(0,12);
+  return res.length?res.map(c=>{const i=ALLP.indexOf(c),ok=have.has(c.n);return`<div class="prow">${jersey(c,28)}<span class="pn"><b>${esc(c.n)}</b><small>${POS[c.pos].l} · ${esc(c.club)}</small></span><button class="padd ${ok?"ok":""}" data-act="padd" data-v="${i}" ${ok?"disabled":""} aria-label="Ajouter ${esc(c.n)}">${ok?"✓":"+"}</button></div>`}).join(""):`<p class="mute" style="font-size:13px">Aucun joueur trouvé. Crée-le dans « Mon joueur ».</p>`}
+function vEdit(){const E=EDIT,k=packCount(),miss=packMissing();
+  return`<div class="page pedit">
+  <div class="topbar"><button class="mini" data-act="go" data-v="perso">Retour</button><h2>${E.id?"Modifier le pack":"Nouveau pack"}</h2></div>
+  <input id="pname" maxlength="28" placeholder="Nom du pack, ex. Les légendes du quartier" value="${esc(E.name)}" aria-label="Nom du pack">
+  <div class="pcount">${Object.keys(PMIN).map(p=>`<span class="${k[p]>=PMIN[p]?"ok":""}" style="--pc:${POS[p].c}"><b>${k[p]}</b>${POS[p].s}</span>`).join("")}<span class="${E.list.length>=PTOT?"ok":""} tot"><b>${E.list.length}</b>/${PTOT}</span></div>
+  <div class="seg ptabs"><button data-act="ptab" data-v="jeu" aria-pressed="${E.tab==="jeu"}">Joueurs connus</button><button data-act="ptab" data-v="moi" aria-pressed="${E.tab==="moi"}">Mon joueur</button></div>
+  ${E.tab==="jeu"?`<input id="pq" placeholder="Cherche : Zidane, Real Madrid, Algérie…" value="${esc(E.q)}" aria-label="Chercher un joueur" autocomplete="off"><div id="pres" class="pres">${searchHTML()}</div>`
+   :`<div class="pform"><input id="fn" maxlength="22" placeholder="Prénom ou surnom" value="${esc(E.f.n)}" aria-label="Nom du joueur">
+     <div class="fposs">${["G","DEF","MIL","ATT"].map(p=>`<button data-act="fpos" data-v="${p}" aria-pressed="${E.f.pos===p}" style="--pc:${POS[p].c}">${POS[p].l}</button>`).join("")}</div>
+     <div class="fnote"><span>Note</span><button data-act="fnote" data-v="-5" aria-label="Moins">−</button><b>${E.f.note}</b><button data-act="fnote" data-v="5" aria-label="Plus">+</button><small>sur 99</small></div>
+     <input id="fc" maxlength="22" placeholder="Équipe (facultatif)" value="${esc(E.f.club)}" aria-label="Équipe"><button class="btn" data-act="fadd">Ajouter au pack</button></div>`}
+  <div class="plist"><span class="lbl">Ton pack · ${E.list.length} joueur${E.list.length>1?"s":""}</span>
+   ${E.list.length?["G","DEF","MIL","ATT"].map(p=>E.list.map((x,i)=>[x,i]).filter(([x])=>x.pos===p).map(([x,i])=>`<div class="prow">${jersey({club:x.club},26)}<span class="pn"><b>${esc(x.n)}</b><small>${POS[x.pos].l}${x.real?"":" · "+esc(x.club)}</small></span>${x.real?`<span class="pnote">officiel</span>`:`<span class="pnote">${x.note}</span>`}<button class="pdel" data-act="pdel" data-v="${i}" aria-label="Retirer ${esc(x.n)}">×</button></div>`).join("")).join("")
+    :`<p class="mute" style="font-size:13px">Ajoute au moins 3 gardiens, 3 défenseurs, 3 milieux et 3 attaquants (15 joueurs).</p>`}
+   <button class="mini" data-act="pimport" style="align-self:flex-start">Coller une liste de joueurs</button></div>
+  <div class="cta"><button class="btn go" data-act="saveperso" ${miss.length?"disabled":""}>Enregistrer le pack</button>${miss.length?`<small class="mute pmiss">Il manque : ${miss.join(", ")}</small>`:""}</div></div>`}
+function importSheet(){sheet(`<h2>Coller une liste</h2><p class="mute" style="font-size:13px">Un joueur par ligne : <b>Nom ; Poste ; Note</b> (ou Nom ; Poste ; Équipe ; Note). Poste : G, DEF, MIL ou ATT.</p><textarea id="ptxt" placeholder="Karim ; ATT ; 88&#10;Yanis ; G ; 75"></textarea><p class="err" id="perr"></p><button class="btn go" data-act="pimportok">Ajouter ces joueurs</button>`)}
+function saveperso(){const E=EDIT;if(packMissing().length)return;
+  const lines=E.list.map(x=>`${x.n.replace(/\//g,"-")}/${x.pos}/${(x.club||"Mon équipe").replace(/\//g,"-")}/${x.real?(x.pays||"Monde").replace(/\//g,"-"):"Perso"}/${x.note}`).slice(0,80);
+  const id=E.id||"perso_"+Date.now().toString(36),c={id,name:E.name.trim(),raw:lines.join("\n")};
+  const i=P.custom.findIndex(x=>x.id===id);if(i>=0)P.custom[i]=c;else P.custom.push(c);regCustom(c);saveP();toast("Pack enregistré : tu peux jouer avec !");go("perso")}
 /* ===================== Actions ===================== */
 document.addEventListener("click",e=>{
   const w=e.target.closest(".wrap");if(w&&e.target===w&&w.dataset.close){if(PAUSED)resume();else closeSheet();return}
@@ -1940,12 +1984,27 @@ document.addEventListener("click",e=>{
   else if(a==="vib"){P.vib=P.vib===false;saveP();togIn(b,P.vib!==false);buzz(30)}
   else if(a==="hist")histSheet(+v);
   else if(a==="histshare")share((P.hist||[])[+v]);
-  else if(a==="newperso"){EDIT={};go("edit")}
-  else if(a==="editperso"){const c=P.custom.find(x=>x.id===v);EDIT={id:c.id,name:c.name,txt:c.txt||c.raw.split("\n").map(l=>{const x=l.split("/");return`${x[0]} ; ${x[1]} ; ${x[2]} ; ${x[4]}`}).join("\n")};go("edit")}
+  else if(a==="newperso"){EDIT=editFrom(null);go("edit")}
+  else if(a==="editperso"){EDIT=editFrom(P.custom.find(x=>x.id===v));go("edit")}
+  else if(a==="playperso"){SETUP={mode:"solo",kind:"auction",format:"five",formation:"4-3-3",pack:v,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
+  else if(a==="ptab"){EDIT.tab=v;render()}
+  else if(a==="padd"){const c=allPlayers()[+v];if(c&&!EDIT.list.some(x=>x.n===c.n)){EDIT.list.push({n:c.n,pos:c.pos,club:c.club,pays:c.pays,note:c.p,real:true});render();const q=$("#pq");if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length)}}}
+  else if(a==="fpos"){EDIT.f.pos=v;render()}
+  else if(a==="fnote"){EDIT.f.note=Math.max(1,Math.min(99,EDIT.f.note+(+v)));render()}
+  else if(a==="fadd"){const f=EDIT.f;if(!f.n.trim()){toast("Écris le nom du joueur");$("#fn")&&$("#fn").focus();return}EDIT.list.push({n:f.n.trim(),pos:f.pos,club:f.club.trim()||"Mon équipe",note:f.note,real:false});f.n="";render();const x=$("#fn");if(x)x.focus()}
+  else if(a==="pdel"){EDIT.list.splice(+v,1);render()}
+  else if(a==="pimport")importSheet();
+  else if(a==="pimportok"){const {lines,bad}=parsePerso($("#ptxt").value);if(bad.length){$("#perr").textContent=`Ligne${bad.length>1?"s":""} ${bad.slice(0,6).join(", ")} : écris Nom ; Poste ; Note.`;return}
+    lines.forEach(l=>{const x=l.split("/");EDIT.list.push({n:x[0],pos:x[1],club:x[2],note:+x[4],real:false})});closeSheet();render();toast(lines.length+" joueur"+(lines.length>1?"s":"")+" ajouté"+(lines.length>1?"s":""))}
+  else if(a==="ach"){const x=ACH.find(y=>y.id===v);if(x){const g=x.goal&&!P.ach[x.id]?x.goal():null;toast(`${P.ach[x.id]?"Gagné : ":""}${x.t} — ${x.d}${g?` (${Math.min(g[0],g[1])}/${g[1]})`:""}`,true)}}
   else if(a==="delperso"){if(DEL!==v){DEL=v;render();return}P.custom=P.custom.filter(x=>x.id!==v);delete PACKS[v];DEL=null;if(P.pack===v)P.pack=DEFPK;saveP();render()}
   else if(a==="saveperso")saveperso();
 });
-document.addEventListener("input",e=>{const i=e.target.closest("[data-name]");if(i&&SETUP)SETUP.names[+i.dataset.name]=i.value});
+document.addEventListener("input",e=>{const i=e.target.closest("[data-name]");if(i&&SETUP)SETUP.names[+i.dataset.name]=i.value;
+  if(SCREEN==="edit"&&EDIT){const id=e.target.id;
+    if(id==="pname"){EDIT.name=e.target.value;const c=$(".pedit .cta");if(c){const m=packMissing();c.innerHTML=`<button class="btn go" data-act="saveperso" ${m.length?"disabled":""}>Enregistrer le pack</button>${m.length?`<small class="mute pmiss">Il manque : ${m.join(", ")}</small>`:""}`}}
+    else if(id==="pq"){EDIT.q=e.target.value;const r=$("#pres");if(r)r.innerHTML=searchHTML()}
+    else if(id==="fn")EDIT.f.n=e.target.value;else if(id==="fc")EDIT.f.club=e.target.value}});
 /* Écran de démarrage : l'écusson et le nom apparaissent ~1,2 s (avec un coup de sifflet quand le téléphone l'autorise), puis s'effacent */
 function splash(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const el=document.createElement("div");el.id="splash";
   el.innerHTML=`<div class="spc">${crest}<div class="mark">Mercato <span>Max</span> <em>Foot</em></div><div class="tagline">Mise. Bluffe. Recrute.</div></div>`;document.body.appendChild(el);
