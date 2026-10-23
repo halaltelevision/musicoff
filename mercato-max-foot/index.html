@@ -398,6 +398,9 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .prod .l span{font-size:12px;color:var(--mute);line-height:1.25}
 .prod.feat{border-color:var(--yellow);box-shadow:0 0 0 1px var(--yellow)}
 .prod.own .p{color:var(--green);font-family:var(--display);font-weight:700;text-transform:uppercase}
+.pstack{flex:none;width:44px;height:38px;position:relative;display:block}.pstack .jer{position:absolute;top:5px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.pstack .jer:nth-child(1){left:-2px;transform:rotate(-14deg)}.pstack .jer:nth-child(2){left:8px;top:2px;z-index:1}.pstack .jer:nth-child(3){left:18px;transform:rotate(14deg);z-index:2}
+.pstack.one .jer{left:3px;top:0;transform:none}.pstack.gold .jer{filter:drop-shadow(0 0 8px rgba(245,197,66,.6))}
 .pico{flex:none;width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:12px}
 .buy{flex:none;background:var(--accent);color:#fff;border-radius:9px;padding:6px 10px;font-family:var(--display);font-weight:700;font-size:16px}
 .dev{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:12px;padding:8px 12px;flex-wrap:wrap}
@@ -1675,8 +1678,15 @@ function buySheet(prod){const pr=PRODUCTS[prod];if(!pr)return;
   <p class="mute" style="font-size:12px;text-align:center">Paiement sécurisé par carte. Achat unique, à vie, valable sur ce téléphone pour tous ceux qui jouent dessus.</p>
   <button class="btn" data-act="close">Plus tard</button>`)}
 let SHOP_TAB="offres";
+/* Icônes de la boutique dans le style du jeu : pass = 3 maillots de la catégorie en éventail,
+   collection complète = maillot doré, packs perso = maillot blanc avec un « + » */
+CC.__or=["#F5C542","#1A1446"];CC.__perso=["#FFFFFF","#E8304A"];
+function prodIco(p){
+  if(p.kind==="pass"){const ids=PREMIUM.filter(id=>PACKS[id].cat===p.cat).slice(0,3);return`<span class="pstack">${ids.map(id=>packJersey(PACKS[id],28)).join("")}</span>`}
+  if(p.kind==="all")return`<span class="pstack one gold">${jersey({club:"__or",iniOverride:"★"},38)}</span>`;
+  return`<span class="pstack one">${jersey({club:"__perso",iniOverride:"+"},36)}</span>`}
 function prodRow(k){const p=PRODUCTS[k],own=owns(k),inPass=p.kind==="pack"&&owns("pass_"+p.cat),gift=p.kind==="pack"&&p.pack===weekFree();
-  const ico=p.kind==="pack"?packJersey(PACKS[p.pack],34):`<span class="pico">${p.kind==="all"?"★":p.kind==="pass"?"PASS":"+"}</span>`;
+  const ico=p.kind==="pack"?packJersey(PACKS[p.pack],34):prodIco(p);
   return`<div class="prod ${own||inPass?"own":""} ${p.kind==="all"?"feat":""}">${ico}<div class="l"><b>${esc(p.label)}</b><span>${gift&&!own&&!inPass?"Offert cette semaine · ":""}${esc(p.desc)}</span></div>${own||inPass?`<span class="p">${inPass&&!P.owned[k]?"Inclus":"À toi"}</span>`:`<button class="buy" data-act="buy" data-v="${k}">${euro(p.cents)}</button>`}</div>`}
 function vShop(){
   const nFree=Object.values(PACKS).filter(p=>p.cat!=="perso"&&!isPremium(p.id)).length;
