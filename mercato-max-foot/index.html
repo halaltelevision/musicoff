@@ -1676,8 +1676,8 @@ async function share(h){
 /* ===================== Boutique et paiement ===================== */
 const CONFIG=MMF.CONFIG;
 P.custom.forEach(regCustom);
-const PREMIUM=CONFIG.premium.filter(id=>PACKS[id]);
-const DEFPK=PACKS.s_leg?"s_leg":Object.keys(PACKS).find(id=>!CONFIG.premium.includes(id));
+const PREMIUM=Object.keys(PACKS).filter(id=>MMF.isPrem(PACKS[id]));
+const DEFPK=PACKS.s_leg?"s_leg":Object.keys(PACKS).find(id=>!MMF.isPrem(PACKS[id]));
 const PRODUCTS=MMF.buildProducts(Object.values(PACKS).filter(p=>p.cat!=="perso").map(p=>({id:p.id,name:p.name,cat:p.cat,size:p.cards.length})));
 const euro=c=>(c/100).toFixed(2).replace(".",",")+" €";
 function owns(prod){return !!(P.owned.all||P.owned[prod])}
