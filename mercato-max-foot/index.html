@@ -464,6 +464,10 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .hcard small{color:var(--mute);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hempty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:40px 12px}.hempty b{font-family:var(--display);font-size:22px;text-transform:uppercase}.hempty p{margin:0 0 8px}
 .hbig{min-height:200px;display:grid;place-items:center;margin:10px 0}.hbig img{width:100%;border-radius:16px}
+#splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--bg);background-image:var(--bgimg)}
+#splash .spc{display:flex;flex-direction:column;align-items:center;gap:6px;animation:enter .6s cubic-bezier(.2,1.3,.4,1) both}#splash svg{width:84px;height:95px}
+#splash .mark{font-size:42px}#splash.out{animation:blOut .45s ease-in forwards}
+.dailyc .fl{font-style:normal;margin-left:8px;padding:1px 7px;border-radius:10px;background:rgba(255,255,255,.08);color:var(--mute);letter-spacing:0}.dailyc .fl.ok{background:rgba(255,140,40,.18);color:#FFB15C}
 .rwd{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:center;gap:5px;margin:4px 0}.rwd:empty{display:none}
 .rwd button{font:inherit;cursor:pointer;white-space:nowrap;flex:none;font-size:11px;font-weight:600;color:var(--yellow);background:rgba(255,210,63,.1);border:1px solid rgba(255,210,63,.35);border-radius:20px;padding:4px 10px;animation:sfxpop .4s ease both}
 
@@ -787,7 +791,7 @@ function clipOf(n){const k=n.src+"@"+n.seg[0];if(CLIP[k])return CLIP[k];const b=
   const i0=Math.floor(n.seg[0]*b.sampleRate),len=Math.max(1,Math.floor(n.seg[1]*b.sampleRate)),c=AC.createBuffer(1,len,b.sampleRate);c.copyToChannel(b.getChannelData(0).subarray(i0,i0+len),0);return CLIP[k]=c}
 /* L'ancien réglage « Ambiance de stade » (P.crowd) ne coupe plus rien : seul « Bruitages » compte */
 function sfxOk(){return P.sound!==false}
-function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div>`}
+function audioTogs(){return`<div class="between"><span><b>Voix du commentateur</b><br><small class="mute">Les temps forts commentés à voix haute</small></span><button class="tog" aria-pressed="${P.voice!==false}" data-act="voice" aria-label="Voix du commentateur"></button></div><div class="between"><span><b>Bruitages</b><br><small class="mute">Foule, marteau, sifflet, bruits de mise</small></span><button class="tog" aria-pressed="${sfxOk()}" data-act="sound" aria-label="Bruitages"></button></div><div class="between"><span><b>Vibrations</b><br><small class="mute">Mises, ventes et victoire</small></span><button class="tog" aria-pressed="${P.vib!==false}" data-act="vib" aria-label="Vibrations"></button></div>`}
 /* Préchargement (au premier toucher) : bruitages et phrases décodés une fois pour toutes */
 const SFXN=["foule_1","foule_2","ohhh_1","clameur_1","clameur_2","sifflet","sifflet_court","marteau_1","marteau_2","applaus","chant_1","chant_2","chant_3","rumeur_jeu","rumeur_menu"];
 function preloadAudio(){if(SIM||preloadAudio.done||!ctx())return;preloadAudio.done=1;
@@ -845,7 +849,7 @@ const pick2=a=>a[Math.floor(Math.random()*a.length)];
 function toast(m,top){if(SIM)return;const t=$("#toast");t.textContent=m;t.hidden=false;t.classList.toggle("top",!!top);clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600)}
 function sheet(h){$("#layer").innerHTML=`<div class="wrap" data-close="1"><div class="sheet" role="dialog" aria-modal="true">${h}</div></div>`}
 function closeSheet(){$("#layer").innerHTML=""}
-function buzz(ms){if(typeof G!=="undefined"&&G&&G.mode==="amis")return;try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
+function buzz(ms){if(SIM||P.vib===false)return;try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
 /* Débloque le son du téléphone au premier toucher (sinon tout reste muet sur mobile), et lance le préchargement */
 document.addEventListener("pointerdown",()=>{ctx();preloadAudio()},{capture:true});
 function beep(f=600,d=.08,type="sine",v=.05){if(SIM||!sfxOk())return;try{if(!ctx())return;const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=Math.min(.3,v*2.5);/* remis au niveau des voix et bruitages */o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
@@ -1186,16 +1190,18 @@ function render(){
     if(key!==render.lastTurn&&ti>=0){const prev=render.lastTurn;render.lastTurn=key;
       if(prev&&prev.split("-")[1]!==String(ti)&&!document.querySelector(".soldfx")){const host=$(".duo .half.act")||$(".gx.act")||$(".zone.turn");
         if(host){const f=document.createElement("div");f.className="turnflash";f.style.setProperty("--tc",G.teams[ti].col);f.innerHTML=`<b>À toi,</b><span>${esc(G.teams[ti].name)} !</span>`;host.appendChild(f);setTimeout(()=>f.remove(),1100)}
-        beep(660,.07,"sine",.04);if(render.atoiPos!==G.pos){const pos=G.pos;render.atoiPos=pos;setTimeout(()=>{if(!VCUR&&!VQ.length&&G&&G.pos===pos&&G.phase==="auction")sayName("atoi",G.teams[G.cur.turn])},0)}}}}
+        beep(660,.07,"sine",.04);buzz(25);if(render.atoiPos!==G.pos){const pos=G.pos;render.atoiPos=pos;setTimeout(()=>{if(!VCUR&&!VQ.length&&G&&G.pos===pos&&G.phase==="auction")sayName("atoi",G.teams[G.cur.turn])},0)}}}}
   bed(SCREEN==="game"||SCREEN==="results"?"jeu":"menu");lights(SCREEN==="game");if(SCREEN==="game")preloadAudio();
   if(SCREEN==="game")saveGame();
   if(SCREEN==="results")playReveal();
 }
 const crest=`<svg viewBox="0 0 92 104" aria-hidden="true"><defs><linearGradient id="cr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF5A74"/><stop offset="1" stop-color="#E41E3F"/></linearGradient></defs><path d="M46 3l40 12v34c0 26-18 42-40 52C24 91 6 75 6 49V15z" fill="url(#cr)"/><path d="M46 3l40 12v34c0 26-18 42-40 52z" fill="#2D7BFF"/><path d="M46 11l32 9.6V49c0 21-14 34-32 43C28 83 14 70 14 49V20.6z" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/><text x="46" y="62" text-anchor="middle" font-family="Saira Condensed,Arial Narrow,sans-serif" font-weight="800" font-size="36" fill="#fff">MM</text><circle cx="46" cy="80" r="6" fill="#fff"/><path d="M46 74l2 3.5h-4zM41 80.5l3-.8 1.2 2.6M51 80.5l-3-.8-1.2 2.6" fill="#1A1446"/></svg>`;
 let SAVED=null;
+/* Série de jours joués (n'importe quelle partie) : badge 🔥 sur la carte du défi, et rappel quand la série est en jeu */
+function serie(){const S=P.serie||{n:0},d=today(),y=today(new Date(Date.now()-864e5));return{n:S.last===d||S.last===y?S.n:0,today:S.last===d}}
 function vHome(){
   SAVED=loadGame();
-  const L=lvl(P.xp),D=dailyInfo(),dp=PACKS[D.pack],best=(P.daily[D.date]||{}).best;
+  const L=lvl(P.xp),D=dailyInfo(),dp=PACKS[D.pack],best=(P.daily[D.date]||{}).best,SR=serie();
   return`<div class="screen home ${SAVED?"saved":""}">
   <div class="between"><button class="lvlpill" data-act="go" data-v="profile"><b>${L.n}</b><span>${esc(L.title)}</span></button><span class="row"><button class="mini" data-act="pals">Couleurs</button><button class="mini" data-act="rules">Règles</button></span></div>
   <div class="logo">${crest}<div class="mark">Mercato <span>Max</span> <em>Foot</em></div><div class="tagline">Mise. Bluffe. Recrute.</div>${SAVED?"":`<p class="mute">Construis l'équipe de tes rêves.</p>`}</div>
@@ -1204,7 +1210,7 @@ function vHome(){
     <button class="mode" style="background:var(--red)" data-act="setup" data-v="solo"><span class="ico">1 joueur</span><b>Solo</b><small>Contre 1 ou 2 ordis</small></button>
     <button class="mode" style="background:var(--blue)" data-act="setup" data-v="amis"><span class="ico">2 à 4 joueurs</span><b>Entre amis</b><small>2 à 4 sur un seul téléphone</small></button>
   </div>
-  <button class="dailyc" data-act="daily">${packJersey(dp,40)}<span class="dt"><span class="lbl">Défi du jour${P.dstreak.n>1&&P.dstreak.last===D.date?` · ${P.dstreak.n} jours de suite`:""}</span><b>${esc(dp.name)}</b><small>${best!=null?`Ton meilleur score aujourd'hui : ${best}`:"Même tirage pour tout le monde, contre 2 ordis"}</small></span><span class="pkch">Jouer</span></button>
+  <button class="dailyc" data-act="daily">${packJersey(dp,40)}<span class="dt"><span class="lbl">Défi du jour${SR.n>1?`<i class="fl ${SR.today?"ok":""}">🔥 ${SR.n} jours</i>`:""}</span><b>${esc(dp.name)}</b><small>${best!=null?`Ton meilleur score aujourd'hui : ${best}`:SR.n>0&&!SR.today?`Joue aujourd'hui pour garder ta série de ${SR.n} jour${SR.n>1?"s":""} !`:"Même tirage pour tout le monde, contre 2 ordis"}</small></span><span class="pkch">Jouer</span></button>
   ${homeLive()}
   <nav class="nav"><button data-act="go" data-v="shop"><b>Boutique</b><small>${PREMIUM.length} packs premium</small></button><button data-act="go" data-v="album"><b>Album</b><small>${(P.hist||[]).length} partie${(P.hist||[]).length>1?"s":""}</small></button><button data-act="go" data-v="profile"><b>Profil</b><small>${Object.keys(P.ach).length}/${ACH.length} trophées</small></button></nav>
   </div>`;
@@ -1703,7 +1709,7 @@ function vShop(){
 /* ===================== Niveaux, missions, trophées ===================== */
 const LEVELS=["Recruteur amateur","Scout de quartier","Agent débutant","Agent confirmé","Directeur sportif","Président de club","Magnat du mercato","Légende du mercato"];
 function lvl(xp){let n=1,need=150,acc=0;while(xp>=acc+need){acc+=need;n++;need=150+(n-1)*100}return{n,into:xp-acc,need,title:LEVELS[Math.min(LEVELS.length-1,Math.floor((n-1)/3))]}}
-function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function today(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 const MISSIONS=[
  {id:"win2",t:"Gagne 2 parties contre l'ordi",n:2,f:c=>c.win?1:0},
  {id:"star3",t:"Recrute 3 joueurs notés 90 ou plus",n:3,f:c=>c.mine.filter(x=>x.c.p>=90).length},
@@ -1760,6 +1766,7 @@ function rewards(){
   const top=me?me.score.total:Math.max(...humans.map(t=>t.score.total));
   const xp=Math.round(top/12)+(win?40:0)+(G.daily?20:0)+(G.mode==="amis"?25:0);
   const before=lvl(P.xp).n;P.xp+=xp;P.games++;
+  {const d=today(),y=today(new Date(Date.now()-864e5));P.serie=P.serie||{last:null,n:0};if(P.serie.last!==d){P.serie.n=P.serie.last===y?P.serie.n+1:1;P.serie.last=d}}
   if(G.mode==="solo"){if(win){P.wins++;P.streakW++;P.bestStreakW=Math.max(P.bestStreakW,P.streakW)}else P.streakW=0;
     if(!P.best||me.score.total>P.best.score)P.best={score:me.score.total,pack:packOf().name}}
   if(!P.packsPlayed.includes(G.pack))P.packsPlayed.push(G.pack);
@@ -1917,6 +1924,7 @@ document.addEventListener("click",e=>{
   else if(a==="weekpack"){const wf=weekFree();SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:wf,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
   else if(a==="sound"){const on=!sfxOk();P.sound=on;delete P.crowd;saveP();if(!on)hushSfx();else beep(1250,.07,"triangle",.11);togIn(b,on);bedLevel()}
   else if(a==="voice"){P.voice=P.voice===false;saveP();if(P.voice===false)hushVoice();togIn(b,P.voice!==false)}
+  else if(a==="vib"){P.vib=P.vib===false;saveP();togIn(b,P.vib!==false);buzz(30)}
   else if(a==="hist")histSheet(+v);
   else if(a==="histshare")share((P.hist||[])[+v]);
   else if(a==="newperso"){EDIT={};go("edit")}
@@ -1925,6 +1933,11 @@ document.addEventListener("click",e=>{
   else if(a==="saveperso")saveperso();
 });
 document.addEventListener("input",e=>{const i=e.target.closest("[data-name]");if(i&&SETUP)SETUP.names[+i.dataset.name]=i.value});
+/* Écran de démarrage : l'écusson et le nom apparaissent ~1,2 s (avec un coup de sifflet quand le téléphone l'autorise), puis s'effacent */
+function splash(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const el=document.createElement("div");el.id="splash";
+  el.innerHTML=`<div class="spc">${crest}<div class="mark">Mercato <span>Max</span> <em>Foot</em></div><div class="tagline">Mise. Bluffe. Recrute.</div></div>`;document.body.appendChild(el);
+  if(sfxOk())try{const a=new Audio("voix/sfx/sifflet_court.mp3");a.volume=.5;a.play().catch(()=>{})}catch(e){}
+  const out=()=>{el.classList.add("out");setTimeout(()=>el.remove(),450)};el.addEventListener("pointerdown",out);setTimeout(out,1300)}
 /* Simulation pour régler les ordis (console : simulate(500)) */
 window.simulate=function(n=300,pack=DEFPK,nai=3){
   SIM=true;const st={games:0,left:0,empty:0,wins:{},spentMin:1e9};
@@ -1934,5 +1947,5 @@ window.simulate=function(n=300,pack=DEFPK,nai=3){
   SIM=false;rnd=Math.random;G=null;
   return{games:st.games,avgLeft:+(st.left/(n*nai)).toFixed(1),emptyPerTeam:+(st.empty/(n*nai)).toFixed(3),wins:st.wins};
 };
-applyPal();render();PAY.back();
+applyPal();render();PAY.back();splash();
 </script>
