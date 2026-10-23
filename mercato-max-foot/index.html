@@ -445,6 +445,22 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 #tip.mid{top:38%}#tip.mid::after{display:none}
 @media (prefers-reduced-motion:reduce){.price.bump,.enter,#app>.scrin,#tip{animation:none}}
 .sel{user-select:all;color:var(--txt,#fff)}
+.setup{min-height:calc(100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+.setup .cta .btn{width:100%}
+.setup .cta{margin-top:auto;position:sticky;bottom:0;padding:14px 0 calc(4px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 35%);z-index:5}
+.fan{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;min-height:120px;padding-top:6px}
+.fanr{display:flex;justify-content:center}
+.fanc{width:64px;margin:0 -2px;display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 4px 8px;transform:translateY(var(--y)) rotate(var(--a));box-shadow:0 8px 18px -8px rgba(0,0,0,.6)}
+.fanc b{font-family:var(--display);font-size:10.5px;text-transform:uppercase;line-height:1.05;text-align:center;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fan small{color:var(--mute);font-size:12px;letter-spacing:.04em}
+@media (max-height:600px){.fan{display:none}}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hcard{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;text-align:left;min-width:0}
+.hcard img{width:100%;aspect-ratio:1080/1350;object-fit:cover;object-position:top;border-radius:10px;background:rgba(255,255,255,.04)}
+.hcard span{display:flex;flex-direction:column;padding:0 4px 4px;min-width:0}.hcard b{font-family:var(--display);text-transform:uppercase;font-size:15px}.hcard b.w{color:var(--yellow)}
+.hcard small{color:var(--mute);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hempty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:40px 12px}.hempty b{font-family:var(--display);font-size:22px;text-transform:uppercase}.hempty p{margin:0 0 8px}
+.hbig{min-height:200px;display:grid;place-items:center;margin:10px 0}.hbig img{width:100%;border-radius:16px}
 .rwd{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:center;gap:5px;margin:4px 0}.rwd:empty{display:none}
 .rwd button{font:inherit;cursor:pointer;white-space:nowrap;flex:none;font-size:11px;font-weight:600;color:var(--yellow);background:rgba(255,210,63,.1);border:1px solid rgba(255,210,63,.35);border-radius:20px;padding:4px 10px;animation:sfxpop .4s ease both}
 
@@ -1096,7 +1112,7 @@ function finish(){
   const w=best[0],tie=best[1]&&best[1].score.total===w.score.total&&best[1].money===w.money;
   G.winner=tie?-1:G.teams.indexOf(w);G.tieMoney=!tie&&best[1]&&best[1].score.total===w.score.total;
   if(SIM)return;
-  rewards();try{localStorage.removeItem("mmfoot_game")}catch(e){}
+  rewards();histAdd();try{localStorage.removeItem("mmfoot_game")}catch(e){}
   const key=G.teams.map(t=>t.name).join("|");if(!SERIES||SERIES.key!==key)SERIES={key,w:{},n:0};SERIES.n++;if(G.winner>=0){const n=G.teams[G.winner].name;SERIES.w[n]=(SERIES.w[n]||0)+1}
   go("results");
 }
@@ -1122,6 +1138,7 @@ function finitions(){
     render.autoT=setTimeout(go,ms)}
   else if(!k){render.autoK=null;clearTimeout(render.autoT)}
   else $$('[data-act="draw"]').forEach(b=>{b.classList.add("auto");b.style.setProperty("--auto","0ms")});
+  if(SCREEN==="album")fillThumbs();
   guide()}
 /* Première partie guidée : une bulle au bon moment, une seule fois chacune */
 function tip(id,txt,sel,delay=0){if(SIM)return;P.tuto=P.tuto||{};if(P.tuto[id])return;
@@ -1186,7 +1203,7 @@ function vHome(){
   </div>
   <button class="dailyc" data-act="daily">${packJersey(dp,40)}<span class="dt"><span class="lbl">Défi du jour${P.dstreak.n>1&&P.dstreak.last===D.date?` · ${P.dstreak.n} jours de suite`:""}</span><b>${esc(dp.name)}</b><small>${best!=null?`Ton meilleur score aujourd'hui : ${best}`:"Même tirage pour tout le monde, contre 2 ordis"}</small></span><span class="pkch">Jouer</span></button>
   ${homeLive()}
-  <nav class="nav"><button data-act="go" data-v="shop"><b>Boutique</b><small>${PREMIUM.length} packs premium</small></button><button data-act="go" data-v="album"><b>Album</b><small>${albumTotal()} cartes</small></button><button data-act="go" data-v="profile"><b>Profil</b><small>${Object.keys(P.ach).length}/${ACH.length} trophées</small></button></nav>
+  <nav class="nav"><button data-act="go" data-v="shop"><b>Boutique</b><small>${PREMIUM.length} packs premium</small></button><button data-act="go" data-v="album"><b>Album</b><small>${(P.hist||[]).length} partie${(P.hist||[]).length>1?"s":""}</small></button><button data-act="go" data-v="profile"><b>Profil</b><small>${Object.keys(P.ach).length}/${ACH.length} trophées</small></button></nav>
   </div>`;
 }
 /* Accueil : dernière partie (avec la série) et pack offert cette semaine */
@@ -1208,7 +1225,7 @@ function vSetup(){
   const s=SETUP,solo=s.mode==="solo";
   /* XI : si la formation choisie ne passe pas avec ce pack, on prend la première qui passe */
   if(s.format==="xi"&&fmtMissing(s.pack,xiSlots(s.formation),2)){const ok=Object.keys(FORMATIONS).find(f=>!fmtMissing(s.pack,xiSlots(f),2));if(ok)s.formation=ok}
-  return`<div class="screen">
+  return`<div class="screen setup">
   <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>${solo?"Solo":"Entre amis"}</h2></div>
   <div class="field"><span class="lbl">Format</span><div class="opts">${Object.entries(FORMATS).map(([k,f])=>`<button class="opt" data-act="fmt" data-v="${k}" aria-pressed="${s.format===k}" ${f.on?"":"disabled"}><span class="fm">${Array.from({length:Math.min(f.n,11)},(_,j)=>`<i style="--pc:${j===0?"var(--yellow)":s.format===k?"var(--accent)":"var(--mute)"}"></i>`).join("")}</span><b>${f.l}</b><small>${f.d}</small></button>`).join("")}</div></div>
   ${s.format==="xi"?`<div class="field"><span class="lbl">Formation</span><div class="fmls">${Object.keys(FORMATIONS).map(f=>{const miss=fmtMissing(s.pack,xiSlots(f),2);return`<button class="fml" data-act="formation" data-v="${f}" aria-pressed="${s.formation===f}" ${miss?"disabled":""}>${f}</button>`}).join("")}</div></div>`:""}
@@ -1217,9 +1234,16 @@ function vSetup(){
   ${solo?(FORMATS[s.format].max===2?`<div class="field"><span class="lbl">Adversaire</span><p class="mute" style="margin:0;font-size:14px">1 ordi, en face à face</p></div>`:`<div class="field"><span class="lbl">Adversaires</span>${seg("nai",[[1,"1 ordi","en duel"],[2,"2 ordis","plus de bluff"]])}</div>`)
   :`<div class="field"><span class="lbl">Joueurs${FORMATS[s.format].max===2?" · à 2 pour ce format":""}</span><div class="names">${s.names.slice(0,FORMATS[s.format].max).map((n,i)=>`<div class="nrow"><span class="dot" style="--tc:${TCOL[i]}">${i+1}</span><input data-name="${i}" value="${esc(n)}" maxlength="14" aria-label="Nom du joueur ${i+1}">${s.names.length>2&&FORMATS[s.format].max>2?`<button class="x" data-act="delname" data-v="${i}" aria-label="Retirer">×</button>`:"<span></span>"}</div>`).join("")}${s.names.length<FORMATS[s.format].max?`<button class="mini" data-act="addname">+ Joueur</button>`:""}</div></div>`}
   <button class="optsd" data-act="opts"><b>Options</b><small>${[solo?DIFF[s.diff].l:"",s.tempo==="aucun"?"sans chrono":"chrono "+TEMPO[s.tempo].l,s.chaos?"surprises":"sans surprises"].filter(Boolean).join(" · ")}</small></button>
-  <button class="btn go" data-act="start">C'est parti !</button>
+  ${packFan(PACKS[s.pack])}
+  <div class="cta"><button class="btn go" data-act="start">C'est parti !</button></div>
   </div>`;
 }
+/* Aperçu du pack choisi : 6 joueurs en éventail (toujours les mêmes pour un pack, pas les meilleurs : aucun indice de note) */
+function packFan(pk){if(!pk)return"";const h=n=>[...n].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+  const pick=[...pk.cards].sort((a,b)=>h(a.n+pk.id)-h(b.n+pk.id)).slice(0,5),k=pick.length;
+  return`<div class="fan" aria-label="Aperçu du pack"><div class="fanr">${pick.map((c,i)=>{const a=(i-(k-1)/2)*6,y=Math.abs(i-(k-1)/2)*5;
+    return`<div class="fanc" style="--a:${a}deg;--y:${y}px;z-index:${10-Math.round(Math.abs(i-(k-1)/2)*2)}">${jersey(c,40)}<b>${esc(lastName(c.n))}</b></div>`}).join("")}</div>
+    <small>${esc(pk.name)} · ${pk.cards.length} joueurs</small></div>`}
 /* Les lignes du terrain (gardien, défense, milieu, attaque, place libre) */
 function linesOf(){return["G","DEF","MIL","ATT","LIB"].map(p=>G.slots.filter(k=>slotPos(k)===p)).filter(a=>a.length)}
 /* XI pendant la partie : barre compacte par ligne (on touche pour voir l'équipe en grand) */
@@ -1595,8 +1619,8 @@ async function resultCanvas(){
   x.font=F(700,24);x.fillStyle="#7C88AE";spaced("MISE. BLUFFE. RECRUTE.",M,fy,4,"left");spaced("JEU DE FAN NON OFFICIEL",W-M,fy,4,"right");
   return cv;
 }
-async function share(){
-  try{const cv=await resultCanvas(),blob=await new Promise(r=>cv.toBlob(r,"image/png"));const f=new File([blob],"mercato-max-foot.png",{type:"image/png"});
+async function share(h){
+  try{const cv=h?await histCanvas(h):await resultCanvas(),blob=await new Promise(r=>cv.toBlob(r,"image/png"));const f=new File([blob],"mercato-max-foot.png",{type:"image/png"});
     if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:"Ma partie de Mercato Max Foot ⚽"});return}
     const u=URL.createObjectURL(blob);sheet(`<h2>Ton résultat</h2><img src="${u}" alt="Image du résultat" style="width:100%;border-radius:20px"><p class="mute">Appuie longuement sur l'image pour l'enregistrer, puis envoie-la sur WhatsApp.</p><button class="btn go" data-act="close">Fermer</button>`)}
   catch(e){if(e&&e.name!=="AbortError")toast("Partage impossible sur cet appareil")}
@@ -1716,8 +1740,8 @@ const ACH=[
  {id:"g100",tier:2,t:"Accro au mercato",d:"Joue 100 parties",goal:()=>[P.games,100],ok:()=>P.games>=100},
  {id:"packs20",tier:2,t:"Tour du monde",d:"Joue avec 20 packs différents",goal:()=>[P.packsPlayed.length,20],ok:()=>P.packsPlayed.length>=20},
  {id:"daily7",tier:2,t:"Fidèle au poste",d:"Joue le défi du jour 7 jours de suite",goal:()=>[P.dstreak.n,7],ok:()=>P.dstreak.n>=7},
- {id:"alb50",tier:2,t:"Collectionneur",d:"Remplis la moitié d'un pack dans ton album",goal:()=>[Math.round(albMax()*100),50],ok:()=>albMax()>=.5},
- {id:"alb100",tier:3,t:"Pack complet",d:"Complète un pack entier dans ton album",goal:()=>[Math.round(albMax()*100),100],ok:()=>albMax()>=1}
+ {id:"souv10",tier:2,t:"Souvenirs",d:"Garde 10 parties dans ton album",goal:()=>[(P.hist||[]).length,10],ok:()=>(P.hist||[]).length>=10},
+ {id:"souv30",tier:3,t:"Mémoire du mercato",d:"Remplis ton album de 30 parties",goal:()=>[(P.hist||[]).length,30],ok:()=>(P.hist||[]).length>=30}
 ];
 /* Fin de partie : XP, album, missions, trophées */
 function rewards(){
@@ -1743,7 +1767,7 @@ function rewards(){
   saveP();
   const L=lvl(P.xp);G.rew={xp:xp+doneM.length*MXP,newAlbum,doneM,newAch,lvlUp:L.n>before?L:null};
 }
-function showRewards(){const r=G&&G.rew;if(!r)return;const msgs=[`+${r.xp} XP${r.newAlbum?` · ${r.newAlbum} nouvelle${r.newAlbum>1?"s":""} carte${r.newAlbum>1?"s":""} dans l'album`:""}`];
+function showRewards(){const r=G&&G.rew;if(!r)return;const msgs=[`+${r.xp} XP`];
   r.doneM.forEach(m=>msgs.push("Mission réussie : "+m.t));r.newAch.forEach(a=>msgs.push(`Trophée ${["","bronze","argent","or"][a.tier]} : ${a.t}`));
   if(r.lvlUp)msgs.push(`Niveau ${r.lvlUp.n} : ${r.lvlUp.title}`);
   /* Récompenses affichées dans l'écran des résultats (au-dessus des boutons), une par une : elles ne cachent plus rien */
@@ -1776,19 +1800,27 @@ function vProfile(){
   <button class="mini" data-act="legal">Mentions et crédits</button>
   </div></div>`;
 }
-/* ===================== Album ===================== */
-function vAlbum(){
-  const rows=Object.keys(P.album).map(id=>({p:PACKS[id],n:(P.album[id]||[]).length})).filter(x=>x.p&&x.n).sort((a,b)=>b.n/b.p.cards.length-a.n/a.p.cards.length);
+/* ===================== Album : les résultats des anciennes parties =====================
+   À chaque fin de partie on garde un petit résumé (≈ 2 Ko) ; l'image de résultat est redessinée à la demande. 30 parties au plus. */
+function histAdd(){if(SIM||!G)return;P.hist=P.hist||[];
+  P.hist.unshift({d:Date.now(),mode:G.mode,format:G.format,formation:G.formation,pack:G.pack,slots:G.slots,winner:G.winner,tieMoney:G.tieMoney,
+    teams:G.teams.map(t=>({name:t.name,col:t.col,money:t.money,sl:t.sl,score:t.score,ai:t.ai}))});P.hist.length=Math.min(P.hist.length,30);saveP()}
+async function histCanvas(h){const g=G;G=Object.assign({draft:false},h);try{return await resultCanvas()}finally{G=g}}
+const THUMB={};
+async function fillThumbs(){for(const im of $$("img[data-h]")){const h=(P.hist||[])[+im.dataset.h];if(!h||im.src)continue;
+  if(!THUMB[h.d]){try{const cv=await histCanvas(h),t=document.createElement("canvas");t.width=360;t.height=Math.round(cv.height*360/cv.width);t.getContext("2d").drawImage(cv,0,0,t.width,t.height);THUMB[h.d]=t.toDataURL("image/jpeg",.8)}catch(e){continue}}
+  if(document.contains(im))im.src=THUMB[h.d]}}
+function histLbl(h){const me=h.mode==="solo",w=h.winner>=0?h.teams[h.winner]:null,dt=new Date(h.d).toLocaleDateString("fr-FR",{day:"numeric",month:"short"});
+  return{dt,res:h.winner<0?"Égalité":me?(h.winner===0?"Victoire":"Défaite"):esc(w.name)+" gagne",win:me&&h.winner===0}}
+function vAlbum(){const H=(P.hist||[]).filter(h=>PACKS[h.pack]);
   return`<div class="page">
   <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Mon album</h2></div>
-  <div class="panel between"><b>${albumTotal()} carte${albumTotal()>1?"s":""} collectionnée${albumTotal()>1?"s":""}</b><small class="mute">${rows.length} pack${rows.length>1?"s":""} commencé${rows.length>1?"s":""}</small></div>
-  <p class="mute" style="font-size:14px">Chaque joueur que tu recrutes en partie rejoint ton album. Complète tes packs !</p>
-  <div class="scroll">${rows.length?rows.map(x=>`<button class="albrow" data-act="albpack" data-v="${x.p.id}">${packJersey(x.p,36)}<span class="at"><b>${esc(x.p.name)}</b>${bar(x.n,x.p.cards.length)}</span><span class="ap">${x.n}/${x.p.cards.length}</span></button>`).join("")
-   :`<div class="panel" style="text-align:center"><b>Ton album est vide</b><p class="mute">Joue une partie : tes recrues arriveront ici.</p></div>`}</div></div>`;
-}
-function albumSheet(id){const p=PACKS[id],have=new Set(P.album[id]||[]);
-  sheet(`<div class="between"><h2>${esc(p.name)}</h2><button class="mini" data-act="close">Fermer</button></div><p class="mute">${have.size}/${p.cards.length} joueurs collectionnés</p>
-  <div class="agrid">${[...p.cards].sort((a,b)=>["G","DEF","MIL","ATT"].indexOf(a.pos)-["G","DEF","MIL","ATT"].indexOf(b.pos)||a.n.localeCompare(b.n)).map(c=>{const ok=have.has(c.n);return`<div class="acard ${ok?"on":""}" style="--pc:${POS[c.pos].c}">${jersey(c,34,!ok)}<b>${ok?esc(c.n):"???"}</b><small>${POS[c.pos].l}</small></div>`}).join("")}</div>`)}
+  ${H.length?`<p class="mute" style="font-size:14px;margin:0">Tes ${H.length>1?H.length+" dernières parties":"dernière partie"}. Touche une image pour la voir en grand ou la partager.</p>
+  <div class="hgrid">${H.map(h=>{const i=P.hist.indexOf(h),L=histLbl(h);return`<button class="hcard" data-act="hist" data-v="${i}"><img data-h="${i}" alt="Résultat du ${L.dt}"><span><b class="${L.win?"w":""}">${L.res}</b><small>${L.dt} · ${esc(PACKS[h.pack].name)}</small></span></button>`}).join("")}</div>`
+  :`<div class="hempty">${jersey({club:"?"},70,true)}<b>Aucune partie pour l'instant</b><p class="mute">Après chaque match, l'image du résultat est rangée ici. Tu pourras la revoir et la partager.</p><button class="btn go" data-act="setup" data-v="solo">Jouer une partie</button></div>`}</div>`}
+async function histSheet(i){const h=(P.hist||[])[i];if(!h)return;const L=histLbl(h);
+  sheet(`<div class="between"><h2>${L.res}</h2><button class="mini" data-act="close">Fermer</button></div><p class="mute" style="margin:0">${L.dt} · ${esc(PACKS[h.pack].name)}</p><div class="hbig"><span class="mute">Chargement…</span></div><button class="btn go" data-act="histshare" data-v="${i}">Partager</button>`);
+  try{const cv=await histCanvas(h),b=$(".hbig");if(b)b.innerHTML=`<img src="${cv.toDataURL("image/jpeg",.9)}" alt="Image du résultat">`}catch(e){}}
 /* ===================== Packs perso ===================== */
 const POSMAP={g:"G",gb:"G",gardien:"G",goal:"G",def:"DEF",d:"DEF",defenseur:"DEF",mil:"MIL",m:"MIL",milieu:"MIL",att:"ATT",a:"ATT",attaquant:"ATT",bu:"ATT",buteur:"ATT"};
 function parsePerso(txt){const out=[],bad=[];
@@ -1875,7 +1907,8 @@ document.addEventListener("click",e=>{
   else if(a==="weekpack"){const wf=weekFree();SETUP={mode:"solo",format:FORMATS[P.format]?P.format:"five",formation:P.formation||"4-3-3",pack:wf,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
   else if(a==="sound"){const on=!sfxOk();P.sound=on;delete P.crowd;saveP();if(!on)hushSfx();else beep(1250,.07,"triangle",.11);togIn(b,on);bedLevel()}
   else if(a==="voice"){P.voice=P.voice===false;saveP();if(P.voice===false)hushVoice();togIn(b,P.voice!==false)}
-  else if(a==="albpack")albumSheet(v);
+  else if(a==="hist")histSheet(+v);
+  else if(a==="histshare")share((P.hist||[])[+v]);
   else if(a==="newperso"){EDIT={};go("edit")}
   else if(a==="editperso"){const c=P.custom.find(x=>x.id===v);EDIT={id:c.id,name:c.name,txt:c.txt||c.raw.split("\n").map(l=>{const x=l.split("/");return`${x[0]} ; ${x[1]} ; ${x[2]} ; ${x[4]}`}).join("\n")};go("edit")}
   else if(a==="delperso"){if(DEL!==v){DEL=v;render();return}P.custom=P.custom.filter(x=>x.id!==v);delete PACKS[v];DEL=null;if(P.pack===v)P.pack=DEFPK;saveP();render()}
