@@ -1582,7 +1582,7 @@ function packList(){
   const q=norm(PK_Q.trim());
   const list=Object.values(PACKS).filter(p=>q?norm(p.name+" "+p.sub+" "+(p.desc||"")+" "+(p.club||"")).includes(q):p.cat===PK_TAB);
   const persoBtn=!q&&PK_TAB==="perso"?`<button class="btn" data-act="go" data-v="perso">Créer et gérer mes packs perso</button>`:"";
-  if(!list.length)return q?`<p class="mute">Aucun pack ne correspond à « ${esc(PK_Q)} ».</p>`:`${persoBtn}<p class="mute">Tu n'as pas encore de pack perso. Crée ton propre pack avec les joueurs de ton choix : ${CONFIG.freeCustomPacks} gratuit.</p>`;
+  if(!list.length)return q?`<p class="mute">Aucun pack ne correspond à « ${esc(PK_Q)} ».</p>`:`${persoBtn}<p class="mute">Tu n'as pas encore de pack perso. Crée ton propre pack avec les joueurs de ton choix : ${CONFIG.freeCustomPacks} gratuit${CONFIG.freeCustomPacks>1?"s":""}.</p>`;
   const groups={};list.forEach(p=>(groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]=groups[q?(PCATS.find(c=>c[0]===p.cat)||[,""])[1]:p.sub]||[]).push(p));
   const single=(PK_TAB==="themes"||PK_TAB==="perso"||PK_TAB==="ligues")&&!q;
   /* Vedette : le pack premium offert cette semaine, en grand */
@@ -1741,7 +1741,7 @@ function vShop(){
 
   return`<div class="page">
   <div class="topbar"><button class="mini" data-act="go" data-v="home">Retour</button><h2>Boutique</h2></div>
-  <div class="freebox"><b>Gratuit pour toujours</b><span>${nFree} packs sur ${nFree+PREMIUM.length}, 1 pack premium offert chaque semaine, le défi du jour, le mode Entre amis et ${CONFIG.freeCustomPacks} pack perso.</span></div>
+  <div class="freebox"><b>Gratuit pour toujours</b><span>${nFree} packs sur ${nFree+PREMIUM.length}, 1 pack premium offert chaque semaine, le défi du jour, le mode Entre amis et ${CONFIG.freeCustomPacks} pack${CONFIG.freeCustomPacks>1?"s":""} perso.</span></div>
   <div class="seg">${[["offres","Offres"],["packs","Packs premium"]].map(([k,l])=>`<button data-act="shoptab" data-v="${k}" aria-pressed="${SHOP_TAB===k}">${l}</button>`).join("")}</div>
   <div class="scroll">${body}</div></div>`;
 }
