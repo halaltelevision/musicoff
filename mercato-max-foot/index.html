@@ -474,6 +474,8 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .mj{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px}.mj .jer{display:block}
 .mj small{font-family:var(--display);font-size:9px;font-weight:700;text-transform:uppercase;line-height:1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
 .mj .vide{display:grid;place-items:center;border:1.5px dashed color-mix(in srgb,var(--pc) 70%,transparent);border-radius:50%;width:22px;height:22px;font-style:normal;font-family:var(--display);font-size:9px;font-weight:700;color:var(--pc)}
+.tile .low .pips,.zone .low .pips{flex:1;min-width:0;gap:2px}.tile .low .pips i,.zone .low .pips i{flex:1 1 0;min-width:4px;max-width:12px;height:12px}
+.tile .low .voir,.zone .low .voir{white-space:nowrap;flex:none;font-size:12px}
 .rwd{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:center;gap:5px;margin:4px 0}.rwd:empty{display:none}
 .rwd button{font:inherit;cursor:pointer;white-space:nowrap;flex:none;font-size:11px;font-weight:600;color:var(--yellow);background:rgba(255,210,63,.1);border:1px solid rgba(255,210,63,.35);border-radius:20px;padding:4px 10px;animation:sfxpop .4s ease both}
 
@@ -1278,6 +1280,8 @@ function pitchHTML(t,opt={}){
   return`<div class="pitch ${opt.small?"sm":""}" style="--cols:${G.slots.length}">${G.slots.map((k,si)=>one(k,si,opt.small?26:opt.reveal!=null?34:40)).join("")}</div>`;
 }
 function pipsHTML(t){return`<span class="pips">${G.slots.map(k=>`<i class="${t.sl[k]?"f":""}" style="--pc:${PO(k).c}" title="${PO(k).l}"></i>`).join("")}</span>`}
+/* « du Flambeur », « de Mme Prudence », « d'Inès » */
+function deNom(n){n=(n||"").trim();if(/^le /i.test(n))return"du "+n.slice(3);if(/^les /i.test(n))return"des "+n.slice(4);return(/^[aeiouyàâéèêëîïôöûüh]/i.test(n)?"d'":"de ")+n}
 function tilesInner(){
   const solo=G.mode==="solo",c=G.cur,auc=G.phase==="auction";
   return G.teams.map((t,ti)=>{if(solo&&ti===0)return"";
@@ -1286,7 +1290,7 @@ function tilesInner(){
     return`<div class="tile ${auc&&c.turn===ti?"turn":""}" style="--tc:${t.col}">${st?`<span class="st">${st}</span>`:""}${sy}
       <div class="top"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><span class="nm">${esc(G.teams.length>2?t.name.replace(/^(Le |Mme )/,""):t.name)}</span><span class="mn">${PP(t.money)}</span></div>
       ${solo&&G.format!=="xi"?`<button class="mini11" data-act="voir" data-v="${ti}" aria-label="Voir l'équipe de ${esc(t.name)}">${G.slots.map(k=>t.sl[k]?`<span class="mj">${jersey(cardOf(t.sl[k].i),22,!!t.sl[k].mystery)}<small>${t.sl[k].mystery?"?":esc(lastName(cardOf(t.sl[k].i).n))}</small></span>`:`<span class="mj"><i class="vide" style="--pc:${PO(k).c}">${PO(k).s||""}</i><small>&nbsp;</small></span>`).join("")}</button>`
-       :`<div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">Voir</button></div>`}</div>`}).join("");
+       :`<div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">${G.teams.length===2||G.format==="xi"?"Voir l'équipe "+deNom(t.name):"Voir l'équipe"}</button></div>`}</div>`}).join("");
 }
 function leftLbl(){const r=cardsLeft();return r===0?"Dernière carte":r<=5?`Encore ${r} carte${r>1?"s":""}`:`${r} cartes restantes`}
 function focusTeam(){/* L'équipe affichée en bas : toi en solo ; en mode amis, celui qui a la main */
@@ -1352,7 +1356,7 @@ function duoHalf(side){
 /* À 3 ou 4 : chacun sa zone, avec ses propres boutons */
 function zoneHTML(ti){const t=G.teams[ti],c=G.cur,auc=G.phase==="auction",my=auc&&c.turn===ti;
   let st="";if(auc){if(c.leader===ti)st="en tête";else if(my)st="à toi";else if(c.out[ti]&&canPlace(ti))st="passe";else if(!canPlace(ti))st="pas de place"}
-  return`<div class="zone ${my?"turn":""}" style="--tc:${t.col}">${st?`<span class="st">${st}</span>`:""}<div class="top"><span class="dot">${esc(t.name[0])}</span><span class="nm">${esc(t.name)}</span><span class="mn">${PP(t.money)}</span></div><div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">Voir</button></div>${actsHTML(ti,true)}</div>`}
+  return`<div class="zone ${my?"turn":""}" style="--tc:${t.col}">${st?`<span class="st">${st}</span>`:""}<div class="top"><span class="dot">${esc(t.name[0])}</span><span class="nm">${esc(t.name)}</span><span class="mn">${PP(t.money)}</span></div><div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">Voir l'équipe</button></div>${actsHTML(ti,true)}</div>`}
 /* XI de légende : le terrain en grand. En solo, c'est le tien ; entre amis, celui du joueur dont c'est le tour.
    Le joueur en vente apparaît déjà à sa future place. */
 function xiPitch(t,ghostCard){const can=ghostCard&&slotFor(t,ghostCard),myst=G.cur&&G.cur.mystery&&G.phase==="auction";
@@ -1376,7 +1380,7 @@ function vGameXI(){
     else{const st=ph==="sold"?(c.leader>=0?`<span class="stamp" style="--tc:${G.teams[c.leader].col}">${solo&&c.leader===0?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</span>`:`<span class="note">Personne n'a misé.</span>`):ph==="secret"?`<span class="note">Enchère secrète en cours…</span>`:ph==="pick"?`<span class="note">Choix en cours…</span>`:`<span class="note">Plus de place à ce poste : carte écartée.</span>`;
       banner=`<div class="gxb">${jersey(card,44)}${head}</div><div class="gxs">${st}</div>${ph==="secret"||ph==="pick"?"":drawCtl(solo?undefined:ti)}`}}
   const foot=solo?`<div class="gxbar"><button class="mini" data-act="pause">Pause</button><span class="lbl">${left} · ${PP(t.money)}</span><button class="mini" data-act="rules">Règles</button></div>`
-    :`<div class="gxw"><span class="mute">${left}</span><button class="voir" data-act="voir" data-v="${1-ti}">XI de ${esc(o.name)} · ${PP(o.money)}</button></div>`;
+    :`<div class="gxw"><span class="mute">${left}</span><button class="voir" data-act="voir" data-v="${1-ti}">Voir l'équipe ${deNom(o.name)} · ${PP(o.money)}</button></div>`;
   return`<div class="gscreen gx ${!solo&&auc?"act":""}" style="--tc:${t.col}">${top}${banner}${xiPitch(t,auc?card:null)}${actsHTML(ti)}${foot}</div>`;
 }
 function vGame(){
