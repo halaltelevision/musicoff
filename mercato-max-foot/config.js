@@ -2,11 +2,17 @@
    Si tu changes quelque chose ici, mets le même fichier sur le jeu et sur le serveur. */
 (function(root){
 const CONFIG={
-  /* Packs payants (environ 10 % du catalogue). Tous les autres packs sont gratuits. */
-  premium:["ballons_or","heros_ldc","heros_cdm","clasico","classique","derby_manchester","derby_milan","leg_afrique","realmadrid","barca"],
-  freeCustomPacks:1,
-  /* Prix en centimes d'euro */
-  prices:{pack:99,perso3:199,perso10:499,createur:999,all:1999,pass:{clubs:399,ligues:299,nations:299,themes:399}},
+  /* Packs payants : environ un quart du catalogue, les plus riches en stars (31 sur 120).
+     Restent gratuits : toute l'actualité (championnats et sélections du moment), les légendes des autres sélections,
+     42 clubs et les packs d'entrée (Légendes du foot 1 et 2, Afrique, Algérie, Jeunes pépites, Ligue 1). */
+  premium:[
+    /* Thèmes (11) */ "ballons_or","clasico","heros_cdm","heros_ldc","leg_seriea","leg_liga","leg_pl","leg_bundesliga","derby_milan","derby_manchester","classique",
+    /* Grands clubs (12) */ "realmadrid","barca","bayern","juve","milan","inter","psg","manutd","liverpool","mancity","chelsea","arsenal",
+    /* Grandes nations, légendes (8) */ "bra","ita","ger","esp","eng","fra","arg","ned"],
+  /* Packs perso offerts à tout le monde */
+  freeCustomPacks:2,
+  /* Prix en centimes d'euro. La collection complète coûte moins cher que tous les pass réunis (≈ 17 € avec les packs perso illimités) */
+  prices:{pack:99,perso3:199,perso10:399,createur:599,all:1199,pass:{clubs:399,ligues:299,nations:299,themes:399}},
   /* Paiement Stripe : laisse vide tant que ton compte n'est pas relié.
      api   = l'adresse de ton serveur (dossier server/), ex. "https://paiement.mercatomax.com"
      links = sinon, des liens de paiement Stripe par produit, ex. {"pass_clubs":"https://buy.stripe.com/..."} */

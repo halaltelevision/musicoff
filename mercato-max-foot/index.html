@@ -483,8 +483,8 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .prof{display:flex;flex-direction:column;gap:12px}.psec{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
 .pmis{display:flex;justify-content:space-between;gap:10px;font-size:14px;align-items:center}.pmis b{font-family:var(--display);font-size:15px;color:var(--mute);flex:none}.pmis.ok b{color:var(--green)}
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:8px}
-.badge{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:14px;color:rgba(255,255,255,.35);background:rgba(255,255,255,.06);border:2px dashed rgba(255,255,255,.18)}
-.badge.on{color:#1A1446;border-style:solid;border-color:rgba(255,255,255,.6)}.badge.t1.on{background:#D08A4E}.badge.t2.on{background:#C9D3E8}.badge.t3.on{background:#F5C542;box-shadow:0 0 12px -3px #F5C542}
+.tbadge{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:14px;color:rgba(255,255,255,.35);background:rgba(255,255,255,.06);border:2px dashed rgba(255,255,255,.18)}
+.tbadge.on{color:#1A1446;border-style:solid;border-color:rgba(255,255,255,.6)}.tbadge.t1.on{background:#D08A4E}.tbadge.t2.on{background:#C9D3E8}.tbadge.t3.on{background:#F5C542;box-shadow:0 0 12px -3px #F5C542}
 .pedit{gap:10px}.pcount{display:flex;gap:6px}.pcount span{flex:1;text-align:center;padding:6px 2px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-size:11px;color:var(--mute);font-weight:700;text-transform:uppercase}
 .pcount span b{display:block;font-family:var(--display);font-size:20px;color:var(--ink)}.pcount span.ok{border-color:var(--pc,var(--green));box-shadow:inset 0 -3px 0 var(--pc,var(--green))}.pcount .tot.ok{--pc:var(--green)}
 .ptabs{display:flex}.ptabs button{flex:1}
@@ -1686,7 +1686,7 @@ function weekFree(){return PREMIUM.length?PREMIUM[MMF.cyrb53("semaine|"+weekNo()
 const isPremium=id=>PREMIUM.includes(id);
 function packOpen(id){const p=PACKS[id];if(!p)return false;if(p.cat==="perso"||!isPremium(id)||id===weekFree())return true;return owns("pk_"+id)||owns("pass_"+p.cat)}
 function packBadge(id){if(!isPremium(id))return"";const p=PACKS[id],bought=owns("pk_"+id)||owns("pass_"+p.cat);
-  if(bought)return"";if(id===weekFree())return`<span class="badge gift">Offert cette semaine</span>`;return`<span class="badge lock">${euro(CONFIG.prices.pack)}</span>`}
+  if(bought)return"";if(id===weekFree())return`<span class="badge gift">Offert</span>`;return`<span class="badge lock">${euro(CONFIG.prices.pack)}</span>`}
 const PAY={
   base(){return (CONFIG.stripe.api||"").replace(/\/$/,"")},
   async buy(prod){const pr=PRODUCTS[prod],st=CONFIG.stripe;if(!pr)return;
@@ -1850,7 +1850,7 @@ function vProfile(){
    ${W.ids.map(id=>{const m=MISSIONS.find(x=>x.id===id);if(!m)return"";const pr=Math.min(m.n,W.prog[id]||0),ok=!!W.done[id];
      return`<div class="pmis ${ok?"ok":""}"><span>${esc(m.t)}</span><b>${ok?"✓":pr+"/"+m.n}</b></div>`}).join("")}</div>
   <div class="psec"><div class="between"><span class="lbl">Trophées</span><small class="mute">${n} / ${ACH.length}</small></div>
-   <div class="badges">${ACH.map(a=>`<button class="badge t${a.tier} ${P.ach[a.id]?"on":""}" data-act="ach" data-v="${a.id}" aria-label="${esc(a.t)}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 3h10v3h3v2a5 5 0 0 1-4.6 5A5 5 0 0 1 13 15.7V18h3v3H8v-3h3v-2.3A5 5 0 0 1 8.6 13 5 5 0 0 1 4 8V6h3zm0 5V8H6a3 3 0 0 0 1 2.2zm10 0v2.2A3 3 0 0 0 18 8z" fill="currentColor"/></svg></button>`).join("")}</div>
+   <div class="badges">${ACH.map(a=>`<button class="tbadge t${a.tier} ${P.ach[a.id]?"on":""}" data-act="ach" data-v="${a.id}" aria-label="${esc(a.t)}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 3h10v3h3v2a5 5 0 0 1-4.6 5A5 5 0 0 1 13 15.7V18h3v3H8v-3h3v-2.3A5 5 0 0 1 8.6 13 5 5 0 0 1 4 8V6h3zm0 5V8H6a3 3 0 0 0 1 2.2zm10 0v2.2A3 3 0 0 0 18 8z" fill="currentColor"/></svg></button>`).join("")}</div>
    <small class="mute">Touche un trophée pour voir comment le gagner.</small></div>
   <div class="psec"><span class="lbl">Réglages</span>${audioTogs()}<button class="btn" data-act="pals">Couleurs du jeu</button></div>
   <button class="mini" data-act="legal" style="align-self:center">Mentions et crédits</button>
