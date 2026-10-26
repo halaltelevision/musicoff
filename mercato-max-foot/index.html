@@ -513,6 +513,8 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .home .mode b{font-size:clamp(28px,4.4vh,31px);white-space:nowrap}
 .home .nav{margin-top:auto}.home .nav button{padding-block:clamp(8px,1.6vh,14px)}
 .live.wk b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.mmax{display:block;font-size:10px;font-family:var(--body);font-weight:600;color:var(--mute);text-align:right;line-height:1;text-shadow:none;letter-spacing:0}
+.bid.pass small{font-size:9px;line-height:1.1;text-transform:none}
 .why{margin:4px 0 0;font-size:12px;line-height:1.3;color:var(--mute);text-align:center;max-width:300px;align-self:center}
 .bid.win{box-shadow:0 0 0 2px var(--green) inset}.bid.win small{color:var(--green);font-weight:700}
 .rwd{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:center;gap:5px;margin:4px 0}.rwd:empty{display:none}
@@ -1153,7 +1155,7 @@ function tick(){
     $$(".tbar").forEach(b=>{b.style.width=Math.max(0,Math.min(100,rem/G.ms*100))+"%";b.className="tbar "+(rem<5000?"hurry":rem<10000?"warn":"")});
     $$(".call").forEach(cl=>cl.textContent=rem<5000?`Plus que ${Math.ceil(rem/1000)} s !`:"");
     if(rem<5000&&rem>0&&!G.teams[c.turn].ai){const q=Math.ceil(rem/(rem<2000?400:1000));if(q!==c.tk){c.tk=q;tictac(rem<2000)}}
-    if(rem<=0&&!G.teams[c.turn].ai){const nm=G.teams[c.turn].name;if(c.leader<0&&canRaise(c.turn,10)){toast(`Temps écoulé : ${nm} mise 10`);raise(c.turn,10)}else{toast(`Temps écoulé : ${nm} passe`);pass(c.turn)}return}}
+    if(rem<=0&&!G.teams[c.turn].ai){const so=G.mode==="solo",nm=G.teams[c.turn].name;if(c.leader<0&&canRaise(c.turn,10)){toast(so?"Temps écoulé : tu mises 10 (la première mise est obligatoire)":`Temps écoulé : ${nm} mise 10`);raise(c.turn,10)}else{toast(so?"Temps écoulé : tu passes":`Temps écoulé : ${nm} passe`);pass(c.turn)}return}}
   let ch=false;for(const k in SAY)if(SAY[k].until<now){delete SAY[k];ch=true}
   if(ch){const z=$("#tiles");if(z)z.innerHTML=tilesInner()}
 }
@@ -1330,7 +1332,10 @@ function stTile(ti){const c=G.cur,t=G.teams[ti],w=(c.why||{})[ti];
 /* Après cette mise, plus personne ne pourrait suivre : la carte est gagnée */
 function gagneAvec(ti,v){const c=G.cur;return!G.teams.some((t,j)=>j!==ti&&canPlace(j)&&!c.out[j]&&maxBid(t)>=c.price+v+10)}
 /* Pourquoi personne n'a suivi (affiché sous l'annonce de la vente) */
-function pourquoi(){const c=G.cur;if(!c||c.leader<0)return"";if(c.alone)return`<p class="why">Personne d'autre n'avait de place à ce poste : recruté au prix minimum.</p>`;
+function pourquoi(){const c=G.cur;if(!c||c.leader<0)return"";
+  if(c.reveal&&c.reveal[1]&&c.reveal[0][1]===c.reveal[1][1]){const w=G.teams[c.leader],nm=G.mode==="solo"&&c.leader===0?"tu l'emportes":esc(w.name)+" l'emporte",
+    plus=G.teams[c.reveal[0][0]].money+c.price!==G.teams[c.reveal[1][0]].money;return`<p class="why">Égalité à ${c.price} : ${nm}${plus?(G.mode==="solo"&&c.leader===0?" car tu avais":" car il avait")+" gardé plus d'argent":" (premier dans l'ordre du tour)"}.</p>`}
+  if(c.alone)return`<p class="why">Personne d'autre n'avait de place à ce poste : recruté au prix minimum.</p>`;
   const tu=j=>G.mode==="solo"&&j===0,L=[];
   G.teams.forEach((t,j)=>{if(j===c.leader)return;const w=(c.why||{})[j];
     if(w==="place"||(!canPlace(j)&&w!=="passe"))L.push(tu(j)?"tu n'avais plus de place à ce poste":`${esc(t.name)} n'avait plus de place à ce poste`);
@@ -1360,7 +1365,7 @@ function cardHTML(){
   let mid="";
   if(ph==="auction"){const t=G.teams[c.turn],me=G.mode==="solo"&&c.turn===0;
     mid=`<div class="board"><span class="lbl">Mise</span><span class="price${c.price?"":" z"}">${c.price||0}</span><i class="bill" style="font-size:22px"></i></div><div class="who" style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(G.mode==="solo"&&c.leader===0?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</div>
-    <span class="turnline" style="--tc:${t.col}">${me?"À toi de miser":t.ai?esc(t.name)+" réfléchit…":"Au tour de "+esc(t.name)}</span>${G.mode==="solo"&&!canPlace(0)?`<p class="why">Ton équipe est déjà complète à ce poste : tu regardes cette enchère.</p>`:""}${G.ms?`<div class="timer"><i class="tbar"></i></div><div class="call"></div>`:""}${coachHTML()}`}
+    <span class="turnline" style="--tc:${t.col}">${me?"À toi de miser":t.ai?esc(t.name)+" réfléchit…":"Au tour de "+esc(t.name)}</span>${G.mode==="solo"&&!canPlace(0)?`<p class="why">Ton équipe est déjà complète à ce poste : tu regardes cette enchère.</p>`:G.mode==="solo"&&(c.why||{})[0]==="argent"?`<p class="why">Tu ne peux plus suivre : il faut garder 10 par place encore vide (mise max ${Math.max(0,maxBid(G.teams[0]))}).</p>`:""}${G.ms?`<div class="timer"><i class="tbar"></i></div><div class="call"></div>`:""}${coachHTML()}`}
   else if(ph==="sold"){const nt=G.teams[G.next%G.teams.length];
     mid=c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${G.mode==="solo"&&c.leader===0?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>${pourquoi()}`:`<div class="note">Personne n'a misé.</div>`;
     mid+=coachHTML()+nextCtl()}
@@ -1374,7 +1379,7 @@ function cardHTML(){
 function clampJ(){return innerHeight<620?56:innerHeight<700?66:80}
 function actsHTML(ti,g2){
   const auc=G.phase==="auction",my=auc&&G.cur.turn===ti,t=G.teams[ti],first=auc&&G.cur.leader<0,p=auc?G.cur.price:0;
-  return`<div class="acts ${g2?"g2":""}" style="--tc:${t.col}">${[10,50,100].map(v=>{const ok=my&&canRaise(ti,v);return`<button class="bid ${ok&&gagneAvec(ti,v)?"win":""}" data-act="bid" data-i="${ti}" data-v="${v}" ${ok?"":"disabled"}>+${v}<small>${my?(ok?"→ "+(p+v)+(gagneAvec(ti,v)?" · gagné":""):"trop cher"):"&nbsp;"}</small></button>`}).join("")}<button class="bid pass" data-act="pass" data-i="${ti}" ${my&&!first?"":"disabled"}>Passer</button></div>`;
+  return`<div class="acts ${g2?"g2":""}" style="--tc:${t.col}">${[10,50,100].map(v=>{const ok=my&&canRaise(ti,v);return`<button class="bid ${ok&&gagneAvec(ti,v)?"win":""}" data-act="bid" data-i="${ti}" data-v="${v}" ${ok?"":"disabled"}>+${v}<small>${my?(ok?"→ "+(p+v)+(gagneAvec(ti,v)?" · gagné":""):maxBid(t)>p?"max "+maxBid(t):"à sec"):"&nbsp;"}</small></button>`}).join("")}<button class="bid pass" data-act="pass" data-i="${ti}" ${my&&!first?"":"disabled"}>Passer${my&&first?"<small>1re mise obligatoire</small>":""}</button></div>`;
 }
 /* Conseils pendant la toute première partie */
 function coachHTML(){return"";
@@ -1447,7 +1452,7 @@ function vGame(){
    <div class="tiles n${n}" id="tiles" style="--n:${n}">${tilesInner()}</div>
    <div class="cardz">${cardHTML()}</div>
    <div class="mine">
-     <div class="between"><span class="row"><span class="dot" style="--tc:${ft.col}">${esc(ft.name[0])}</span><b>${solo?"Ton équipe":esc(ft.name)}</b></span><span class="num">${PP(ft.money)}</span></div>
+     <div class="between"><span class="row"><span class="dot" style="--tc:${ft.col}">${esc(ft.name[0])}</span><b>${solo?"Ton équipe":esc(ft.name)}</b></span><span class="num">${PP(ft.money)}${G.phase==="auction"&&emptySlots(ft)>1?`<small class="mmax">mise max ${Math.max(0,maxBid(ft))}</small>`:""}</span></div>
      ${teamView(ft,{card})}
      ${actsHTML(G.teams.indexOf(ft))}
    </div></div>`;
