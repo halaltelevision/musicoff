@@ -520,10 +520,10 @@ Jamal Musiala/MIL/Bayern/Allemagne/96
 Joshua Kimmich/MIL/Bayern/Allemagne/94
 Luis Díaz/ATT/Bayern/Colombie/93
 Serhou Guirassy/ATT/Dortmund/Guinée/92
-Gregor Kobel/G/Dortmund/Suisse/91
+Gregor Kobel/G/Dortmund/Suisse/89
 Alejandro Grimaldo/DEF/Leverkusen/Espagne/90
 Dayot Upamecano/DEF/Bayern/France/89
-Manuel Neuer/G/Bayern/Allemagne/88
+Manuel Neuer/G/Bayern/Allemagne/90
 Jonathan Tah/DEF/Bayern/Allemagne/87
 Nico Schlotterbeck/DEF/Dortmund/Allemagne/86
 Alphonso Davies/DEF/Bayern/Canada/85
@@ -757,7 +757,7 @@ Joshua Kimmich/MIL/Bayern/Allemagne/93
 Antonio Rüdiger/DEF/Real Madrid/Allemagne/93
 Kai Havertz/ATT/Arsenal/Allemagne/89
 Marc-André ter Stegen/G/Barcelone/Allemagne/88
-Manuel Neuer/G/Bayern/Allemagne/88
+Manuel Neuer/G/Bayern/Allemagne/90
 Leroy Sané/ATT/Galatasaray/Allemagne/87
 Jonathan Tah/DEF/Bayern/Allemagne/87
 Nico Schlotterbeck/DEF/Dortmund/Allemagne/86

@@ -45,10 +45,10 @@ Jamal Musiala/Bayern/96
 Joshua Kimmich/Bayern/94
 Luis Díaz/Bayern/93
 Serhou Guirassy/Dortmund/92
-Gregor Kobel/Dortmund/91
+Gregor Kobel/Dortmund/89
 Alejandro Grimaldo/Leverkusen/90
 Dayot Upamecano/Bayern/89
-Manuel Neuer/Bayern/88
+Manuel Neuer/Bayern/90
 Jonathan Tah/Bayern/87
 Nico Schlotterbeck/Dortmund/86
 Alphonso Davies/Bayern/85
@@ -241,7 +241,7 @@ Joshua Kimmich/Bayern Munich/93
 Antonio Rüdiger/Real Madrid/93
 Kai Havertz/Arsenal/89
 Marc-André ter Stegen/Barcelone/88
-Manuel Neuer/Bayern Munich/88
+Manuel Neuer/Bayern Munich/90
 Leroy Sané/Galatasaray/87
 Jonathan Tah/Bayern Munich/87
 Nico Schlotterbeck/Dortmund/86
