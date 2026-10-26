@@ -184,5 +184,27 @@
   "Dernière place à prendre !",
   "C'est la dernière enchère !",
   "Ultime recrue du mercato !"
+ ],
+ "seul": [
+  "Personne d'autre ne peut le prendre ! Prix minimum pour",
+  "Seul en lice ! Il part au prix minimum chez",
+  "Pas de concurrence ! Prix minimum pour"
+ ],
+ "suivre": [
+  "Plus personne ne pouvait suivre !",
+  "Les autres n'avaient plus les moyens !",
+  "Personne ne pouvait aller plus haut !"
+ ],
+ "egalsec": [
+  "Égalité ! C'est l'argent gardé qui fait la différence !",
+  "Même mise ! Le plus riche l'emporte !"
+ ],
+ "ecarte": [
+  "Plus personne n'a de place à ce poste ! Carte écartée !",
+  "Carte écartée : plus de place pour lui !"
+ ],
+ "temps": [
+  "Temps écoulé !",
+  "Trop tard, le temps est écoulé !"
  ]
 }

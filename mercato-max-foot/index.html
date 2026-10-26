@@ -803,7 +803,7 @@ function load(url){if(BUF[url])return BUF[url].p;const a=ctx(),e=BUF[url]={b:nul
 function ready(url){const a=AC;return a&&a.state==="running"&&BUF[url]&&BUF[url].b}
 /* Chef d'orchestre des voix : une seule à la fois. Une annonce plus importante efface en douceur celle en cours ;
    sinon elle attend, mais pas trop : une annonce en retard est abandonnée plutôt que dite à contretemps. */
-const VPRIO={pour:9,record:9,vol:9,adjuge:9,personne:9,gagnant:9,victoire:9,defaite:9,egalite:9,star:8,fin:8,remontada:8,serre:8,
+const VPRIO={seul:9,suivre:7,egalsec:7,ecarte:7,temps:8,pour:9,record:9,vol:9,adjuge:9,personne:9,gagnant:9,victoire:9,defaite:9,egalite:9,star:8,fin:8,remontada:8,serre:8,
   derniere:8,moitie:8,secret:7,mystere:7,prime:7,dernier:7,complet:6,fauche:6,riche:6,debut:6,mise100:4,cher:4,bataille:4,relance:3,relancer:3,atoi:3};
 const SOUFFLE=.12;/* petit souffle entre « Recruté par » et le prénom */
 let VCUR=null,VQ=[];
@@ -909,7 +909,7 @@ function noiseBuf(a,sec){const b=a.createBuffer(1,a.sampleRate*sec,a.sampleRate)
 /* Rumeur de stade (vrais enregistrements en boucle, sans musique) : « jeu » pendant la partie, « menu » ailleurs, très bas.
    Elle baisse quand le commentateur parle et se tait en pause ou si les bruitages sont coupés. */
 const BED={kind:null,src:null,g:null,el:null};
-function bedVol(){return!BED.kind||PAUSED||!sfxOk()?0:(BED.kind==="jeu"?.24:.13)*(VCUR?.45:1)}
+function bedVol(){return!BED.kind||PAUSED||!sfxOk()?0:(BED.kind==="jeu"?(G&&G.phase==="secret"?.07:.24):.13)*(VCUR?.45:1)}
 function bedLevel(){const v=bedVol();if(BED.g&&AC)try{BED.g.gain.setTargetAtTime(v,AC.currentTime,.35)}catch(e){}if(BED.el)BED.el.volume=Math.min(1,v)}
 function bed(kind){if(SIM)return;if(kind===BED.kind){bedLevel();return}
   const old={src:BED.src,g:BED.g,el:BED.el};BED.kind=kind;BED.src=BED.g=BED.el=null;
@@ -1014,7 +1014,7 @@ function draw(){
   if(G.chaos&&G.pos>0&&G.nPrime<2&&rnd()<.03){const c=G.teams.filter(t=>!full(t));if(c.length){const t=c[Math.floor(rnd()*c.length)],q=rnd(),amt=q<.35?10:q<.65?20:q<.8?30:q<.92?50:q<.98?80:100;t.money+=amt;G.nPrime++;G.prime=G.teams.indexOf(t);G.primeAmt=amt}}
   const i=G.order[G.pos++],n=G.teams.length,starter=G.next%n;G.next=(starter+1)%n;
   G.cur={i,price:0,leader:-1,golden,mystery,out:{},max:{},turn:-1,starter,turnEnd:0,aiAt:0};
-  if(!G.teams.some((_,ti)=>canPlace(ti))){G.phase="skip";if(!SIM){render();}return}
+  if(!G.teams.some((_,ti)=>canPlace(ti))){G.phase="skip";if(!SIM){render();voice("ecarte")}return}
   /* Enchère secrète (≈1 carte sur 8) : chacun mise une seule fois en cachette, le plus offrant l'emporte */
   const elig=G.teams.map((_,ti)=>ti).filter(canPlace);
   if(elig.length===1){const ti=elig[0];G.phase="auction";G.cur.leader=ti;G.cur.price=10;G.cur.alone=1;if(!SIM)setTimeout(preloadStars,50);sell();return}
@@ -1130,16 +1130,22 @@ function sell(){
   stopLoop();const c=G.cur;G.phase="sold";c.turn=-1;SAY={};VQ=VQ.filter(q=>!/\/stars\//.test(q.src));
   if(c.leader>=0){const t=G.teams[c.leader],card=cardOf(c.i),slot=slotFor(t,card);t.money-=c.price;t.sl[slot]={i:c.i,price:c.price,golden:c.golden,mystery:c.mystery};if(G.format==="xi")relineup(t,card.pos);
     if(!SIM){SOLDFX={ti:c.leader,i:c.i,price:c.price};hammer();
+      /* Vente forcée : seul en lice, ou les autres n'avaient plus de quoi suivre. Ce n'est pas un « vol » : pas de clameur, une explication */
+      const aCourt=G.teams.some((x,j)=>j!==c.leader&&(c.why||{})[j]==="argent"),force=!!c.alone||aCourt,
+        egal=!!(c.reveal&&c.reveal[1]&&c.reveal[0][1]===c.reveal[1][1]);
       if(G.draft){if(card.p>=88)setTimeout(()=>roar(2),250)}
-      else if(c.price>=150||(c.price<=20&&card.p>=88&&!c.mystery)){roar(true);flashes(c.price>=150?18:12)}else if(c.price>=80)setTimeout(()=>roar(2),250);buzz([30,40,60]);
+      else if(c.price>=150||(!force&&c.price<=20&&card.p>=88&&!c.mystery)){roar(true);flashes(c.price>=150?18:12)}else if(c.price>=80)setTimeout(()=>roar(2),250);buzz([30,40,60]);
       {const pl=lastName(card.n),who=nmS(t);
        /* Le commentateur parle à chaque vente ; le texte va dans l'annonce de vente, pas dans un 2e bandeau */
        let k="adjuge",tag="";
        if(c.alone){tag="Seul en lice"}
        else if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
-       else if(!G.draft&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
+       else if(!G.draft&&!force&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
        G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;/* Le nom de l'équipe est dit à chaque vente : « Recruté par Karim ! », ou « Transfert record ! Karim ! » */
-       if(!sayName(k==="adjuge"?"pour":k,t))voice(k);apresVente(t)}}}
+       /* Situation inhabituelle : le commentateur l'explique à voix haute (les autres annonces attendent) */
+       if(c.alone){if(!sayName("seul",t))voice("adjuge")}
+       else{if(!sayName(k==="adjuge"?"pour":k,t))voice(k);if(egal)voice("egalsec");else if(aCourt)voice("suivre")}
+       if(!c.alone&&!egal&&!aCourt)apresVente(t)}}}
   else if(!SIM){roar(-1);voice("personne")}
   if(!SIM)render();
 }
@@ -1155,7 +1161,7 @@ function tick(){
     $$(".tbar").forEach(b=>{b.style.width=Math.max(0,Math.min(100,rem/G.ms*100))+"%";b.className="tbar "+(rem<5000?"hurry":rem<10000?"warn":"")});
     $$(".call").forEach(cl=>cl.textContent=rem<5000?`Plus que ${Math.ceil(rem/1000)} s !`:"");
     if(rem<5000&&rem>0&&!G.teams[c.turn].ai){const q=Math.ceil(rem/(rem<2000?400:1000));if(q!==c.tk){c.tk=q;tictac(rem<2000)}}
-    if(rem<=0&&!G.teams[c.turn].ai){const so=G.mode==="solo",nm=G.teams[c.turn].name;if(c.leader<0&&canRaise(c.turn,10)){toast(so?"Temps écoulé : tu mises 10 (la première mise est obligatoire)":`Temps écoulé : ${nm} mise 10`);raise(c.turn,10)}else{toast(so?"Temps écoulé : tu passes":`Temps écoulé : ${nm} passe`);pass(c.turn)}return}}
+    if(rem<=0&&!G.teams[c.turn].ai){const so=G.mode==="solo",nm=G.teams[c.turn].name;if(c.leader<0&&canRaise(c.turn,10)){toast(so?"Temps écoulé : tu mises 10 (la première mise est obligatoire)":`Temps écoulé : ${nm} mise 10`);voice("temps");raise(c.turn,10)}else{toast(so?"Temps écoulé : tu passes":`Temps écoulé : ${nm} passe`);voice("temps");pass(c.turn)}return}}
   let ch=false;for(const k in SAY)if(SAY[k].until<now){delete SAY[k];ch=true}
   if(ch){const z=$("#tiles");if(z)z.innerHTML=tilesInner()}
 }
@@ -1199,6 +1205,7 @@ function finitions(){
   else if(!k){render.autoK=null;clearTimeout(render.autoT)}
   else $$('.nextbar').forEach(b=>{b.style.setProperty("--auto","0ms");b.classList.add("plein")});
   if(SCREEN==="album")fillThumbs();
+  bedLevel();
   guide()}
 /* Première partie guidée : une bulle au bon moment, une seule fois chacune */
 function tip(id,txt,sel,delay=0){if(SIM)return;P.tuto=P.tuto||{};if(P.tuto[id])return;
