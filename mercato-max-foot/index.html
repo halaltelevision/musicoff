@@ -1189,7 +1189,9 @@ function finitions(){
     render.priceK=pr}
   const k=SCREEN==="game"&&G&&(G.phase==="sold"||G.phase==="skip")&&!isOver()?G.pos+G.phase:null;
   if(k&&render.autoK!==k){render.autoK=k;clearTimeout(render.autoT);const first=G.mode==="solo"&&P.games===0;
-    const ms=G.phase==="skip"?2200:first?6500:3600;
+    /* Situation inhabituelle (explication à lire, mises de l'enchère secrète, carte écartée) : on laisse le temps de lire */
+    const lire=G.phase==="skip"||(G.phase==="sold"&&(pourquoi()!==""||!!(G.cur&&G.cur.reveal)));
+    const ms=first?Math.max(6500,lire?8000:0):lire?7500:3600;
     $$('.nextbar').forEach(b=>b.style.setProperty("--auto",ms+"ms"));
     const go=()=>{if(render.autoK!==k||!G||SCREEN!=="game")return;if(PAUSED||$("#layer .sheet")||$("#tip")){render.autoT=setTimeout(go,500);return}
       render.autoK=null;if(isOver())finish();else draw()};
