@@ -513,6 +513,8 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .home .mode b{font-size:clamp(28px,4.4vh,31px);white-space:nowrap}
 .home .nav{margin-top:auto}.home .nav button{padding-block:clamp(8px,1.6vh,14px)}
 .live.wk b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.why{margin:4px 0 0;font-size:12px;line-height:1.3;color:var(--mute);text-align:center;max-width:300px;align-self:center}
+.bid.win{box-shadow:0 0 0 2px var(--green) inset}.bid.win small{color:var(--green);font-weight:700}
 .rwd{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:center;gap:5px;margin:4px 0}.rwd:empty{display:none}
 .rwd button{font:inherit;cursor:pointer;white-space:nowrap;flex:none;font-size:11px;font-weight:600;color:var(--yellow);background:rgba(255,210,63,.1);border:1px solid rgba(255,210,63,.35);border-radius:20px;padding:4px 10px;animation:sfxpop .4s ease both}
 
@@ -1013,6 +1015,7 @@ function draw(){
   if(!G.teams.some((_,ti)=>canPlace(ti))){G.phase="skip";if(!SIM){render();}return}
   /* Enchère secrète (≈1 carte sur 8) : chacun mise une seule fois en cachette, le plus offrant l'emporte */
   const elig=G.teams.map((_,ti)=>ti).filter(canPlace);
+  if(elig.length===1){const ti=elig[0];G.phase="auction";G.cur.leader=ti;G.cur.price=10;G.cur.alone=1;if(!SIM)setTimeout(preloadStars,50);sell();return}
   if(G.chaos&&!mystery&&G.pos>2&&elig.length>=2&&rnd()<.12){startSecret(elig);return}
   computeAI();G.phase="auction";setTurn(starter,true);
   if(SIM||G.phase!=="auction")return;
@@ -1058,7 +1061,7 @@ function setTurn(from,incl){
   const n=G.teams.length;
   for(let k=incl?0:1;k<=n;k++){const ti=(from+k)%n;
     if(ti===G.cur.leader||G.cur.out[ti])continue;
-    if(!canRaise(ti)){G.cur.out[ti]=1;continue}
+    if(!canRaise(ti)){G.cur.out[ti]=1;(G.cur.why=G.cur.why||{})[ti]=canPlace(ti)?"argent":"place";continue}
     G.cur.turn=ti;G.cur.turnEnd=G.ms?Date.now()+G.ms:0;
     G.cur.aiAt=G.teams[ti].ai?Date.now()+500+Math.random()*500+(G.cur.price>=100&&Math.random()<.35?700+Math.random()*400:0):0;
     if(!SIM&&G.mode==="solo"&&!G.teams[ti].ai)buzz(60);
@@ -1105,7 +1108,7 @@ function raise(ti,inc){
 function pass(ti){
   if(!G||G.phase!=="auction"||G.cur.turn!==ti)return;
   if(G.cur.leader<0&&canRaise(ti,10)){if(!G.teams[ti].ai){SFX.nope();toast("Personne n'a encore misé : la première mise est obligatoire.")}return}
-  G.cur.out[ti]=1;if(G.teams[ti].ai&&Math.random()<.3)say(ti,"out");
+  G.cur.out[ti]=1;(G.cur.why=G.cur.why||{})[ti]="passe";if(G.teams[ti].ai&&Math.random()<.3)say(ti,"out");
   setTurn(ti,false);if(!SIM&&G.phase==="auction")render();
 }
 function aiTurn(ti){
@@ -1130,7 +1133,8 @@ function sell(){
       {const pl=lastName(card.n),who=nmS(t);
        /* Le commentateur parle à chaque vente ; le texte va dans l'annonce de vente, pas dans un 2e bandeau */
        let k="adjuge",tag="";
-       if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
+       if(c.alone){tag="Seul en lice"}
+       else if(!G.draft&&c.price>=150){k="record";tag="Transfert record !"}
        else if(!G.draft&&c.price<=20&&card.p>=88&&!c.mystery){k="vol";tag="Le vol du siècle !"}
        G.nSold=(G.nSold||0)+1;SOLDFX.tag=tag;/* Le nom de l'équipe est dit à chaque vente : « Recruté par Karim ! », ou « Transfert record ! Karim ! » */
        if(!sayName(k==="adjuge"?"pour":k,t))voice(k);apresVente(t)}}}
@@ -1319,10 +1323,23 @@ function pitchHTML(t,opt={}){
 function pipsHTML(t){return`<span class="pips">${G.slots.map(k=>`<i class="${t.sl[k]?"f":""}" style="--pc:${PO(k).c}" title="${PO(k).l}"></i>`).join("")}</span>`}
 /* « du Flambeur », « de Mme Prudence », « d'Inès » */
 function deNom(n){n=(n||"").trim();if(/^le /i.test(n))return"du "+n.slice(3);if(/^les /i.test(n))return"des "+n.slice(4);return(/^[aeiouyàâéèêëîïôöûüh]/i.test(n)?"d'":"de ")+n}
+/* Ce que chaque équipe peut encore faire sur cette carte, dit clairement */
+function stTile(ti){const c=G.cur,t=G.teams[ti],w=(c.why||{})[ti];
+  if(c.leader===ti)return"en tête";if(!canPlace(ti)||w==="place")return"pas de place";if(w==="argent")return"à court";if(w==="passe"||c.out[ti])return"passe";
+  if(maxBid(t)<c.price+10)return"à court";return""}
+/* Après cette mise, plus personne ne pourrait suivre : la carte est gagnée */
+function gagneAvec(ti,v){const c=G.cur;return!G.teams.some((t,j)=>j!==ti&&canPlace(j)&&!c.out[j]&&maxBid(t)>=c.price+v+10)}
+/* Pourquoi personne n'a suivi (affiché sous l'annonce de la vente) */
+function pourquoi(){const c=G.cur;if(!c||c.leader<0)return"";if(c.alone)return`<p class="why">Personne d'autre n'avait de place à ce poste : recruté au prix minimum.</p>`;
+  const tu=j=>G.mode==="solo"&&j===0,L=[];
+  G.teams.forEach((t,j)=>{if(j===c.leader)return;const w=(c.why||{})[j];
+    if(w==="place"||(!canPlace(j)&&w!=="passe"))L.push(tu(j)?"tu n'avais plus de place à ce poste":`${esc(t.name)} n'avait plus de place à ce poste`);
+    else if(w==="argent")L.push(tu(j)?"tu n'avais plus assez d'argent":`${esc(t.name)} n'avait plus assez d'argent`)});
+  return L.length?`<p class="why">${L.join(" · ").replace(/^./,x=>x.toUpperCase())}.</p>`:""}
 function tilesInner(){
   const solo=G.mode==="solo",c=G.cur,auc=G.phase==="auction";
   return G.teams.map((t,ti)=>{if(solo&&ti===0)return"";
-    let st="";if(auc){if(c.leader===ti)st="en tête";else if(c.out[ti]&&canPlace(ti))st="passe";else if(!canPlace(ti))st="pas de place"}
+    const st=auc?stTile(ti):"";
     const sy=SAY[ti]&&SAY[ti].until>Date.now()?`<span class="bubble">${esc(SAY[ti].text)}</span>`:"";
     return`<div class="tile ${auc&&c.turn===ti?"turn":""}" style="--tc:${t.col}">${st?`<span class="st">${st}</span>`:""}${sy}
       <div class="top"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><span class="nm">${esc(G.teams.length>2?t.name.replace(/^(Le |Mme )/,""):t.name)}</span><span class="mn">${PP(t.money)}</span></div>
@@ -1343,9 +1360,9 @@ function cardHTML(){
   let mid="";
   if(ph==="auction"){const t=G.teams[c.turn],me=G.mode==="solo"&&c.turn===0;
     mid=`<div class="board"><span class="lbl">Mise</span><span class="price${c.price?"":" z"}">${c.price||0}</span><i class="bill" style="font-size:22px"></i></div><div class="who" style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(G.mode==="solo"&&c.leader===0?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</div>
-    <span class="turnline" style="--tc:${t.col}">${me?"À toi de miser":t.ai?esc(t.name)+" réfléchit…":"Au tour de "+esc(t.name)}</span>${G.ms?`<div class="timer"><i class="tbar"></i></div><div class="call"></div>`:""}${coachHTML()}`}
+    <span class="turnline" style="--tc:${t.col}">${me?"À toi de miser":t.ai?esc(t.name)+" réfléchit…":"Au tour de "+esc(t.name)}</span>${G.mode==="solo"&&!canPlace(0)?`<p class="why">Ton équipe est déjà complète à ce poste : tu regardes cette enchère.</p>`:""}${G.ms?`<div class="timer"><i class="tbar"></i></div><div class="call"></div>`:""}${coachHTML()}`}
   else if(ph==="sold"){const nt=G.teams[G.next%G.teams.length];
-    mid=c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${G.mode==="solo"&&c.leader===0?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>`:`<div class="note">Personne n'a misé.</div>`;
+    mid=c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${G.mode==="solo"&&c.leader===0?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>${pourquoi()}`:`<div class="note">Personne n'a misé.</div>`;
     mid+=coachHTML()+nextCtl()}
   else if(ph==="skip"){mid=`<div class="note">Plus personne n'a de place pour un ${POS[card.pos].l.toLowerCase()} : carte écartée.</div>${nextCtl()}`}
   return`<div class="fcard ${c.golden?"gold":""}" style="--pc:${pc}">${bar}
@@ -1357,7 +1374,7 @@ function cardHTML(){
 function clampJ(){return innerHeight<620?56:innerHeight<700?66:80}
 function actsHTML(ti,g2){
   const auc=G.phase==="auction",my=auc&&G.cur.turn===ti,t=G.teams[ti],first=auc&&G.cur.leader<0,p=auc?G.cur.price:0;
-  return`<div class="acts ${g2?"g2":""}" style="--tc:${t.col}">${[10,50,100].map(v=>{const ok=my&&canRaise(ti,v);return`<button class="bid" data-act="bid" data-i="${ti}" data-v="${v}" ${ok?"":"disabled"}>+${v}<small>${my?(ok?"→ "+(p+v):"trop cher"):"&nbsp;"}</small></button>`}).join("")}<button class="bid pass" data-act="pass" data-i="${ti}" ${my&&!first?"":"disabled"}>Passer</button></div>`;
+  return`<div class="acts ${g2?"g2":""}" style="--tc:${t.col}">${[10,50,100].map(v=>{const ok=my&&canRaise(ti,v);return`<button class="bid ${ok&&gagneAvec(ti,v)?"win":""}" data-act="bid" data-i="${ti}" data-v="${v}" ${ok?"":"disabled"}>+${v}<small>${my?(ok?"→ "+(p+v)+(gagneAvec(ti,v)?" · gagné":""):"trop cher"):"&nbsp;"}</small></button>`}).join("")}<button class="bid pass" data-act="pass" data-i="${ti}" ${my&&!first?"":"disabled"}>Passer</button></div>`;
 }
 /* Conseils pendant la toute première partie */
 function coachHTML(){return"";
@@ -1381,7 +1398,7 @@ function duoHalf(side){
     let foot="";
     if(ph==="auction"){const tt=G.teams[c.turn];
       foot=`<div class="drow2"><div class="board"><span class="price${c.price?"":" z"}">${c.price||0}</span><i class="bill" style="font-size:18px"></i></div><span class="who" style="color:${c.leader>=0?G.teams[c.leader].col:"var(--mute)"}">${c.leader>=0?(c.leader===side?"Tu mènes":esc(G.teams[c.leader].name)+" mène"):"Première mise obligatoire"}</span></div><span class="turnline ${mine?"":"off"}" style="--tc:${tt.col}">${mine?"À toi de miser":"Au tour de "+esc(tt.name)}</span>${G.ms?`<div class="timer"><i class="tbar"></i></div>`:""}`}
-    else if(ph==="sold")foot=(c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${c.leader===side?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>`:`<div class="note">Personne n'a misé.</div>`)+drawCtl(side);
+    else if(ph==="sold")foot=(c.leader>=0?`<div class="stamp" style="--tc:${G.teams[c.leader].col}">${c.leader===side?(G.draft?"Choisi par toi":"Recruté par toi"):(G.draft?"Choisi par ":"Recruté par ")+esc(G.teams[c.leader].name)}${G.draft?"":" · "+PP(c.price)}</div>${pourquoi()}`:`<div class="note">Personne n'a misé.</div>`)+drawCtl(side);
     else if(ph==="secret"||ph==="pick")foot=`<div class="note">${ph==="pick"?"Choix en cours…":"Enchère secrète en cours…"}</div>`;
     else foot=`<div class="note">Carte écartée : plus de place à ce poste.</div>`+drawCtl(side);
     body=`<div class="posb"><span class="pos" style="--pc:${pc}">${POS[card.pos].l}</span>${c.golden?`<span class="tag gold">Or · ×1,5</span>`:""}${c.mystery?`<span class="tag mys">Mystère</span>`:""}${scarTag()}</div>
@@ -1392,7 +1409,7 @@ function duoHalf(side){
 }
 /* À 3 ou 4 : chacun sa zone, avec ses propres boutons */
 function zoneHTML(ti){const t=G.teams[ti],c=G.cur,auc=G.phase==="auction",my=auc&&c.turn===ti;
-  let st="";if(auc){if(c.leader===ti)st="en tête";else if(my)st="à toi";else if(c.out[ti]&&canPlace(ti))st="passe";else if(!canPlace(ti))st="pas de place"}
+  const st=auc?(c.leader!==ti&&my?"à toi":stTile(ti)):"";
   return`<div class="zone ${my?"turn":""}" style="--tc:${t.col}">${st?`<span class="st">${st}</span>`:""}<div class="top"><span class="dot">${esc(t.name[0])}</span><span class="nm">${esc(t.name)}</span><span class="mn">${PP(t.money)}</span></div><div class="low">${pipsHTML(t)}<button class="voir" data-act="voir" data-v="${ti}">Voir l'équipe</button></div>${actsHTML(ti,true)}</div>`}
 /* XI de légende : le terrain en grand. En solo, c'est le tien ; entre amis, celui du joueur dont c'est le tour.
    Le joueur en vente apparaît déjà à sa future place. */
