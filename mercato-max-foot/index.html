@@ -290,11 +290,11 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .winner.on{opacity:1;transform:none}
 .after{display:flex;flex-direction:column;gap:7px;opacity:0;pointer-events:none;transition:opacity .4s}
 .after.on{opacity:1;pointer-events:auto}
-.crit{display:flex;gap:10px;align-items:center;background:var(--card);border:1.5px solid var(--yellow);border-radius:12px;padding:8px 12px;margin:6px 0}
+.crit{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px solid var(--yellow);border-radius:10px;padding:4px 10px;margin:4px 0}
 .crit i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#141433;font:800 15px/24px var(--display);text-align:center;font-style:normal}
-.crit span{display:flex;flex-direction:column;min-width:0}.crit b{font-family:var(--display);font-size:17px;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
-.critp{margin:4px 0 0;font-size:13px;color:var(--mute);text-align:center}.critp b{color:var(--ink)}
-.crit small{color:var(--mute);font-size:13px;line-height:1.3}
+.crit span{display:flex;flex-direction:column;min-width:0}.crit b{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
+.critp{margin:2px 0 0;font-size:13px;color:var(--mute);text-align:center}.critp b{color:var(--ink)}
+.crit small{color:var(--mute);font-size:12px;line-height:1.25}
 .awards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .award{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:5px 8px;min-width:0}
 .award .lbl{font-size:11px}
@@ -1311,7 +1311,7 @@ function vSetup(){
   :`<div class="field"><span class="lbl">Joueurs${FORMATS[s.format].max===2?" · à 2 pour ce format":""}</span><div class="names">${s.names.slice(0,FORMATS[s.format].max).map((n,i)=>`<div class="nrow"><span class="dot" style="--tc:${TCOL[i]}">${i+1}</span><input data-name="${i}" value="${esc(n)}" maxlength="14" aria-label="Nom du joueur ${i+1}">${s.names.length>2&&FORMATS[s.format].max>2?`<button class="x" data-act="delname" data-v="${i}" aria-label="Retirer">×</button>`:"<span></span>"}</div>`).join("")}${s.names.length<FORMATS[s.format].max?`<button class="mini" data-act="addname">+ Joueur</button>`:""}</div></div>`}
   <button class="optsd" data-act="opts"><b>Options</b><small>${[solo?DIFF[s.diff].l:"",s.tempo==="aucun"?"sans chrono":"chrono "+TEMPO[s.tempo].l,s.chaos?"surprises":"sans surprises"].filter(Boolean).join(" · ")}</small></button>
   ${packFan(PACKS[s.pack])}
-  ${(c=>c?`<p class="critp"><b>${esc(c.t)}</b> · ${esc(c.d)}</p>`:"")(critere(PACKS[s.pack]))}
+  ${(c=>c?`<p class="critp"><b>${esc(c.t)}</b></p>`:"")(critere(PACKS[s.pack]))}
   <div class="cta"><button class="btn go" data-act="start">C'est parti !</button></div>
   </div>`;
 }
