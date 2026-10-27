@@ -292,10 +292,9 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .after.on{opacity:1;pointer-events:auto}
 .crit{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px solid var(--yellow);border-radius:10px;padding:4px 10px;margin:4px 0}
 .crit i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#141433;font:800 15px/24px var(--display);text-align:center;font-style:normal}
-.crit span{display:flex;flex-direction:column;min-width:0}.crit b{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
-.critp{margin:2px 0 0;font-size:13px;color:var(--mute);text-align:center}.critp b{color:var(--ink)}
+.crit b{font-size:13.5px;font-weight:700;line-height:1.25;min-width:0}
+.critp{margin:2px 0 0;font-size:13px;font-weight:600;color:var(--yellow);text-align:center}.critp b{color:var(--ink)}
 .crit small{color:var(--mute);font-size:12px;line-height:1.25}
-@media (max-height:700px){.crit small{display:none}.crit{padding:3px 10px}}
 .awards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .award{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:5px 8px;min-width:0}
 .award .lbl{font-size:11px}
@@ -610,6 +609,22 @@ textarea{font:inherit;width:100%;flex:1;min-height:140px;border:1px solid var(--
 .tvtag.t{top:6px}.tvtag.b{bottom:6px}
 .tvbon{flex:none;min-height:16px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:0 10px;font-size:11px;font-weight:700;line-height:1.3;color:var(--mute)}
 .tvbon span:last-child{text-align:right}.tvbon b{color:var(--green)}
+.dlist{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:4px;min-height:0}
+.dr{display:grid;grid-template-columns:minmax(0,1fr) 36px 28px 36px minmax(0,1fr);align-items:center;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:5px 7px;opacity:.75;transition:opacity .3s}
+.dr.on{opacity:1}.dr.nw{animation:sfxpop .35s ease both}
+.dn{display:flex;align-items:center;gap:6px;min-width:0}.dn.r{flex-direction:row-reverse;text-align:right}
+.dn.vide{justify-content:center;color:var(--mute);font-weight:700}
+.dt{display:flex;flex-direction:column;min-width:0;line-height:1.1}
+.dt b{font-family:var(--display);font-size:16px;font-weight:800;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dt small{font-size:11px;font-weight:600;color:var(--mute);white-space:nowrap}
+.dv{font-family:var(--led);font-size:19px;font-weight:700;text-align:center;border-radius:7px;padding:3px 0;background:var(--soft);color:var(--ink)}
+.dv.q{color:var(--mute)}.dv.gold{background:var(--yellow);color:#141433}
+.dv.up{background:var(--green);color:#fff;box-shadow:0 0 12px rgba(24,209,126,.7)}
+.dp{font-family:var(--display);font-weight:800;font-size:12px;text-align:center;color:#fff;background:var(--pc);border-radius:6px;padding:3px 0}
+.dlist.xi{gap:2px}.dlist.xi .dr{padding:0 6px;border-radius:6px}.dlist.xi .dt b{font-size:13px;line-height:1.05}.dlist.xi .dt small{display:none}.dlist.xi .dv{font-size:13px;padding:0;border-radius:5px}.dlist.xi .dp{font-size:9.5px;padding:0;border-radius:4px}
+.dmoney{flex:none;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--mute)}
+.dmoney .skip{padding:2px 8px}
+.isdraft .dt small,.isdraft .dmoney span{display:none}
 .tvres{flex:none;display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);opacity:0;transition:opacity .4s}.tvres.on{opacity:1}.tvres i{width:8px;height:8px;border-radius:50%}
 .tvwin{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%) scale(.85);opacity:0;transition:.35s cubic-bezier(.2,1.4,.4,1);background:var(--yellow);color:#0A1430;font-family:var(--display);font-weight:800;font-size:22px;line-height:1;text-transform:uppercase;padding:5px 14px 4px;border-radius:8px;white-space:nowrap;box-shadow:0 0 22px rgba(255,201,60,.8);text-align:center}
 .tvwin small{display:block;font-family:var(--body);font-size:11px;font-weight:700;text-transform:none;opacity:.8;margin-top:1px}
@@ -1313,7 +1328,7 @@ function vSetup(){
   :`<div class="field"><span class="lbl">Joueurs${FORMATS[s.format].max===2?" · à 2 pour ce format":""}</span><div class="names">${s.names.slice(0,FORMATS[s.format].max).map((n,i)=>`<div class="nrow"><span class="dot" style="--tc:${TCOL[i]}">${i+1}</span><input data-name="${i}" value="${esc(n)}" maxlength="14" aria-label="Nom du joueur ${i+1}">${s.names.length>2&&FORMATS[s.format].max>2?`<button class="x" data-act="delname" data-v="${i}" aria-label="Retirer">×</button>`:"<span></span>"}</div>`).join("")}${s.names.length<FORMATS[s.format].max?`<button class="mini" data-act="addname">+ Joueur</button>`:""}</div></div>`}
   <button class="optsd" data-act="opts"><b>Options</b><small>${[solo?DIFF[s.diff].l:"",s.tempo==="aucun"?"sans chrono":"chrono "+TEMPO[s.tempo].l,s.chaos?"surprises":"sans surprises"].filter(Boolean).join(" · ")}</small></button>
   ${packFan(PACKS[s.pack])}
-  ${(c=>c?`<p class="critp"><b>${esc(c.t)}</b></p>`:"")(critere(PACKS[s.pack]))}
+  ${(c=>c?`<p class="critp">${esc(c.t)}</p>`:"")(critere(PACKS[s.pack]))}
   <div class="cta"><button class="btn go" data-act="start">C'est parti !</button></div>
   </div>`;
 }
@@ -1491,20 +1506,23 @@ function tieTxt(){const top=Math.max(...G.teams.map(t=>t.score.total)),eq=G.team
   return n(eq[0])+(eq.length>2?", "+eq.slice(1,-1).map(n).join(", "):"")+" et "+n(eq[eq.length-1])+" à égalité !"}
 /* Critère des notes du pack : la note dépend du thème (club, sélection, compétition…) — affiché bien visible */
 const CARRIERE_PACKS={s_leg:1,s_leg_2:1,ballons_or:1,s_legafr:1};
-function critere(pk){if(!pk)return null;const id=pk.id,pays=pk.cards[0]&&pk.cards[0].pays;
-  if(pk.cat==="perso")return{t:"Notes du pack perso",d:"Les notes ont été choisies à la création du pack."};
-  if(id==="s_b_pepites")return{t:"Notes : le niveau déjà montré",d:"Des jeunes notés sur ce qu'ils ont déjà prouvé."};
-  if(CARRIERE_PACKS[id])return{t:"Notes : toute la carrière",d:"Chaque joueur est noté sur l'ensemble de sa carrière."};
-  if(id==="heros_cdm")return{t:"Notes : en Coupe du monde",d:"Ce que chaque joueur a fait en Coupe du monde, pas sa carrière entière."};
-  if(id==="heros_ldc")return{t:"Notes : en Ligue des champions",d:"Ce que chaque joueur a fait en Ligue des champions, pas sa carrière entière."};
-  if(/^leg_/.test(id))return{t:"Notes : dans ce championnat",d:"Ce que chaque joueur a fait en "+pk.name.replace(/^Légendes de /,"")+", pas ailleurs."};
-  if(/^(clasico|classique|derby_)/.test(id))return{t:"Notes : dans cette rivalité",d:"Ce que chaque joueur a fait dans ce duel : "+(pk.sub||pk.name)+"."};
-  if(pk.cat==="clubs")return{t:"Notes : en club · "+(pk.club||pk.name),d:"Ce que chaque joueur a fait dans ce club, pas sa carrière entière."};
-  if(pk.cat==="ligues")return{t:"Notes : cette saison",d:"Le niveau actuel de chaque joueur en "+pk.name+"."};
-  if(pk.cat==="nations")return/^s_/.test(id)?{t:"Notes : en sélection, aujourd'hui",d:"Le niveau actuel de chaque joueur en sélection"+(pays?" ("+pays+")":"")+"."}
-    :{t:"Notes : en sélection",d:"Ce que chaque joueur a fait en sélection"+(pays?" ("+pays+")":"")+", pas en club."};
+/* « sous le maillot du Maroc / des Bleus / de l'OM » : repris du nom des packs « Légendes … » */
+function maillot(pk){const m=/^Légendes (.+)$/.exec(pk.name);if(m)return m[1];
+  const pays=pk.cards[0]&&pk.cards[0].pays,lg=Object.values(PACKS).find(p=>p.cat==="nations"&&!/^s_/.test(p.id)&&p.cards[0]&&p.cards[0].pays===pays&&/^Légendes /.test(p.name));
+  const n=pays||pk.name;return lg?lg.name.replace(/^Légendes /,""):(/^[AEIOUYÉÈÂÎ]/i.test(n)?"de l'":"de ")+n}
+function critere(pk){if(!pk)return null;const id=pk.id,T=t=>({t});
+  if(pk.cat==="perso")return T("Notes choisies par le créateur du pack");
+  if(id==="s_b_pepites")return T("Note = le niveau que le joueur a déjà montré");
+  if(CARRIERE_PACKS[id])return T("Note = toute la carrière du joueur");
+  if(id==="heros_cdm")return T("Note = ce que le joueur a fait en Coupe du monde");
+  if(id==="heros_ldc")return T("Note = ce que le joueur a fait en Ligue des champions");
+  if(/^leg_/.test(id))return T("Note = ce que le joueur a fait en "+pk.name.replace(/^Légendes de /,""));
+  if(/^(clasico|classique|derby_)/.test(id))return T("Note = ce que le joueur a fait dans le "+pk.name.replace(/^L[ea] /,""));
+  if(pk.cat==="clubs")return T("Note = ce que le joueur a fait sous le maillot "+maillot(pk));
+  if(pk.cat==="ligues")return T("Note = le niveau du joueur cette saison en "+pk.name);
+  if(pk.cat==="nations")return T(/^s_/.test(id)?"Note = le niveau actuel du joueur sous le maillot "+maillot(pk):"Note = ce que le joueur a fait sous le maillot "+maillot(pk));
   return null}
-function critereHTML(cls){const c=critere(PACKS[G.pack]);return c?`<div class="crit ${cls||""}"><i aria-hidden="true">i</i><span><b>${esc(c.t)}</b><small>${esc(c.d)}</small></span></div>`:""}
+function critereHTML(cls){const c=critere(PACKS[G.pack]);return c?`<div class="crit ${cls||""}"><i aria-hidden="true">i</i><b>${esc(c.t)}</b></div>`:""}
 function vResults(){
   if(G.teams.length===2)return vResultsTV();
   return`<div class="screen res many n${G.teams.length}">
@@ -1517,29 +1535,24 @@ function vResults(){
    <div class="after" id="after">${awardsHTML()}<div class="rwd" id="rwd"></div>${endButtons()}</div>
   </div>`;
 }
-/* À 2 : « Match TV ». L'adversaire en haut, toi (ou le joueur 1) en bas ; les notes se révèlent poste par poste */
+/* À 2 : face-à-face en liste, poste par poste (toi à gauche, l'adversaire à droite, comme au tableau d'affichage).
+   Les notes se révèlent ligne par ligne ; la meilleure note de chaque duel s'allume en vert. */
 function tvShort(t){return G.mode==="solo"&&t===G.teams[0]?"Toi":t.name.replace(/^(Le |Mme )/,"")}
-function tvHalf(ti,reveal){
-  const t=G.teams[ti],o=G.teams[1-ti];
-  const pl=k=>{const si=G.slots.indexOf(k),pk=t.sl[k];
-    if(!pk)return`<span class="tvpl"><span class="vide">${PO(k).s}</span><span class="sn">${PO(k).l}</span></span>`;
-    const c=cardOf(pk.i),f=force(pk),op=o.sl[k],show=si<reveal,up=show&&(!op||f>force(op));
-    return`<span class="tvpl">${jersey(c,G.format==="xi"?20:30)}<span class="tx"><span class="sn">${esc(lastName(c.n))}</span><span class="ln"><span class="sv ${show?(up?"up":pk.golden?"gold":""):"q"}" title="${up?"Gagne le duel à ce poste":""}">${show?(pk.golden?"★":"")+f:"?"}</span><span class="pr">${pk.price}<i class="bill"></i></span></span></span></span>`};
-  const rows=G.format==="five"?[["G"],["DEF","MIL","LIB","ATT"]]:G.format==="duel"?[G.slots]:linesOf();
-  return`<div class="tvhalf ${ti===0?"bot":"top"}">${rows.map(r=>`<div class="tvrow">${r.map(pl).join("")}</div>`).join("")}</div>`;
-}
-function tvPitchInner(reveal){return`<span class="tvbox t"></span><span class="tvbox b"></span>${tvHalf(1,reveal)}${tvHalf(0,reveal)}`}
+function tvPitchInner(reveal,from=reveal){
+  const ks=linesOf().flat(),[A,B]=G.teams,xi=G.format==="xi";
+  const side=(pk,show,cls,r)=>{if(!pk)return`<span class="dn ${r?"r":""} vide">—</span>`;const c=cardOf(pk.i);
+    return`<span class="dn ${r?"r":""}"><span class="dt"><b>${esc(lastName(c.n))}</b><small>${pk.price}<i class="bill"></i></small></span></span>`};
+  const val=(pk,show,up)=>`<b class="dv ${show?(up?"up":pk&&pk.golden?"gold":""):"q"}">${!pk?"0":show?(pk.golden?"★":"")+force(pk):"?"}</b>`;
+  return ks.map((k,i)=>{const a=A.sl[k],b=B.sl[k],fa=a?force(a):0,fb=b?force(b):0,show=i<reveal;
+    return`<div class="dr ${show?"on":""} ${show&&i>=from?"nw":""}">${side(a,show)}${val(a,show,show&&fa>fb)}<span class="dp" style="--pc:${PO(k).c}">${PO(k).s}</span>${val(b,show,show&&fb>fa)}${side(b,show,"",1)}</div>`}).join("")}
 function vResultsTV(){
   const T=G.teams,me=G.mode==="solo";
   const kept=t=>`${t.money}<i class="bill"></i> gardés`;
   return`<div class="screen res tv">
    <div class="tvhd"><span class="lbl">${esc(packOf().name)} · ${fmtLabel(G)}</span><span class="lbl">${G.daily?"Défi du jour":SERIES&&SERIES.n>1?"Fin de la manche "+SERIES.n:"Fin du match"}</span></div>
    <div class="tvbug"><span class="t" style="--tc:${T[0].col}"><i></i><span>${esc(tvShort(T[0]))}</span></span><span class="s"><span id="tot0">0</span><em>–</em><span id="tot1">0</span></span><span class="t r" style="--tc:${T[1].col}"><span>${esc(tvShort(T[1]))}</span><i></i></span></div>
-   <div class="tvp ${G.format}"><div id="tvin">${tvPitchInner(0)}</div>
-    <span class="tvtag t l" style="--tc:${T[1].col}">${esc(T[1].name)}</span><span class="tvtag t r">${kept(T[1])}</span>
-    <button class="skip" id="skip" data-act="skip">Passer</button>
-    <span class="tvtag b l" style="--tc:${T[0].col}">${me?"Toi":esc(T[0].name)}</span><span class="tvtag b r">${kept(T[0])}</span>
-</div>
+   <div class="dlist ${G.format}" id="tvin">${tvPitchInner(0)}</div>
+   <div class="dmoney"><span>${kept(T[0])}</span><button class="skip" id="skip" data-act="skip">Passer</button><span>${kept(T[1])}</span></div>
    <div class="tvres" id="winner"></div>
    ${critereHTML("tvc")}
    <div class="after" id="after">${awardsHTML()}<div class="rwd" id="rwd"></div>${endButtons()}</div>
@@ -1569,7 +1582,7 @@ function playReveal(){
   const next=()=>{
     if(step<L.length){const line=L[step++],part=G.teams.map(t=>line.reduce((a,k)=>a+(t.sl[k]?force(t.sl[k]):0),0));shown+=line.length;
       G.teams.forEach((t,ti)=>{tot[ti]+=part[ti];if(!tv)$("#pt"+ti).innerHTML=pitchHTML(t,{reveal:shown,small:many,tiny:G.teams.length>3});$("#tot"+ti).textContent=tot[ti]});
-      if(tv)$("#tvin").innerHTML=tvPitchInner(shown);
+      if(tv)$("#tvin").innerHTML=tvPitchInner(shown,shown-line.length);
       if(!fast&&w){const best=Math.max(...tot),lead=G.teams.filter((_,i)=>tot[i]===best),ld=lead.length>1?-1:G.teams.indexOf(lead[0]);
         if(step>1&&ld>=0&&prevLd>=0&&ld!==prevLd){roar(false);voice("remontada")}
         else if(step===L.length-1&&G.winner>=0&&Math.abs(G.teams[0].score.total-(G.teams[1]||{score:{total:0}}).score.total)<=5&&G.teams.length===2)voice("serre");
@@ -1696,7 +1709,7 @@ async function resultCanvas(){
   /* en-tête : logo à gauche, pack à droite */
   x.font=F(800,34);x.textAlign="left";x.fillStyle="#EEF3FF";x.fillText("MERCATO MAX",M,92);const lw=x.measureText("MERCATO MAX ").width;x.fillStyle="#FF4563";x.fillText("FOOT",M+lw,92);
   x.font=F(700,24);x.fillStyle="#93A3D1";spaced((packOf().name+" · "+fmtLabel(G)).toUpperCase(),W-M,90,3,"right");
-  {const cr=critere(packOf());if(cr){x.font=F(700,22);x.fillStyle="#FFD84A";spaced(cr.t.toUpperCase(),W-M,126,2,"right")}}
+  {const cr=critere(packOf());if(cr){x.font=F(600,22,"b");x.fillStyle="#FFD84A";x.textAlign="right";x.fillText(fit(cr.t,W-2*M),W-M,126)}}
   /* titre et score */
   const solo=G.mode==="solo",wT=G.teams[G.winner],iWin=G.winner>=0&&(!solo||G.winner===0);
   const wt=G.winner<0?(tieTxt()==="Égalité parfaite !"?"Égalité parfaite !":"Égalité !"):solo&&G.winner===0?"Tu gagnes !":wT.name+" gagne !";
