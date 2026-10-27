@@ -290,6 +290,11 @@ input{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;pa
 .winner.on{opacity:1;transform:none}
 .after{display:flex;flex-direction:column;gap:7px;opacity:0;pointer-events:none;transition:opacity .4s}
 .after.on{opacity:1;pointer-events:auto}
+.crit{display:flex;gap:10px;align-items:center;background:var(--card);border:1.5px solid var(--yellow);border-radius:12px;padding:8px 12px;margin:6px 0}
+.crit i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#141433;font:800 15px/24px var(--display);text-align:center;font-style:normal}
+.crit span{display:flex;flex-direction:column;min-width:0}.crit b{font-family:var(--display);font-size:17px;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
+.critp{margin:4px 0 0;font-size:13px;color:var(--mute);text-align:center}.critp b{color:var(--ink)}
+.crit small{color:var(--mute);font-size:13px;line-height:1.3}
 .awards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .award{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:5px 8px;min-width:0}
 .award .lbl{font-size:11px}
@@ -1306,6 +1311,7 @@ function vSetup(){
   :`<div class="field"><span class="lbl">Joueurs${FORMATS[s.format].max===2?" · à 2 pour ce format":""}</span><div class="names">${s.names.slice(0,FORMATS[s.format].max).map((n,i)=>`<div class="nrow"><span class="dot" style="--tc:${TCOL[i]}">${i+1}</span><input data-name="${i}" value="${esc(n)}" maxlength="14" aria-label="Nom du joueur ${i+1}">${s.names.length>2&&FORMATS[s.format].max>2?`<button class="x" data-act="delname" data-v="${i}" aria-label="Retirer">×</button>`:"<span></span>"}</div>`).join("")}${s.names.length<FORMATS[s.format].max?`<button class="mini" data-act="addname">+ Joueur</button>`:""}</div></div>`}
   <button class="optsd" data-act="opts"><b>Options</b><small>${[solo?DIFF[s.diff].l:"",s.tempo==="aucun"?"sans chrono":"chrono "+TEMPO[s.tempo].l,s.chaos?"surprises":"sans surprises"].filter(Boolean).join(" · ")}</small></button>
   ${packFan(PACKS[s.pack])}
+  ${(c=>c?`<p class="critp"><b>${esc(c.t)}</b> · ${esc(c.d)}</p>`:"")(critere(PACKS[s.pack]))}
   <div class="cta"><button class="btn go" data-act="start">C'est parti !</button></div>
   </div>`;
 }
@@ -1477,10 +1483,27 @@ function endButtons(){
   return`${ser&&!two?`<div class="series">Série : ${ser}</div>`:""}<div class="endb"><div class="r1"><button class="btn go" data-act="revanche">${G.daily?"Retenter":"Revanche"}<small>${sub}</small></button><button class="btn blue" data-act="share">${ICO.share}Partager</button></div>
    <div class="r2"><button class="btn" data-act="newpack" aria-label="Autre pack">${ICO.pack}Autre pack</button><button class="btn" data-act="go" data-v="home" aria-label="Accueil">${ICO.home}Accueil</button></div></div>`;
 }
+/* Critère des notes du pack : la note dépend du thème (club, sélection, compétition…) — affiché bien visible */
+const CARRIERE_PACKS={s_leg:1,s_leg_2:1,ballons_or:1,s_legafr:1};
+function critere(pk){if(!pk)return null;const id=pk.id,pays=pk.cards[0]&&pk.cards[0].pays;
+  if(pk.cat==="perso")return{t:"Notes du pack perso",d:"Les notes ont été choisies à la création du pack."};
+  if(id==="s_b_pepites")return{t:"Notes : le niveau déjà montré",d:"Des jeunes notés sur ce qu'ils ont déjà prouvé."};
+  if(CARRIERE_PACKS[id])return{t:"Notes : toute la carrière",d:"Chaque joueur est noté sur l'ensemble de sa carrière."};
+  if(id==="heros_cdm")return{t:"Notes : en Coupe du monde",d:"Ce que chaque joueur a fait en Coupe du monde, pas sa carrière entière."};
+  if(id==="heros_ldc")return{t:"Notes : en Ligue des champions",d:"Ce que chaque joueur a fait en Ligue des champions, pas sa carrière entière."};
+  if(/^leg_/.test(id))return{t:"Notes : dans ce championnat",d:"Ce que chaque joueur a fait en "+pk.name.replace(/^Légendes de /,"")+", pas ailleurs."};
+  if(/^(clasico|classique|derby_)/.test(id))return{t:"Notes : dans cette rivalité",d:"Ce que chaque joueur a fait dans ce duel : "+(pk.sub||pk.name)+"."};
+  if(pk.cat==="clubs")return{t:"Notes : en club · "+(pk.club||pk.name),d:"Ce que chaque joueur a fait dans ce club, pas sa carrière entière."};
+  if(pk.cat==="ligues")return{t:"Notes : cette saison",d:"Le niveau actuel de chaque joueur en "+pk.name+"."};
+  if(pk.cat==="nations")return/^s_/.test(id)?{t:"Notes : en sélection, aujourd'hui",d:"Le niveau actuel de chaque joueur en sélection"+(pays?" ("+pays+")":"")+"."}
+    :{t:"Notes : en sélection",d:"Ce que chaque joueur a fait en sélection"+(pays?" ("+pays+")":"")+", pas en club."};
+  return null}
+function critereHTML(cls){const c=critere(PACKS[G.pack]);return c?`<div class="crit ${cls||""}"><i aria-hidden="true">i</i><span><b>${esc(c.t)}</b><small>${esc(c.d)}</small></span></div>`:""}
 function vResults(){
   if(G.teams.length===2)return vResultsTV();
   return`<div class="screen res many">
    <div class="between"><h2>Les équipes</h2><span class="lbl">${esc(packOf().name)} · ${fmtLabel(G)}</span></div>
+   ${critereHTML()}
    ${G.teams.map((t,ti)=>`<div class="rteam" id="rt${ti}" style="--tc:${t.col}"><div class="between"><span class="row"><span class="dot">${esc(t.name.replace(/^(Le |Mme )/,"")[0])}</span><b>${esc(t.name)}</b><small class="mute">${PP(t.money)}</small></span><span class="row"><span class="tot" id="tot${ti}">0</span></span></div>
      <div id="pt${ti}">${pitchHTML(t,{reveal:0,small:true})}</div></div>`).join("")}
    <div class="winner" id="winner"></div>
@@ -1512,6 +1535,7 @@ function vResultsTV(){
     <span class="tvtag b l" style="--tc:${T[0].col}">${me?"Toi":esc(T[0].name)}</span><span class="tvtag b r">${kept(T[0])}</span>
 </div>
    <div class="tvres" id="winner"></div>
+   ${critereHTML("tvc")}
    <div class="after" id="after">${awardsHTML()}<div class="rwd" id="rwd"></div>${endButtons()}</div>
   </div>`;
 }
