@@ -750,11 +750,8 @@ const LINES={
 const PACKS={};
 function addPack(p){
   const cards=p.raw.trim().split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const a=l.split("/").map(x=>x.trim());return p.club?{n:a[0],pos:a[1],club:p.club,pays:a[2],p:+a[3]}:{n:a[0],pos:a[1],club:a[2],pays:a[3],p:+a[4]}});
-  /* Note selon le pack : l'ordre vient de la note carrière (la même partout), mais dans un pack plus faible
-     les meilleurs remontent (le n°1 du pack ≈ 93). On ne baisse jamais personne. Packs perso : notes du joueur. */
+  /* La note d'un pack = ce que le joueur a montré dans ce contexte (club, sélection, compétition). base = cette note. */
   cards.forEach(c=>c.base=c.p);
-  if(p.cat!=="perso"&&cards.length>1){const tri=cards.map(c=>c.p).sort((a,b)=>a-b),N=tri.length;
-    cards.forEach(c=>{const r=(tri.indexOf(c.p)+tri.lastIndexOf(c.p))/2/(N-1);c.p=Math.max(c.base,Math.round(66+27*Math.pow(r,1.25)))})}
   const ps=cards.map(c=>c.p),stats={lo:Math.min(...ps),hi:Math.max(...ps)};
   stats.avg={};["G","DEF","MIL","ATT"].forEach(k=>{const v=cards.filter(c=>c.pos===k).map(c=>c.p);stats.avg[k]=v.reduce((a,b)=>a+b,0)/v.length});
   PACKS[p.id]=Object.assign({cat:"themes"},p,{cards,stats,onecountry:new Set(cards.map(c=>c.pays)).size===1,oneclub:new Set(cards.map(c=>c.club)).size===1});
@@ -2035,7 +2032,7 @@ document.addEventListener("click",e=>{
   else if(a==="editperso"){EDIT=editFrom(P.custom.find(x=>x.id===v));go("edit")}
   else if(a==="playperso"){SETUP={mode:"solo",kind:"auction",format:"five",formation:"4-3-3",pack:v,nai:P.nai,tempo:P.tempo,diff:P.diff||"normal",chaos:P.chaos!==false,names:P.names.slice()};go("setup")}
   else if(a==="ptab"){EDIT.tab=v;render()}
-  else if(a==="padd"){const c=allPlayers()[+v];if(c&&!EDIT.list.some(x=>x.n===c.n)){EDIT.list.push({n:c.n,pos:c.pos,club:c.club,pays:c.pays,note:c.base,real:true});render();const q=$("#pq");if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length)}}}
+  else if(a==="padd"){const c=allPlayers()[+v];if(c&&!EDIT.list.some(x=>x.n===c.n)){EDIT.list.push({n:c.n,pos:c.pos,club:c.club,pays:c.pays,note:(window.CARRIERE||{})[c.n]||c.base,real:true});render();const q=$("#pq");if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length)}}}
   else if(a==="fpos"){EDIT.f.pos=v;render()}
   else if(a==="fnote"){EDIT.f.note=Math.max(1,Math.min(99,EDIT.f.note+(+v)));render()}
   else if(a==="fadd"){const f=EDIT.f;if(!f.n.trim()){toast("Écris le nom du joueur");$("#fn")&&$("#fn").focus();return}EDIT.list.push({n:f.n.trim(),pos:f.pos,club:f.club.trim()||"Mon équipe",note:f.note,real:false});f.n="";render();const x=$("#fn");if(x)x.focus()}
