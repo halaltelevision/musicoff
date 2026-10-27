@@ -44,455 +44,455 @@ Giacinto Facchetti/DEF/Inter/Italie/92
 Roberto Carlos/DEF/Real Madrid/Brésil/92
 `},
 {id:"heros_cdm",name:"Héros de Coupe du monde",cat:"themes",sub:"Ils ont fait basculer un Mondial",raw:`
-Gordon Banks/G/Leicester City/Angleterre/91
-Dino Zoff/G/Juventus/Italie/93
-Gianluigi Buffon/G/Juventus/Italie/94
-Iker Casillas/G/Real Madrid/Espagne/92
-Emiliano Martínez/G/Aston Villa/Argentine/86
-Fabien Barthez/G/Monaco/France/86
-Fabio Cannavaro/DEF/Juventus/Italie/91
-Franz Beckenbauer/DEF/Bayern/Allemagne/96
-Lilian Thuram/DEF/Parme/France/89
-Bobby Moore/DEF/West Ham/Angleterre/91
-Daniel Passarella/DEF/River Plate/Argentine/90
-Cafu/DEF/Roma/Brésil/91
-Philipp Lahm/DEF/Bayern/Allemagne/92
-Carles Puyol/DEF/Barcelone/Espagne/89
-Andreas Brehme/DEF/Inter/Allemagne/88
-Zinédine Zidane/MIL/Juventus/France/97
-Andrés Iniesta/MIL/Barcelone/Espagne/93
-Bobby Charlton/MIL/Manchester United/Angleterre/93
-Didier Deschamps/MIL/Juventus/France/86
-Paul Pogba/MIL/Manchester United/France/86
-Lothar Matthäus/MIL/Inter/Allemagne/93
-Mario Götze/MIL/Bayern/Allemagne/83
-Andrea Pirlo/MIL/Milan/Italie/92
-Luka Modrić/MIL/Real Madrid/Croatie/92
+Gordon Banks/G/Leicester City/Angleterre/88
+Dino Zoff/G/Juventus/Italie/92
+Gianluigi Buffon/G/Juventus/Italie/90
+Iker Casillas/G/Real Madrid/Espagne/90
+Emiliano Martínez/G/Aston Villa/Argentine/88
+Fabien Barthez/G/Monaco/France/87
+Fabio Cannavaro/DEF/Juventus/Italie/94
+Franz Beckenbauer/DEF/Bayern/Allemagne/95
+Lilian Thuram/DEF/Parme/France/90
+Bobby Moore/DEF/West Ham/Angleterre/92
+Daniel Passarella/DEF/River Plate/Argentine/87
+Cafu/DEF/Roma/Brésil/92
+Philipp Lahm/DEF/Bayern/Allemagne/89
+Carles Puyol/DEF/Barcelone/Espagne/88
+Andreas Brehme/DEF/Inter/Allemagne/89
+Zinédine Zidane/MIL/Juventus/France/96
+Andrés Iniesta/MIL/Barcelone/Espagne/91
+Bobby Charlton/MIL/Manchester United/Angleterre/92
+Didier Deschamps/MIL/Juventus/France/85
+Paul Pogba/MIL/Manchester United/France/85
+Lothar Matthäus/MIL/Inter/Allemagne/92
+Mario Götze/MIL/Bayern/Allemagne/84
+Andrea Pirlo/MIL/Milan/Italie/89
+Luka Modrić/MIL/Real Madrid/Croatie/91
 Pelé/ATT/Santos/Brésil/99
 Diego Maradona/ATT/Napoli/Argentine/99
-Ronaldo/ATT/Inter/Brésil/96
-Miroslav Klose/ATT/Bayern/Allemagne/88
-Gerd Müller/ATT/Bayern/Allemagne/94
-Just Fontaine/ATT/Reims/France/88
-Paolo Rossi/ATT/Juventus/Italie/89
-Mario Kempes/ATT/Valence/Argentine/89
-Geoff Hurst/ATT/West Ham/Angleterre/84
-Lionel Messi/ATT/Barcelone/Argentine/99
-Kylian Mbappé/ATT/PSG/France/92
-Garrincha/ATT/Botafogo/Brésil/95
-Romário/ATT/Barcelone/Brésil/93
-Eusébio/ATT/Benfica/Portugal/95
+Ronaldo/ATT/Inter/Brésil/97
+Miroslav Klose/ATT/Bayern/Allemagne/92
+Gerd Müller/ATT/Bayern/Allemagne/93
+Just Fontaine/ATT/Reims/France/93
+Paolo Rossi/ATT/Juventus/Italie/93
+Mario Kempes/ATT/Valence/Argentine/91
+Geoff Hurst/ATT/West Ham/Angleterre/89
+Lionel Messi/ATT/Barcelone/Argentine/98
+Kylian Mbappé/ATT/PSG/France/95
+Garrincha/ATT/Botafogo/Brésil/96
+Romário/ATT/Barcelone/Brésil/92
+Eusébio/ATT/Benfica/Portugal/90
 Davor Šuker/ATT/Real Madrid/Croatie/88
-David Villa/ATT/Valence/Espagne/88
-Xavi/MIL/Barcelone/Espagne/93
+David Villa/ATT/Valence/Espagne/87
+Xavi/MIL/Barcelone/Espagne/89
 `},
 {id:"heros_ldc",name:"Héros de Ligue des champions",cat:"themes",sub:"Les rois des soirées européennes",raw:`
-Oliver Kahn/G/Bayern/Allemagne/91
-Jerzy Dudek/G/Liverpool/Pologne/82
-Iker Casillas/G/Real Madrid/Espagne/92
-Edwin van der Sar/G/Manchester United/Pays-Bas/90
-Petr Čech/G/Chelsea/Tchéquie/90
+Oliver Kahn/G/Bayern/Allemagne/87
+Jerzy Dudek/G/Liverpool/Pologne/83
+Iker Casillas/G/Real Madrid/Espagne/90
+Edwin van der Sar/G/Manchester United/Pays-Bas/87
+Petr Čech/G/Chelsea/Tchéquie/89
 Thibaut Courtois/G/Real Madrid/Belgique/90
 Paolo Maldini/DEF/Milan/Italie/95
-Sergio Ramos/DEF/Real Madrid/Espagne/92
-Carles Puyol/DEF/Barcelone/Espagne/89
-Franco Baresi/DEF/Milan/Italie/95
-Dani Alves/DEF/Barcelone/Brésil/88
-Marcelo/DEF/Real Madrid/Brésil/89
-Virgil van Dijk/DEF/Liverpool/Pays-Bas/89
-Javier Zanetti/DEF/Inter/Argentine/89
-Zinédine Zidane/MIL/Real Madrid/France/97
-Steven Gerrard/MIL/Liverpool/Angleterre/91
-Andrés Iniesta/MIL/Barcelone/Espagne/93
-Xavi/MIL/Barcelone/Espagne/93
-Luka Modrić/MIL/Real Madrid/Croatie/92
-Clarence Seedorf/MIL/Milan/Pays-Bas/89
-Kaká/MIL/Milan/Brésil/92
+Sergio Ramos/DEF/Real Madrid/Espagne/93
+Carles Puyol/DEF/Barcelone/Espagne/87
+Franco Baresi/DEF/Milan/Italie/92
+Dani Alves/DEF/Barcelone/Brésil/86
+Marcelo/DEF/Real Madrid/Brésil/88
+Virgil van Dijk/DEF/Liverpool/Pays-Bas/86
+Javier Zanetti/DEF/Inter/Argentine/85
+Zinédine Zidane/MIL/Real Madrid/France/95
+Steven Gerrard/MIL/Liverpool/Angleterre/90
+Andrés Iniesta/MIL/Barcelone/Espagne/91
+Xavi/MIL/Barcelone/Espagne/91
+Luka Modrić/MIL/Real Madrid/Croatie/93
+Clarence Seedorf/MIL/Milan/Pays-Bas/91
+Kaká/MIL/Milan/Brésil/93
 Toni Kroos/MIL/Real Madrid/Allemagne/91
-Rodri/MIL/Manchester City/Espagne/90
-Cristiano Ronaldo/ATT/Real Madrid/Portugal/98
-Lionel Messi/ATT/Barcelone/Argentine/99
-Karim Benzema/ATT/Real Madrid/France/91
+Rodri/MIL/Manchester City/Espagne/87
+Cristiano Ronaldo/ATT/Real Madrid/Portugal/99
+Lionel Messi/ATT/Barcelone/Argentine/98
+Karim Benzema/ATT/Real Madrid/France/93
 Alfredo Di Stéfano/ATT/Real Madrid/Argentine/97
-Ferenc Puskás/ATT/Real Madrid/Hongrie/95
-Gareth Bale/ATT/Real Madrid/Pays de Galles/89
+Ferenc Puskás/ATT/Real Madrid/Hongrie/94
+Gareth Bale/ATT/Real Madrid/Pays de Galles/90
 Didier Drogba/ATT/Chelsea/Côte d'Ivoire/89
-Ole Gunnar Solskjær/ATT/Manchester United/Norvège/80
-Andriy Shevchenko/ATT/Milan/Ukraine/92
-Raúl/ATT/Real Madrid/Espagne/91
-Vinícius Júnior/ATT/Real Madrid/Brésil/90
-Diego Milito/ATT/Inter/Argentine/85
-Samuel Eto'o/ATT/Barcelone/Cameroun/91
-Ousmane Dembélé/ATT/PSG/France/90
-Kingsley Coman/ATT/Bayern/France/84
-Andrea Pirlo/MIL/Milan/Italie/92
+Ole Gunnar Solskjær/ATT/Manchester United/Norvège/85
+Andriy Shevchenko/ATT/Milan/Ukraine/90
+Raúl/ATT/Real Madrid/Espagne/93
+Vinícius Júnior/ATT/Real Madrid/Brésil/91
+Diego Milito/ATT/Inter/Argentine/88
+Samuel Eto'o/ATT/Barcelone/Cameroun/89
+Ousmane Dembélé/ATT/PSG/France/89
+Kingsley Coman/ATT/Bayern/France/85
+Andrea Pirlo/MIL/Milan/Italie/89
 `},
 {id:"leg_pl",name:"Légendes de Premier League",cat:"themes",sub:"Les monstres du championnat anglais",raw:`
-Peter Schmeichel/G/Manchester United/Danemark/92
+Peter Schmeichel/G/Manchester United/Danemark/93
 Petr Čech/G/Chelsea/Tchéquie/90
-David Seaman/G/Arsenal/Angleterre/85
-Edwin van der Sar/G/Manchester United/Pays-Bas/90
+David Seaman/G/Arsenal/Angleterre/86
+Edwin van der Sar/G/Manchester United/Pays-Bas/88
 Alisson/G/Liverpool/Brésil/89
-Ederson/G/Manchester City/Brésil/86
-John Terry/DEF/Chelsea/Angleterre/89
-Rio Ferdinand/DEF/Manchester United/Angleterre/88
-Vincent Kompany/DEF/Manchester City/Belgique/87
-Ashley Cole/DEF/Chelsea/Angleterre/86
-Gary Neville/DEF/Manchester United/Angleterre/83
-Tony Adams/DEF/Arsenal/Angleterre/86
-Virgil van Dijk/DEF/Liverpool/Pays-Bas/89
-Nemanja Vidić/DEF/Manchester United/Serbie/88
+Ederson/G/Manchester City/Brésil/87
+John Terry/DEF/Chelsea/Angleterre/91
+Rio Ferdinand/DEF/Manchester United/Angleterre/89
+Vincent Kompany/DEF/Manchester City/Belgique/89
+Ashley Cole/DEF/Chelsea/Angleterre/87
+Gary Neville/DEF/Manchester United/Angleterre/85
+Tony Adams/DEF/Arsenal/Angleterre/87
+Virgil van Dijk/DEF/Liverpool/Pays-Bas/90
+Nemanja Vidić/DEF/Manchester United/Serbie/89
 Sol Campbell/DEF/Arsenal/Angleterre/85
-Jamie Carragher/DEF/Liverpool/Angleterre/82
-Steven Gerrard/MIL/Liverpool/Angleterre/91
-Frank Lampard/MIL/Chelsea/Angleterre/89
-Paul Scholes/MIL/Manchester United/Angleterre/89
-Ryan Giggs/MIL/Manchester United/Pays de Galles/89
-Patrick Vieira/MIL/Arsenal/France/90
-Roy Keane/MIL/Manchester United/Irlande/89
-Kevin De Bruyne/MIL/Manchester City/Belgique/90
-David Silva/MIL/Manchester City/Espagne/88
+Jamie Carragher/DEF/Liverpool/Angleterre/84
+Steven Gerrard/MIL/Liverpool/Angleterre/92
+Frank Lampard/MIL/Chelsea/Angleterre/92
+Paul Scholes/MIL/Manchester United/Angleterre/90
+Ryan Giggs/MIL/Manchester United/Pays de Galles/92
+Patrick Vieira/MIL/Arsenal/France/91
+Roy Keane/MIL/Manchester United/Irlande/91
+Kevin De Bruyne/MIL/Manchester City/Belgique/93
+David Silva/MIL/Manchester City/Espagne/90
 Cesc Fàbregas/MIL/Arsenal/Espagne/87
-Yaya Touré/MIL/Manchester City/Côte d'Ivoire/90
-Alan Shearer/ATT/Newcastle/Angleterre/90
-Thierry Henry/ATT/Arsenal/France/93
-Wayne Rooney/ATT/Manchester United/Angleterre/91
-Cristiano Ronaldo/ATT/Manchester United/Portugal/98
-Mohamed Salah/ATT/Liverpool/Égypte/90
-Sergio Agüero/ATT/Manchester City/Argentine/89
+Yaya Touré/MIL/Manchester City/Côte d'Ivoire/88
+Alan Shearer/ATT/Newcastle/Angleterre/94
+Thierry Henry/ATT/Arsenal/France/96
+Wayne Rooney/ATT/Manchester United/Angleterre/92
+Cristiano Ronaldo/ATT/Manchester United/Portugal/92
+Mohamed Salah/ATT/Liverpool/Égypte/93
+Sergio Agüero/ATT/Manchester City/Argentine/92
 Didier Drogba/ATT/Chelsea/Côte d'Ivoire/89
-Harry Kane/ATT/Tottenham/Angleterre/90
-Dennis Bergkamp/ATT/Arsenal/Pays-Bas/91
-Eric Cantona/ATT/Manchester United/France/89
-Erling Haaland/ATT/Manchester City/Norvège/90
+Harry Kane/ATT/Tottenham/Angleterre/91
+Dennis Bergkamp/ATT/Arsenal/Pays-Bas/90
+Eric Cantona/ATT/Manchester United/France/91
+Erling Haaland/ATT/Manchester City/Norvège/91
 Robin van Persie/ATT/Arsenal/Pays-Bas/88
-Luis Suárez/ATT/Liverpool/Uruguay/91`},
+Luis Suárez/ATT/Liverpool/Uruguay/89`},
 {id:"leg_liga",name:"Légendes de Liga",cat:"themes",sub:"Les géants du championnat espagnol",raw:`
 Iker Casillas/G/Real Madrid/Espagne/92
 Andoni Zubizarreta/G/Barcelone/Espagne/86
 Víctor Valdés/G/Barcelone/Espagne/85
-Jan Oblak/G/Atlético de Madrid/Slovénie/89
-Thibaut Courtois/G/Real Madrid/Belgique/90
-Marc-André ter Stegen/G/Barcelone/Allemagne/88
+Jan Oblak/G/Atlético de Madrid/Slovénie/90
+Thibaut Courtois/G/Real Madrid/Belgique/88
+Marc-André ter Stegen/G/Barcelone/Allemagne/87
 Sergio Ramos/DEF/Real Madrid/Espagne/92
 Carles Puyol/DEF/Barcelone/Espagne/89
 Fernando Hierro/DEF/Real Madrid/Espagne/88
-Roberto Carlos/DEF/Real Madrid/Brésil/92
+Roberto Carlos/DEF/Real Madrid/Brésil/90
 Gerard Piqué/DEF/Barcelone/Espagne/88
-Dani Alves/DEF/Barcelone/Brésil/88
-Marcelo/DEF/Real Madrid/Brésil/89
+Dani Alves/DEF/Barcelone/Brésil/89
+Marcelo/DEF/Real Madrid/Brésil/88
 Diego Godín/DEF/Atlético de Madrid/Uruguay/87
-Ronald Koeman/DEF/Barcelone/Pays-Bas/89
-Xavi/MIL/Barcelone/Espagne/93
-Andrés Iniesta/MIL/Barcelone/Espagne/93
-Luka Modrić/MIL/Real Madrid/Croatie/92
-Toni Kroos/MIL/Real Madrid/Allemagne/91
-Sergio Busquets/MIL/Barcelone/Espagne/89
-Zinédine Zidane/MIL/Real Madrid/France/97
-Luís Figo/MIL/Barcelone/Portugal/92
-Koke/MIL/Atlético de Madrid/Espagne/83
-Michael Laudrup/MIL/Barcelone/Danemark/92
+Ronald Koeman/DEF/Barcelone/Pays-Bas/88
+Xavi/MIL/Barcelone/Espagne/94
+Andrés Iniesta/MIL/Barcelone/Espagne/94
+Luka Modrić/MIL/Real Madrid/Croatie/90
+Toni Kroos/MIL/Real Madrid/Allemagne/90
+Sergio Busquets/MIL/Barcelone/Espagne/90
+Zinédine Zidane/MIL/Real Madrid/France/91
+Luís Figo/MIL/Barcelone/Portugal/91
+Koke/MIL/Atlético de Madrid/Espagne/84
+Michael Laudrup/MIL/Barcelone/Danemark/90
 Lionel Messi/ATT/Barcelone/Argentine/99
-Cristiano Ronaldo/ATT/Real Madrid/Portugal/98
+Cristiano Ronaldo/ATT/Real Madrid/Portugal/97
 Alfredo Di Stéfano/ATT/Real Madrid/Argentine/97
-Raúl/ATT/Real Madrid/Espagne/91
+Raúl/ATT/Real Madrid/Espagne/92
 Karim Benzema/ATT/Real Madrid/France/91
-Telmo Zarra/ATT/Athletic Bilbao/Espagne/87
-Hugo Sánchez/ATT/Real Madrid/Mexique/88
-Ronaldo/ATT/Real Madrid/Brésil/96
-Ronaldinho/ATT/Barcelone/Brésil/94
-Ferenc Puskás/ATT/Real Madrid/Hongrie/95
-Antoine Griezmann/ATT/Atlético de Madrid/France/89
+Telmo Zarra/ATT/Athletic Bilbao/Espagne/90
+Hugo Sánchez/ATT/Real Madrid/Mexique/92
+Ronaldo/ATT/Real Madrid/Brésil/91
+Ronaldinho/ATT/Barcelone/Brésil/92
+Ferenc Puskás/ATT/Real Madrid/Hongrie/93
+Antoine Griezmann/ATT/Atlético de Madrid/France/88
 Luis Suárez/ATT/Barcelone/Uruguay/91
-Samuel Eto'o/ATT/Barcelone/Cameroun/91
-David Villa/ATT/Valence/Espagne/88
-Johan Cruyff/ATT/Barcelone/Pays-Bas/97
-Fernando Redondo/MIL/Real Madrid/Argentine/88
+Samuel Eto'o/ATT/Barcelone/Cameroun/89
+David Villa/ATT/Valence/Espagne/87
+Johan Cruyff/ATT/Barcelone/Pays-Bas/91
+Fernando Redondo/MIL/Real Madrid/Argentine/85
 `},
 {id:"leg_seriea",name:"Légendes de Serie A",cat:"themes",sub:"Les maîtres du Calcio",raw:`
-Gianluigi Buffon/G/Juventus/Italie/94
+Gianluigi Buffon/G/Juventus/Italie/95
 Dino Zoff/G/Juventus/Italie/93
-Walter Zenga/G/Inter/Italie/86
-Gianluca Pagliuca/G/Sampdoria/Italie/83
+Walter Zenga/G/Inter/Italie/87
+Gianluca Pagliuca/G/Sampdoria/Italie/84
 Francesco Toldo/G/Fiorentina/Italie/84
 Samir Handanović/G/Inter/Slovénie/85
-Paolo Maldini/DEF/Milan/Italie/95
+Paolo Maldini/DEF/Milan/Italie/96
 Franco Baresi/DEF/Milan/Italie/95
 Alessandro Nesta/DEF/Milan/Italie/91
 Fabio Cannavaro/DEF/Parme/Italie/91
-Giorgio Chiellini/DEF/Juventus/Italie/88
-Javier Zanetti/DEF/Inter/Argentine/89
-Giuseppe Bergomi/DEF/Inter/Italie/86
-Gaetano Scirea/DEF/Juventus/Italie/91
+Giorgio Chiellini/DEF/Juventus/Italie/89
+Javier Zanetti/DEF/Inter/Argentine/90
+Giuseppe Bergomi/DEF/Inter/Italie/87
+Gaetano Scirea/DEF/Juventus/Italie/92
 Andrea Pirlo/MIL/Milan/Italie/92
 Michel Platini/MIL/Juventus/France/95
 Pavel Nedvěd/MIL/Juventus/Tchéquie/91
-Clarence Seedorf/MIL/Milan/Pays-Bas/89
-Gennaro Gattuso/MIL/Milan/Italie/86
-Kaká/MIL/Milan/Brésil/92
-Gianni Rivera/MIL/Milan/Italie/92
-Daniele De Rossi/MIL/Roma/Italie/87
-Zinédine Zidane/MIL/Juventus/France/97
-Ruud Gullit/MIL/Milan/Pays-Bas/92
-Lothar Matthäus/MIL/Inter/Allemagne/93
-Diego Maradona/ATT/Napoli/Argentine/99
-Francesco Totti/ATT/Roma/Italie/92
+Clarence Seedorf/MIL/Milan/Pays-Bas/87
+Gennaro Gattuso/MIL/Milan/Italie/85
+Kaká/MIL/Milan/Brésil/91
+Gianni Rivera/MIL/Milan/Italie/93
+Daniele De Rossi/MIL/Roma/Italie/86
+Zinédine Zidane/MIL/Juventus/France/91
+Ruud Gullit/MIL/Milan/Pays-Bas/90
+Lothar Matthäus/MIL/Inter/Allemagne/89
+Diego Maradona/ATT/Napoli/Argentine/98
+Francesco Totti/ATT/Roma/Italie/94
 Roberto Baggio/ATT/Juventus/Italie/93
-Marco van Basten/ATT/Milan/Pays-Bas/95
-Silvio Piola/ATT/Lazio/Italie/88
-Gunnar Nordahl/ATT/Milan/Suède/90
+Marco van Basten/ATT/Milan/Pays-Bas/94
+Silvio Piola/ATT/Lazio/Italie/93
+Gunnar Nordahl/ATT/Milan/Suède/93
 Giuseppe Meazza/ATT/Inter/Italie/93
-Alessandro Del Piero/ATT/Juventus/Italie/92
-Andriy Shevchenko/ATT/Milan/Ukraine/92
-Gabriel Batistuta/ATT/Fiorentina/Argentine/89
-Ronaldo/ATT/Inter/Brésil/96
-Zlatan Ibrahimović/ATT/Milan/Suède/91
-Luigi Riva/ATT/Cagliari/Italie/90
-Antonio Di Natale/ATT/Udinese/Italie/84`},
+Alessandro Del Piero/ATT/Juventus/Italie/93
+Andriy Shevchenko/ATT/Milan/Ukraine/91
+Gabriel Batistuta/ATT/Fiorentina/Argentine/91
+Ronaldo/ATT/Inter/Brésil/92
+Zlatan Ibrahimović/ATT/Milan/Suède/90
+Luigi Riva/ATT/Cagliari/Italie/91
+Antonio Di Natale/ATT/Udinese/Italie/86`},
 {id:"leg_bundesliga",name:"Légendes de Bundesliga",cat:"themes",sub:"Les légendes du championnat allemand",raw:`
 Sepp Maier/G/Bayern/Allemagne/90
-Oliver Kahn/G/Bayern/Allemagne/91
-Manuel Neuer/G/Bayern/Allemagne/93
-Toni Schumacher/G/Cologne/Allemagne/84
-Roman Weidenfeller/G/Dortmund/Allemagne/77
-Jens Lehmann/G/Schalke/Allemagne/84
+Oliver Kahn/G/Bayern/Allemagne/92
+Manuel Neuer/G/Bayern/Allemagne/94
+Toni Schumacher/G/Cologne/Allemagne/85
+Roman Weidenfeller/G/Dortmund/Allemagne/78
+Jens Lehmann/G/Schalke/Allemagne/80
 Franz Beckenbauer/DEF/Bayern/Allemagne/96
 Philipp Lahm/DEF/Bayern/Allemagne/92
-Paul Breitner/DEF/Bayern/Allemagne/89
-Matthias Sammer/DEF/Dortmund/Allemagne/89
-Jürgen Kohler/DEF/Dortmund/Allemagne/86
-Mats Hummels/DEF/Dortmund/Allemagne/87
+Paul Breitner/DEF/Bayern/Allemagne/88
+Matthias Sammer/DEF/Dortmund/Allemagne/88
+Jürgen Kohler/DEF/Dortmund/Allemagne/85
+Mats Hummels/DEF/Dortmund/Allemagne/88
 Jérôme Boateng/DEF/Bayern/Allemagne/86
-David Alaba/DEF/Bayern/Autriche/86
-Berti Vogts/DEF/Mönchengladbach/Allemagne/86
+David Alaba/DEF/Bayern/Autriche/85
+Berti Vogts/DEF/Mönchengladbach/Allemagne/87
 Hans-Georg Schwarzenbeck/DEF/Bayern/Allemagne/82
-Lothar Matthäus/MIL/Bayern/Allemagne/93
-Günter Netzer/MIL/Mönchengladbach/Allemagne/87
+Lothar Matthäus/MIL/Bayern/Allemagne/90
+Günter Netzer/MIL/Mönchengladbach/Allemagne/88
 Bastian Schweinsteiger/MIL/Bayern/Allemagne/90
-Michael Ballack/MIL/Bayer Leverkusen/Allemagne/89
+Michael Ballack/MIL/Bayer Leverkusen/Allemagne/88
 Felix Magath/MIL/Hambourg/Allemagne/83
 Wolfgang Overath/MIL/Cologne/Allemagne/85
-Marco Reus/MIL/Dortmund/Allemagne/85
+Marco Reus/MIL/Dortmund/Allemagne/87
 Joshua Kimmich/MIL/Bayern/Allemagne/89
-Gerd Müller/ATT/Bayern/Allemagne/94
-Robert Lewandowski/ATT/Bayern/Pologne/92
-Jupp Heynckes/ATT/Mönchengladbach/Allemagne/84
-Klaus Fischer/ATT/Schalke/Allemagne/82
-Karl-Heinz Rummenigge/ATT/Bayern/Allemagne/91
-Uwe Seeler/ATT/Hambourg/Allemagne/88
-Thomas Müller/ATT/Bayern/Allemagne/89
-Franck Ribéry/ATT/Bayern/France/89
+Gerd Müller/ATT/Bayern/Allemagne/97
+Robert Lewandowski/ATT/Bayern/Pologne/95
+Jupp Heynckes/ATT/Mönchengladbach/Allemagne/87
+Klaus Fischer/ATT/Schalke/Allemagne/85
+Karl-Heinz Rummenigge/ATT/Bayern/Allemagne/90
+Uwe Seeler/ATT/Hambourg/Allemagne/87
+Thomas Müller/ATT/Bayern/Allemagne/91
+Franck Ribéry/ATT/Bayern/France/91
 Arjen Robben/ATT/Bayern/Pays-Bas/90
-Claudio Pizarro/ATT/Werder Brême/Pérou/83
+Claudio Pizarro/ATT/Werder Brême/Pérou/85
 Harry Kane/ATT/Bayern/Angleterre/90
-Erling Haaland/ATT/Dortmund/Norvège/90
-Rudi Völler/ATT/Werder Brême/Allemagne/87
-Stefan Effenberg/MIL/Bayern/Allemagne/86
+Erling Haaland/ATT/Dortmund/Norvège/87
+Rudi Völler/ATT/Werder Brême/Allemagne/85
+Stefan Effenberg/MIL/Bayern/Allemagne/87
 Andreas Möller/MIL/Dortmund/Allemagne/86
 `},
 {id:"leg_ligue1",name:"Légendes de Ligue 1",cat:"themes",sub:"Les grands noms du championnat de France",raw:`
-Grégory Coupet/G/Lyon/France/83
-Steve Mandanda/G/Marseille/France/82
+Grégory Coupet/G/Lyon/France/87
+Steve Mandanda/G/Marseille/France/85
 Bernard Lama/G/PSG/France/82
-Fabien Barthez/G/Monaco/France/86
-Hugo Lloris/G/Lyon/France/87
+Fabien Barthez/G/Monaco/France/84
+Hugo Lloris/G/Lyon/France/84
 Joël Bats/G/PSG/France/80
 Marius Trésor/DEF/Bordeaux/France/86
 Basile Boli/DEF/Marseille/France/83
-Marcel Desailly/DEF/Nantes/France/89
-Thiago Silva/DEF/PSG/Brésil/89
-Marquinhos/DEF/PSG/Brésil/87
-Laurent Blanc/DEF/Montpellier/France/87
-Manuel Amoros/DEF/Monaco/France/84
+Marcel Desailly/DEF/Nantes/France/83
+Thiago Silva/DEF/PSG/Brésil/90
+Marquinhos/DEF/PSG/Brésil/88
+Laurent Blanc/DEF/Montpellier/France/85
+Manuel Amoros/DEF/Monaco/France/85
 Patrick Battiston/DEF/Bordeaux/France/83
-Michel Platini/MIL/Saint-Étienne/France/95
+Michel Platini/MIL/Saint-Étienne/France/90
 Jean Tigana/MIL/Bordeaux/France/87
-Alain Giresse/MIL/Bordeaux/France/87
-Juninho/MIL/Lyon/Brésil/87
+Alain Giresse/MIL/Bordeaux/France/88
+Juninho/MIL/Lyon/Brésil/92
 Raí/MIL/PSG/Brésil/85
-Zinédine Zidane/MIL/Bordeaux/France/97
-Didier Deschamps/MIL/Marseille/France/86
+Zinédine Zidane/MIL/Bordeaux/France/85
+Didier Deschamps/MIL/Marseille/France/84
 Abedi Pelé/MIL/Marseille/Ghana/87
-Chris Waddle/MIL/Marseille/Angleterre/82
-Safet Sušić/MIL/PSG/Yougoslavie/86
-Jean-Pierre Papin/ATT/Marseille/France/89
-Zlatan Ibrahimović/ATT/PSG/Suède/91
-Kylian Mbappé/ATT/PSG/France/92
-Delio Onnis/ATT/Monaco/Argentine/84
-Josip Skoblar/ATT/Marseille/Yougoslavie/84
-Carlos Bianchi/ATT/Reims/Argentine/84
+Chris Waddle/MIL/Marseille/Angleterre/85
+Safet Sušić/MIL/PSG/Yougoslavie/87
+Jean-Pierre Papin/ATT/Marseille/France/92
+Zlatan Ibrahimović/ATT/PSG/Suède/92
+Kylian Mbappé/ATT/PSG/France/95
+Delio Onnis/ATT/Monaco/Argentine/90
+Josip Skoblar/ATT/Marseille/Yougoslavie/89
+Carlos Bianchi/ATT/Reims/Argentine/87
 Just Fontaine/ATT/Reims/France/88
-Raymond Kopa/ATT/Reims/France/90
-Didier Drogba/ATT/Marseille/Côte d'Ivoire/89
-Edinson Cavani/ATT/PSG/Uruguay/88
-George Weah/ATT/PSG/Liberia/91
-Karim Benzema/ATT/Lyon/France/91
-Sonny Anderson/ATT/Lyon/Brésil/82
-Pauleta/ATT/PSG/Portugal/84
-Hervé Revelli/ATT/Saint-Étienne/France/81`},
+Raymond Kopa/ATT/Reims/France/89
+Didier Drogba/ATT/Marseille/Côte d'Ivoire/82
+Edinson Cavani/ATT/PSG/Uruguay/89
+George Weah/ATT/PSG/Liberia/85
+Karim Benzema/ATT/Lyon/France/84
+Sonny Anderson/ATT/Lyon/Brésil/86
+Pauleta/ATT/PSG/Portugal/86
+Hervé Revelli/ATT/Saint-Étienne/France/85`},
 {id:"clasico",name:"Le Clasico",cat:"themes",sub:"Real Madrid contre Barcelone",raw:`
-Iker Casillas/G/Real Madrid/Espagne/92
-Thibaut Courtois/G/Real Madrid/Belgique/90
-Ricardo Zamora/G/Real Madrid/Espagne/88
+Iker Casillas/G/Real Madrid/Espagne/89
+Thibaut Courtois/G/Real Madrid/Belgique/85
+Ricardo Zamora/G/Real Madrid/Espagne/82
 Víctor Valdés/G/Barcelone/Espagne/85
-Andoni Zubizarreta/G/Barcelone/Espagne/86
-Marc-André ter Stegen/G/Barcelone/Allemagne/88
-Sergio Ramos/DEF/Real Madrid/Espagne/92
-Fernando Hierro/DEF/Real Madrid/Espagne/88
-Roberto Carlos/DEF/Real Madrid/Brésil/92
-Marcelo/DEF/Real Madrid/Brésil/89
+Andoni Zubizarreta/G/Barcelone/Espagne/82
+Marc-André ter Stegen/G/Barcelone/Allemagne/84
+Sergio Ramos/DEF/Real Madrid/Espagne/88
+Fernando Hierro/DEF/Real Madrid/Espagne/85
+Roberto Carlos/DEF/Real Madrid/Brésil/87
+Marcelo/DEF/Real Madrid/Brésil/85
 Carles Puyol/DEF/Barcelone/Espagne/89
-Gerard Piqué/DEF/Barcelone/Espagne/88
-Dani Alves/DEF/Barcelone/Brésil/88
-Ronald Koeman/DEF/Barcelone/Pays-Bas/89
-Zinédine Zidane/MIL/Real Madrid/France/97
-Luka Modrić/MIL/Real Madrid/Croatie/92
-Toni Kroos/MIL/Real Madrid/Allemagne/91
-Fernando Redondo/MIL/Real Madrid/Argentine/88
-Xavi/MIL/Barcelone/Espagne/93
+Gerard Piqué/DEF/Barcelone/Espagne/89
+Dani Alves/DEF/Barcelone/Brésil/86
+Ronald Koeman/DEF/Barcelone/Pays-Bas/85
+Zinédine Zidane/MIL/Real Madrid/France/88
+Luka Modrić/MIL/Real Madrid/Croatie/89
+Toni Kroos/MIL/Real Madrid/Allemagne/87
+Fernando Redondo/MIL/Real Madrid/Argentine/84
+Xavi/MIL/Barcelone/Espagne/94
 Andrés Iniesta/MIL/Barcelone/Espagne/93
 Sergio Busquets/MIL/Barcelone/Espagne/89
-Pep Guardiola/MIL/Barcelone/Espagne/86
-Luís Figo/MIL/Barcelone/Portugal/92
-Alfredo Di Stéfano/ATT/Real Madrid/Argentine/97
-Cristiano Ronaldo/ATT/Real Madrid/Portugal/98
-Raúl/ATT/Real Madrid/Espagne/91
-Karim Benzema/ATT/Real Madrid/France/91
-Ferenc Puskás/ATT/Real Madrid/Hongrie/95
-Hugo Sánchez/ATT/Real Madrid/Mexique/88
-Paco Gento/ATT/Real Madrid/Espagne/90
-Vinícius Júnior/ATT/Real Madrid/Brésil/90
+Pep Guardiola/MIL/Barcelone/Espagne/85
+Luís Figo/MIL/Barcelone/Portugal/88
+Alfredo Di Stéfano/ATT/Real Madrid/Argentine/95
+Cristiano Ronaldo/ATT/Real Madrid/Portugal/94
+Raúl/ATT/Real Madrid/Espagne/89
+Karim Benzema/ATT/Real Madrid/France/89
+Ferenc Puskás/ATT/Real Madrid/Hongrie/89
+Hugo Sánchez/ATT/Real Madrid/Mexique/85
+Paco Gento/ATT/Real Madrid/Espagne/88
+Vinícius Júnior/ATT/Real Madrid/Brésil/89
 Lionel Messi/ATT/Barcelone/Argentine/99
-Johan Cruyff/ATT/Barcelone/Pays-Bas/97
+Johan Cruyff/ATT/Barcelone/Pays-Bas/89
 Ronaldinho/ATT/Barcelone/Brésil/94
-László Kubala/ATT/Barcelone/Hongrie/92
-Rivaldo/ATT/Barcelone/Brésil/92
-Neymar/ATT/Barcelone/Brésil/91
-Luis Suárez/ATT/Barcelone/Uruguay/91
-Samuel Eto'o/ATT/Barcelone/Cameroun/91
-Michael Laudrup/MIL/Barcelone/Danemark/92
+László Kubala/ATT/Barcelone/Hongrie/87
+Rivaldo/ATT/Barcelone/Brésil/85
+Neymar/ATT/Barcelone/Brésil/85
+Luis Suárez/ATT/Barcelone/Uruguay/89
+Samuel Eto'o/ATT/Barcelone/Cameroun/86
+Michael Laudrup/MIL/Barcelone/Danemark/89
 `},
 {id:"classique",name:"Le Classique PSG-OM",cat:"themes",sub:"Paris contre Marseille",raw:`
-Bernard Lama/G/PSG/France/82
-Keylor Navas/G/PSG/Costa Rica/86
-Gianluigi Donnarumma/G/PSG/Italie/88
-Steve Mandanda/G/Marseille/France/82
-Fabien Barthez/G/Marseille/France/86
-Joseph-Antoine Bell/G/Marseille/Cameroun/82
-Thiago Silva/DEF/PSG/Brésil/89
+Bernard Lama/G/PSG/France/83
+Keylor Navas/G/PSG/Costa Rica/80
+Gianluigi Donnarumma/G/PSG/Italie/80
+Steve Mandanda/G/Marseille/France/85
+Fabien Barthez/G/Marseille/France/84
+Joseph-Antoine Bell/G/Marseille/Cameroun/80
+Thiago Silva/DEF/PSG/Brésil/87
 Marquinhos/DEF/PSG/Brésil/87
 Ricardo Gomes/DEF/PSG/Brésil/80
-Maxwell/DEF/PSG/Brésil/79
-Achraf Hakimi/DEF/PSG/Maroc/87
-Basile Boli/DEF/Marseille/France/83
-Marcel Desailly/DEF/Marseille/France/89
-Éric Di Meco/DEF/Marseille/France/77
-Manuel Amoros/DEF/Marseille/France/84
-Carlos Mozer/DEF/Marseille/Brésil/83
-Raí/MIL/PSG/Brésil/85
-Safet Sušić/MIL/PSG/Yougoslavie/86
-Luis Fernandez/MIL/PSG/France/84
-Marco Verratti/MIL/PSG/Italie/86
-Didier Deschamps/MIL/Marseille/France/86
-Abedi Pelé/MIL/Marseille/Ghana/87
-Chris Waddle/MIL/Marseille/Angleterre/82
-Franck Sauzée/MIL/Marseille/France/80
-Dimitri Payet/MIL/Marseille/France/82
+Maxwell/DEF/PSG/Brésil/78
+Achraf Hakimi/DEF/PSG/Maroc/82
+Basile Boli/DEF/Marseille/France/85
+Marcel Desailly/DEF/Marseille/France/82
+Éric Di Meco/DEF/Marseille/France/85
+Manuel Amoros/DEF/Marseille/France/82
+Carlos Mozer/DEF/Marseille/Brésil/84
+Raí/MIL/PSG/Brésil/86
+Safet Sušić/MIL/PSG/Yougoslavie/83
+Luis Fernandez/MIL/PSG/France/85
+Marco Verratti/MIL/PSG/Italie/85
+Didier Deschamps/MIL/Marseille/France/83
+Abedi Pelé/MIL/Marseille/Ghana/86
+Chris Waddle/MIL/Marseille/Angleterre/85
+Franck Sauzée/MIL/Marseille/France/82
+Dimitri Payet/MIL/Marseille/France/84
 Zlatan Ibrahimović/ATT/PSG/Suède/91
-Kylian Mbappé/ATT/PSG/France/92
-Edinson Cavani/ATT/PSG/Uruguay/88
-Pauleta/ATT/PSG/Portugal/84
-George Weah/ATT/PSG/Liberia/91
-Neymar/ATT/PSG/Brésil/91
-Dominique Rocheteau/ATT/PSG/France/83
-Jean-Pierre Papin/ATT/Marseille/France/89
-Didier Drogba/ATT/Marseille/Côte d'Ivoire/89
-Josip Skoblar/ATT/Marseille/Yougoslavie/84
-Rudi Völler/ATT/Marseille/Allemagne/87
-Mamadou Niang/ATT/Marseille/Sénégal/80
+Kylian Mbappé/ATT/PSG/France/88
+Edinson Cavani/ATT/PSG/Uruguay/90
+Pauleta/ATT/PSG/Portugal/85
+George Weah/ATT/PSG/Liberia/86
+Neymar/ATT/PSG/Brésil/82
+Dominique Rocheteau/ATT/PSG/France/80
+Jean-Pierre Papin/ATT/Marseille/France/88
+Didier Drogba/ATT/Marseille/Côte d'Ivoire/84
+Josip Skoblar/ATT/Marseille/Yougoslavie/74
+Rudi Völler/ATT/Marseille/Allemagne/82
+Mamadou Niang/ATT/Marseille/Sénégal/83
 Alen Bokšić/ATT/Marseille/Croatie/83
-Roger Magnusson/ATT/Marseille/Suède/79
+Roger Magnusson/ATT/Marseille/Suède/70
 Thiago Motta/MIL/PSG/Italie/82
 `},
 {id:"derby_manchester",name:"Derby de Manchester",cat:"themes",sub:"United contre City",raw:`
-Peter Schmeichel/G/Manchester United/Danemark/92
-Edwin van der Sar/G/Manchester United/Pays-Bas/90
-David de Gea/G/Manchester United/Espagne/86
+Peter Schmeichel/G/Manchester United/Danemark/90
+Edwin van der Sar/G/Manchester United/Pays-Bas/86
+David de Gea/G/Manchester United/Espagne/85
 Bert Trautmann/G/Manchester City/Allemagne/86
-Joe Corrigan/G/Manchester City/Angleterre/75
+Joe Corrigan/G/Manchester City/Angleterre/76
 Ederson/G/Manchester City/Brésil/86
-Rio Ferdinand/DEF/Manchester United/Angleterre/88
-Nemanja Vidić/DEF/Manchester United/Serbie/88
-Gary Neville/DEF/Manchester United/Angleterre/83
-Patrice Evra/DEF/Manchester United/France/85
-Denis Irwin/DEF/Manchester United/Irlande/84
-Vincent Kompany/DEF/Manchester City/Belgique/87
-Pablo Zabaleta/DEF/Manchester City/Argentine/81
-Kyle Walker/DEF/Manchester City/Angleterre/84
-Rúben Dias/DEF/Manchester City/Portugal/87
-Bobby Charlton/MIL/Manchester United/Angleterre/93
-Paul Scholes/MIL/Manchester United/Angleterre/89
+Rio Ferdinand/DEF/Manchester United/Angleterre/87
+Nemanja Vidić/DEF/Manchester United/Serbie/87
+Gary Neville/DEF/Manchester United/Angleterre/85
+Patrice Evra/DEF/Manchester United/France/84
+Denis Irwin/DEF/Manchester United/Irlande/83
+Vincent Kompany/DEF/Manchester City/Belgique/89
+Pablo Zabaleta/DEF/Manchester City/Argentine/82
+Kyle Walker/DEF/Manchester City/Angleterre/83
+Rúben Dias/DEF/Manchester City/Portugal/85
+Bobby Charlton/MIL/Manchester United/Angleterre/89
+Paul Scholes/MIL/Manchester United/Angleterre/88
 Ryan Giggs/MIL/Manchester United/Pays de Galles/89
 Roy Keane/MIL/Manchester United/Irlande/89
-Bryan Robson/MIL/Manchester United/Angleterre/86
-David Beckham/MIL/Manchester United/Angleterre/89
+Bryan Robson/MIL/Manchester United/Angleterre/84
+David Beckham/MIL/Manchester United/Angleterre/85
 Kevin De Bruyne/MIL/Manchester City/Belgique/90
 David Silva/MIL/Manchester City/Espagne/88
-Yaya Touré/MIL/Manchester City/Côte d'Ivoire/90
-Rodri/MIL/Manchester City/Espagne/90
-Colin Bell/MIL/Manchester City/Angleterre/82
-Bernardo Silva/MIL/Manchester City/Portugal/88
-George Best/ATT/Manchester United/Irlande du Nord/94
-Denis Law/ATT/Manchester United/Écosse/90
-Eric Cantona/ATT/Manchester United/France/89
-Wayne Rooney/ATT/Manchester United/Angleterre/91
-Cristiano Ronaldo/ATT/Manchester United/Portugal/98
-Ruud van Nistelrooy/ATT/Manchester United/Pays-Bas/89
-Sergio Agüero/ATT/Manchester City/Argentine/89
-Erling Haaland/ATT/Manchester City/Norvège/90
-Francis Lee/ATT/Manchester City/Angleterre/80
-Phil Foden/ATT/Manchester City/Angleterre/87
-Raheem Sterling/ATT/Manchester City/Angleterre/85
+Yaya Touré/MIL/Manchester City/Côte d'Ivoire/88
+Rodri/MIL/Manchester City/Espagne/87
+Colin Bell/MIL/Manchester City/Angleterre/83
+Bernardo Silva/MIL/Manchester City/Portugal/85
+George Best/ATT/Manchester United/Irlande du Nord/90
+Denis Law/ATT/Manchester United/Écosse/86
+Eric Cantona/ATT/Manchester United/France/88
+Wayne Rooney/ATT/Manchester United/Angleterre/93
+Cristiano Ronaldo/ATT/Manchester United/Portugal/91
+Ruud van Nistelrooy/ATT/Manchester United/Pays-Bas/84
+Sergio Agüero/ATT/Manchester City/Argentine/91
+Erling Haaland/ATT/Manchester City/Norvège/91
+Francis Lee/ATT/Manchester City/Angleterre/82
+Phil Foden/ATT/Manchester City/Angleterre/88
+Raheem Sterling/ATT/Manchester City/Angleterre/83
 Carlos Tevez/ATT/Manchester City/Argentine/86`},
 {id:"derby_milan",name:"Derby de Milan",cat:"themes",sub:"Le Milan contre l'Inter",raw:`
-Dida/G/Milan/Brésil/85
+Dida/G/Milan/Brésil/84
 Sebastiano Rossi/G/Milan/Italie/80
-Mike Maignan/G/Milan/France/86
+Mike Maignan/G/Milan/France/85
 Walter Zenga/G/Inter/Italie/86
 Júlio César/G/Inter/Brésil/85
-Francesco Toldo/G/Inter/Italie/84
-Paolo Maldini/DEF/Milan/Italie/95
-Franco Baresi/DEF/Milan/Italie/95
-Alessandro Nesta/DEF/Milan/Italie/91
+Francesco Toldo/G/Inter/Italie/82
+Paolo Maldini/DEF/Milan/Italie/94
+Franco Baresi/DEF/Milan/Italie/93
+Alessandro Nesta/DEF/Milan/Italie/89
 Mauro Tassotti/DEF/Milan/Italie/83
-Javier Zanetti/DEF/Inter/Argentine/89
-Giacinto Facchetti/DEF/Inter/Italie/92
-Giuseppe Bergomi/DEF/Inter/Italie/86
-Lúcio/DEF/Inter/Brésil/87
-Gianni Rivera/MIL/Milan/Italie/92
-Andrea Pirlo/MIL/Milan/Italie/92
-Clarence Seedorf/MIL/Milan/Pays-Bas/89
-Gennaro Gattuso/MIL/Milan/Italie/86
-Kaká/MIL/Milan/Brésil/92
-Ruud Gullit/MIL/Milan/Pays-Bas/92
-Frank Rijkaard/MIL/Milan/Pays-Bas/91
-Lothar Matthäus/MIL/Inter/Allemagne/93
-Wesley Sneijder/MIL/Inter/Pays-Bas/88
+Javier Zanetti/DEF/Inter/Argentine/92
+Giacinto Facchetti/DEF/Inter/Italie/91
+Giuseppe Bergomi/DEF/Inter/Italie/88
+Lúcio/DEF/Inter/Brésil/86
+Gianni Rivera/MIL/Milan/Italie/90
+Andrea Pirlo/MIL/Milan/Italie/89
+Clarence Seedorf/MIL/Milan/Pays-Bas/87
+Gennaro Gattuso/MIL/Milan/Italie/85
+Kaká/MIL/Milan/Brésil/87
+Ruud Gullit/MIL/Milan/Pays-Bas/88
+Frank Rijkaard/MIL/Milan/Pays-Bas/89
+Lothar Matthäus/MIL/Inter/Allemagne/89
+Wesley Sneijder/MIL/Inter/Pays-Bas/86
 Esteban Cambiasso/MIL/Inter/Argentine/85
 Sandro Mazzola/MIL/Inter/Italie/89
-Luis Suárez Miramontes/MIL/Inter/Espagne/90
+Luis Suárez Miramontes/MIL/Inter/Espagne/88
 Nicolò Barella/MIL/Inter/Italie/87
-Marco van Basten/ATT/Milan/Pays-Bas/95
-Andriy Shevchenko/ATT/Milan/Ukraine/92
-Gunnar Nordahl/ATT/Milan/Suède/90
-George Weah/ATT/Milan/Liberia/91
-Filippo Inzaghi/ATT/Milan/Italie/86
-Zlatan Ibrahimović/ATT/Milan/Suède/91
+Marco van Basten/ATT/Milan/Pays-Bas/90
+Andriy Shevchenko/ATT/Milan/Ukraine/93
+Gunnar Nordahl/ATT/Milan/Suède/92
+George Weah/ATT/Milan/Liberia/86
+Filippo Inzaghi/ATT/Milan/Italie/83
+Zlatan Ibrahimović/ATT/Milan/Suède/88
 Giuseppe Meazza/ATT/Inter/Italie/93
-Ronaldo/ATT/Inter/Brésil/96
-Diego Milito/ATT/Inter/Argentine/85
-Christian Vieri/ATT/Inter/Italie/87
-Lautaro Martínez/ATT/Inter/Argentine/87
+Ronaldo/ATT/Inter/Brésil/87
+Diego Milito/ATT/Inter/Argentine/87
+Christian Vieri/ATT/Inter/Italie/84
+Lautaro Martínez/ATT/Inter/Argentine/92
 Alessandro Altobelli/ATT/Inter/Italie/84`}
 );
 Object.assign(window.CLUB_COLORS,{

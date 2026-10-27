@@ -1,244 +1,244 @@
 // Packs convertis depuis base_src_1.txt — format multi-clubs : Nom/Poste/Club/Pays/Note
 window.FOOT_PACKS.push(
 {id:"s_liga",name:"La Liga",cat:"ligues",sub:"Championnats",raw:`
-Kylian Mbappé/ATT/Real Madrid/France/92
-Lamine Yamal/ATT/Barcelone/Espagne/89
-Vinícius Jr/ATT/Real Madrid/Brésil/90
-Pedri/MIL/Barcelone/Espagne/87
-Jude Bellingham/MIL/Real Madrid/Angleterre/89
+Kylian Mbappé/ATT/Real Madrid/France/93
+Lamine Yamal/ATT/Barcelone/Espagne/92
+Vinícius Jr/ATT/Real Madrid/Brésil/87
+Pedri/MIL/Barcelone/Espagne/89
+Jude Bellingham/MIL/Real Madrid/Angleterre/85
 Raphinha/ATT/Barcelone/Brésil/87
-Thibaut Courtois/G/Real Madrid/Belgique/90
-Federico Valverde/MIL/Real Madrid/Uruguay/87
+Thibaut Courtois/G/Real Madrid/Belgique/89
+Federico Valverde/MIL/Real Madrid/Uruguay/86
 Julián Álvarez/ATT/Atlético Madrid/Argentine/86
-Jan Oblak/G/Atlético Madrid/Slovénie/89
+Jan Oblak/G/Atlético Madrid/Slovénie/85
 Aurélien Tchouaméni/MIL/Real Madrid/France/84
-Frenkie de Jong/MIL/Barcelone/Pays-Bas/86
+Frenkie de Jong/MIL/Barcelone/Pays-Bas/85
 Jules Koundé/DEF/Barcelone/France/85
-Pau Cubarsí/DEF/Barcelone/Espagne/82
-Joan García/G/Barcelone/Espagne/80
+Pau Cubarsí/DEF/Barcelone/Espagne/84
+Joan García/G/Barcelone/Espagne/84
 Arda Güler/MIL/Real Madrid/Turquie/84
-Nico Williams/ATT/Athletic Bilbao/Espagne/83
-Robert Lewandowski/ATT/Barcelone/Pologne/92
-Trent Alexander-Arnold/DEF/Real Madrid/Angleterre/86
-Antonio Rüdiger/DEF/Real Madrid/Allemagne/86
-Dean Huijsen/DEF/Real Madrid/Espagne/80
-Antoine Griezmann/ATT/Atlético Madrid/France/89
-Dani Olmo/MIL/Barcelone/Espagne/83
+Nico Williams/ATT/Athletic Bilbao/Espagne/81
+Robert Lewandowski/ATT/Barcelone/Pologne/84
+Trent Alexander-Arnold/DEF/Real Madrid/Angleterre/80
+Antonio Rüdiger/DEF/Real Madrid/Allemagne/81
+Dean Huijsen/DEF/Real Madrid/Espagne/82
+Antoine Griezmann/ATT/Atlético Madrid/France/81
+Dani Olmo/MIL/Barcelone/Espagne/81
 Marcus Rashford/ATT/Barcelone/Angleterre/82
-Rodrygo/ATT/Real Madrid/Brésil/84
-Éder Militão/DEF/Real Madrid/Brésil/85
-Eduardo Camavinga/MIL/Real Madrid/France/83
-Álvaro Carreras/DEF/Real Madrid/Espagne/78
-Fermín López/MIL/Barcelone/Espagne/78
-Gavi/MIL/Barcelone/Espagne/80
+Rodrygo/ATT/Real Madrid/Brésil/79
+Éder Militão/DEF/Real Madrid/Brésil/81
+Eduardo Camavinga/MIL/Real Madrid/France/79
+Álvaro Carreras/DEF/Real Madrid/Espagne/80
+Fermín López/MIL/Barcelone/Espagne/82
+Gavi/MIL/Barcelone/Espagne/77
 Alejandro Balde/DEF/Barcelone/Espagne/79
-Ferran Torres/ATT/Barcelone/Espagne/79
-Álex Baena/MIL/Atlético Madrid/Espagne/80
-Alexander Sørloth/ATT/Atlético Madrid/Norvège/78
+Ferran Torres/ATT/Barcelone/Espagne/80
+Álex Baena/MIL/Atlético Madrid/Espagne/79
+Alexander Sørloth/ATT/Atlético Madrid/Norvège/79
 Mikel Oyarzabal/ATT/Real Sociedad/Espagne/81
-Takefusa Kubo/ATT/Real Sociedad/Japon/80
-Franco Mastantuono/ATT/Real Madrid/Argentine/76
-Unai Simón/G/Athletic Bilbao/Espagne/82
-Wojciech Szczęsny/G/Barcelone/Pologne/84`},
+Takefusa Kubo/ATT/Real Sociedad/Japon/79
+Franco Mastantuono/ATT/Real Madrid/Argentine/75
+Unai Simón/G/Athletic Bilbao/Espagne/81
+Wojciech Szczęsny/G/Barcelone/Pologne/79`},
 {id:"s_seriea",name:"Serie A",cat:"ligues",sub:"Championnats",raw:`
 Lautaro Martínez/ATT/Inter/Argentine/87
-Kevin De Bruyne/MIL/Naples/Belgique/90
-Mike Maignan/G/Milan/France/86
-Nicolò Barella/MIL/Inter/Italie/87
-Alessandro Bastoni/DEF/Inter/Italie/86
-Scott McTominay/MIL/Naples/Écosse/84
-Hakan Çalhanoğlu/MIL/Inter/Turquie/86
-Rafael Leão/ATT/Milan/Portugal/85
+Kevin De Bruyne/MIL/Naples/Belgique/85
+Mike Maignan/G/Milan/France/85
+Nicolò Barella/MIL/Inter/Italie/85
+Alessandro Bastoni/DEF/Inter/Italie/85
+Scott McTominay/MIL/Naples/Écosse/88
+Hakan Çalhanoğlu/MIL/Inter/Turquie/83
+Rafael Leão/ATT/Milan/Portugal/83
 Kenan Yıldız/ATT/Juventus/Turquie/85
-Marcus Thuram/ATT/Inter/France/84
-Luka Modrić/MIL/Milan/Croatie/92
+Marcus Thuram/ATT/Inter/France/83
+Luka Modrić/MIL/Milan/Croatie/84
 Federico Dimarco/DEF/Inter/Italie/84
-Gleison Bremer/DEF/Juventus/Brésil/84
-Christian Pulisic/ATT/Milan/États-Unis/83
-Ademola Lookman/ATT/Atalanta/Nigeria/83
-Nico Paz/MIL/Côme/Argentine/79
-Mile Svilar/G/Roma/Serbie/80
-Adrien Rabiot/MIL/Milan/France/81
-Dušan Vlahović/ATT/Juventus/Serbie/81
-Rasmus Højlund/ATT/Naples/Danemark/78
-Frank Anguissa/MIL/Naples/Cameroun/83
-Denzel Dumfries/DEF/Inter/Pays-Bas/82
-Stanislav Lobotka/MIL/Naples/Slovaquie/81
-Manu Koné/MIL/Roma/France/80
-Yann Sommer/G/Inter/Suisse/83
-Jonathan David/ATT/Juventus/Canada/82
-Paulo Dybala/ATT/Roma/Argentine/85
-Romelu Lukaku/ATT/Naples/Belgique/85
-Teun Koopmeiners/DEF/Juventus/Pays-Bas/81
-Francisco Conceição/ATT/Juventus/Portugal/79
-Charles De Ketelaere/ATT/Atalanta/Belgique/79
-Moise Kean/ATT/Fiorentina/Italie/80
-Christopher Nkunku/ATT/Milan/France/82
-Álvaro Morata/ATT/Côme/Espagne/81
+Gleison Bremer/DEF/Juventus/Brésil/82
+Christian Pulisic/ATT/Milan/États-Unis/84
+Ademola Lookman/ATT/Atalanta/Nigeria/81
+Nico Paz/MIL/Côme/Argentine/84
+Mile Svilar/G/Roma/Serbie/85
+Adrien Rabiot/MIL/Milan/France/82
+Dušan Vlahović/ATT/Juventus/Serbie/79
+Rasmus Højlund/ATT/Naples/Danemark/81
+Frank Anguissa/MIL/Naples/Cameroun/82
+Denzel Dumfries/DEF/Inter/Pays-Bas/81
+Stanislav Lobotka/MIL/Naples/Slovaquie/82
+Manu Koné/MIL/Roma/France/82
+Yann Sommer/G/Inter/Suisse/80
+Jonathan David/ATT/Juventus/Canada/78
+Paulo Dybala/ATT/Roma/Argentine/79
+Romelu Lukaku/ATT/Naples/Belgique/78
+Teun Koopmeiners/DEF/Juventus/Pays-Bas/76
+Francisco Conceição/ATT/Juventus/Portugal/80
+Charles De Ketelaere/ATT/Atalanta/Belgique/81
+Moise Kean/ATT/Fiorentina/Italie/81
+Christopher Nkunku/ATT/Milan/France/78
+Álvaro Morata/ATT/Côme/Espagne/74
 Mattia Zaccagni/ATT/Lazio/Italie/77
-Riccardo Orsolini/ATT/Bologne/Italie/78
-Matías Soulé/ATT/Roma/Argentine/76
+Riccardo Orsolini/ATT/Bologne/Italie/80
+Matías Soulé/ATT/Roma/Argentine/80
 Michele Di Gregorio/G/Juventus/Italie/77
-Marco Carnesecchi/G/Atalanta/Italie/78
+Marco Carnesecchi/G/Atalanta/Italie/81
 Giovanni Di Lorenzo/DEF/Naples/Italie/82
-Amir Rrahmani/DEF/Naples/Kosovo/80
-Fikayo Tomori/DEF/Milan/Angleterre/78
+Amir Rrahmani/DEF/Naples/Kosovo/81
+Fikayo Tomori/DEF/Milan/Angleterre/79
 `},
 {id:"s_fra",name:"France",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
-Kylian Mbappé/ATT/Real Madrid/France/92
-Ousmane Dembélé/ATT/PSG/France/90
-Michael Olise/ATT/Bayern/France/87
+Kylian Mbappé/ATT/Real Madrid/France/93
+Ousmane Dembélé/ATT/PSG/France/89
+Michael Olise/ATT/Bayern/France/88
 William Saliba/DEF/Arsenal/France/86
-Mike Maignan/G/Milan/France/86
+Mike Maignan/G/Milan/France/87
 Désiré Doué/ATT/PSG/France/84
-Aurélien Tchouaméni/MIL/Real Madrid/France/84
+Aurélien Tchouaméni/MIL/Real Madrid/France/85
 Jules Koundé/DEF/Barcelone/France/85
 Dayot Upamecano/DEF/Bayern/France/84
-Ibrahima Konaté/DEF/Liverpool/France/84
-Hugo Ekitike/ATT/Liverpool/France/82
-Rayan Cherki/MIL/Manchester City/France/81
-Eduardo Camavinga/MIL/Real Madrid/France/83
-Bradley Barcola/ATT/PSG/France/82
-Marcus Thuram/ATT/Inter/France/84
-Manu Koné/MIL/Roma/France/80
-Warren Zaïre-Emery/MIL/PSG/France/80
-Adrien Rabiot/MIL/Milan/France/81
-Lucas Chevalier/G/PSG/France/80
-Théo Hernandez/DEF/Al-Hilal/France/85
-Maghnes Akliouche/MIL/Monaco/France/80
-Lucas Hernandez/DEF/PSG/France/82
-Malo Gusto/DEF/Chelsea/France/80
-Youssouf Fofana/MIL/Milan/France/80
-Khéphren Thuram/MIL/Juventus/France/80
-N'Golo Kanté/MIL/Al-Ittihad/France/88
-Randal Kolo Muani/ATT/Tottenham/France/79
-Jean-Philippe Mateta/ATT/Crystal Palace/France/78
-Christopher Nkunku/ATT/Milan/France/82
-Kingsley Coman/ATT/Al-Nassr/France/84
-Castello Lukeba/DEF/Leipzig/France/78
-Maxence Lacroix/DEF/Crystal Palace/France/77
-Pierre Kalulu/DEF/Juventus/France/78
-Lucas Digne/DEF/Aston Villa/France/79
-Brice Samba/G/Rennes/France/77
-Mattéo Guendouzi/MIL/Fenerbahçe/France/79
-Wesley Fofana/DEF/Chelsea/France/79
-Alphonse Areola/G/West Ham/France/76
+Ibrahima Konaté/DEF/Liverpool/France/82
+Hugo Ekitike/ATT/Liverpool/France/81
+Rayan Cherki/MIL/Manchester City/France/82
+Eduardo Camavinga/MIL/Real Madrid/France/78
+Bradley Barcola/ATT/PSG/France/79
+Marcus Thuram/ATT/Inter/France/80
+Manu Koné/MIL/Roma/France/81
+Warren Zaïre-Emery/MIL/PSG/France/76
+Adrien Rabiot/MIL/Milan/France/83
+Lucas Chevalier/G/PSG/France/77
+Théo Hernandez/DEF/Al-Hilal/France/80
+Maghnes Akliouche/MIL/Monaco/France/78
+Lucas Hernandez/DEF/PSG/France/79
+Malo Gusto/DEF/Chelsea/France/78
+Youssouf Fofana/MIL/Milan/France/76
+Khéphren Thuram/MIL/Juventus/France/77
+N'Golo Kanté/MIL/Al-Ittihad/France/81
+Randal Kolo Muani/ATT/Tottenham/France/78
+Jean-Philippe Mateta/ATT/Crystal Palace/France/79
+Christopher Nkunku/ATT/Milan/France/74
+Kingsley Coman/ATT/Al-Nassr/France/80
+Castello Lukeba/DEF/Leipzig/France/76
+Maxence Lacroix/DEF/Crystal Palace/France/76
+Pierre Kalulu/DEF/Juventus/France/77
+Lucas Digne/DEF/Aston Villa/France/77
+Brice Samba/G/Rennes/France/74
+Mattéo Guendouzi/MIL/Fenerbahçe/France/77
+Wesley Fofana/DEF/Chelsea/France/73
+Alphonse Areola/G/West Ham/France/72
 Robin Risser/G/Lens/France/70`},
 {id:"s_mar",name:"Maroc",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
-Achraf Hakimi/DEF/PSG/Maroc/87
-Yassine Bounou/G/Al-Hilal/Maroc/85
-Brahim Díaz/MIL/Real Madrid/Maroc/82
+Achraf Hakimi/DEF/PSG/Maroc/84
+Yassine Bounou/G/Al-Hilal/Maroc/86
+Brahim Díaz/MIL/Real Madrid/Maroc/85
 Noussair Mazraoui/DEF/Manchester United/Maroc/80
 Nayef Aguerd/DEF/Marseille/Maroc/79
 Abde Ezzalzouli/ATT/Betis/Maroc/77
 Youssef En-Nesyri/ATT/Fenerbahçe/Maroc/80
-Ismael Saibari/MIL/PSV/Maroc/78
-Bilal El Khannouss/MIL/Stuttgart/Maroc/77
-Neil El Aynaoui/MIL/Roma/Maroc/75
+Ismael Saibari/MIL/PSV/Maroc/79
+Bilal El Khannouss/MIL/Stuttgart/Maroc/76
+Neil El Aynaoui/MIL/Roma/Maroc/77
 Sofyan Amrabat/MIL/Betis/Maroc/81
 Azzedine Ounahi/MIL/Girona/Maroc/78
-Eliesse Ben Seghir/ATT/Leverkusen/Maroc/77
-Ayoub El Kaabi/ATT/Olympiakos/Maroc/78
-Amine Adli/ATT/Bournemouth/Maroc/77
-Issa Diop/DEF/Fulham/Maroc/74
-Hakim Ziyech/ATT/Wydad/Maroc/84
-Soufiane Rahimi/ATT/Al-Ain/Maroc/75
+Eliesse Ben Seghir/ATT/Leverkusen/Maroc/74
+Ayoub El Kaabi/ATT/Olympiakos/Maroc/82
+Amine Adli/ATT/Bournemouth/Maroc/72
+Issa Diop/DEF/Fulham/Maroc/70
+Hakim Ziyech/ATT/Wydad/Maroc/72
+Soufiane Rahimi/ATT/Al-Ain/Maroc/74
 Chadi Riad/DEF/Crystal Palace/Maroc/72
-Adam Aznou/DEF/Everton/Maroc/70
-Chemsdine Talbi/ATT/Sunderland/Maroc/70
+Adam Aznou/DEF/Everton/Maroc/68
+Chemsdine Talbi/ATT/Sunderland/Maroc/68
 Hamza Igamane/ATT/Lille/Maroc/72
-Abdelhamid Aït Boudlal/DEF/Rennes/Maroc/70
+Abdelhamid Aït Boudlal/DEF/Rennes/Maroc/68
 Jawad El Yamiq/DEF/Al-Wehda/Maroc/70
-Romain Saïss/DEF/Al-Sadd/Maroc/77
-Munir Mohamedi/G/RS Berkane/Maroc/72
+Romain Saïss/DEF/Al-Sadd/Maroc/72
+Munir Mohamedi/G/RS Berkane/Maroc/70
 Oussama Targhalline/MIL/Feyenoord/Maroc/68
 Zakaria Aboukhlal/ATT/Torino/Maroc/72
-Achraf Dari/DEF/Al Ahly/Maroc/72
-Ilias Akhomach/ATT/Villarreal/Maroc/70
-Selim Amallah/MIL/Valladolid/Maroc/72
+Achraf Dari/DEF/Al Ahly/Maroc/70
+Ilias Akhomach/ATT/Villarreal/Maroc/68
+Selim Amallah/MIL/Valladolid/Maroc/66
 Yahia Attiyat Allah/DEF/Wydad/Maroc/71
-El Mehdi Al Harrar/G/Raja Casablanca/Maroc/64
-Mehdi Benabid/G/Wydad/Maroc/68
-Ahmed Reda Tagnaouti/G/AS FAR/Maroc/72
-Yahya Jabrane/MIL/Wydad/Maroc/70
+El Mehdi Al Harrar/G/Raja Casablanca/Maroc/62
+Mehdi Benabid/G/Wydad/Maroc/66
+Ahmed Reda Tagnaouti/G/AS FAR/Maroc/66
+Yahya Jabrane/MIL/Wydad/Maroc/65
 Amir Richardson/MIL/Fiorentina/Maroc/72
 `},
 {id:"s_esp",name:"Espagne",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
-Lamine Yamal/ATT/Barcelone/Espagne/89
-Pedri/MIL/Barcelone/Espagne/87
-Rodri/MIL/Manchester City/Espagne/90
-Martín Zubimendi/MIL/Arsenal/Espagne/83
+Lamine Yamal/ATT/Barcelone/Espagne/92
+Pedri/MIL/Barcelone/Espagne/89
+Rodri/MIL/Manchester City/Espagne/88
+Martín Zubimendi/MIL/Arsenal/Espagne/85
 Nico Williams/ATT/Athletic Bilbao/Espagne/83
-David Raya/G/Arsenal/Espagne/83
-Fabián Ruiz/MIL/PSG/Espagne/82
+David Raya/G/Arsenal/Espagne/82
+Fabián Ruiz/MIL/PSG/Espagne/84
 Dani Olmo/MIL/Barcelone/Espagne/83
-Pau Cubarsí/DEF/Barcelone/Espagne/82
-Marc Cucurella/DEF/Chelsea/Espagne/81
-Mikel Merino/MIL/Arsenal/Espagne/81
-Dean Huijsen/DEF/Real Madrid/Espagne/80
-Mikel Oyarzabal/ATT/Real Sociedad/Espagne/81
-Unai Simón/G/Athletic Bilbao/Espagne/82
+Pau Cubarsí/DEF/Barcelone/Espagne/84
+Marc Cucurella/DEF/Chelsea/Espagne/85
+Mikel Merino/MIL/Arsenal/Espagne/84
+Dean Huijsen/DEF/Real Madrid/Espagne/83
+Mikel Oyarzabal/ATT/Real Sociedad/Espagne/85
+Unai Simón/G/Athletic Bilbao/Espagne/86
 Pedro Porro/DEF/Tottenham/Espagne/81
-Álex Baena/MIL/Atlético Madrid/Espagne/80
-Gavi/MIL/Barcelone/Espagne/80
-Dani Carvajal/DEF/Real Madrid/Espagne/86
-Fermín López/MIL/Barcelone/Espagne/78
-Álex Grimaldo/DEF/Leverkusen/Espagne/83
+Álex Baena/MIL/Atlético Madrid/Espagne/79
+Gavi/MIL/Barcelone/Espagne/77
+Dani Carvajal/DEF/Real Madrid/Espagne/82
+Fermín López/MIL/Barcelone/Espagne/80
+Álex Grimaldo/DEF/Leverkusen/Espagne/79
 Joan García/G/Barcelone/Espagne/80
-Robin Le Normand/DEF/Atlético Madrid/Espagne/79
-Ferran Torres/ATT/Barcelone/Espagne/79
-Aymeric Laporte/DEF/Athletic Bilbao/Espagne/83
-Álvaro Morata/ATT/Côme/Espagne/81
-Alejandro Balde/DEF/Barcelone/Espagne/79
-Marcos Llorente/DEF/Atlético Madrid/Espagne/81
-Dani Vivian/DEF/Athletic Bilbao/Espagne/75
-Yeremy Pino/ATT/Crystal Palace/Espagne/76
+Robin Le Normand/DEF/Atlético Madrid/Espagne/81
+Ferran Torres/ATT/Barcelone/Espagne/80
+Aymeric Laporte/DEF/Athletic Bilbao/Espagne/80
+Álvaro Morata/ATT/Côme/Espagne/82
+Alejandro Balde/DEF/Barcelone/Espagne/77
+Marcos Llorente/DEF/Atlético Madrid/Espagne/77
+Dani Vivian/DEF/Athletic Bilbao/Espagne/77
+Yeremy Pino/ATT/Crystal Palace/Espagne/80
 Ayoze Pérez/ATT/Villarreal/Espagne/75
 Samu Omorodion/ATT/Porto/Espagne/77
 Álvaro Carreras/DEF/Real Madrid/Espagne/78
 Pablo Barrios/MIL/Atlético Madrid/Espagne/77
-Pau Torres/DEF/Aston Villa/Espagne/79
-Eric García/DEF/Barcelone/Espagne/76
-Jesús Rodríguez/ATT/Côme/Espagne/68
-Álex Remiro/G/Real Sociedad/Espagne/79
+Pau Torres/DEF/Aston Villa/Espagne/77
+Eric García/DEF/Barcelone/Espagne/78
+Jesús Rodríguez/ATT/Côme/Espagne/70
+Álex Remiro/G/Real Sociedad/Espagne/76
 Robert Sánchez/G/Chelsea/Espagne/74`},
 {id:"s_egy",name:"Égypte",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
-Mohamed Salah/ATT/Liverpool/Égypte/90
-Omar Marmoush/ATT/Manchester City/Égypte/84
-Mohamed Abdelmonem/DEF/Nice/Égypte/77
+Mohamed Salah/ATT/Liverpool/Égypte/92
+Omar Marmoush/ATT/Manchester City/Égypte/85
+Mohamed Abdelmonem/DEF/Nice/Égypte/78
 Emam Ashour/MIL/Al Ahly/Égypte/77
-Trézéguet/ATT/Al Ahly/Égypte/77
+Trézéguet/ATT/Al Ahly/Égypte/79
 Mostafa Mohamed/ATT/Nantes/Égypte/76
 Zizo/ATT/Al Ahly/Égypte/77
-Mohamed El Shenawy/G/Al Ahly/Égypte/79
+Mohamed El Shenawy/G/Al Ahly/Égypte/80
 Ibrahim Adel/ATT/Nordsjaelland/Égypte/72
-Marwan Attia/MIL/Al Ahly/Égypte/72
-Hamdi Fathi/MIL/Al-Wakrah/Égypte/73
-Mohamed Hany/DEF/Al Ahly/Égypte/74
+Marwan Attia/MIL/Al Ahly/Égypte/75
+Hamdi Fathi/MIL/Al-Wakrah/Égypte/72
+Mohamed Hany/DEF/Al Ahly/Égypte/73
 Ahmed Fatouh/DEF/Zamalek/Égypte/72
-Mostafa Shobeir/G/Al Ahly/Égypte/72
-Ramadan Sobhi/ATT/Pyramids/Égypte/73
-Mohamed Elneny/MIL/Al-Jazira/Égypte/77
-Yasser Ibrahim/DEF/Al Ahly/Égypte/73
+Mostafa Shobeir/G/Al Ahly/Égypte/68
+Ramadan Sobhi/ATT/Pyramids/Égypte/66
+Mohamed Elneny/MIL/Al-Jazira/Égypte/68
+Yasser Ibrahim/DEF/Al Ahly/Égypte/74
 Ramy Rabia/DEF/Al-Ain/Égypte/75
 Mohanad Lasheen/MIL/Pyramids/Égypte/70
-Ahmed Hegazi/DEF/Neom/Égypte/77
-Akram Tawfik/DEF/Al Ahly/Égypte/70
-Osama Faisal/ATT/National Bank/Égypte/69
-Mostafa Fathi/ATT/Pyramids/Égypte/71
+Ahmed Hegazi/DEF/Neom/Égypte/70
+Akram Tawfik/DEF/Al Ahly/Égypte/66
+Osama Faisal/ATT/National Bank/Égypte/68
+Mostafa Fathi/ATT/Pyramids/Égypte/68
 Omar Kamal/DEF/Al Ahly/Égypte/69
 Hossam Abdelmaguid/DEF/Zamalek/Égypte/72
-Ahmed Hassan Koka/ATT/Al Ahly/Égypte/71
-Mohamed Sherif/ATT/Al Ahly/Égypte/73
-Amr El Solia/MIL/Ceramica Cleopatra/Égypte/73
-Mahmoud Kahraba/ATT/Al Ahly/Égypte/72
-Mohamed Abou Gabal/G/Zamalek/Égypte/74
-Ahmed El Shenawy/G/Pyramids/Égypte/69
-Mohamed Sobhi/G/Zamalek/Égypte/70
-Mohamed Magdy Afsha/MIL/Al Ahly/Égypte/76
-Tarek Hamed/MIL/Zamalek/Égypte/74
-Nabil Emad Dunga/MIL/Al-Najma/Égypte/68
-Mohamed Shehata/MIL/Zamalek/Égypte/68
+Ahmed Hassan Koka/ATT/Al Ahly/Égypte/70
+Mohamed Sherif/ATT/Al Ahly/Égypte/69
+Amr El Solia/MIL/Ceramica Cleopatra/Égypte/70
+Mahmoud Kahraba/ATT/Al Ahly/Égypte/66
+Mohamed Abou Gabal/G/Zamalek/Égypte/72
+Ahmed El Shenawy/G/Pyramids/Égypte/64
+Mohamed Sobhi/G/Zamalek/Égypte/66
+Mohamed Magdy Afsha/MIL/Al Ahly/Égypte/70
+Tarek Hamed/MIL/Zamalek/Égypte/70
+Nabil Emad Dunga/MIL/Al-Najma/Égypte/64
+Mohamed Shehata/MIL/Zamalek/Égypte/66
 `},
 {id:"s_legafr",name:"Légendes d'Afrique",cat:"themes",sub:"Les géants du continent africain",raw:`
 Samuel Eto'o/ATT/Barcelone/Cameroun/91
@@ -288,112 +288,112 @@ John Obi Mikel/MIL/Chelsea/Nigeria/80
 {id:"s_b_paysbas",name:"Pays-Bas",cat:"nations",sub:"Europe",desc:"Sélection actuelle",raw:`
 Virgil van Dijk/DEF/Liverpool/Pays-Bas/89
 Frenkie de Jong/MIL/Barcelone/Pays-Bas/86
-Ryan Gravenberch/MIL/Liverpool/Pays-Bas/84
-Tijjani Reijnders/MIL/Manchester City/Pays-Bas/84
-Cody Gakpo/ATT/Liverpool/Pays-Bas/82
-Xavi Simons/MIL/Tottenham/Pays-Bas/84
-Jeremie Frimpong/DEF/Liverpool/Pays-Bas/81
-Denzel Dumfries/DEF/Inter/Pays-Bas/82
+Ryan Gravenberch/MIL/Liverpool/Pays-Bas/83
+Tijjani Reijnders/MIL/Manchester City/Pays-Bas/85
+Cody Gakpo/ATT/Liverpool/Pays-Bas/85
+Xavi Simons/MIL/Tottenham/Pays-Bas/83
+Jeremie Frimpong/DEF/Liverpool/Pays-Bas/79
+Denzel Dumfries/DEF/Inter/Pays-Bas/83
 Micky van de Ven/DEF/Tottenham/Pays-Bas/82
 Jurriën Timber/DEF/Arsenal/Pays-Bas/82
 Nathan Aké/DEF/Manchester City/Pays-Bas/80
-Matthijs de Ligt/DEF/Manchester United/Pays-Bas/84
-Teun Koopmeiners/MIL/Juventus/Pays-Bas/81
-Bart Verbruggen/G/Brighton/Pays-Bas/77
-Justin Kluivert/ATT/Bournemouth/Pays-Bas/78
-Memphis Depay/ATT/Corinthians/Pays-Bas/83
-Donyell Malen/ATT/Aston Villa/Pays-Bas/77
+Matthijs de Ligt/DEF/Manchester United/Pays-Bas/79
+Teun Koopmeiners/MIL/Juventus/Pays-Bas/78
+Bart Verbruggen/G/Brighton/Pays-Bas/81
+Justin Kluivert/ATT/Bournemouth/Pays-Bas/77
+Memphis Depay/ATT/Corinthians/Pays-Bas/84
+Donyell Malen/ATT/Aston Villa/Pays-Bas/79
 Ian Maatsen/DEF/Aston Villa/Pays-Bas/74
-Stefan de Vrij/DEF/Inter/Pays-Bas/82
-Georginio Wijnaldum/MIL/Ettifaq/Pays-Bas/80
-Wout Weghorst/ATT/Ajax/Pays-Bas/74
-Brian Brobbey/ATT/Sunderland/Pays-Bas/72
-Quinten Timber/MIL/Marseille/Pays-Bas/76
-Sven Botman/DEF/Newcastle/Pays-Bas/79
-Jerdy Schouten/MIL/PSV/Pays-Bas/74
+Stefan de Vrij/DEF/Inter/Pays-Bas/77
+Georginio Wijnaldum/MIL/Ettifaq/Pays-Bas/75
+Wout Weghorst/ATT/Ajax/Pays-Bas/76
+Brian Brobbey/ATT/Sunderland/Pays-Bas/75
+Quinten Timber/MIL/Marseille/Pays-Bas/77
+Sven Botman/DEF/Newcastle/Pays-Bas/75
+Jerdy Schouten/MIL/PSV/Pays-Bas/78
 Joshua Zirkzee/ATT/Manchester United/Pays-Bas/74
 Crysencio Summerville/ATT/West Ham/Pays-Bas/74
-Mats Wieffer/MIL/Brighton/Pays-Bas/74
+Mats Wieffer/MIL/Brighton/Pays-Bas/76
 Noa Lang/ATT/Naples/Pays-Bas/77
-Steven Bergwijn/ATT/Al-Ittihad/Pays-Bas/76
-Mark Flekken/G/Leverkusen/Pays-Bas/74
+Steven Bergwijn/ATT/Al-Ittihad/Pays-Bas/74
+Mark Flekken/G/Leverkusen/Pays-Bas/73
 Lutsharel Geertruida/DEF/Sunderland/Pays-Bas/75
 Robin Roefs/G/Sunderland/Pays-Bas/73
-Justin Bijlow/G/Genoa/Pays-Bas/75
-Jasper Cillessen/G/NEC/Pays-Bas/76
-Marten de Roon/MIL/Atalanta/Pays-Bas/77
+Justin Bijlow/G/Genoa/Pays-Bas/72
+Jasper Cillessen/G/NEC/Pays-Bas/70
+Marten de Roon/MIL/Atalanta/Pays-Bas/78
 `},
 {id:"s_b_civ",name:"Côte d'Ivoire",cat:"nations",sub:"Afrique",desc:"Sélection actuelle",raw:`
-Amad Diallo/ATT/Manchester United/Côte d'Ivoire/80
-Franck Kessié/MIL/Al-Ahli/Côte d'Ivoire/82
-Evan Ndicka/DEF/Roma/Côte d'Ivoire/79
+Amad Diallo/ATT/Manchester United/Côte d'Ivoire/82
+Franck Kessié/MIL/Al-Ahli/Côte d'Ivoire/85
+Evan Ndicka/DEF/Roma/Côte d'Ivoire/80
 Ousmane Diomande/DEF/Sporting/Côte d'Ivoire/80
-Yan Diomande/ATT/Leipzig/Côte d'Ivoire/77
+Yan Diomande/ATT/Leipzig/Côte d'Ivoire/79
 Seko Fofana/MIL/Rennes/Côte d'Ivoire/80
-Odilon Kossounou/DEF/Atalanta/Côte d'Ivoire/78
-Sébastien Haller/ATT/Utrecht/Côte d'Ivoire/81
-Ibrahim Sangaré/MIL/Nottingham Forest/Côte d'Ivoire/80
-Simon Adingra/ATT/Sunderland/Côte d'Ivoire/76
-Wilfried Singo/DEF/Galatasaray/Côte d'Ivoire/76
-Nicolas Pépé/ATT/Villarreal/Côte d'Ivoire/80
-Evann Guessand/ATT/Aston Villa/Côte d'Ivoire/76
-Yahia Fofana/G/Rizespor/Côte d'Ivoire/73
+Odilon Kossounou/DEF/Atalanta/Côte d'Ivoire/79
+Sébastien Haller/ATT/Utrecht/Côte d'Ivoire/83
+Ibrahim Sangaré/MIL/Nottingham Forest/Côte d'Ivoire/78
+Simon Adingra/ATT/Sunderland/Côte d'Ivoire/79
+Wilfried Singo/DEF/Galatasaray/Côte d'Ivoire/75
+Nicolas Pépé/ATT/Villarreal/Côte d'Ivoire/77
+Evann Guessand/ATT/Aston Villa/Côte d'Ivoire/77
+Yahia Fofana/G/Rizespor/Côte d'Ivoire/76
 Jean-Philippe Krasso/ATT/Paris FC/Côte d'Ivoire/72
 Christ Inao Oulaï/MIL/Trabzonspor/Côte d'Ivoire/70
-Oumar Diakité/DEF/Cercle Bruges/Côte d'Ivoire/71
-Ghislain Konan/DEF/Gil Vicente/Côte d'Ivoire/72
-Willy Boly/DEF/Nottingham Forest/Côte d'Ivoire/77
-Jean Michaël Seri/MIL/Maribor/Côte d'Ivoire/78
-Wilfried Zaha/ATT/Charlotte/Côte d'Ivoire/82
-Jérémie Boga/ATT/Nice/Côte d'Ivoire/75
+Oumar Diakité/DEF/Cercle Bruges/Côte d'Ivoire/74
+Ghislain Konan/DEF/Gil Vicente/Côte d'Ivoire/74
+Willy Boly/DEF/Nottingham Forest/Côte d'Ivoire/70
+Jean Michaël Seri/MIL/Maribor/Côte d'Ivoire/74
+Wilfried Zaha/ATT/Charlotte/Côte d'Ivoire/72
+Jérémie Boga/ATT/Nice/Côte d'Ivoire/72
 Emmanuel Agbadou/DEF/Wolverhampton/Côte d'Ivoire/74
-Elye Wahi/ATT/Nice/Côte d'Ivoire/74
+Elye Wahi/ATT/Nice/Côte d'Ivoire/72
 Bazoumana Touré/ATT/Hoffenheim/Côte d'Ivoire/70
 Guéla Doué/DEF/Strasbourg/Côte d'Ivoire/72
-Serge Aurier/DEF/Galatasaray/Côte d'Ivoire/80
-Christopher Operi/DEF/Basaksehir/Côte d'Ivoire/67
+Serge Aurier/DEF/Galatasaray/Côte d'Ivoire/74
+Christopher Operi/DEF/Basaksehir/Côte d'Ivoire/66
 Badra Ali Sangaré/G/Sekhukhune/Côte d'Ivoire/66
-Mohamed Koné/G/Charleroi/Côte d'Ivoire/68
-Alban Lafont/G/Panathinaikos/Côte d'Ivoire/76
+Mohamed Koné/G/Charleroi/Côte d'Ivoire/66
+Alban Lafont/G/Panathinaikos/Côte d'Ivoire/68
 Ira Eliezer Tapé/G/San Pédro/Côte d'Ivoire/62
-Mohamed Diomandé/MIL/Rangers/Côte d'Ivoire/74
-Hamed Junior Traorè/MIL/Auxerre/Côte d'Ivoire/75
-Lazare Amani/MIL/Union SG/Côte d'Ivoire/68
-Parfait Guiagon/MIL/Charleroi/Côte d'Ivoire/67
-Habib Maïga/MIL/Metz/Côte d'Ivoire/66
+Mohamed Diomandé/MIL/Rangers/Côte d'Ivoire/68
+Hamed Junior Traorè/MIL/Auxerre/Côte d'Ivoire/72
+Lazare Amani/MIL/Union SG/Côte d'Ivoire/66
+Parfait Guiagon/MIL/Charleroi/Côte d'Ivoire/66
+Habib Maïga/MIL/Metz/Côte d'Ivoire/64
 `},
 {id:"s_b_dz_ligue1",name:"Ligue 1 algérienne",cat:"ligues",sub:"Championnats",raw:`
-Islam Slimani/ATT/CR Belouizdad/Algérie/80
-Tayeb Meziani/ATT/MC Alger/Algérie/68
-Zakaria Draoui/MIL/MC Alger/Algérie/67
-Kousseila Boualia/ATT/JS Kabylie/Algérie/64
-Alexis Guendouz/G/CR Belouizdad/Algérie/70
-Oussama Benbot/G/USM Alger/Algérie/66
-Abderrahmane Hachoud/DEF/MC Alger/Algérie/68
-Houssem Mrezigue/MIL/CR Belouizdad/Algérie/66
-Brahim Dib/MIL/CS Constantine/Algérie/66
-Haithem Loucif/DEF/USM Alger/Algérie/66
-Chouaib Keddad/DEF/CR Belouizdad/Algérie/67
-Islam Merili/MIL/USM Alger/Algérie/65
-Naoufel Khacef/DEF/CR Belouizdad/Algérie/65
-Ayoub Ghezala/DEF/MC Alger/Algérie/66
-Abdennour Belhocini/ATT/CS Constantine/Algérie/66
-Mohamed Réda Hamidi/DEF/JS Kabylie/Algérie/64
-Saâdi Radouani/DEF/USM Alger/Algérie/66
-Gaya Merbah/G/MC Alger/Algérie/68
-Zakaria Boulahia/ATT/JS Kabylie/Algérie/64
-Abdelkader Belharrane/DEF/MC Alger/Algérie/66
-Aymen Mahious/ATT/CR Belouizdad/Algérie/69
-Akram Bouras/MIL/MC Alger/Algérie/66
-Ahmed Kendouci/MIL/ES Sétif/Algérie/70
-Brahim Benzaza/MIL/USM Alger/Algérie/65
-Riad Benayad/ATT/JS Kabylie/Algérie/63
-Abdelmoumen Djabou/MIL/ES Sétif/Algérie/73
-Housseyn Benayada/DEF/CS Constantine/Algérie/64
-Abdelkrim Namani/MIL/JS Kabylie/Algérie/66
-Farid Chaâl/G/CR Belouizdad/Algérie/64
-Zakaria Bouhalfaya/G/CS Constantine/Algérie/63
-Mohamed Benkhemassa/MIL/MC Alger/Algérie/68
+Islam Slimani/ATT/CR Belouizdad/Algérie/76
+Tayeb Meziani/ATT/MC Alger/Algérie/70
+Zakaria Draoui/MIL/MC Alger/Algérie/69
+Kousseila Boualia/ATT/JS Kabylie/Algérie/67
+Alexis Guendouz/G/CR Belouizdad/Algérie/72
+Oussama Benbot/G/USM Alger/Algérie/69
+Abderrahmane Hachoud/DEF/MC Alger/Algérie/70
+Houssem Mrezigue/MIL/CR Belouizdad/Algérie/69
+Brahim Dib/MIL/CS Constantine/Algérie/68
+Haithem Loucif/DEF/USM Alger/Algérie/68
+Chouaib Keddad/DEF/CR Belouizdad/Algérie/69
+Islam Merili/MIL/USM Alger/Algérie/67
+Naoufel Khacef/DEF/CR Belouizdad/Algérie/67
+Ayoub Ghezala/DEF/MC Alger/Algérie/68
+Abdennour Belhocini/ATT/CS Constantine/Algérie/68
+Mohamed Réda Hamidi/DEF/JS Kabylie/Algérie/66
+Saâdi Radouani/DEF/USM Alger/Algérie/67
+Gaya Merbah/G/MC Alger/Algérie/70
+Zakaria Boulahia/ATT/JS Kabylie/Algérie/66
+Abdelkader Belharrane/DEF/MC Alger/Algérie/67
+Aymen Mahious/ATT/CR Belouizdad/Algérie/71
+Akram Bouras/MIL/MC Alger/Algérie/69
+Ahmed Kendouci/MIL/ES Sétif/Algérie/71
+Brahim Benzaza/MIL/USM Alger/Algérie/67
+Riad Benayad/ATT/JS Kabylie/Algérie/66
+Abdelmoumen Djabou/MIL/ES Sétif/Algérie/70
+Housseyn Benayada/DEF/CS Constantine/Algérie/66
+Abdelkrim Namani/MIL/JS Kabylie/Algérie/67
+Farid Chaâl/G/CR Belouizdad/Algérie/66
+Zakaria Bouhalfaya/G/CS Constantine/Algérie/66
+Mohamed Benkhemassa/MIL/MC Alger/Algérie/70
 `},
 {id:"s_b_pepites",name:"Jeunes pépites",cat:"themes",sub:"Les cracks de demain",raw:`
 Lamine Yamal/ATT/Barcelone/Espagne/89
