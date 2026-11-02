@@ -1683,7 +1683,7 @@ function packList(){
 function legalSheet(){sheet(`<div class="between"><h2>Mentions et crédits</h2><button class="mini" data-act="close">Fermer</button></div>
   <p><b>Jeu de fan non officiel.</b> Mercato Max Foot est un jeu de fan indépendant. Il n'est lié à aucun club, ligue, fédération ni joueur, et n'est ni soutenu ni approuvé par eux.</p>
   <p class="mute">Les noms des joueurs servent seulement de référence. Aucune photo ni logo officiel : les maillots sont dessinés aux couleurs des clubs, avec des initiales. Les notes sont une estimation de fan, pour le jeu.</p>
-  <p class="mute"><b>Tes données :</b> pas de compte, pas de publicité, pas de pistage. Ton profil, ton album et tes achats restent sur ce téléphone. Les paiements sont gérés par Stripe : Mercato Max ne voit jamais ta carte bancaire.</p>
+  <p class="mute"><b>Tes données :</b> pas de compte, pas de publicité, pas de pistage. Ton profil, ton album et tes achats restent sur ce téléphone. Les paiements passent par ${typeof GPLAY!=="undefined"&&GPLAY.on?"Google Play":"un prestataire de paiement sécurisé"} : Mercato Max ne voit jamais ta carte bancaire.</p>
   <a class="btn" href="politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>
   <p class="mute">Contact : <span class="sel">sacoche123456@gmail.com</span></p>`)}
 function voirSheet(ti){const t=G.teams[ti],bot=t.ai&&BOTS.find(b=>b.pers===t.pers);sheet(`<div class="between"><h2>${esc(t.name)}</h2><span class="num" style="font-size:20px">${PP(t.money)}</span></div>${bot?`<p class="botd">${esc(bot.d)}</p>`:""}<p class="mute">${G.format==="xi"?(G.mode==="solo"&&ti===0?"Ton XI":"Son XI")+" en "+G.formation+" et le prix payé.":"Ses recrues et le prix payé."}</p>${G.format==="xi"?`<div class="gxsheet">${xiPitch(t,null)}</div>`:pitchHTML(t)}<button class="btn go" data-act="close">Fermer</button>`)}
@@ -1769,6 +1769,7 @@ const PREMIUM=Object.keys(PACKS).filter(id=>MMF.isPrem(PACKS[id]));
 const DEFPK=PACKS.s_leg?"s_leg":Object.keys(PACKS).find(id=>!MMF.isPrem(PACKS[id]));
 const PRODUCTS=MMF.buildProducts(Object.values(PACKS).filter(p=>p.cat!=="perso").map(p=>({id:p.id,name:p.name,cat:p.cat,size:p.cards.length})));
 const euro=c=>(c/100).toFixed(2).replace(".",",")+" €";
+const prix=k=>{const n=GPLAY.price(k);return n||euro((PRODUCTS[k]||{}).cents||0)};
 function owns(prod){return !!(P.owned.all||P.owned[prod])}
 const weekNo=()=>Math.floor((Date.now()/864e5+3)/7);
 function weekFree(){return PREMIUM.length?PREMIUM[MMF.cyrb53("semaine|"+weekNo())%PREMIUM.length]:null}
@@ -1776,9 +1777,39 @@ const isPremium=id=>PREMIUM.includes(id);
 function packOpen(id){const p=PACKS[id];if(!p)return false;if(p.cat==="perso"||!isPremium(id)||id===weekFree())return true;return owns("pk_"+id)||owns("pass_"+p.cat)}
 function packBadge(id){if(!isPremium(id))return"";const p=PACKS[id],bought=owns("pk_"+id)||owns("pass_"+p.cat);
   if(bought)return"";if(id===weekFree())return`<span class="badge gift">Offert</span>`;return`<span class="badge lock">${euro(CONFIG.prices.pack)}</span>`}
+/* ===================== Paiement Google Play (appli Android) =====================
+   Extension cordova-plugin-purchase. Chaque produit du jeu (all, pass_*, pk_*, perso3…) = un « produit unique » du même nom
+   dans la Play Console (achat non consommable, à vie). Les achats sont liés au compte Google : « Restaurer » les retrouve. */
+const GPLAY={on:false,
+  price(k){if(!this.on)return"";const p=CdvPurchase.store.get(k,CdvPurchase.Platform.GOOGLE_PLAY);return p&&p.pricing&&p.pricing.price||""},
+  grant(ids,quiet){const got=ids.filter(id=>PRODUCTS[id]&&!P.owned[id]);if(!got.length)return;got.forEach(id=>P.owned[id]=true);saveP();
+    if(!quiet){closeSheet();toast(got.length>1?got.length+" achats débloqués !":PRODUCTS[got[0]].label+" : débloqué !");SFX.win();confetti(160)}
+    if(SCREEN==="shop"||SCREEN==="setup"||SCREEN==="home")render()},
+  init(){const C=window.CdvPurchase;if(!C||!C.store)return;const {store,ProductType,Platform,LogLevel}=C;store.verbosity=LogLevel.WARNING;
+    store.register(Object.keys(PRODUCTS).map(id=>({id,type:ProductType.NON_CONSUMABLE,platform:Platform.GOOGLE_PLAY})));
+    store.when().approved(t=>t.verify()).verified(r=>r.finish())
+      .finished(t=>this.grant(t.products.map(p=>p.id),false))
+      .productUpdated(p=>{if(p.owned)this.grant([p.id],true);if(SCREEN==="shop")render()});
+    store.error(e=>{if(e&&e.code===C.ErrorCode.PAYMENT_CANCELLED)return;console.warn("Google Play",e)});
+    store.initialize([Platform.GOOGLE_PLAY]).then(()=>{this.on=true;if(SCREEN==="shop")render()})},
+  async buy(k){const p=CdvPurchase.store.get(k,CdvPurchase.Platform.GOOGLE_PLAY),o=p&&p.getOffer();
+    if(!o){toast("Ce produit n'est pas encore disponible sur Google Play.");return}
+    const err=await o.order();if(err&&err.code!==CdvPurchase.ErrorCode.PAYMENT_CANCELLED)toast("Le paiement n'a pas abouti. Réessaie dans un instant.")},
+  async restore(){toast("Recherche de tes achats…");await CdvPurchase.store.restorePurchases();
+    const own=Object.keys(PRODUCTS).filter(k=>{const p=CdvPurchase.store.get(k,CdvPurchase.Platform.GOOGLE_PLAY);return p&&p.owned});
+    if(own.length)this.grant(own,false);else toast("Aucun achat trouvé sur ce compte Google.")}
+};
+/* Appli Android : bouton retour du téléphone = fermer la fenêtre, mettre en pause, ou revenir à l'accueil */
+function appBack(){if($("#layer").innerHTML){if(SCREEN==="game"&&PAUSED)resume();else closeSheet();return}
+  if(SCREEN==="game"){if(!PAUSED)pauseSheet();return}
+  if(SCREEN!=="home"){go("home");return}
+  window.Capacitor.Plugins.App.exitApp()}
+if(window.MMF_APP)document.addEventListener("deviceready",()=>{GPLAY.init();try{window.Capacitor.Plugins.App.addListener("backButton",appBack)}catch(e){}},false);
 const PAY={
   base(){return (CONFIG.stripe.api||"").replace(/\/$/,"")},
   async buy(prod){const pr=PRODUCTS[prod],st=CONFIG.stripe;if(!pr)return;
+    if(GPLAY.on)return GPLAY.buy(prod);
+    if(window.MMF_APP){sheet(`<h2>Boutique indisponible</h2><p class="mute">Le paiement Google Play ne répond pas. Vérifie ta connexion et que le Play Store est à jour, puis réessaie.</p><button class="btn go" data-act="close">OK</button>`);return}
     if(st.api){try{toast("Ouverture du paiement sécurisé…");
         const r=await fetch(this.base()+"/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product:prod,device:P.device,returnUrl:location.href.split(/[?#]/)[0]})});
         const j=await r.json();if(j.url){location.href=j.url;return}}catch(e){}
@@ -1799,7 +1830,7 @@ const PAY={
       got.forEach(p=>P.owned[p]=true);saveP();closeSheet();render();toast(got.length>1?got.length+" achats restaurés !":PRODUCTS[got[0]].label+" : restauré !");SFX.win();confetti(120)}
     catch(e){err.textContent="Le serveur ne répond pas. Réessaie dans un instant."}}
 };
-function restoreSheet(){sheet(`<h2>Restaurer mes achats</h2><p class="mute">Tu as changé de téléphone ou effacé le jeu ? Écris l'adresse e-mail que tu as donnée au moment du paiement.</p>
+function restoreSheet(){if(GPLAY.on)return GPLAY.restore();sheet(`<h2>Restaurer mes achats</h2><p class="mute">Tu as changé de téléphone ou effacé le jeu ? Écris l'adresse e-mail que tu as donnée au moment du paiement.</p>
   <input id="remail" type="email" placeholder="ton.email@exemple.com" autocomplete="email" aria-label="Adresse e-mail du paiement">
   <p class="err" id="rerr"></p><button class="btn go" data-act="dorestore">Restaurer</button><button class="btn" data-act="close">Annuler</button>`)}
 function buySheet(prod){const pr=PRODUCTS[prod];if(!pr)return;
@@ -1807,9 +1838,9 @@ function buySheet(prod){const pr=PRODUCTS[prod];if(!pr)return;
   const pass=pr.kind==="pack"?PRODUCTS["pass_"+pr.cat]:null;
   sheet(`<span class="lbl">${pr.kind==="pack"?"Pack premium":pr.kind==="pass"?"Pass":"Offre"}</span><h2>${esc(pr.label)}</h2><p class="mute">${esc(pr.desc)}</p>
   ${inc.length?`<p class="mute" style="font-size:13px">${inc.map(esc).join(" · ")}</p>`:""}
-  <button class="btn go" data-act="pay" data-v="${prod}">Payer ${euro(pr.cents)}</button>
-  ${pass?`<button class="btn" data-act="buy" data-v="pass_${pr.cat}">Ou ${esc(pass.label)} : tous les packs premium de la catégorie pour ${euro(pass.cents)}</button>`:""}
-  <p class="mute" style="font-size:12px;text-align:center">Paiement sécurisé par carte. Achat unique, à vie, valable sur ce téléphone pour tous ceux qui jouent dessus.</p>
+  <button class="btn go" data-act="pay" data-v="${prod}">Payer ${prix(prod)}</button>
+  ${pass?`<button class="btn" data-act="buy" data-v="pass_${pr.cat}">Ou ${esc(pass.label)} : tous les packs premium de la catégorie pour ${prix("pass_"+pr.cat)}</button>`:""}
+  <p class="mute" style="font-size:12px;text-align:center">${GPLAY.on?"Paiement sécurisé par Google Play. Achat unique, à vie, lié à ton compte Google : tu le retrouves sur un nouveau téléphone.":"Paiement sécurisé par carte. Achat unique, à vie, valable sur ce téléphone pour tous ceux qui jouent dessus."}</p>
   <button class="btn" data-act="close">Plus tard</button>`)}
 let SHOP_TAB="offres";
 /* Icônes de la boutique dans le style du jeu : pass = 3 maillots de la catégorie en éventail,
@@ -1821,11 +1852,11 @@ function prodIco(p){
   return`<span class="pstack one">${jersey({club:"__perso",iniOverride:"+"},36)}</span>`}
 function prodRow(k){const p=PRODUCTS[k],own=owns(k),inPass=p.kind==="pack"&&owns("pass_"+p.cat),gift=p.kind==="pack"&&p.pack===weekFree();
   const ico=p.kind==="pack"?packJersey(PACKS[p.pack],34):prodIco(p);
-  return`<div class="prod ${own||inPass?"own":""} ${p.kind==="all"?"feat":""}">${ico}<div class="l"><b>${esc(p.label)}</b><span>${gift&&!own&&!inPass?"Offert cette semaine · ":""}${esc(p.desc)}</span></div>${own||inPass?`<span class="p">${inPass&&!P.owned[k]?"Inclus":"À toi"}</span>`:`<button class="buy" data-act="buy" data-v="${k}">${euro(p.cents)}</button>`}</div>`}
+  return`<div class="prod ${own||inPass?"own":""} ${p.kind==="all"?"feat":""}">${ico}<div class="l"><b>${esc(p.label)}</b><span>${gift&&!own&&!inPass?"Offert cette semaine · ":""}${esc(p.desc)}</span></div>${own||inPass?`<span class="p">${inPass&&!P.owned[k]?"Inclus":"À toi"}</span>`:`<button class="buy" data-act="buy" data-v="${k}">${prix(k)}</button>`}</div>`}
 function vShop(){
   const nFree=Object.values(PACKS).filter(p=>p.cat!=="perso"&&!isPremium(p.id)).length;
   let body="";
-  if(SHOP_TAB==="offres")body=`${prodRow("all")}<span class="lbl">Pass par catégorie</span>${MMF.PASSES.filter(x=>PREMIUM.some(id=>PACKS[id].cat===x.k)).map(x=>prodRow("pass_"+x.k)).join("")}<span class="lbl">Packs perso</span>${prodRow("perso3")}${prodRow("perso10")}${prodRow("createur")}${CONFIG.stripe.api?`<button class="mini" data-act="restore">Restaurer mes achats</button>`:""}`;
+  if(SHOP_TAB==="offres")body=`${prodRow("all")}<span class="lbl">Pass par catégorie</span>${MMF.PASSES.filter(x=>PREMIUM.some(id=>PACKS[id].cat===x.k)).map(x=>prodRow("pass_"+x.k)).join("")}<span class="lbl">Packs perso</span>${prodRow("perso3")}${prodRow("perso10")}${prodRow("createur")}${GPLAY.on||CONFIG.stripe.api?`<button class="mini" data-act="restore">Restaurer mes achats</button>`:""}`;
   else if(SHOP_TAB==="packs")body=PCATS.filter(c=>c[0]!=="perso").map(([k,l])=>{const ks=PREMIUM.filter(id=>PACKS[id].cat===k);return ks.length?`<span class="lbl">${l} · ${euro(CONFIG.prices.pack)} chacun</span>${ks.map(id=>prodRow("pk_"+id)).join("")}`:""}).join("");
 
   return`<div class="page">
